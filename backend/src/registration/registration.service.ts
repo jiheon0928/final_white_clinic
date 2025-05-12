@@ -1,26 +1,34 @@
-import { Injectable } from '@nestjs/common';
+// src/registration/registration.service.ts
+import { Injectable, ConflictException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+
 import { CreateRegistrationDto } from './dto/create-registration.dto';
-import { UpdateRegistrationDto } from './dto/update-registration.dto';
+import { DeliveryDriver } from './entities/registration.entity';
 
 @Injectable()
 export class RegistrationService {
-  create(createRegistrationDto: CreateRegistrationDto) {
-    return 'This action adds a new registration';
-  }
+  constructor(
+    @InjectRepository(DeliveryDriver)
+    private readonly driverRepo: Repository<DeliveryDriver>,
+  ) {}
 
-  findAll() {
-    return `This action returns all registration`;
-  }
+  async register(dto: CreateRegistrationDto): Promise<DeliveryDriver> {
+    // 1) 로그인 아이디 중복 체크
+    const exists = await this.driverRepo.findOneBy({ loginId: dto.loginId });
+    if (exists) {
+      throw new ConflictException('이미 존재하는 로그인 아이디입니다.');
+    }
 
-  findOne(id: number) {
-    return `This action returns a #${id} registration`;
-  }
+    // 2) 비밀번호 해싱
+    const hashedPassword = await bcrypt.hash(dto.password, 10);
 
-  update(id: number, updateRegistrationDto: UpdateRegistrationDto) {
-    return `This action updates a #${id} registration`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} registration`;
+    // 3) 엔티티 생성 및 저장
+    const driver = this.driverRepo.create({
+      ...dto,
+      password: hashedPassword,
+    });
+    return this.driverRepo.save(driver);
   }
 }
