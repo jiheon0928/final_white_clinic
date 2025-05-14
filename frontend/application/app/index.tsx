@@ -66,6 +66,13 @@ const Index = () => {
       >
         <Text style={styles.signupBtnText}>회원가입</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.signupBtn}
+        onPress={() => router.push("/admin/(tabs)/reservations")}
+      >
+        <Text style={styles.signupBtnText}>관리자 로그인</Text>
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
