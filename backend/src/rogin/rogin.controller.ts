@@ -1,34 +1,38 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+// 3) src/auth/auth.controller.ts
+import { Controller, Post, Body, Res } from '@nestjs/common';
+import { Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
+import { LoginDto } from './dto/create-rogin.dto';
 import { RoginService } from './rogin.service';
-import { CreateRoginDto } from './dto/create-rogin.dto';
-import { UpdateRoginDto } from './dto/update-rogin.dto';
 
-@Controller('rogin')
-export class RoginController {
-  constructor(private readonly roginService: RoginService) {}
+@Controller('auth')
+export class AuthController {
+  constructor(
+    private readonly roginService: RoginService,
+    private readonly jwtService: JwtService,
+  ) {}
 
-  @Post()
-  create(@Body() createRoginDto: CreateRoginDto) {
-    return this.roginService.create(createRoginDto);
-  }
+  @Post('login')
+  async login(
+    @Body() dto: LoginDto,
+    @Res({ passthrough: true }) res: Response,
+  ) {
+    const driver = await this.roginService.validate(dto.loginId, dto.password);
 
-  @Get()
-  findAll() {
-    return this.roginService.findAll();
-  }
+    const payload = { sub: driver.id, loginId: driver.loginId };
+    const token = this.jwtService.sign(payload);
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.roginService.findOne(+id);
-  }
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+    });
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRoginDto: UpdateRoginDto) {
-    return this.roginService.update(+id, updateRoginDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.roginService.remove(+id);
+    return {
+      id: driver.id,
+      loginId: driver.loginId,
+      name: driver.name,
+      compensationRate: driver.compensationRate,
+    };
   }
 }
