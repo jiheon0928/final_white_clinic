@@ -3,22 +3,7 @@ import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   return (
-    <Tabs
-      screenOptions={{
-        headerShown: false,
-        tabBarStyle: {
-          height: 80,
-          borderTopWidth: 0.5,
-          borderTopColor: "#ddd",
-          backgroundColor: "#fff",
-        },
-        tabBarItemStyle: {
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: 20,
-        },
-      }}
-    >
+    <Tabs>
       <Tabs.Screen
         name="waiting"
         options={{
@@ -48,7 +33,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="complete"
+        name="completed"
         options={{
           tabBarIcon: ({ color, size }) => (
             <TabIcon

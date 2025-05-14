@@ -1,8 +1,7 @@
-// app/waiting/index.tsx
 import { router } from "expo-router";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const waitingData = [
+const completedData = [
   {
     id: 1,
     title: "에어컨 청소",
@@ -17,18 +16,18 @@ const waitingData = [
   },
 ];
 
-const WaitingPage = () => {
+const CompletedPage = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>대기</Text>
-      {waitingData.map((item) => (
+      <Text style={styles.header}>완료</Text>
+      {completedData.map((item) => (
         <TouchableOpacity
           key={item.id}
           style={styles.card}
           activeOpacity={0.7}
           onPress={() => {
             router.push({
-              pathname: "/waiting/[id]",
+              pathname: "/completed/[id]",
               params: { id: String(item.id) },
             });
           }}
@@ -89,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WaitingPage;
+export default CompletedPage;
