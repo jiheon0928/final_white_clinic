@@ -3,7 +3,19 @@ import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   return (
-    <Tabs>
+    <Tabs
+      screenOptions={{
+        tabBarItemStyle: {
+          width: 80,
+        },
+        tabBarStyle: {
+          height: 60,
+          paddingTop: 10,
+        },
+        tabBarShowLabel: false,
+        headerShown: false,
+      }}
+    >
       <Tabs.Screen
         name="waiting"
         options={{

@@ -7,7 +7,13 @@ const TabIcon = ({ iconName, title, size, color }: TabIconProps) => {
     <View style={{ alignItems: "center" }}>
       <Ionicons name={iconName} size={size} color={color} />
       <Text
-        style={{ fontSize: 11, color, marginTop: 4, maxWidth: 60 }}
+        style={{
+          fontSize: 11,
+          color,
+          marginTop: 4,
+          width: 80,
+          textAlign: "center",
+        }}
         numberOfLines={1}
       >
         {title}
