@@ -3,8 +3,8 @@ import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-
 import { CreateRegistrationDto } from './dto/create-registration.dto';
+import { BenefitEnum } from 'src/components/enum/benefit.enum';
 import { DeliveryDriver } from './entities/registration.entity';
 
 @Injectable()
@@ -15,20 +15,20 @@ export class RegistrationService {
   ) {}
 
   async register(dto: CreateRegistrationDto): Promise<DeliveryDriver> {
-    // 1) 로그인 아이디 중복 체크
     const exists = await this.driverRepo.findOneBy({ loginId: dto.loginId });
-    if (exists) {
+    if (exists)
       throw new ConflictException('이미 존재하는 로그인 아이디입니다.');
-    }
 
-    // 2) 비밀번호 해싱
-    const hashedPassword = await bcrypt.hash(dto.password, 10);
+    const hashed = await bcrypt.hash(dto.password, 10);
 
-    // 3) 엔티티 생성 및 저장
+    const compRate = dto.compensationRate ?? BenefitEnum.RATE_50;
+
     const driver = this.driverRepo.create({
       ...dto,
-      password: hashedPassword,
+      password: hashed,
+      compensationRate: compRate,
     });
+
     return this.driverRepo.save(driver);
   }
 }
