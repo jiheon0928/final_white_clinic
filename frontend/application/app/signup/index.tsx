@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
   StyleSheet,
@@ -21,7 +21,18 @@ const Signup = () => {
   const [detail, setDetail] = useState("");
   const [itemWasher, setItemWasher] = useState(false);
   const [itemAircon, setItemAircon] = useState(false);
+  const { address2, zipcode2 } = useLocalSearchParams();
 
+  const [addressField, setAddressField] = useState(
+    typeof address2 === "string" ? address2 : ""
+  );
+  const [zipcodeField, setZipcodeField] = useState(
+    typeof zipcode2 === "string" ? zipcode2 : ""
+  );
+
+  const clickAddress = () => {
+    router.replace("/signup/addressapi");
+  };
   const onChangeDate = (selectedDate: Date | undefined) => {
     setShowDate(false);
     if (selectedDate) {
@@ -88,17 +99,19 @@ const Signup = () => {
         <TextInput
           style={[styles.input, { flex: 1 }]}
           placeholder="우편번호"
-          value={zipcode}
-          onChangeText={setZipcode}
+          value={zipcodeField}
+          onChangeText={setZipcodeField}
         />
         <TouchableOpacity style={styles.zipBtn}>
-          <Text style={styles.zipBtnText}>우편번호찾기</Text>
+          <Text onPress={clickAddress} style={styles.zipBtnText}>
+            우편번호찾기
+          </Text>
         </TouchableOpacity>
       </View>
       <TextInput
         style={styles.input}
         placeholder="도로명 주소"
-        value={address}
+        value={addressField}
         onChangeText={setAddress}
       />
       <TextInput
