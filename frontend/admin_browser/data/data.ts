@@ -1,0 +1,150 @@
+export const data = () => {
+  const info = [
+    {
+      id: 1,
+      item: "세탁기",
+      name: "김민규",
+      rider: "장효환",
+      time: "오전9시",
+      date: "2024.09.04",
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      price: "80,000원",
+      manage: "수정하기",
+      completed: false,
+      status: "완료",
+    },
+    {
+      id: 2,
+      item: "에어컨",
+      name: "이지헌",
+      rider: "이광녕",
+      time: "오전10시",
+      date: "2024.09.07",
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      price: "100,000원",
+      manage: "수정하기",
+      completed: false,
+      status: "대기",
+    },
+    {
+      id: 3,
+      item: "세탁기",
+      name: "이현배",
+      rider: "장효환",
+      time: "오전11시",
+      date: "2024.09.08",
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      price: "120,000원",
+      manage: "수정하기",
+      completed: true,
+      status: "진행중",
+    },
+    {
+      id: 4,
+      item: "세탁기",
+      name: "이현배",
+      rider: "장효환",
+      time: "오전12시",
+      date: "2024.09.09",
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      price: "140,000원",
+      manage: "수정하기",
+      completed: true,
+      status: "진행중",
+    },
+    {
+      id: 5,
+      item: "세탁기",
+      name: "이현배",
+      rider: "장효환",
+      time: "오전12시",
+      date: "2024.09.09",
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      price: "140,000원",
+      manage: "수정하기",
+      completed: false,
+      status: "대기",
+    },
+    {
+      id: 6,
+      item: "세탁기",
+      name: "이현배",
+      rider: "장효환",
+      time: "오전12시",
+      date: "2024.09.09",
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      price: "140,000원",
+      manage: "수정하기",
+      completed: false,
+      status: "진행중",
+    },
+  ];
+  return info;
+};
+
+export const riderList = () => {
+  const rider = [
+    {
+      id: 1,
+      name: "장효환",
+      age: 30,
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      email: "gygnbhks123@gmail.com",
+      benefit: 40,
+      status: "대기",
+    },
+    {
+      id: 2,
+      name: "이광녕",
+      age: 30,
+      phone: "010-4321-5678",
+      address: "인천시 중구",
+      email: "gygnbhks123@gmail.com",
+      benefit: 50,
+      status: "대기",
+    },
+    {
+      id: 3,
+      name: "우현서",
+      age: 30,
+      phone: "010-4321-9632",
+      address: "인천시 중구",
+      email: "gygnbhks123@gmail.com",
+      benefit: 50,
+      status: "대기",
+    },
+  ];
+  return rider;
+};
+
+export const verificationPending = () => {
+  const status = ["인증 대기중", "인증 완료", "인증 실패"];
+  const verification = [
+    {
+      id: 1,
+      name: "장효환",
+      email: "gygnbhks123@gmail.com",
+      phone: "010-1234-5678",
+      address: "부산시 서구",
+      benefit: 40,
+      status: status[0],
+    },
+    {
+      id: 2,
+      name: "이광녕",
+      email: "gygnbhks123@gmail.com",
+      phone: "010-1234-5678",
+      address: "인천시 중구",
+      benefit: 50,
+      status: status[1],
+    },
+  ];
+  return verification;
+};
