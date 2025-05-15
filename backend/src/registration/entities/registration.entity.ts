@@ -7,7 +7,8 @@ import {
   OneToMany,
 } from 'typeorm';
 import { Benefit } from 'src/benefit/benefit.entity';
-import { BenefitEnum } from 'src/components/enum/benefit.enum';
+// import { BenefitEnum } from 'src/components/enum/benefit.enum';
+import { List } from 'src/list/entities/list.entity';
 
 @Entity({ name: 'delivery_driver' })
 @Check(`"age" >= 20`)
@@ -37,16 +38,15 @@ export class DeliveryDriver {
   @Column({ length: 100 })
   email: string;
 
-  // 수당율(enum) 컬럼
-  @Column({
-    type: 'enum',
-    enum: BenefitEnum,
-    default: BenefitEnum.RATE_40,
-    comment: '수당율 (%) — 40, 50, 60 중 하나',
-  })
-  compensationRate: BenefitEnum;
+  @Column()
+  approval: boolean;
 
-  // Benefit 엔티티와 1:N 관계
+  @Column({ type: 'varchar', length: 50, nullable: true, comment: '혜택 유형' })
+  benefitType?: string;
+
   @OneToMany(() => Benefit, (b) => b.driver, { eager: true })
   benefits: Benefit[];
+
+  @OneToMany(() => List, (list) => list.driver)
+  lists: List[];
 }

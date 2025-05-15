@@ -9,3 +9,5 @@ export class LoginDto {
   @MaxLength(100)
   password: string;
 }
+
+export { LoginDto as CreateRoginDto };

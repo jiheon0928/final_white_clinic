@@ -4,7 +4,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CreateRegistrationDto } from './dto/create-registration.dto';
-import { BenefitEnum } from 'src/components/enum/benefit.enum';
 import { DeliveryDriver } from './entities/registration.entity';
 
 @Injectable()
@@ -21,12 +20,10 @@ export class RegistrationService {
 
     const hashed = await bcrypt.hash(dto.password, 10);
 
-    const compRate = dto.compensationRate ?? BenefitEnum.RATE_50;
-
     const driver = this.driverRepo.create({
       ...dto,
       password: hashed,
-      compensationRate: compRate,
+      benefitType: dto.benefitType,
     });
 
     return this.driverRepo.save(driver);

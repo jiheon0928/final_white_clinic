@@ -32,7 +32,7 @@ export class AuthController {
       id: driver.id,
       loginId: driver.loginId,
       name: driver.name,
-      compensationRate: driver.compensationRate,
+      benefitType: driver.benefitType,
     };
   }
 }

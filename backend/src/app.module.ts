@@ -1,4 +1,3 @@
-// app.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
@@ -10,25 +9,22 @@ import { ListModule } from './list/list.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // 모든 모듈에서 process.env 사용 가능
+      isGlobal: true,
     }),
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT ?? '3306', 10),
-      username: process.env.DB_USERNAME, // 여기에 값이 있어야 함
+      username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,
-      entities: [
-        /* … */
-      ],
+      entities: [__dirname + '/**/*.entity.{ts,js}'],
       synchronize: true,
     }),
     AdminModule,
     RegistrationModule,
     RoginModule,
     ListModule,
-    // 나머지 모듈들
   ],
 })
 export class AppModule {}

@@ -4,13 +4,10 @@ import {
   Min,
   MaxLength,
   IsEmail,
-  IsEnum,
   IsOptional,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { BenefitEnum } from 'src/components/enum/benefit.enum';
-import { Entity } from 'typeorm';
-@Entity()
+
 export class CreateRegistrationDto {
   @IsString()
   @MaxLength(50)
@@ -41,8 +38,7 @@ export class CreateRegistrationDto {
   @MaxLength(100)
   email: string;
 
-  @IsEnum(BenefitEnum, { message: '수당률은 40, 50, 60 중 하나여야 합니다.' })
+  @IsString()
   @IsOptional()
-  @Type(() => Number)
-  compensationRate?: BenefitEnum;
+  benefitType?: string;
 }
