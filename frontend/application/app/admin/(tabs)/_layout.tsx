@@ -1,30 +1,12 @@
 import TabIcon from "@/components/tabbar/TabIcon";
+import { adminTabs } from "@/dummyData/admintab";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-
-const adminTabs: {
-  name: string;
-  title: string;
-  iconName: keyof typeof Ionicons.glyphMap;
-}[] = [
-  {
-    name: "reservations",
-    title: "예약",
-    iconName: "calendar-outline",
-  },
-  {
-    name: "riders",
-    title: "기사",
-    iconName: "people-outline",
-  },
-  {
-    name: "sales",
-    title: "매출",
-    iconName: "cash-outline",
-  },
-];
+import { Platform } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 const AdminLayout = () => {
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -32,7 +14,8 @@ const AdminLayout = () => {
           width: 80,
         },
         tabBarStyle: {
-          height: 60,
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom || (Platform.OS === "android" ? 20 : 0),
           paddingTop: 10,
         },
         tabBarShowLabel: false,
