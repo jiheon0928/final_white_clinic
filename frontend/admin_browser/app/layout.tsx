@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "WHITECLINIC",
   description: "WHITECLINIC",
+  openGraph: {
+    title: "WHITECLINIC",
+    description: "화이트 클리닉 관리자 페이지입니다.",
+    images: ["/logo.jpg"],
+  },
   icons: {
     icon: "/logo.jpg",
   },

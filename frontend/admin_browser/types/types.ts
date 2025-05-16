@@ -38,3 +38,31 @@ export type Verification = {
 };
 
 export type VerificationList = Verification[];
+
+export type ButtonProps = {
+  title: string;
+  onClick: () => void;
+  className?: string;
+};
+
+export type InputProps = {
+  type: string;
+  name: string;
+  placeholder: string;
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
+};
+
+export type FormData = {
+  name: string;
+  phone: string;
+  address: string;
+  item: string;
+  message: string;
+  date?: string;
+  time?: string;
+  price?: number;
+};
+
+export type FormDataList = FormData[];

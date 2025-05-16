@@ -1,7 +1,8 @@
 "use client";
-import { useRiderStore } from "@/store/rider/SearchRider";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Button from "../common/Button";
+import Input from "../common/Input";
+import { useRiderStore } from "@/store/rider/SearchRider";
 
 export const RiderList = () => {
   const router = useRouter();
@@ -19,24 +20,21 @@ export const RiderList = () => {
       </h1>
 
       <div className="flex justify-between gap-2 mb-4">
-        <Link
-          href="/verify"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+        <Button
+          title="회원가입 인증 대기"
           onClick={() => handleClick("/verify")}
-        >
-          회원가입 인증 대기
-        </Link>
-        <Link
-          href="/rider/enroll"
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+        />
+        <Button
+          title="기사 등록"
           onClick={() => handleClick("/rider/enroll")}
-        >
-          기사 등록
-        </Link>
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+        />
       </div>
 
-      <input
+      <Input
         type="search"
+        name="search"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="기사님 이름 또는 전화번호로 검색"
@@ -61,13 +59,11 @@ export const RiderList = () => {
                 </h2>
               </div>
 
-              <Link
-                href={`/rider/update?name=${rider.name}`}
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors"
+              <Button
+                title="기사님 정보수정"
                 onClick={() => handleClick(`/rider/update?name=${rider.name}`)}
-              >
-                기사님 정보수정
-              </Link>
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors cursor-pointer"
+              />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
