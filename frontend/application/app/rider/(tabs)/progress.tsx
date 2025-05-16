@@ -27,7 +27,7 @@ const ProgressPage = () => {
           activeOpacity={0.7}
           onPress={() => {
             router.push({
-              pathname: "/progress/[id]",
+              pathname: "/rider/progress/[id]",
               params: { id: String(item.id) },
             });
           }}

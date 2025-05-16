@@ -27,7 +27,7 @@ const CompletedPage = () => {
           activeOpacity={0.7}
           onPress={() => {
             router.push({
-              pathname: "/completed/[id]",
+              pathname: "/rider/completed/[id]",
               params: { id: String(item.id) },
             });
           }}
