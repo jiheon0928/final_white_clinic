@@ -49,14 +49,30 @@ const Signup = () => {
         <Ionicons name="arrow-back" size={28} color="#222" />
       </TouchableOpacity>
       <Text style={styles.title}>회원가입</Text>
-
+      <Text style={styles.label}>이름</Text>
       <TextInput
         style={styles.input}
         placeholder="이름"
         value={name}
         onChangeText={setName}
       />
-
+      <Text style={styles.label}>전화번호</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="전화번호"
+        value={phone}
+        onChangeText={setPhone}
+        keyboardType="phone-pad"
+      />
+      <Text style={styles.label}>이메일</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="이메일"
+        value={email}
+        onChangeText={setEmail}
+        keyboardType="email-address"
+      />
+      <Text style={styles.label}>생년월일</Text>
       <View style={styles.inputRow}>
         <TextInput
           style={[styles.input, { flex: 1 }]}
@@ -78,21 +94,6 @@ const Signup = () => {
         onCancel={() => setShowDate(false)}
         date={birth ? new Date(birth) : new Date()}
       /> */}
-
-      <TextInput
-        style={styles.input}
-        placeholder="전화번호"
-        value={phone}
-        onChangeText={setPhone}
-        keyboardType="phone-pad"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="이메일"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
 
       <Text style={styles.label}>주소</Text>
       <View style={styles.inputRow}>
