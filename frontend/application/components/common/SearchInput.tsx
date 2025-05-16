@@ -21,6 +21,7 @@ const style = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 16,
     marginBottom: 10,
+    textDecorationLine: "none",
   },
 });
 export default SearchInput;
