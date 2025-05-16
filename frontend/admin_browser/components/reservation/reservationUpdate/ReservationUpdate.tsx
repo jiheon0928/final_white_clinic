@@ -1,4 +1,18 @@
+"use client";
+import Input from "@/components/common/Input";
+import { FormData } from "@/types/types";
+import { useReservationEnrollStore } from "@/store/reservation/ReservationEnrollStore";
+import { useReservationUpdateStore } from "@/store/reservation/ReservationUpdateStore";
+
 export const ReservationUpdate = () => {
+  const { formData, handleChange } = useReservationEnrollStore() as {
+    formData: FormData;
+    handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  };
+
+  const { selectedItems, manager, handleCheckboxChange, setManager } =
+    useReservationUpdateStore();
+
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold text-center mb-8 text-blue-600">
@@ -9,9 +23,12 @@ export const ReservationUpdate = () => {
           <label htmlFor="name" className="text-gray-700 font-semibold">
             고객성함
           </label>
-          <input
+          <Input
             type="text"
-            id="name"
+            name="name"
+            placeholder="고객성함"
+            value={formData.name || ""}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -19,9 +36,12 @@ export const ReservationUpdate = () => {
           <label htmlFor="phone" className="text-gray-700 font-semibold">
             연락처
           </label>
-          <input
+          <Input
             type="text"
-            id="phone"
+            name="phone"
+            placeholder="연락처"
+            value={formData.phone || ""}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -29,9 +49,12 @@ export const ReservationUpdate = () => {
           <label htmlFor="address" className="text-gray-700 font-semibold">
             방문 주소
           </label>
-          <input
+          <Input
             type="text"
-            id="address"
+            name="address"
+            placeholder="방문 주소"
+            value={formData.address || ""}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -39,10 +62,12 @@ export const ReservationUpdate = () => {
           <label htmlFor="item" className="text-gray-700 font-semibold">
             고객 요청사항
           </label>
-          <textarea
-            id="item"
-            rows={4}
+          <Input
+            type="text"
+            name="item"
             placeholder="고객 요청사항을 입력해주세요."
+            value={formData.item || ""}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
           />
         </div>
@@ -54,6 +79,8 @@ export const ReservationUpdate = () => {
             <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
+                checked={selectedItems.includes("세탁기")}
+                onChange={() => handleCheckboxChange("세탁기")}
                 className="form-checkbox h-5 w-5 text-blue-500"
               />
               <span>세탁기</span>
@@ -61,6 +88,8 @@ export const ReservationUpdate = () => {
             <label className="flex items-center space-x-2">
               <input
                 type="checkbox"
+                checked={selectedItems.includes("건조기")}
+                onChange={() => handleCheckboxChange("건조기")}
                 className="form-checkbox h-5 w-5 text-blue-500"
               />
               <span>건조기</span>
@@ -73,7 +102,9 @@ export const ReservationUpdate = () => {
           </label>
           <input
             type="date"
-            id="date"
+            name="date"
+            value={formData.date || ""}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           />
         </div>
@@ -83,7 +114,9 @@ export const ReservationUpdate = () => {
           </label>
           <input
             type="time"
-            id="time"
+            name="time"
+            value={formData.time || ""}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
           />
         </div>
@@ -93,6 +126,8 @@ export const ReservationUpdate = () => {
           </label>
           <select
             id="manager"
+            value={manager}
+            onChange={(e) => setManager(e.target.value)}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
           >
             <option value="">기사님 선택</option>
@@ -104,11 +139,13 @@ export const ReservationUpdate = () => {
           <label htmlFor="message" className="text-gray-700 font-semibold">
             기사님 전달사항
           </label>
-          <textarea
-            id="message"
-            rows={4}
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
+          <Input
+            type="text"
+            name="message"
             placeholder="기사님 전달사항을 입력해주세요."
+            value={formData.message || ""}
+            onChange={handleChange}
+            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
           />
         </div>
         <div className="flex flex-col gap-2">
@@ -118,8 +155,10 @@ export const ReservationUpdate = () => {
           <div className="relative">
             <input
               type="number"
-              id="price"
-              step={1000}
+              name="price"
+              placeholder="발생 비용"
+              value={formData.price || ""}
+              onChange={handleChange}
               className="relative border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600 w-1/4 pr-8"
               min="0"
             />

@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { useRouter } from "next/navigation";
+import Button from "../common/Button";
 
 export const Header = () => {
   const router = useRouter();
@@ -26,24 +27,21 @@ export const Header = () => {
           </h1>
         </div>
         <div className="flex space-x-4">
-          <button
+          <Button
+            title="예약현황"
             onClick={() => handleClick("/reservation")}
-            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
-          >
-            예약현황
-          </button>
-          <button
+            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
+          />
+          <Button
+            title="기사현황"
             onClick={() => handleClick("/rider")}
-            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
-          >
-            기사현황
-          </button>
-          <button
+            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
+          />
+          <Button
+            title="매출현황"
             onClick={() => handleClick("/sales")}
-            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300"
-          >
-            매출현황
-          </button>
+            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
+          />
         </div>
       </div>
     </div>

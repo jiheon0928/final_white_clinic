@@ -1,8 +1,8 @@
 "use client";
-import Link from "next/link";
 import { data, riderList } from "../../data/data";
 import { useRouter } from "next/navigation";
 import { useReservationStore } from "@/store/reservation/RevState";
+import Button from "../common/Button";
 
 export const Reservation = () => {
   const reservationList = data();
@@ -24,32 +24,27 @@ export const Reservation = () => {
       </h1>
       <div className="flex justify-between items-center gap-2 mb-4">
         <div className="flex gap-2">
-          <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors"
+          <Button
+            title="대기 예약목록"
             onClick={() => setStatus("대기")}
-          >
-            대기 예약목록
-          </button>
-          <button
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors"
+            className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+          />
+          <Button
+            title="진행중 예약목록"
             onClick={() => setStatus("진행중")}
-          >
-            진행중 예약목록
-          </button>
-          <button
-            className="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 transition-colors"
+            className="bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer"
+          />
+          <Button
+            title="완료 예약목록"
             onClick={() => setStatus("완료")}
-          >
-            완료 예약목록
-          </button>
+            className="bg-gray-500 text-white px-4 py-2 rounded-md cursor-pointer"
+          />
         </div>
-        <Link
-          href="/reservation/enroll"
-          className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors"
+        <Button
+          title="예약 생성하기"
           onClick={() => handleClick("/reservation/enroll")}
-        >
-          예약 생성하기
-        </Link>
+          className="bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-green-600 transition-colors"
+        />
       </div>
 
       {filteredReservations.map((reservation) => (
@@ -101,18 +96,20 @@ export const Reservation = () => {
             </div>
 
             <div className="flex justify-end gap-2">
-              <Link
-                href={`/reservation/detail?id=${reservation.id}`}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center"
-              >
-                <span>상세정보</span>
-              </Link>
-              <Link
-                href={`/reservation/update?id=${reservation.id}`}
-                className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center"
-              >
-                <span>예약 수정하기</span>
-              </Link>
+              <Button
+                title="상세정보"
+                onClick={() =>
+                  handleClick(`/reservation/detail?id=${reservation.id}`)
+                }
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center cursor-pointer"
+              />
+              <Button
+                title="예약 수정하기"
+                onClick={() =>
+                  handleClick(`/reservation/update?id=${reservation.id}`)
+                }
+                className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center cursor-pointer"
+              />
             </div>
           </div>
         </div>

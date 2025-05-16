@@ -20,7 +20,7 @@ export const ReservationInfo = () => {
               <span className="font-medium mr-2">수리 물품:</span>{" "}
               {reservationData.item}
             </p>
-            // 담당기사 fk로 받아올
+            {/* 담당기사 fk로 받아올 예정 */}
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">예약 번호:</span>{" "}
               {reservationData.id}

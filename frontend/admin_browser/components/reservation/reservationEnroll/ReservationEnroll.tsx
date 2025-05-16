@@ -1,4 +1,10 @@
+"use client";
+import Input from "@/components/common/Input";
+import { useReservationEnrollStore } from "@/store/reservation/ReservationEnrollStore";
+
 export const ReservationEnroll = () => {
+  const { formData, handleChange } = useReservationEnrollStore();
+
   return (
     <div className="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow-lg">
       <h1 className="text-2xl font-bold text-center mb-8 text-blue-600">
@@ -9,9 +15,12 @@ export const ReservationEnroll = () => {
           <label htmlFor="name" className="text-gray-700 font-semibold">
             고객성함
           </label>
-          <input
+          <Input
             type="text"
-            id="name"
+            name="name"
+            placeholder="고객성함"
+            value={formData.name}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -19,9 +28,12 @@ export const ReservationEnroll = () => {
           <label htmlFor="phone" className="text-gray-700 font-semibold">
             연락처
           </label>
-          <input
+          <Input
             type="text"
-            id="phone"
+            name="phone"
+            placeholder="연락처"
+            value={formData.phone}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -29,9 +41,12 @@ export const ReservationEnroll = () => {
           <label htmlFor="address" className="text-gray-700 font-semibold">
             방문 주소
           </label>
-          <input
+          <Input
             type="text"
-            id="address"
+            name="address"
+            placeholder="방문 주소"
+            value={formData.address}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -39,10 +54,12 @@ export const ReservationEnroll = () => {
           <label htmlFor="item" className="text-gray-700 font-semibold">
             고객 요청사항
           </label>
-          <textarea
-            id="item"
-            rows={4}
+          <Input
+            type="text"
+            name="item"
             placeholder="고객 요청사항을 입력해주세요."
+            value={formData.item}
+            onChange={handleChange}
             className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
           />
         </div>
@@ -91,11 +108,13 @@ export const ReservationEnroll = () => {
           <label htmlFor="message" className="text-gray-700 font-semibold">
             기사님 전달사항
           </label>
-          <textarea
-            id="message"
-            rows={4}
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
+          <Input
+            type="text"
+            name="message"
             placeholder="기사님 전달사항을 입력해주세요."
+            value={formData.message}
+            onChange={handleChange}
+            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
           />
         </div>
         <div className="flex flex-col gap-2">
