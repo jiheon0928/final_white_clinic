@@ -40,13 +40,12 @@ export class List {
   @Column({ type: 'text', nullable: true })
   request: string;
 
-  // DeliveryDriver relation
+  @Column()
+  driverId: number;
+
   @ManyToOne(() => DeliveryDriver, { eager: true })
   @JoinColumn({ name: 'driverId' })
   driver: DeliveryDriver;
-
-  @Column()
-  driverId: number;
 
   // 상태 relation
   @ManyToOne(() => StatusEntity, { eager: true })
