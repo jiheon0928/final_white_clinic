@@ -7,6 +7,9 @@ import { RegistrationModule } from './registration/registration.module';
 import { RoginModule } from './rogin/rogin.module';
 import { ListModule } from './list/list.module';
 
+import { webcrypto } from 'crypto';
+(global as any).crypto = webcrypto;
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
