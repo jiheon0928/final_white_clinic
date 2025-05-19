@@ -1,5 +1,5 @@
 "use client";
-import { data, riderList } from "../../data/data";
+import { data } from "@/data/data";
 import { useRouter } from "next/navigation";
 import { useReservationStore } from "@/store/reservation/RevState";
 import Button from "../common/Button";
@@ -27,23 +27,23 @@ export const Reservation = () => {
           <Button
             title="대기 예약목록"
             onClick={() => setStatus("대기")}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer"
+            className="bg-blue-500 hover:bg-blue-600"
           />
           <Button
             title="진행중 예약목록"
             onClick={() => setStatus("진행중")}
-            className="bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer"
+            className="bg-green-500 hover:bg-green-600"
           />
           <Button
             title="완료 예약목록"
             onClick={() => setStatus("완료")}
-            className="bg-gray-500 text-white px-4 py-2 rounded-md cursor-pointer"
+            className="bg-gray-500"
           />
         </div>
         <Button
           title="예약 생성하기"
           onClick={() => handleClick("/reservation/enroll")}
-          className="bg-green-500 text-white px-4 py-2 rounded-md cursor-pointer hover:bg-green-600 transition-colors"
+          className="bg-green-500 hover:bg-green-600"
         />
       </div>
 
@@ -101,14 +101,14 @@ export const Reservation = () => {
                 onClick={() =>
                   handleClick(`/reservation/detail?id=${reservation.id}`)
                 }
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors flex items-center cursor-pointer"
+                className="bg-blue-500 hover:bg-blue-600"
               />
               <Button
                 title="예약 수정하기"
                 onClick={() =>
                   handleClick(`/reservation/update?id=${reservation.id}`)
                 }
-                className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors flex items-center cursor-pointer"
+                className="bg-yellow-500 hover:bg-yellow-600"
               />
             </div>
           </div>
