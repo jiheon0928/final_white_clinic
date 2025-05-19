@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-export default function WaitingDetail() {
+const WaitingDetail = () => {
   const { id } = useLocalSearchParams();
 
   // 더미 데이터
@@ -74,7 +74,7 @@ export default function WaitingDetail() {
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   box: {
@@ -124,3 +124,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default WaitingDetail;

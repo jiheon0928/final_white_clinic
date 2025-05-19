@@ -29,7 +29,7 @@ const riderTabs: {
     iconName: "person-outline",
   },
 ];
-export default function TabLayout() {
+const TabLayout = () => {
   const insets = useSafeAreaInsets();
   return (
     <Tabs
@@ -65,4 +65,6 @@ export default function TabLayout() {
       ))}
     </Tabs>
   );
-}
+};
+
+export default TabLayout;

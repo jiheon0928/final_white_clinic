@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 
-export default function CompletedDetail() {
+const CompletedDetail = () => {
   const { id } = useLocalSearchParams();
 
   // 더미 데이터
@@ -72,7 +72,7 @@ export default function CompletedDetail() {
       </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   box: {
@@ -122,3 +122,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
+export default CompletedDetail;
