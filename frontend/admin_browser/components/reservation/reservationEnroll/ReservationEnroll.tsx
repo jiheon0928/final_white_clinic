@@ -1,5 +1,8 @@
 "use client";
-import Input from "@/components/common/Input";
+import Button from "@/components/common/Button";
+import Input from "@/components/common/input/Input";
+import ItemInput from "@/components/common/input/itemInput";
+import RevDate from "@/components/common/input/revDate";
 import { useReservationEnrollStore } from "@/store/reservation/ReservationEnrollStore";
 
 export const ReservationEnroll = () => {
@@ -11,135 +14,96 @@ export const ReservationEnroll = () => {
         신규 예약 생성
       </h1>
       <form className="space-y-6">
-        <div className="flex flex-col gap-2">
-          <label htmlFor="name" className="text-gray-700 font-semibold">
-            고객성함
-          </label>
-          <Input
-            type="text"
-            name="name"
-            placeholder="고객성함"
-            value={formData.name}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="phone" className="text-gray-700 font-semibold">
-            연락처
-          </label>
-          <Input
-            type="text"
-            name="phone"
-            placeholder="연락처"
-            value={formData.phone}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="address" className="text-gray-700 font-semibold">
-            방문 주소
-          </label>
-          <Input
-            type="text"
-            name="address"
-            placeholder="방문 주소"
-            value={formData.address}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="item" className="text-gray-700 font-semibold">
-            고객 요청사항
-          </label>
-          <Input
-            type="text"
-            name="item"
-            placeholder="고객 요청사항을 입력해주세요."
-            value={formData.item}
-            onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="item" className="text-gray-700 font-semibold">
-            수리 물품
-          </label>
-          <div className="flex gap-4 text-gray-600 font-semibold">
-            <label className="flex items-center space-x-2">
-              <input
-                type="checkbox"
-                className="form-checkbox h-5 w-5 text-blue-500"
-              />
-              <span>세탁기</span>
+        <Input
+          title="고객성함"
+          type="text"
+          name="name"
+          placeholder="고객성함"
+          onChange={handleChange}
+          value={formData.name}
+        />
+        <Input
+          title="연락처"
+          type="text"
+          name="phone"
+          placeholder="연락처"
+          onChange={handleChange}
+          value={formData.phone}
+        />
+        <Input
+          title="방문 주소"
+          type="text"
+          name="address"
+          placeholder="방문 주소"
+          onChange={handleChange}
+          value={formData.address}
+        />
+        <Input
+          title="고객 요청사항"
+          type="text"
+          name="item"
+          placeholder="고객 요청사항을 입력해주세요."
+          onChange={handleChange}
+          value={formData.item}
+        />
+        <Input
+          type="text"
+          name="message"
+          placeholder="기사님 전달사항을 입력해주세요."
+          onChange={handleChange}
+          value={formData.message}
+        />
+        <div>
+          <div className="flex flex-col gap-2">
+            <label htmlFor="item" className="text-gray-700 font-semibold">
+              수리 물품
             </label>
-            <label className="flex items-center space-x-2">
-              <input
+            <div className="flex gap-4">
+              <ItemInput
                 type="checkbox"
-                className="form-checkbox h-5 w-5 text-blue-500"
+                name="washer"
+                onChange={handleChange}
+                checked={formData.washer}
+                title="세탁기"
               />
-              <span>건조기</span>
-            </label>
+              <ItemInput
+                type="checkbox"
+                name="dryer"
+                onChange={handleChange}
+                checked={formData.dryer}
+                title="건조기"
+              />
+            </div>
           </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="date" className="text-gray-700 font-semibold">
-            방문 날짜
-          </label>
-          <input
+          <RevDate
             type="date"
-            id="date"
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="time" className="text-gray-700 font-semibold">
-            방문 시간
-          </label>
-          <input
-            type="time"
-            id="time"
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="message" className="text-gray-700 font-semibold">
-            기사님 전달사항
-          </label>
-          <Input
-            type="text"
-            name="message"
-            placeholder="기사님 전달사항을 입력해주세요."
-            value={formData.message}
+            name="date"
             onChange={handleChange}
-            className="border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600"
+            title="방문 날짜"
+          />
+          <RevDate
+            type="time"
+            name="time"
+            onChange={handleChange}
+            title="방문 시간"
           />
         </div>
-        <div className="flex flex-col gap-2">
-          <label htmlFor="price" className="text-gray-700 font-semibold">
-            발생 비용
-          </label>
-          <div className="relative">
-            <input
-              type="number"
-              id="price"
-              step={1000}
-              className="relative border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-600 w-1/4 pr-8"
-              min="0"
-            />
-            <span className="absolute left-33 top-1/2 transform -translate-y-1/2 text-gray-600">
-              원
-            </span>
-          </div>
+        <div>
+          <Input
+            title="발생 비용"
+            type="number"
+            name="price"
+            placeholder="발생 비용"
+            onChange={handleChange}
+            value={formData.price?.toString() || ""}
+          />
         </div>
-        <button
+        <Button
+          title="예약 생성하기"
           type="submit"
-          className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-colors font-semibold mt-4"
-        >
-          예약 생성하기
-        </button>
+          onClick={() => {}}
+          className="w-full bg-blue-500 hover:bg-blue-600"
+        />
       </form>
     </div>
   );

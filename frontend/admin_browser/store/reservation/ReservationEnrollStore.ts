@@ -6,7 +6,12 @@ interface ReservationEnrollState {
     phone: string;
     address: string;
     item: string;
+    washer: boolean;
+    dryer: boolean;
+    date: string;
+    time: string;
     message: string;
+    price: number;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
@@ -18,14 +23,19 @@ export const useReservationEnrollStore = create<ReservationEnrollState>(
       phone: "",
       address: "",
       item: "",
+      washer: false,
+      dryer: false,
+      date: "",
+      time: "",
       message: "",
+      price: 0,
     },
     handleChange: (e) => {
-      const { name, value } = e.target;
+      const { name, value, type, checked } = e.target;
       set((state) => ({
         formData: {
           ...state.formData,
-          [name]: value,
+          [name]: type === "checkbox" ? checked : value,
         },
       }));
     },

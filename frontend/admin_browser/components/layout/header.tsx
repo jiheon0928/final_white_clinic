@@ -30,17 +30,17 @@ export const Header = () => {
           <Button
             title="예약현황"
             onClick={() => handleClick("/reservation")}
-            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
+            className="bg-blue-400 hover:bg-blue-600"
           />
           <Button
             title="기사현황"
             onClick={() => handleClick("/rider")}
-            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
+            className="bg-blue-400 hover:bg-blue-600"
           />
           <Button
             title="매출현황"
             onClick={() => handleClick("/sales")}
-            className="bg-blue-400 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors duration-300 cursor-pointer"
+            className="bg-blue-400 hover:bg-blue-600"
           />
         </div>
       </div>

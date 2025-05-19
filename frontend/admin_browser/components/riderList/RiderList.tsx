@@ -1,7 +1,7 @@
 "use client";
 import { useRouter } from "next/navigation";
 import Button from "../common/Button";
-import Input from "../common/Input";
+import Input from "../common/input/Input";
 import { useRiderStore } from "@/store/rider/SearchRider";
 
 export const RiderList = () => {
@@ -23,12 +23,12 @@ export const RiderList = () => {
         <Button
           title="회원가입 인증 대기"
           onClick={() => handleClick("/verify")}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+          className="bg-blue-500 hover:bg-blue-600"
         />
         <Button
           title="기사 등록"
           onClick={() => handleClick("/rider/enroll")}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition-colors cursor-pointer"
+          className="bg-blue-500 hover:bg-blue-600"
         />
       </div>
 
@@ -62,7 +62,7 @@ export const RiderList = () => {
               <Button
                 title="기사님 정보수정"
                 onClick={() => handleClick(`/rider/update?name=${rider.name}`)}
-                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors cursor-pointer"
+                className="bg-green-500 hover:bg-green-600"
               />
             </div>
 
