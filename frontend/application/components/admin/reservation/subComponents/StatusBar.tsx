@@ -1,17 +1,21 @@
 import StatusPill from "@/components/common/StatusPill";
-import { status } from "@/dummyData/reservationData";
+import { statusData } from "@/dummyData/reservationData";
+import useReservationStore from "@/stores/reservation.store";
 import { Pressable, StyleSheet, Text } from "react-native";
 
 import { View } from "react-native";
 
 const StatusBar = () => {
+  const { setStatus } = useReservationStore();
   return (
     <View style={statusBarStyles.statusBar}>
-      {status.map((status) => (
+      {statusData.map((status) => (
         <Pressable
           key={status.status}
           style={statusBarStyles.statusButton}
-          onPress={() => {}}
+          onPress={() => {
+            setStatus(status.status);
+          }}
         >
           <Text>{status.status}</Text>
           <StatusPill status={status.status} />
