@@ -79,27 +79,7 @@ const ProgressPage = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>진행</Text>
-<<<<<<< HEAD
-      <ScrollView style={{ flex: 1, width: "100%" }}>
-        {progressData.map((item) => (
-          <TouchableOpacity
-            key={item.id}
-            style={styles.card}
-            activeOpacity={0.7}
-            onPress={() => {
-              router.push({
-                pathname: "/rider/progress/[id]",
-                params: { id: String(item.id) },
-              });
-            }}
-          >
-            <Text style={styles.title}>{item.title}</Text>
-            <Text style={styles.location}>{item.location}</Text>
-            <Text style={styles.price}>{item.price}</Text>
-          </TouchableOpacity>
-        ))}
-      </ScrollView>
-=======
+
       {progressData.map((item) => (
         <TouchableOpacity
           key={item.id}
@@ -117,7 +97,6 @@ const ProgressPage = () => {
           <Text style={styles.price}>{item.price}</Text>
         </TouchableOpacity>
       ))}
->>>>>>> hb
     </View>
   );
 };
