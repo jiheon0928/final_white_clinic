@@ -1,15 +1,15 @@
-import { StatusBar, Text } from "react-native";
+import { Text } from "react-native";
 import { ScrollView } from "react-native";
-import Page from "../common/Page";
 import { reservationDummy } from "@/dummyData/reservationData";
 import ReservationCard from "./subComponents/ReservationCard";
-import SearchInput from "../common/SearchInput";
-import { commonStyles } from "@/styles/common";
+import SearchInput from "@/components/common/SearchInput";
+import Page from "@/components/common/Page";
+import StatusBar from "./subComponents/StatusBar";
 
 const ReservationPage = () => {
   return (
     <Page>
-      <Text style={[commonStyles.pageHeader, { marginBottom: 20 }]}>
+      <Text style={{ fontSize: 25, fontWeight: "bold", marginBottom: 20 }}>
         예약 현황
       </Text>
       <StatusBar />
