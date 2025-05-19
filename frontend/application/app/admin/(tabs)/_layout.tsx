@@ -1,4 +1,4 @@
-import TabIcon from "@/components/tabbar/TabIcon";
+import TabIcon from "@/components/common/TabIcon";
 import { adminTabs } from "@/dummyData/admintab";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
