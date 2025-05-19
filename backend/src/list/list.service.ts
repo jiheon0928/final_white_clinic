@@ -117,4 +117,33 @@ export class ListService {
       .getRawOne();
     return Number(raw.sum) || 0;
   }
+
+  //          대기중인 일만 조회
+  async findPendingJobs(): Promise<List[]> {
+    return this.listRepository.find({
+      where: { compliteState: { status: '대기' } },
+      relations: ['driver', 'field', 'compliteState'],
+    });
+  }
+
+  //            진행중인 일 조회
+  async findInProgressJobs(driverId: number): Promise<List[]> {
+    return this.listRepository.find({
+      where: {
+        driver: { id: driverId },
+        compliteState: { status: '진행' },
+      },
+      relations: ['driver', 'compliteState', 'field'],
+    });
+  }
+
+  async findCompletedJobs(driverId: number): Promise<List[]> {
+    return this.listRepository.find({
+      where: {
+        driver: { id: driverId },
+        compliteState: { status: '완료' },
+      },
+      relations: ['driver', 'compliteState', 'field'],
+    });
+  }
 }

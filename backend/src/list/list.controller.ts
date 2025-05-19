@@ -17,6 +17,21 @@ export class ListController {
     return this.listService.findList();
   }
 
+  @Get('pending') //대기중인 일만 조회
+  async findPendingJobs(): Promise<List[]> {
+    return this.listService.findPendingJobs();
+  }
+
+  @Get('in-progress/:driverId') //특정 id 진행중인 일 조회
+  findInProgress(@Param('driverId') driverId: string) {
+    return this.listService.findInProgressJobs(+driverId);
+  }
+
+  @Get('completed/:driverId') //특정 id 완료된 일 조회
+  findCompleted(@Param('driverId') driverId: string) {
+    return this.listService.findCompletedJobs(+driverId);
+  }
+
   @Get('weekly') //주간 조회
   async getWeekly(
     @Param('driverId') driverId: string,
