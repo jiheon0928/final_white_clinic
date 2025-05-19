@@ -8,7 +8,7 @@ const StatusBar = () => {
   return (
     <View style={statusBarStyles.statusBar}>
       {status.map((status) => (
-        <Pressable style={statusBarStyles.statusButton}>
+        <Pressable key={status.status} style={statusBarStyles.statusButton}>
           <Text>{status.status}</Text>
           <View
             style={[

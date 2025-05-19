@@ -1,17 +1,6 @@
+import { InputProps } from "@/types/common";
 import { Text } from "@react-navigation/elements";
-import {
-  StyleProp,
-  StyleSheet,
-  TextInput,
-  TextStyle,
-  View,
-} from "react-native";
-
-type InputProps = {
-  title: string;
-  inputStyle?: StyleProp<TextStyle>;
-  onChangeText?: (text: string) => void;
-};
+import { StyleSheet, TextInput, View } from "react-native";
 
 const Input = ({ title, onChangeText, inputStyle }: InputProps) => {
   return (

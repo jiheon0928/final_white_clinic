@@ -8,6 +8,7 @@ const RootLayout = () => {
       <Stack.Screen name="rider/(tabs)" />
       <Stack.Screen name="admin/(tabs)" />
       <Stack.Screen name="signup" />
+      <Stack.Screen name="admin/reservations/[id]" />
     </Stack>
   );
 };
