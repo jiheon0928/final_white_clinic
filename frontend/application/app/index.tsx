@@ -1,6 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import { useState } from "react";
+
 import {
   StyleSheet,
   Text,
@@ -70,13 +71,6 @@ const Index = () => {
       <TouchableOpacity
         style={styles.signupBtn}
         onPress={() => router.push("/admin/(tabs)/reservations")}
-      >
-        <Text style={styles.signupBtnText}>관리자 로그인</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.signupBtn}
-        onPress={() => router.push("/admin/editReservation/1")}
       >
         <Text style={styles.signupBtnText}>관리자 로그인</Text>
       </TouchableOpacity>

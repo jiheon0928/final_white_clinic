@@ -1,5 +1,11 @@
 import { router } from "expo-router";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 const completedData = [
   {
@@ -20,23 +26,25 @@ const CompletedPage = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.header}>완료</Text>
-      {completedData.map((item) => (
-        <TouchableOpacity
-          key={item.id}
-          style={styles.card}
-          activeOpacity={0.7}
-          onPress={() => {
-            router.push({
-              pathname: "/rider/completed/[id]",
-              params: { id: String(item.id) },
-            });
-          }}
-        >
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.location}>{item.location}</Text>
-          <Text style={styles.price}>{item.price}</Text>
-        </TouchableOpacity>
-      ))}
+      <ScrollView style={{ flex: 1, width: "100%" }}>
+        {completedData.map((item) => (
+          <TouchableOpacity
+            key={item.id}
+            style={styles.card}
+            activeOpacity={0.7}
+            onPress={() => {
+              router.push({
+                pathname: "/rider/completed/[id]",
+                params: { id: String(item.id) },
+              });
+            }}
+          >
+            <Text style={styles.title}>{item.title}</Text>
+            <Text style={styles.location}>{item.location}</Text>
+            <Text style={styles.price}>{item.price}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
     </View>
   );
 };
@@ -61,7 +69,7 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     padding: 16,
     marginBottom: 20,
-    width: 180,
+    width: "90%",
     backgroundColor: "#fff",
     alignItems: "flex-start",
     shadowColor: "#000",
@@ -69,6 +77,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 2,
+    alignSelf: "center",
   },
   title: {
     fontSize: 16,

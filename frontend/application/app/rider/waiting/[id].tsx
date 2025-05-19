@@ -1,4 +1,5 @@
-import { useLocalSearchParams } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
+import { router, useLocalSearchParams } from "expo-router";
 import {
   ScrollView,
   StyleSheet,
@@ -24,6 +25,9 @@ export default function WaitingDetail() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#fff" }}>
+      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
+        <Ionicons name="arrow-back" size={28} color="#222" />
+      </TouchableOpacity>
       <ScrollView
         contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
       >
@@ -90,6 +94,14 @@ const styles = StyleSheet.create({
   value: {
     fontWeight: "400",
     color: "#444",
+  },
+  backBtn: {
+    position: "absolute",
+    top: 36,
+    left: 16,
+    zIndex: 10,
+    padding: 4,
+    paddingTop: 28,
   },
   requestBox: {
     backgroundColor: "#f5f5f5",
