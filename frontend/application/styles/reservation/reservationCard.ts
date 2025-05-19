@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export const cardStyles = StyleSheet.create({
-  reservationCard: {
+  card: {
     gap: 10,
     borderWidth: 1,
     borderColor: "#ccc",

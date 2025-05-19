@@ -4,12 +4,13 @@ import { reservationDummy } from "@/dummyData/reservationData";
 import Page from "@/components/common/Page";
 import SearchInput from "@/components/common/SearchInput";
 import StatusBar from "@/components/reservation/subComponents/StatusBar";
-import CardSection from "@/components/reservation/subComponents/CardSection";
+import ReservationCard from "@/components/reservation/subComponents/ReservationCard";
+import { commonStyles } from "@/styles/common";
 
 const Reservations = () => {
   return (
     <Page>
-      <Text style={{ fontSize: 25, fontWeight: "bold", marginBottom: 20 }}>
+      <Text style={[commonStyles.pageHeader, { marginBottom: 20 }]}>
         예약 현황
       </Text>
       <StatusBar />
@@ -17,8 +18,9 @@ const Reservations = () => {
 
       <ScrollView>
         {reservationDummy.map((item) => (
-          <CardSection
+          <ReservationCard
             key={item.id}
+            id={item.id.toString()}
             title={item.제목}
             address={item.주소}
             price={item.단가}
