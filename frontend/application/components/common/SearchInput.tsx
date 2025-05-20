@@ -3,12 +3,13 @@ import { StyleSheet, TextInput, View } from "react-native";
 
 type SearchInputProps = {
   placeholder: string;
+  onChangeText: (text: string) => void;
 };
-const SearchInput = ({ placeholder }: SearchInputProps) => {
+const SearchInput = ({ placeholder, onChangeText }: SearchInputProps) => {
   return (
     <View style={style.input}>
       <Ionicons name="search-outline" size={20} color="#222"></Ionicons>
-      <TextInput placeholder={placeholder} />
+      <TextInput placeholder={placeholder} onChangeText={onChangeText} />
     </View>
   );
 };

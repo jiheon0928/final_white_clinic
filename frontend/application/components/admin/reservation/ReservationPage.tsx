@@ -9,7 +9,7 @@ import useReservationStore from "@/stores/reservation.store";
 import { useRef, useEffect } from "react";
 
 const ReservationPage = () => {
-  const { status } = useReservationStore();
+  const { status, searchValue, setSearchValue } = useReservationStore();
   const scrollViewRef = useRef<ScrollView>(null);
 
   useEffect(() => {
@@ -23,7 +23,10 @@ const ReservationPage = () => {
           예약 현황
         </Text>
         <StatusBar />
-        <SearchInput placeholder="검색어를 입력해주세요" />
+        <SearchInput
+          placeholder="검색어를 입력해주세요"
+          onChangeText={setSearchValue}
+        />
         <ScrollView
           ref={scrollViewRef}
           style={{ flex: 1 }}
@@ -31,6 +34,10 @@ const ReservationPage = () => {
         >
           {reservationDummy
             .filter((v) => v.상태 == status)
+            .filter(
+              (v) =>
+                v.제목.includes(searchValue) || v.주소.includes(searchValue)
+            )
             .map((item) => (
               <ReservationCard
                 key={item.id}

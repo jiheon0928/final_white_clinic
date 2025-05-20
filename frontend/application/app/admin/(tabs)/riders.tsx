@@ -8,7 +8,6 @@ import {
 import Title from "@/components/common/Title";
 import SearchInput from "@/components/common/SearchInput";
 import Card from "@/components/common/Card";
-
 import { useRouter } from "expo-router";
 import { riderDummy } from "@/dummyData/riderData";
 
@@ -22,7 +21,7 @@ const Riders = () => {
           <Text style={styles.waitingBtnText}>승인대기(9)</Text>
         </TouchableOpacity>
       </View>
-      <SearchInput placeholder="" />
+      <SearchInput placeholder="" onChangeText={() => {}} />
       <ScrollView>
         {riderDummy.map((rider) => (
           <Card
