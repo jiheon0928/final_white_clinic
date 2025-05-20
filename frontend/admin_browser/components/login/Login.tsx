@@ -1,12 +1,7 @@
 // "use client";
+// import { useLoginStore } from "@/store/Login";
 // import React from "react";
-// import { useLoginStore } from "../../store/Login";
-
-// // const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-// import { useLoginStore } from "@/store/login/LoginStore";
-
-// const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-
+// import Input from "../common/input/Input";
 // const Loginpage = () => {
 //   const { formData, handleChange, handleSubmit } = useLoginStore();
 
@@ -17,7 +12,7 @@
 //     >
 //       <h2 className="text-2xl font-bold mb-6 text-center">로그인</h2>
 //       <form onSubmit={handleSubmit} className="space-y-4">
-//         <input
+//         <Input
 //           type="email"
 //           name="email"
 //           placeholder="이메일"
@@ -25,7 +20,7 @@
 //           onChange={handleChange}
 //           className="w-full border px-3 py-2 rounded"
 //         />
-//         <input
+//         <Input
 //           type="password"
 //           name="password"
 //           placeholder="비밀번호"

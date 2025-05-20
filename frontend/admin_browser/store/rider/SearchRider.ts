@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { RiderInfoList } from "@/types/types";
 import { riderList } from "@/data/data";
+import { Rider, RiderInfoList } from "@/types/RiderTypes";
 
 interface RiderStore {
   search: string;
@@ -24,7 +24,7 @@ export const useRiderStore = create<RiderStore>((set, get) => ({
   filterRiders: (search: string) => {
     const lowerSearch = search.toLowerCase();
     const filtered = get().riders.filter(
-      (rider) =>
+      (rider: Rider) =>
         rider.name.toLowerCase().includes(lowerSearch) ||
         rider.phone.includes(search)
     );
