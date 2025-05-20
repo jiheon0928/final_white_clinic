@@ -18,17 +18,14 @@ export class CreateListDto {
   @IsString() contact: string;
   @IsString() request: string;
 
-  // FK: rider (DeliveryDriver) id
   @IsNumber()
   @Type(() => Number)
   driverId: number;
 
-  // FK: 상태(CompliteState) id
   @IsNumber()
   @Type(() => Number)
   compliteStateId: number;
 
-  // FK: 분야(Field) id
   @IsNumber()
   @Type(() => Number)
   fieldId: number;
