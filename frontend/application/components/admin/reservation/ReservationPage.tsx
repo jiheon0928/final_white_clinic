@@ -20,7 +20,7 @@ const ReservationPage = () => {
   return (
     <Page>
       <View style={{ flex: 1 }}>
-        <PageHeader title="예약 현황" variant="leftBtn" />
+        <PageHeader title="예약 현황" variant="default" />
         <StatusBar />
         <SearchInput
           placeholder="검색어를 입력해주세요"

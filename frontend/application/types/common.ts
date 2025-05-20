@@ -8,8 +8,13 @@ export type CardProps = {
 };
 
 export type DetailBtnProps = {
-  onPress: () => void;
-  name: string;
+  onPress?: () => void;
+  name?: string;
+  position: "absolute" | "relative";
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
 };
 
 export type InputProps = {
