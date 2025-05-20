@@ -11,6 +11,7 @@ import { Benefit } from './benefit/benefit.entity';
 import { List } from './list/entities/list.entity';
 import { CompleteState } from './compliteState/compliteState.entity';
 import { Field } from './field/fleid.entity';
+import { RefreshToken } from './rogin/dto/refresh-token.entity';
 
 @Module({
   imports: [
@@ -28,7 +29,14 @@ import { Field } from './field/fleid.entity';
         username: config.get<string>('DB_USERNAME'),
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
-        entities: [DeliveryDriver, Benefit, List, CompleteState, Field],
+        entities: [
+          DeliveryDriver,
+          Benefit,
+          List,
+          CompleteState,
+          Field,
+          RefreshToken,
+        ],
         synchronize: true,
       }),
     }),

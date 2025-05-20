@@ -5,6 +5,7 @@ import {
   MaxLength,
   IsEmail,
   IsOptional,
+  IsBoolean,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -37,6 +38,9 @@ export class CreateRegistrationDto {
   @IsEmail()
   @MaxLength(100)
   email: string;
+
+  @IsBoolean()
+  approval: boolean;
 
   @IsString()
   @IsOptional()

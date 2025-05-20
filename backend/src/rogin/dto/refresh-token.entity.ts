@@ -19,6 +19,6 @@ export class RefreshToken {
   @CreateDateColumn()
   createdAt: Date;
 
-  @Column({ nullable: true })
+  @Column({ type: 'datetime', nullable: true })
   revokedAt: Date | null;
 }
