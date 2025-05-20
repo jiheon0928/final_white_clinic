@@ -78,7 +78,15 @@ const RiderDetail = () => {
           value={memo}
           onChangeText={setMemo}
         />
-        <TouchableOpacity style={styles.editBtn}>
+        <TouchableOpacity
+          style={styles.editBtn}
+          onPress={() =>
+            router.push({
+              pathname: "/admin/riders/[id]/edit",
+              params: { id: Number(id) },
+            })
+          }
+        >
           <Text style={styles.editBtnText}>수정</Text>
         </TouchableOpacity>
       </View>

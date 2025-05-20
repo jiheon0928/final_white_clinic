@@ -4,49 +4,43 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from './admin/admin.module';
 import { RegistrationModule } from './registration/registration.module';
-import { RoginModule } from './rogin/rogin.module';
+import { RoginModule } from './auth/auth.module';
 import { ListModule } from './list/list.module';
-
-import { webcrypto } from 'crypto';
-(global as any).crypto = webcrypto;
+import { DeliveryDriver } from './registration/entities/registration.entity';
+import { Benefit } from './benefit/benefit.entity';
+import { List } from './list/entities/list.entity';
+import { CompleteState } from './compliteState/compliteState.entity';
+import { Field } from './field/fleid.entity';
+import { RefreshToken } from './auth/dto/refresh-token.entity';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      ignoreEnvFile: true,
     }),
+
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        // Railway 프로덕션 환경에서는 PRIVATE URL 쓰고,
-        // 없으면 PUBLIC proxy URL, 그마저 없으면 로컬 DB 변수 사용
-        const url =
-          config.get<string>('MYSQL_URL') ??
-          config.get<string>('MYSQL_PUBLIC_URL');
-
-        if (url) {
-          return {
-            type: 'mysql' as const,
-            url,
-            entities: [__dirname + '/**/*.entity.{ts,js}'],
-            synchronize: true,
-          };
-        }
-
-        return {
-          type: 'mysql' as const,
-          host: config.get<string>('DB_HOST'),
-          port: parseInt(config.get<string>('DB_PORT') || '3306', 10),
-          username: config.get<string>('DB_USERNAME'),
-          password: config.get<string>('DB_PASSWORD'),
-          database: config.get<string>('DB_DATABASE'),
-          entities: [__dirname + '/**/*.entity.{ts,js}'],
-          synchronize: true,
-        };
-      },
+      useFactory: (config: ConfigService) => ({
+        type: 'mysql',
+        host: config.get<string>('DB_HOST'),
+        port: config.get<number>('DB_PORT'),
+        username: config.get<string>('DB_USERNAME'),
+        password: config.get<string>('DB_PASSWORD'),
+        database: config.get<string>('DB_DATABASE'),
+        entities: [
+          DeliveryDriver,
+          Benefit,
+          List,
+          CompleteState,
+          Field,
+          RefreshToken,
+        ],
+        synchronize: true,
+      }),
     }),
+
     AdminModule,
     RegistrationModule,
     RoginModule,
