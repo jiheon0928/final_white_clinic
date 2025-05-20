@@ -10,7 +10,7 @@ import {
 } from "react-native";
 // import DateTimePickerModal from "react-native-modal-datetime-picker";
 
-const Signup = () => {
+const edit = () => {
   const [name, setName] = useState("");
   const [birth, setBirth] = useState("");
   const [showDate, setShowDate] = useState(false);
@@ -290,4 +290,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Signup;
+export default edit;
