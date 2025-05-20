@@ -8,7 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { RefreshToken } from './dto/refresh-token.entity';
 
 @Injectable()
-export class RoginService {
+export class AuthService {
   constructor(
     @InjectRepository(DeliveryDriver)
     private readonly driverRepo: Repository<DeliveryDriver>,

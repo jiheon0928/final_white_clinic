@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
-import { RoginService } from './rogin.service';
+import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DeliveryDriver } from 'src/registration/entities/registration.entity';
 import { JwtModule, JwtService } from '@nestjs/jwt';
-import { RoginController } from './rogin.controller';
+import { AuthController } from './auth.controller';
 import { RefreshToken } from './dto/refresh-token.entity';
 
 @Module({
@@ -14,7 +14,7 @@ import { RefreshToken } from './dto/refresh-token.entity';
       signOptions: { expiresIn: '1d' },
     }),
   ],
-  controllers: [RoginController],
-  providers: [RoginService, JwtService],
+  controllers: [AuthController],
+  providers: [AuthService, JwtService],
 })
 export class RoginModule {}

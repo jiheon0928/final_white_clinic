@@ -1,6 +1,6 @@
 import { IsString, MaxLength } from 'class-validator';
 
-export class LoginDto {
+export class AuthDto {
   @IsString()
   @MaxLength(30)
   loginId: string;
@@ -10,4 +10,4 @@ export class LoginDto {
   password: string;
 }
 
-export { LoginDto as CreateRoginDto };
+export { AuthDto as CreateAuthDto };

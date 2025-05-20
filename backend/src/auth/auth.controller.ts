@@ -1,20 +1,21 @@
 // src/auth/auth.controller.ts
 import { Controller, Post, Body, HttpCode, UseGuards } from '@nestjs/common';
-import { RoginService } from './rogin.service';
+
 import { JwtService } from '@nestjs/jwt';
-import { LoginDto } from './dto/create-rogin.dto';
+import { AuthDto } from './dto/create-auth.dto';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
-export class RoginController {
+export class AuthController {
   constructor(
-    private readonly roginService: RoginService,
+    private readonly authService: AuthService,
     private readonly jwtService: JwtService,
   ) {}
 
   @Post('login')
   @HttpCode(200)
-  async login(@Body() dto: LoginDto) {
-    const driver = await this.roginService.validate(dto.loginId, dto.password);
+  async login(@Body() dto: AuthDto) {
+    const driver = await this.authService.validate(dto.loginId, dto.password);
     const payload = { sub: driver.id, loginId: driver.loginId };
 
     const accessToken = this.jwtService.sign(payload, { expiresIn: '15m' });
