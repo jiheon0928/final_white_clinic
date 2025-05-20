@@ -1,4 +1,4 @@
-import { ItemInputProps } from "@/types/types";
+import { ItemInputProps } from "@/types/ComponentProps";
 import classNames from "classnames";
 
 const ItemInput = ({

@@ -1,4 +1,4 @@
-import { DateProps } from "@/types/types";
+import { DateProps } from "@/types/ComponentProps";
 import classNames from "classnames";
 
 const RevDate = ({ type, name, onChange, className, title }: DateProps) => {
