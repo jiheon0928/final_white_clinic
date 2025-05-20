@@ -1,4 +1,4 @@
-import { ManagerProps } from "@/types/types";
+import { ManagerProps } from "@/types/ComponentProps";
 import classNames from "classnames";
 
 const Managers = ({ value, onChange, className, title }: ManagerProps) => {
