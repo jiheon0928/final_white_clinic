@@ -7,7 +7,7 @@ import Page from "@/components/common/Page";
 import StatusBar from "./subComponents/StatusBar";
 import useReservationStore from "@/stores/reservation.store";
 import { useRef, useEffect } from "react";
-import PageHeader from "@/components/common/PageHeader";
+import PageHeader from "@/components/common/header/DefaultHeader";
 
 const ReservationPage = () => {
   const { status, searchValue, setSearchValue } = useReservationStore();
