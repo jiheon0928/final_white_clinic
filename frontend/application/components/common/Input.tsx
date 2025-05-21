@@ -2,7 +2,12 @@ import { InputProps } from "@/types/common";
 import { Text } from "@react-navigation/elements";
 import { StyleSheet, TextInput, View } from "react-native";
 
-const Input = ({ title, onChangeText, inputStyle }: InputProps) => {
+const Input = ({
+  title,
+  onChangeText,
+  inputStyle,
+  numberOfLines,
+}: InputProps) => {
   return (
     <View style={inputStyles.container}>
       <Text style={inputStyles.title}>{title}</Text>
@@ -12,7 +17,7 @@ const Input = ({ title, onChangeText, inputStyle }: InputProps) => {
         multiline={true}
         textAlignVertical="top"
         scrollEnabled={true}
-        numberOfLines={4}
+        numberOfLines={numberOfLines}
       />
     </View>
   );
@@ -21,6 +26,7 @@ const Input = ({ title, onChangeText, inputStyle }: InputProps) => {
 const inputStyles = StyleSheet.create({
   container: {
     width: "100%",
+    marginTop: 10,
   },
   title: {
     fontSize: 15,

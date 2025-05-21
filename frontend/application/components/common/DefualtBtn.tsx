@@ -4,10 +4,10 @@ type DefaultBtnProps = {
   onPress: () => void;
   text: string;
 };
-const DefaultBtn = () => {
+const DefaultBtn = ({ text, onPress }: DefaultBtnProps) => {
   return (
     <TouchableOpacity style={styles.btn}>
-      <Text>DefaultBtn</Text>
+      <Text>{text}</Text>
     </TouchableOpacity>
   );
 };
