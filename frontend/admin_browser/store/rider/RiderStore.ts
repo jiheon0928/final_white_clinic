@@ -1,24 +1,7 @@
 import { create } from "zustand";
+import { RiderInfoStore } from "@/types/RiderStore/RiderInfoTypes";
 
-interface RiderStore {
-  formData: {
-    name: string;
-    phone: string;
-    email: string;
-    address: string;
-    notes: string;
-    washer: boolean;
-    dryer: boolean;
-    birthDate: string;
-    benefit: string;
-  };
-  handleChange: (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => void;
-  handleSubmit?: (e: React.FormEvent) => void;
-}
-
-const useRiderStore = create<RiderStore>((set) => ({
+const useRiderStore = create<RiderInfoStore>((set) => ({
   formData: {
     name: "",
     phone: "",
@@ -41,7 +24,6 @@ const useRiderStore = create<RiderStore>((set) => ({
   },
   handleSubmit: (e) => {
     e.preventDefault();
-    // TODO: API 연동
     console.log("Form submitted");
   },
 }));

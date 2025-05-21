@@ -1,4 +1,4 @@
-import { useReservationStore } from "@/store/reservation/ReservationStore";
+import { useReservationStore } from "@/store/ReservationStore";
 import RevDate from "@/components/common/input/revDate";
 
 export const EnrollDate = () => {

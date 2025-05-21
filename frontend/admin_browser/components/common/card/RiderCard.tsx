@@ -1,6 +1,7 @@
 import { useRiderStore } from "@/store/rider/SearchRider";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
+import { Rider } from "@/types/RiderStore/RiderTypes";
 
 export const RiderCard = () => {
   const router = useRouter();
@@ -10,7 +11,7 @@ export const RiderCard = () => {
   };
   return (
     <div className="flex flex-col gap-4">
-      {filteredRiders.map((rider) => (
+      {filteredRiders.map((rider: Rider) => (
         <div
           key={rider.id}
           className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
