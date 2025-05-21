@@ -1,25 +1,21 @@
-import { ScrollView } from "react-native";
-import { reservationDummy } from "@/dummyData/reservationData";
-import ReservationCard from "./subComponents/ReservationCard";
-import SearchInput from "@/components/common/SearchInput";
-import Page from "@/components/common/Page";
-import StatusBar from "./subComponents/StatusBar";
-import useReservationStore from "@/stores/reservation.store";
-import { useRef, useEffect } from "react";
+import ReservationCard from "@/components/admin/reservation/subComponents/ReservationCard";
 import DefaultHeader from "@/components/common/header/DefaultHeader";
+import Page from "@/components/common/Page";
+import SearchInput from "@/components/common/SearchInput";
+import { reservationDummy } from "@/dummyData/reservationData";
+import useReservationStore from "@/stores/reservation.store";
+import { useRef } from "react";
+import { ScrollView } from "react-native";
 
-const ReservationPage = () => {
-  const { status, searchValue, setSearchValue } = useReservationStore();
+type RiderReservationProps = {
+  status: "대기" | "진행" | "완료";
+};
+const RiderReservation = ({ status }: RiderReservationProps) => {
+  const { searchValue, setSearchValue } = useReservationStore();
   const scrollViewRef = useRef<ScrollView>(null);
-
-  useEffect(() => {
-    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
-  }, [status]);
-
   return (
     <Page>
-      <DefaultHeader title="예약 현황" />
-      <StatusBar />
+      <DefaultHeader title="대기" />
       <SearchInput
         placeholder="검색어를 입력해주세요"
         onChangeText={(text) => setSearchValue(text)}
@@ -49,4 +45,4 @@ const ReservationPage = () => {
   );
 };
 
-export default ReservationPage;
+export default RiderReservation;
