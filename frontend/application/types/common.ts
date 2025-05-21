@@ -10,7 +10,7 @@ export type CardProps = {
 export type DetailBtnProps = {
   onPress?: () => void;
   name?: string;
-  position: "absolute" | "relative";
+  position?: "absolute" | "relative";
   top?: number;
   left?: number;
   right?: number;

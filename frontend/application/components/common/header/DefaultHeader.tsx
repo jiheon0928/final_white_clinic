@@ -1,16 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { HeaderStyles } from "@/styles/header";
+import { HeaderProps } from "@/types/headers";
+import { Text, View } from "react-native";
 
-type DefaultHeaderProps = {
-  title: string;
-};
-const DefaultHeader = ({ title }: DefaultHeaderProps) => {
+const DefaultHeader = ({ title }: HeaderProps) => {
   return (
-    <View>
-      <Text style={{ borderWidth: 1, textAlign: "center" }}>{title}</Text>
+    <View style={{ height: 40 }}>
+      <Text style={HeaderStyles.title}>{title}</Text>
     </View>
   );
 };
-
-const defaultHeaderStyles = StyleSheet.create({});
 
 export default DefaultHeader;

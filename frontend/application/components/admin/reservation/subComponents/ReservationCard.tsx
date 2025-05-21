@@ -28,8 +28,8 @@ const ReservationCard = ({
       }}
     >
       <Title title={title} />
-      <Info text={`주소 : ${address}`} />
-      <Info text={`가격 : ${price}`} />
+      <Info value={address} category="주소" />
+      <Info value={price.toString()} category="가격" />
       <StatusPill status={status} position="absolute" bottom={20} right={20} />
     </Card>
   );

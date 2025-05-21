@@ -35,7 +35,6 @@ const statusBarStyles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
-    marginBottom: 10,
   },
   statusButton: {
     flex: 1,
