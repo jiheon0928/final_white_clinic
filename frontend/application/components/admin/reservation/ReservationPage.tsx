@@ -7,6 +7,7 @@ import Page from "@/components/common/Page";
 import StatusBar from "./subComponents/StatusBar";
 import useReservationStore from "@/stores/reservation.store";
 import { useRef, useEffect } from "react";
+import PageHeader from "@/components/common/header/DefaultHeader";
 
 const ReservationPage = () => {
   const { status, searchValue, setSearchValue } = useReservationStore();
@@ -19,9 +20,7 @@ const ReservationPage = () => {
   return (
     <Page>
       <View style={{ flex: 1 }}>
-        <Text style={{ fontSize: 25, fontWeight: "bold", marginBottom: 20 }}>
-          예약 현황
-        </Text>
+        <PageHeader title="예약 현황" variant="default" />
         <StatusBar />
         <SearchInput
           placeholder="검색어를 입력해주세요"

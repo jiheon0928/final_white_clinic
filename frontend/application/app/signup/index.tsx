@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Calender from "@/components/common/calender";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -16,7 +16,6 @@ const Signup = () => {
   const [showDate, setShowDate] = useState(false);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
   const [detail, setDetail] = useState("");
   const [itemWasher, setItemWasher] = useState(false);
@@ -73,28 +72,14 @@ const Signup = () => {
         keyboardType="email-address"
       />
       <Text style={styles.label}>생년월일</Text>
-      <View style={styles.inputRow}>
-        <TextInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="생년월일"
-          value={birth}
-          editable={false}
-        />
-        <TouchableOpacity
-          onPress={() => setShowDate(true)}
-          style={styles.iconBtn}
-        >
-          <Ionicons name="calendar-outline" size={22} color="#222" />
-        </TouchableOpacity>
-      </View>
-      <DateTimePickerModal
-        isVisible={showDate}
-        mode="date"
-        onConfirm={onChangeDate}
-        onCancel={() => setShowDate(false)}
+      <Calender
+        placeholder="생년월일"
+        value={birth}
+        onChangeDate={onChangeDate}
         date={birth ? new Date(birth) : new Date()}
+        showDate={showDate}
+        setShowDate={setShowDate}
       />
-
       <Text style={styles.label}>주소</Text>
       <View style={styles.inputRow}>
         <TextInput

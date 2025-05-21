@@ -1,4 +1,4 @@
-import { InputProps } from "@/types/types";
+import { InputProps } from "@/types/ComponentProps";
 import classNames from "classnames";
 
 type HtmlForType = {

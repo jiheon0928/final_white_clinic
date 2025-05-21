@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-interface RiderEnrollStore {
+interface RiderStore {
   formData: {
     name: string;
     phone: string;
@@ -15,10 +15,10 @@ interface RiderEnrollStore {
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
-  handleSubmit: (e: React.FormEvent) => void;
+  handleSubmit?: (e: React.FormEvent) => void;
 }
 
-const useRiderEnrollStore = create<RiderEnrollStore>((set) => ({
+const useRiderStore = create<RiderStore>((set) => ({
   formData: {
     name: "",
     phone: "",
@@ -46,4 +46,4 @@ const useRiderEnrollStore = create<RiderEnrollStore>((set) => ({
   },
 }));
 
-export default useRiderEnrollStore;
+export default useRiderStore;
