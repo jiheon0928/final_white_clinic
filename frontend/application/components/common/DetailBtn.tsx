@@ -26,13 +26,12 @@ const DetailBtn = ({
 
 const detailBtnStyles = StyleSheet.create({
   btn: {
-    padding: 5,
+    padding: 7,
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
-
     zIndex: 1,
   },
 });
