@@ -1,76 +1,30 @@
-import { Ionicons } from "@expo/vector-icons";
-import { router, useLocalSearchParams } from "expo-router";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import DefaultBtn from "@/components/common/DefualtBtn";
+import Info from "@/components/common/Info";
+import Page from "@/components/common/Page";
+import { completedDetail } from "@/dummyData/completedDate";
+import { StyleSheet, Text, View } from "react-native";
 
 const CompletedDetail = () => {
-  const { id } = useLocalSearchParams();
-
-  // 더미 데이터
-  const detail = {
-    title: "에어컨 청소",
-    customer: "이수민",
-    phone: "010-9999-8888",
-    completedDate: "2025-06-10",
-    address: "서울특별시 강남구",
-    price: "100,000원",
-    request: "완료된 서비스입니다.",
-  };
-
   return (
-    <View style={{ flex: 1, backgroundColor: "#fff" }}>
-      <ScrollView
-        contentContainerStyle={{ flexGrow: 1, justifyContent: "center" }}
-      >
-        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color="#222" />
-        </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: 22,
-            fontWeight: "bold",
-            textAlign: "center",
-            marginVertical: 16,
-          }}
-        >
-          완료 상세 페이지
-        </Text>
-        <View style={styles.box}>
-          <Text style={styles.label}>
-            제목 : <Text style={styles.value}>{detail.title}</Text>
+    //헤더 추가하자
+    <Page>
+      <View style={styles.box}>
+        <Info value={completedDetail.title} category="제목" />
+        <Info value={completedDetail.customer} category="고객명" />
+        <Info value={completedDetail.phone} category="전화번호" />
+        <Info value={completedDetail.reserveDate} category="예약 날짜" />
+        <Info value={completedDetail.completedDate} category="완료 날짜" />
+        <Info value={completedDetail.address} category="주소" />
+        <Info value={completedDetail.price} category="가격" />
+        <Text style={styles.label}>고객 요청 사항</Text>
+        <View style={styles.requestBox}>
+          <Text style={{ color: "#333", fontSize: 14 }}>
+            {completedDetail.request}
           </Text>
-          <Text style={styles.label}>
-            고객명 : <Text style={styles.value}>{detail.customer}</Text>
-          </Text>
-          <Text style={styles.label}>
-            전화번호 : <Text style={styles.value}>{detail.phone}</Text>
-          </Text>
-          <Text style={styles.label}>
-            완료 날짜 : <Text style={styles.value}>{detail.completedDate}</Text>
-          </Text>
-          <Text style={styles.label}>
-            주소 : <Text style={styles.value}>{detail.address}</Text>
-          </Text>
-          <Text style={styles.label}>
-            가격 : <Text style={styles.value}>{detail.price}</Text>
-          </Text>
-          <Text style={styles.label}>고객 요청 사항</Text>
-          <View style={styles.requestBox}>
-            <Text style={{ color: "#333", fontSize: 14 }}>
-              {detail.request}
-            </Text>
-          </View>
         </View>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttonText}>리뷰 보기</Text>
-        </TouchableOpacity>
-      </ScrollView>
-    </View>
+      </View>
+      <DefaultBtn onPress={() => {}} text="리뷰 보기" />
+    </Page>
   );
 };
 
@@ -80,7 +34,6 @@ const styles = StyleSheet.create({
     borderColor: "#bbb",
     borderRadius: 16,
     padding: 16,
-    marginHorizontal: 16,
     backgroundColor: "#fff",
     marginBottom: 24,
   },

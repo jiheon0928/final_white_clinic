@@ -4,10 +4,10 @@ type DefaultBtnProps = {
   onPress: () => void;
   text: string;
 };
-const DefaultBtn = () => {
+const DefaultBtn = ({ onPress, text }: DefaultBtnProps) => {
   return (
-    <TouchableOpacity style={styles.btn}>
-      <Text>DefaultBtn</Text>
+    <TouchableOpacity style={styles.btn} onPress={onPress}>
+      <Text style={styles.btnText}>{text}</Text>
     </TouchableOpacity>
   );
 };
@@ -20,6 +20,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     marginTop: 10,
+  },
+  btnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
