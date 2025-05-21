@@ -12,6 +12,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     marginVertical: 16,
   },
+  subtitle: {
+    fontSize: 15,
+    marginLeft: 8,
+    marginBottom: 6,
+    marginTop: 10,
+    fontWeight: "bold",
+  },
   card: {
     borderWidth: 1,
     borderColor: "#ccc",
@@ -27,6 +34,17 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     fontWeight: "bold",
     marginTop: 10,
+  },
+  priceInput: {
+    borderWidth: 1,
+    borderColor: "#bbb",
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 15,
+    backgroundColor: "#fff",
+    width: "45%",
+    textAlignVertical: "top",
   },
   input: {
     borderWidth: 1,
@@ -88,20 +106,14 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginRight: 10,
   },
-  wonmargin: {
-    width: 10,
-    marginTop: 52,
-    fontWeight: "bold",
-    marginLeft: 5,
-    marginRight: 7,
-  },
+  wonmargin: { marginLeft: 10 },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
   priceRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
     marginBottom: 16,
   },
   button: {

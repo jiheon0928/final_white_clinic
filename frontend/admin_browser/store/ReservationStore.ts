@@ -1,28 +1,11 @@
 import { create } from "zustand";
+import { RevCardStates } from "@/types/RevStore/RevCardStates";
 
-interface ReservationStore {
-  selectedItems: string[];
-  manager: string;
-  formData: {
-    name: string;
-    phone: string;
-    address: string;
-    item: string;
-    washer: boolean;
-    dryer: boolean;
-    date: string;
-    time: string;
-    message: string;
-    price: number;
-  };
-  handleCheckboxChange: (value: string) => void;
-  setManager: (value: string) => void;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
-
-export const useReservationStore = create<ReservationStore>((set) => ({
-  selectedItems: [],
+export const useReservationStore = create<RevCardStates>((set) => ({
+  selectedItems: [], // 선택된 아이템 상태에 따라 배열로 저장
   manager: "",
+  currentStatus: "대기", // 기본값
+  setStatus: (status) => set({ currentStatus: status }),
   formData: {
     name: "",
     phone: "",

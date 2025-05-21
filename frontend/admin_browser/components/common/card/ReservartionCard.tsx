@@ -1,5 +1,5 @@
 import { data } from "@/data/data";
-import { useReservationStore } from "@/store/reservation/RevState";
+import { useReservationStore } from "@/store/ReservationStore";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
 

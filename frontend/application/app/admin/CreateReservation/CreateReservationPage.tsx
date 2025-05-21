@@ -2,13 +2,14 @@ import Address from "@/components/common/Address";
 import DateTimeInput from "@/components/common/calender";
 import CheckBox from "@/components/common/CheckBox";
 import DefaultBtn from "@/components/common/DefualtBtn";
+
 import Input from "@/components/common/Input";
 import Page from "@/components/common/Page";
 import styles from "@/styles/EditReservation/EditReservationStyle";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, View } from "react-native";
 
-const EditReservationPage = () => {
+const CreateReservationPage = () => {
   const [items, setItems] = useState({
     washer: false,
     aircon: true,
@@ -17,15 +18,14 @@ const EditReservationPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
-
   const handleUpdate = () => {
-    Alert.alert("수정 완료", "예약 정보가 수정되었습니다.");
+    Alert.alert("등록 완료", "예약이 등록되었습니다..");
   };
 
   return (
     <Page>
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>예약수정</Text>
+        <Text style={styles.title}>예약등록</Text>
 
         <View style={styles.card}>
           <Input title={"고객명"} numberOfLines={1} />
@@ -73,6 +73,7 @@ const EditReservationPage = () => {
             />
             <Text style={styles.wonmargin}>원</Text>
           </View>
+
           <DefaultBtn text={"확인"} onPress={handleUpdate} />
         </View>
       </ScrollView>
@@ -80,4 +81,4 @@ const EditReservationPage = () => {
   );
 };
 
-export default EditReservationPage;
+export default CreateReservationPage;

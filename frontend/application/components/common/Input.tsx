@@ -9,7 +9,7 @@ const Input = ({
   numberOfLines,
 }: InputProps) => {
   return (
-    <View style={inputStyles.container}>
+    <View style={[inputStyles.container]}>
       <Text style={inputStyles.title}>{title}</Text>
       <TextInput
         style={[inputStyles.input, inputStyle]}

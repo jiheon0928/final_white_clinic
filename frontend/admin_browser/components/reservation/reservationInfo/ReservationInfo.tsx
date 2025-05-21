@@ -1,15 +1,13 @@
 "use client";
 import { data } from "@/data/data";
+import Layout from "@/components/common/Layout";
 
 export const ReservationInfo = () => {
   const reservationData = data(); // data는 함수이므로 호출해야 함
   const reservation = reservationData[0]; // 첫 번째 예약 데이터를 가져옴
 
   return (
-    <div className="bg-white p-6 rounded-lg shadow-lg max-w-2xl mx-auto">
-      <h1 className="text-2xl font-bold text-center mb-8 bg-gradient-to-r from-blue-700 to-blue-400 bg-clip-text text-transparent">
-        예약 상세 정보
-      </h1>
+    <Layout title="예약 상세 정보">
       <div key={reservation.id} className="space-y-6">
         <div className="bg-gray-50 p-6 rounded-lg">
           <h2 className="text-xl font-semibold text-blue-600 mb-4 border-b pb-2">
@@ -59,6 +57,6 @@ export const ReservationInfo = () => {
           </div>
         </div>
       </div>
-    </div>
+    </Layout>
   );
 };

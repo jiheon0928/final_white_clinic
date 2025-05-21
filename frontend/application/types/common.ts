@@ -22,4 +22,5 @@ export type InputProps = {
   inputStyle?: StyleProp<TextStyle>;
   onChangeText?: (text: string) => void;
   numberOfLines: number;
+  containerStyle?: StyleProp<TextStyle>;
 };
