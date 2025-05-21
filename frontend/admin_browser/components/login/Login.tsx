@@ -2,16 +2,13 @@
 import { useLoginStore } from "@/store/Login";
 import React from "react";
 import Input from "../common/input/Input";
+import Layout from "../common/Layout";
 
 const Loginpage = () => {
   const { formData, handleChange, handleSubmit } = useLoginStore();
 
   return (
-    <div
-      id="login"
-      className="max-w-md mx-auto mt-10 p-6 border rounded-xl shadow-lg"
-    >
-      <h2 className="text-2xl font-bold mb-6 text-center">로그인</h2>
+    <Layout title="로그인">
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
           type="email"
@@ -36,7 +33,7 @@ const Loginpage = () => {
           로그인
         </button>
       </form>
-    </div>
+    </Layout>
   );
 };
 

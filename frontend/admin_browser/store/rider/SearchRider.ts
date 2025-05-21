@@ -1,17 +1,9 @@
 import { create } from "zustand";
 import { riderList } from "@/data/data";
-import { Rider, RiderInfoList } from "@/types/RiderTypes";
+import { Rider } from "@/types/RiderStore/RiderTypes";
+import { RiderSearchStore } from "@/types/RiderStore/RiderSearchTypes";
 
-interface RiderStore {
-  search: string;
-  riders: RiderInfoList;
-  filteredRiders: RiderInfoList;
-  setSearch: (value: string) => void;
-  filterRiders: (search: string) => void;
-  resetRiders: () => void;
-}
-
-export const useRiderStore = create<RiderStore>((set, get) => ({
+export const useRiderStore = create<RiderSearchStore>((set, get) => ({
   search: "",
   riders: riderList(),
   filteredRiders: riderList(),

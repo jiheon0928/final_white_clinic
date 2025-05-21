@@ -1,5 +1,5 @@
 import Input from "./Input";
-import { useReservationStore } from "@/store/reservation/ReservationStore";
+import { useReservationStore } from "@/store/ReservationStore";
 
 export const RevInput = () => {
   const { formData, handleChange } = useReservationStore();

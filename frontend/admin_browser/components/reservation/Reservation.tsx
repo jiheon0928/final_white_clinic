@@ -1,8 +1,9 @@
 "use client";
 import { useRouter } from "next/navigation";
-import { useReservationStore } from "@/store/reservation/RevState";
+import { useReservationStore } from "@/store/ReservationStore";
 import Button from "../common/Button";
 import { ReservationCard } from "../common/card/ReservartionCard";
+import Layout from "../common/Layout";
 
 export const Reservation = () => {
   const router = useRouter();
@@ -12,10 +13,7 @@ export const Reservation = () => {
   const { currentStatus, setStatus } = useReservationStore();
 
   return (
-    <div className="flex flex-col gap-4 bg-white p-4">
-      <h1 className="flex justify-center text-2xl font-bold bg-gradient-to-r from-blue-700 to-white bg-clip-text text-transparent">
-        예약 목록
-      </h1>
+    <Layout title="예약 관리">
       <div className="flex justify-between items-center gap-2 mb-4">
         <div className="flex gap-2">
           <Button
@@ -25,7 +23,7 @@ export const Reservation = () => {
           />
           <Button
             title="진행중 예약목록"
-            onClick={() => setStatus("진행중")}
+            onClick={() => setStatus("진행")}
             className="bg-green-500 hover:bg-green-600"
           />
           <Button
@@ -41,7 +39,7 @@ export const Reservation = () => {
         />
       </div>
       <ReservationCard />
-    </div>
+    </Layout>
   );
 };
 

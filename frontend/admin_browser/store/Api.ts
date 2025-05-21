@@ -1,16 +1,8 @@
 import { create } from "zustand";
 import axios from "axios";
-import { RiderInfoList } from "@/types/RiderTypes";
-import { ReservationList } from "@/types/ReservationTypes";
+import { ApiStore } from "@/types/ApiStore";
 
 const API_URL = "http://localhost:3001";
-
-interface ApiStore {
-  riders: RiderInfoList;
-  reservations: ReservationList;
-  getRiders: () => Promise<void>;
-  getReservations: () => Promise<void>;
-}
 
 export const useApiStore = create<ApiStore>((set) => ({
   riders: [],

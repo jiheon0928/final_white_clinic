@@ -1,17 +1,9 @@
 import { create } from "zustand";
 import axios from "axios";
 import { useRouter } from "next/router";
+import { LoginState } from "@/types/LoginState";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
-
-interface LoginState {
-  formData: {
-    email: string;
-    password: string;
-  };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  handleSubmit: (e: React.FormEvent) => Promise<void>;
-}
 
 export const useLoginStore = create<LoginState>((set) => ({
   formData: {
@@ -31,7 +23,6 @@ export const useLoginStore = create<LoginState>((set) => ({
     e.preventDefault();
 
     const { email, password } = useLoginStore.getState().formData;
-
     if (!email || !password) {
       alert("이메일과 비밀번호를 모두 입력해주세요.");
       return;

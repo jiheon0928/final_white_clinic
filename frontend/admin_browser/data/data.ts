@@ -40,7 +40,7 @@ export const data = () => {
       price: "120,000원",
       manage: "수정하기",
       completed: true,
-      status: "진행중",
+      status: "진행",
     },
     {
       id: 4,
@@ -54,7 +54,7 @@ export const data = () => {
       price: "140,000원",
       manage: "수정하기",
       completed: true,
-      status: "진행중",
+      status: "진행",
     },
     {
       id: 5,
@@ -82,7 +82,7 @@ export const data = () => {
       price: "140,000원",
       manage: "수정하기",
       completed: false,
-      status: "진행중",
+      status: "진행",
     },
   ];
   return info;
