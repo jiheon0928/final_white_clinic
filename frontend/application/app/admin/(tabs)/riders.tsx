@@ -1,34 +1,21 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
-} from "react-native";
-import Title from "@/components/common/Title";
+import { Text, StyleSheet, ScrollView } from "react-native";
 import SearchInput from "@/components/common/SearchInput";
 import Card from "@/components/common/Card";
-import { useRouter } from "expo-router";
+import { router } from "expo-router";
 import { riderDummy } from "@/dummyData/riderData";
-const pendingCount = 2;
+import DetailBtn from "@/components/common/DetailBtn";
+import Page from "@/components/common/Page";
 const Riders = () => {
-  const router = useRouter();
   return (
-    <View style={styles.container}>
-      <View style={styles.headerRow}>
-        <Title title="기사 현황" />
-        <TouchableOpacity
-          style={styles.pendingBtn}
-          onPress={() => router.push("/admin/riders/pending/page")}
-        >
-          <Text style={styles.btnText}>승인대기</Text>
-          {pendingCount > 0 && (
-            <View style={styles.badge}>
-              <Text style={styles.badgeText}>{pendingCount}</Text>
-            </View>
-          )}
-        </TouchableOpacity>
-      </View>
+    // 헤더 작업 끝나면 해더 추가 해서 UI 맞추기
+    <Page>
+      <DetailBtn
+        name="승인대기"
+        onPress={() => router.push("/admin/riders/pending/page")}
+        position="absolute"
+        top={30}
+        right={0}
+      />
       <SearchInput placeholder="" onChangeText={() => {}} />
       <ScrollView>
         {riderDummy.map((rider) => (
@@ -42,65 +29,20 @@ const Riders = () => {
               })
             }
           >
-            <Text style={styles.riderName}>{rider.name}</Text>
-            <Text style={styles.riderPhone}>
-              연락처 : <Text style={styles.phoneRed}>{rider.phone}</Text>
+            <Text>{rider.name}</Text>
+            <Text>
+              연락처 : <Text>{rider.phone}</Text>
+            </Text>
+            <Text>
+              주소 : <Text>{rider.address}</Text>
             </Text>
           </Card>
         ))}
       </ScrollView>
-    </View>
+    </Page>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: "#fff",
-  },
-  badgeText: { color: "#fff", fontWeight: "bold", fontSize: 13 },
-  badge: {
-    backgroundColor: "#ff4d4d",
-    borderRadius: 10,
-    minWidth: 20,
-    height: 20,
-    alignItems: "center",
-    justifyContent: "center",
-    marginLeft: 8,
-    paddingHorizontal: 6,
-  },
-  btnText: { fontSize: 18, fontWeight: "bold" },
-  pendingBtn: {
-    flexDirection: "row",
-    alignItems: "center",
-    padding: 16,
-    borderWidth: 1,
-    borderColor: "#222",
-    borderRadius: 8,
-    marginBottom: 16,
-    position: "relative",
-  },
-  headerRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    marginBottom: 10,
-  },
-
-  riderName: {
-    fontSize: 16,
-    fontWeight: "bold",
-    marginBottom: 4,
-  },
-  riderPhone: {
-    fontSize: 15,
-    marginBottom: 2,
-  },
-  phoneRed: {
-    color: "#FF3B30",
-    fontWeight: "bold",
-  },
-});
+const styles = StyleSheet.create({});
 
 export default Riders;
