@@ -1,4 +1,4 @@
-import { BenefitProps } from "@/types/types";
+import { BenefitProps } from "@/types/ComponentProps";
 import classNames from "classnames";
 
 const Benefit = ({ type, name, onChange, className, title }: BenefitProps) => {

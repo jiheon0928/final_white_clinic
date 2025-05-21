@@ -8,7 +8,6 @@ import {
 import Title from "@/components/common/Title";
 import SearchInput from "@/components/common/SearchInput";
 import Card from "@/components/common/Card";
-
 import { useRouter } from "expo-router";
 import { riderDummy } from "@/dummyData/riderData";
 const pendingCount = 2;
@@ -30,7 +29,7 @@ const Riders = () => {
           )}
         </TouchableOpacity>
       </View>
-      <SearchInput placeholder="" />
+      <SearchInput placeholder="" onChangeText={() => {}} />
       <ScrollView>
         {riderDummy.map((rider) => (
           <Card
