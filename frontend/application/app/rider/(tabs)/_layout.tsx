@@ -1,6 +1,8 @@
-import TabIcon from "@/components/tabbar/TabIcon";
+import TabIcon from "@/components/common/TabIcon";
 import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
+import { Platform } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 const riderTabs: {
   name: string;
   title: string;
@@ -27,7 +29,8 @@ const riderTabs: {
     iconName: "person-outline",
   },
 ];
-export default function TabLayout() {
+const TabLayout = () => {
+  const insets = useSafeAreaInsets();
   return (
     <Tabs
       screenOptions={{
@@ -35,7 +38,8 @@ export default function TabLayout() {
           width: 80,
         },
         tabBarStyle: {
-          height: 60,
+          height: 60 + insets.bottom,
+          paddingBottom: insets.bottom || (Platform.OS === "android" ? 20 : 0),
           paddingTop: 10,
         },
         tabBarShowLabel: false,
@@ -61,4 +65,6 @@ export default function TabLayout() {
       ))}
     </Tabs>
   );
-}
+};
+
+export default TabLayout;

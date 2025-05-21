@@ -1,0 +1,26 @@
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
+
+type DefaultBtnProps = {
+  onPress: () => void;
+  text: string;
+};
+const DefaultBtn = () => {
+  return (
+    <TouchableOpacity style={styles.btn}>
+      <Text>DefaultBtn</Text>
+    </TouchableOpacity>
+  );
+};
+
+const styles = StyleSheet.create({
+  btn: {
+    backgroundColor: "#6DD6FF",
+    borderRadius: 20,
+    paddingVertical: 12,
+    alignItems: "center",
+    width: "100%",
+    marginTop: 10,
+  },
+});
+
+export default DefaultBtn;

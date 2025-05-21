@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -87,13 +87,13 @@ const Signup = () => {
           <Ionicons name="calendar-outline" size={22} color="#222" />
         </TouchableOpacity>
       </View>
-      {/* <DateTimePickerModal
+      <DateTimePickerModal
         isVisible={showDate}
         mode="date"
         onConfirm={onChangeDate}
         onCancel={() => setShowDate(false)}
         date={birth ? new Date(birth) : new Date()}
-      /> */}
+      />
 
       <Text style={styles.label}>주소</Text>
       <View style={styles.inputRow}>

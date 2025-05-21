@@ -1,12 +1,12 @@
-import { View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, View } from "react-native";
 
 const Page = ({ children }: { children: React.ReactNode }) => {
   return (
     <SafeAreaView
       style={{
+        flex: 1,
         paddingHorizontal: 10,
-        paddingVertical: 10,
+        paddingTop: 50,
         backgroundColor: "#ffffff",
       }}
     >

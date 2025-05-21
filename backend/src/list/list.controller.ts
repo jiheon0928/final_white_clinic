@@ -12,12 +12,27 @@ export class ListController {
     return this.listService.create(dto);
   }
 
-  @Get() //모두조회
+  @Get()
   async findList(): Promise<List[]> {
     return this.listService.findList();
   }
 
-  @Get('weekly') //주간 조회
+  @Get('pending')
+  async findPendingJobs(): Promise<List[]> {
+    return this.listService.findPendingJobs();
+  }
+
+  @Get('in-progress/:driverId')
+  findInProgress(@Param('driverId') driverId: string) {
+    return this.listService.findInProgressJobs(+driverId);
+  }
+
+  @Get('completed/:driverId')
+  findCompleted(@Param('driverId') driverId: string) {
+    return this.listService.findCompletedJobs(+driverId);
+  }
+
+  @Get('weekly')
   async getWeekly(
     @Param('driverId') driverId: string,
   ): Promise<{ currentWeek: number; lastWeek: number }> {
