@@ -21,7 +21,7 @@ const style = StyleSheet.create({
     borderColor: "#ccc",
     borderRadius: 8,
     paddingHorizontal: 16,
-    marginBottom: 10,
+
     textDecorationLine: "none",
   },
 });
