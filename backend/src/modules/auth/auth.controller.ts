@@ -1,0 +1,44 @@
+// src/auth/auth.controller.ts
+import {
+  Controller,
+  Post,
+  Body,
+  Req,
+  UseGuards,
+  HttpCode,
+} from '@nestjs/common';
+import { AuthService } from './auth.service';
+import { CreateDriverDto } from './dto/create-auth.dto';
+import { JwtAuthGuard } from './guard/jwt-auth.guard';
+
+@Controller('auth')
+export class AuthController {
+  constructor(private readonly authService: AuthService) {}
+
+  @Post('register')
+  async register(@Body() dto: CreateDriverDto) {
+    return this.authService.register(dto);
+  }
+
+  @HttpCode(200)
+  @Post('login')
+  async login(
+    @Body('loginId') loginId: string,
+    @Body('password') password: string,
+  ) {
+    return this.authService.login(loginId, password);
+  }
+
+  @HttpCode(200)
+  @Post('refresh')
+  async refresh(@Body('refreshToken') token: string) {
+    return this.authService.refresh(token);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @HttpCode(200)
+  @Post('logout')
+  async logout(@Body('refreshToken') token: string) {
+    await this.authService.logout(token);
+  }
+}

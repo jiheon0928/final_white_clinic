@@ -1,48 +1,50 @@
+// src/registration/dto/create-delivery-driver.dto.ts
+
 import {
   IsString,
   IsInt,
   Min,
-  MaxLength,
   IsEmail,
-  IsOptional,
   IsBoolean,
+  IsOptional,
+  Length,
 } from 'class-validator';
-import { Type } from 'class-transformer';
 
-export class CreateRegistrationDto {
+export class CreateDriverDto {
   @IsString()
-  @MaxLength(50)
+  @Length(1, 50)
   name: string;
 
   @IsInt()
   @Min(20)
-  @Type(() => Number)
   age: number;
 
   @IsString()
-  @MaxLength(30)
+  @Length(1, 30)
   loginId: string;
 
   @IsString()
-  @MaxLength(100)
+  @Length(6, 100)
   password: string;
 
   @IsString()
-  @MaxLength(20)
+  @Length(1, 20)
   phone: string;
 
   @IsString()
-  @MaxLength(200)
+  @Length(1, 200)
   address: string;
 
   @IsEmail()
-  @MaxLength(100)
   email: string;
 
   @IsBoolean()
   approval: boolean;
 
-  @IsString()
   @IsOptional()
+  @IsString()
+  @Length(1, 50)
   benefitType?: string;
 }
+
+// src/registration/dto/update-delivery-driver.dto.ts

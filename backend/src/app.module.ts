@@ -4,14 +4,15 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from './admin/admin.module';
 import { RegistrationModule } from './registration/registration.module';
-import { RoginModule } from './auth/auth.module';
+import { RoginModule } from './modules/auth/auth.module';
 import { ListModule } from './list/list.module';
 import { DeliveryDriver } from './registration/entities/registration.entity';
-import { Benefit } from './benefit/benefit.entity';
+import { Benefit } from './list/entities/benefit.entity';
 import { List } from './list/entities/list.entity';
-import { CompleteState } from './compliteState/compliteState.entity';
-import { Field } from './field/fleid.entity';
-import { RefreshToken } from './auth/dto/refresh-token.entity';
+import { CompleteState } from './list/entities/compliteState.entity';
+import { Field } from './list/entities/fleid.entity';
+import { RefreshToken } from './modules/auth/dto/refresh-token.entity';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { RefreshToken } from './auth/dto/refresh-token.entity';
     RegistrationModule,
     RoginModule,
     ListModule,
+    UserModule,
   ],
 })
 export class AppModule {}

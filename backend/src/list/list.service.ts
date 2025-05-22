@@ -1,5 +1,10 @@
+import { CompleteState } from './entities/compliteState.entity';
 // src/list/list.service.ts
-import { Injectable } from '@nestjs/common';
+import {
+  ForbiddenException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { List } from './entities/list.entity';
@@ -10,6 +15,8 @@ export class ListService {
   constructor(
     @InjectRepository(List)
     private readonly listRepository: Repository<List>,
+    @InjectRepository(CompleteState)
+    private readonly compliteStateRepository: Repository<CompleteState>,
   ) {}
 
   async create(dto: CreateListDto): Promise<List> {
@@ -23,12 +30,53 @@ export class ListService {
     });
     return this.listRepository.save(entity);
   }
-
-  async findList(): Promise<List[]> {
+  // =============================대기 상태 조회============================
+  async findstate(): Promise<List[]> {
     return this.listRepository.find({
-      relations: ['driver', 'field', 'compliteState'], // 필요 없으면 생략 가능
+      where: { compliteState: { status: '대기' } },
+      relations: ['driver', 'field', 'compliteState'],
     });
   }
+  // =============================기사 픽업 로직============================
+  async pickup(taskId: number, driverId: number) {
+    const inProgress = await this.compliteStateRepository.findOneBy({
+      status: '진행',
+    });
+    if (!inProgress) throw new NotFoundException('진행 상태가 없네');
+
+    const task = await this.listRepository.findOne({
+      where: { id: taskId },
+      relations: ['driver', 'field', 'compliteState'],
+    });
+    if (!task) throw new NotFoundException('해당 작업이 없어');
+
+    task.driver = { id: driverId } as any;
+    task.compliteState = inProgress;
+
+    return this.listRepository.save(task);
+  }
+
+  // =============================기사 완료 로직============================
+  async complete(taskId: number, driverId: number): Promise<List> {
+    const task = await this.listRepository.findOne({
+      where: { id: taskId },
+      relations: ['driver', 'field', 'compliteState'],
+    });
+    if (!task) throw new NotFoundException('해당 작업이 없습니다.');
+
+    if (!task.driver || task.driver.id !== driverId) {
+      throw new ForbiddenException('본인이 픽업한 작업만 완료할 수 있습니다.');
+    }
+
+    const done = await this.compliteStateRepository.findOneBy({
+      status: '완료',
+    });
+    if (!done) throw new NotFoundException('완료 상태가 없습니다.');
+
+    task.compliteState = done;
+    return this.listRepository.save(task);
+  }
+
   // =============================주간 조회============================
   async getWeekly(driverId: number) {
     const now = new Date();
@@ -116,34 +164,5 @@ export class ListService {
       })
       .getRawOne();
     return Number(raw.sum) || 0;
-  }
-
-  //          대기중인 일만 조회
-  async findPendingJobs(): Promise<List[]> {
-    return this.listRepository.find({
-      where: { compliteState: { status: '대기' } },
-      relations: ['driver', 'field', 'compliteState'],
-    });
-  }
-
-  //            진행중인 일 조회
-  async findInProgressJobs(driverId: number): Promise<List[]> {
-    return this.listRepository.find({
-      where: {
-        driver: { id: driverId },
-        compliteState: { status: '진행' },
-      },
-      relations: ['driver', 'compliteState', 'field'],
-    });
-  }
-
-  async findCompletedJobs(driverId: number): Promise<List[]> {
-    return this.listRepository.find({
-      where: {
-        driver: { id: driverId },
-        compliteState: { status: '완료' },
-      },
-      relations: ['driver', 'compliteState', 'field'],
-    });
   }
 }

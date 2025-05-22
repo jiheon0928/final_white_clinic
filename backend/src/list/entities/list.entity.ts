@@ -6,9 +6,10 @@ import {
   CreateDateColumn,
   JoinColumn,
 } from 'typeorm';
-import { DeliveryDriver } from 'src/registration/entities/registration.entity';
-import { CompleteState as StatusEntity } from 'src/compliteState/compliteState.entity';
-import { Field } from 'src/field/fleid.entity';
+
+import { CompleteState as StatusEntity } from 'src/list/entities/compliteState.entity';
+import { Field } from 'src/list/entities/fleid.entity';
+import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 
 @Entity()
 export class List {
@@ -18,7 +19,6 @@ export class List {
   @Column({ type: 'varchar', length: 255 })
   worklist: string;
 
-  // 생성 시점의 현재 시간 자동 저장
   @CreateDateColumn({ type: 'timestamp' })
   registrationTime: Date;
 
@@ -43,11 +43,10 @@ export class List {
   @Column()
   driverId: number;
 
-  @ManyToOne(() => DeliveryDriver, { eager: true })
+  @ManyToOne(() => DeliveryDriver, { eager: true, nullable: true })
   @JoinColumn({ name: 'driverId' })
   driver: DeliveryDriver;
 
-  // 상태 relation
   @ManyToOne(() => StatusEntity, { eager: true })
   @JoinColumn({ name: 'compliteStateId' })
   compliteState: StatusEntity;
@@ -55,7 +54,6 @@ export class List {
   @Column()
   compliteStateId: number;
 
-  // 분야 relation
   @ManyToOne(() => Field, { eager: true })
   @JoinColumn({ name: 'fieldId' })
   field: Field;

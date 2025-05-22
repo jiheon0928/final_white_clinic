@@ -6,9 +6,9 @@ import { List } from './entities/list.entity';
 import { ListService } from './list.service';
 import { ListController } from './list.controller';
 
-import { DeliveryDriver } from 'src/registration/entities/registration.entity';
-import { CompleteState as StatusEntity } from 'src/compliteState/compliteState.entity';
-import { Field } from 'src/field/fleid.entity';
+import { CompleteState as StatusEntity } from 'src/list/entities/compliteState.entity';
+import { Field } from 'src/list/entities/fleid.entity';
+import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 
 @Module({
   imports: [

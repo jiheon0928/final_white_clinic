@@ -1,7 +1,18 @@
-import { Controller, Post, Body, Get, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  Param,
+  Query,
+  UseGuards,
+  Req,
+  Patch,
+} from '@nestjs/common';
 import { ListService } from './list.service';
 import { CreateListDto } from './dto/create-list.dto';
 import { List } from './entities/list.entity';
+import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
 
 @Controller('list')
 export class ListController {
@@ -12,24 +23,27 @@ export class ListController {
     return this.listService.create(dto);
   }
 
-  @Get()
-  async findList(): Promise<List[]> {
-    return this.listService.findList();
-  }
-
   @Get('pending')
-  async findPendingJobs(): Promise<List[]> {
-    return this.listService.findPendingJobs();
+  async findstate(): Promise<List[]> {
+    return this.listService.findstate();
   }
 
-  @Get('in-progress/:driverId')
-  findInProgress(@Param('driverId') driverId: string) {
-    return this.listService.findInProgressJobs(+driverId);
+  @Patch(':id/pickup')
+  @UseGuards(JwtAuthGuard)
+  async pickup(
+    @Param('id') id: number,
+    @Req() { user }: Request & { user: { id: number } },
+  ) {
+    return this.listService.pickup(id, user.id);
   }
 
-  @Get('completed/:driverId')
-  findCompleted(@Param('driverId') driverId: string) {
-    return this.listService.findCompletedJobs(+driverId);
+  @Patch(':id/complete')
+  @UseGuards(JwtAuthGuard)
+  async complete(
+    @Param('id') id: number,
+    @Req() { user }: Request & { user: { id: number } },
+  ) {
+    return this.listService.complete(id, user.id);
   }
 
   @Get('weekly')

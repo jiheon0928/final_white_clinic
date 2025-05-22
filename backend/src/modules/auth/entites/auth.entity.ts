@@ -6,7 +6,7 @@ import {
   Unique,
   OneToMany,
 } from 'typeorm';
-import { Benefit } from 'src/benefit/benefit.entity';
+import { Benefit } from 'src/list/entities/benefit.entity';
 // import { BenefitEnum } from 'src/components/enum/benefit.enum';
 import { List } from 'src/list/entities/list.entity';
 
