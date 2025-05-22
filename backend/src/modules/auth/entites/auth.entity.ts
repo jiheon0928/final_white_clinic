@@ -5,10 +5,14 @@ import {
   Check,
   Unique,
   OneToMany,
+  ManyToOne,
 } from 'typeorm';
 import { Benefit } from 'src/list/entities/benefit.entity';
 // import { BenefitEnum } from 'src/components/enum/benefit.enum';
 import { List } from 'src/list/entities/list.entity';
+import { PartialType } from '@nestjs/mapped-types';
+import { IsNumber, IsOptional } from 'class-validator';
+import { Type } from 'class-transformer';
 
 @Entity({ name: 'delivery_driver' })
 @Check(`"age" >= 20`)
@@ -41,11 +45,10 @@ export class DeliveryDriver {
   @Column()
   approval: boolean;
 
-  @Column({ type: 'varchar', length: 50, nullable: true, comment: '혜택 유형' })
-  benefitType?: string;
+  fitType?: string;
 
-  @OneToMany(() => Benefit, (b) => b.driver, { eager: true })
-  benefits: Benefit[];
+  @ManyToOne(() => Benefit, (b) => b.driver, { nullable: true, eager: true })
+  benefit: Benefit;
 
   @OneToMany(() => List, (list) => list.driver)
   lists: List[];

@@ -10,6 +10,7 @@ import {
 import { CompleteState as StatusEntity } from 'src/list/entities/compliteState.entity';
 import { Field } from 'src/list/entities/fleid.entity';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
+import { PartialType } from '@nestjs/mapped-types';
 
 @Entity()
 export class List {
@@ -61,3 +62,5 @@ export class List {
   @Column()
   fieldId: number;
 }
+
+export class UpdateListDto extends PartialType(List) {}

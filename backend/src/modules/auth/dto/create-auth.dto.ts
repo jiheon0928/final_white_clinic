@@ -1,5 +1,6 @@
 // src/registration/dto/create-delivery-driver.dto.ts
 
+import { PartialType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';
 import {
   IsString,
@@ -7,7 +8,6 @@ import {
   Min,
   IsEmail,
   IsBoolean,
-  IsOptional,
   Length,
 } from 'class-validator';
 
@@ -43,11 +43,6 @@ export class CreateDriverDto {
   @Type(() => Boolean)
   @IsBoolean()
   approval: boolean;
-
-  @IsOptional()
-  @IsString()
-  @Length(1, 50)
-  benefitType?: string;
 }
 
-// src/registration/dto/update-delivery-driver.dto.ts
+export class UpdateDriverDto extends PartialType(CreateDriverDto) {}

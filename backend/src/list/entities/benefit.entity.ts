@@ -1,5 +1,5 @@
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity('benefit')
 export class Benefit {
@@ -9,6 +9,6 @@ export class Benefit {
   @Column({ type: 'varchar', length: 50, comment: '혜택 유형' })
   benefitType: string;
 
-  @ManyToOne(() => DeliveryDriver, (driver) => driver.benefits)
-  driver: DeliveryDriver;
+  @OneToMany(() => DeliveryDriver, (driver) => driver.benefit)
+  driver: DeliveryDriver[];
 }
