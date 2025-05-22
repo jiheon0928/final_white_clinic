@@ -1,11 +1,12 @@
-import { Text, View } from "react-native";
+import React from "react";
+import { View, Text } from "react-native";
 
-const Sales = () => {
+const sales = () => {
   return (
     <View>
-      <Text>매출페이지</Text>
+      <Text>Sales</Text>
     </View>
   );
 };
 
-export default Sales;
+export default sales;

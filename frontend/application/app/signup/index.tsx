@@ -73,8 +73,6 @@ const Signup = () => {
       />
       <Text style={styles.label}>생년월일</Text>
       <Calender
-        placeholder="생년월일"
-        value={birth}
         onChangeDate={onChangeDate}
         date={birth ? new Date(birth) : new Date()}
         showDate={showDate}
