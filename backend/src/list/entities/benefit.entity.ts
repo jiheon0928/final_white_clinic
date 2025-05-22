@@ -1,6 +1,5 @@
+import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-
-import { DeliveryDriver } from 'src/registration/entities/registration.entity';
 
 @Entity('benefit')
 export class Benefit {

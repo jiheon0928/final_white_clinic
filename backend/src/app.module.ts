@@ -3,26 +3,35 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from './admin/admin.module';
-import { RegistrationModule } from './registration/registration.module';
-import { RoginModule } from './modules/auth/auth.module';
 import { ListModule } from './list/list.module';
-import { DeliveryDriver } from './registration/entities/registration.entity';
 import { Benefit } from './list/entities/benefit.entity';
 import { List } from './list/entities/list.entity';
 import { CompleteState } from './list/entities/compliteState.entity';
 import { Field } from './list/entities/fleid.entity';
 import { RefreshToken } from './modules/auth/dto/refresh-token.entity';
 import { UserModule } from './modules/user/user.module';
+import { DeliveryDriver } from './modules/auth/entites/auth.entity';
+import { AuthModule } from './modules/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    JwtModule.registerAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>('JWT_SECRET'),
+        signOptions: { expiresIn: '1h' },
+      }),
+    }),
 
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
+
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
         host: config.get<string>('DB_HOST'),
@@ -43,8 +52,7 @@ import { UserModule } from './modules/user/user.module';
     }),
 
     AdminModule,
-    RegistrationModule,
-    RoginModule,
+    AuthModule,
     ListModule,
     UserModule,
   ],

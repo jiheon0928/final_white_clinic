@@ -10,6 +10,7 @@ import { DeliveryDriver } from './entites/auth.entity';
 import { TokenService } from './service/token.service';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { RefreshTokenService } from './service/refresh-token.service';
 
 @Module({
   imports: [
@@ -17,7 +18,13 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard';
     PassportModule.register({ defaultStrategy: 'jwt' }),
     JwtModule.register({}), // secret/opts는 TokenService에서 처리
   ],
-  providers: [AuthService, TokenService, JwtStrategy, JwtAuthGuard],
+  providers: [
+    AuthService,
+    TokenService,
+    JwtStrategy,
+    JwtAuthGuard,
+    RefreshTokenService,
+  ],
   controllers: [AuthController],
   exports: [AuthService, JwtAuthGuard],
 })
