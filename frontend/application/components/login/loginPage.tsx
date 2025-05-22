@@ -1,17 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  View,
-  Image,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
+import { Animated, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import Input from "../common/Input";
 import DefaultBtn from "../common/DefualtBtn";
 import { router } from "expo-router";
 import Page from "../common/Page";
+import Input from "../common/Input";
 
 const LoginPage = () => {
   const [isReady, setIsReady] = useState(false);
@@ -50,10 +43,11 @@ const LoginPage = () => {
       <View style={{ flex: 1, justifyContent: "center", gap: 10 }}>
         <Input title="아이디" />
         <Input title="비밀번호" />
-
         <View>
           <DefaultBtn
-            onPress={() => router.push("/rider/(tabs)/waiting")}
+            onPress={() =>
+              router.push("/admin/CreateReservation/CreateReservationPage")
+            }
             text="로그인"
           />
           <DefaultBtn onPress={() => router.push("/signup")} text="회원가입" />
