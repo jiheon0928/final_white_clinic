@@ -1,16 +1,9 @@
-import { useEffect, useRef, useState } from "react";
-import {
-  Animated,
-  View,
-  Image,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
-} from "react-native";
-import * as SplashScreen from "expo-splash-screen";
-import Input from "../common/Input";
-import DefaultBtn from "../common/DefualtBtn";
 import { router } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
+import { useEffect, useRef, useState } from "react";
+import { Animated, View } from "react-native";
+import DefaultBtn from "../common/DefualtBtn";
+import Input from "../common/Input";
 import Page from "../common/Page";
 
 const LoginPage = () => {

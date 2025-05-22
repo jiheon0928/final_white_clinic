@@ -62,7 +62,7 @@ const DateInput = ({
 const styles = StyleSheet.create({
   inputWrap: {
     flexDirection: "row",
-    alignItems: "flex-start", // 가운데 → 왼쪽 정렬로 변경
+    alignItems: "flex-start",
     gap: 10,
   },
   inputRow: {

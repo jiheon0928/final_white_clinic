@@ -118,23 +118,16 @@ const DateTimeInput = ({
 const styles = StyleSheet.create({
   inputWrap: {
     flexDirection: "row",
-    alignItems: "center",
+    flexWrap: "wrap",
     gap: 10,
+    justifyContent: "space-between",
+    width: "100%",
   },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    fontSize: 15,
-    backgroundColor: "#fff",
+  inputCol: {
+    flexGrow: 1,
+    flexShrink: 1,
+    flexBasis: "45%",
+    minWidth: 160,
   },
   title: {
     fontSize: 15,
@@ -143,10 +136,27 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: "bold",
   },
-  inputCol: { flexDirection: "column", alignItems: "flex-start" },
+  inputRow: {
+    position: "relative",
+    width: "100%",
+    marginBottom: 12,
+  },
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#bbb",
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 15,
+    backgroundColor: "#fff",
+    paddingRight: 40,
+  },
   icon: {
-    padding: 8,
-    marginLeft: -36,
+    position: "absolute",
+    right: 10,
+    top: "50%",
+    transform: [{ translateY: -11 }],
     zIndex: 1,
   },
 });
