@@ -1,23 +1,26 @@
-import { Controller, Get, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Body, Patch, Param, Query } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { CreateDriverDto } from '../auth/dto/create-auth.dto';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @Get()
+  async findAll(CreateDriverDto: CreateDriverDto) {
+    return await this.userService.findAll(CreateDriverDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  @Get(':name')
+  async findALl(@Query('name') name: string) {
+    return await this.userService.findbyName(name);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  @Patch(':name')
+  async update(
+    @Param('name') name: string,
+    @Body() CreateDriverDto: CreateDriverDto,
+  ) {
+    return await this.userService.update(name, CreateDriverDto);
   }
 }
