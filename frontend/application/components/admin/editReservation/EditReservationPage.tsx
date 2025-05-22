@@ -1,6 +1,7 @@
 import Address from "@/components/common/Address";
-import DateTimeInput from "@/components/common/calender";
-import CheckBox from "@/components/common/CheckBox";
+
+import CheckBoxBundle from "@/components/common/CheckBoxBundle";
+import DateTimeInput from "@/components/common/DateTimeInput";
 import DefaultBtn from "@/components/common/DefualtBtn";
 import Input from "@/components/common/Input";
 import Page from "@/components/common/Page";
@@ -40,18 +41,12 @@ const EditReservationPage = () => {
 
           <Input title={"고객 요청 사항"} numberOfLines={2} />
           <Text style={styles.sectionTitle}>가능 품목 리스트</Text>
-          <View style={styles.checkboxRow}>
-            <CheckBox
-              label="세탁기"
-              value={items.washer}
-              onValueChange={(val) => setItems({ ...items, washer: val })}
-            />
-            <CheckBox
-              label="에어컨"
-              value={items.aircon}
-              onValueChange={(val) => setItems({ ...items, aircon: val })}
-            />
-          </View>
+          <CheckBoxBundle
+            ACvalue={items.aircon}
+            onValueChangAC={(val) => setItems({ ...items, aircon: val })}
+            WSvalue={items.washer}
+            onValueChangeWS={(val) => setItems({ ...items, washer: val })}
+          />
 
           <DateTimeInput
             date={selectedDate}

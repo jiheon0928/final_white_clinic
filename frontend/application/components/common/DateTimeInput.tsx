@@ -1,19 +1,29 @@
 import { Ionicons } from "@expo/vector-icons";
 import React from "react";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 type DateTimeInputProps = {
   date: Date;
   showDate: boolean;
+  showTime: boolean;
   setShowDate: (b: boolean) => void;
+  setShowTime: (b: boolean) => void;
   onChangeDate: (d: Date) => void;
 };
 
-const DateInput = ({
+const DateTimeInput = ({
   date,
   showDate,
+  showTime,
   setShowDate,
+  setShowTime,
   onChangeDate,
 }: DateTimeInputProps) => {
   const formatDate = (d: Date) =>
@@ -21,9 +31,18 @@ const DateInput = ({
       d.getDate()
     ).padStart(2, "0")}`;
 
+  const formatTime = (d: Date) =>
+    `${String(d.getHours()).padStart(2, "0")}:${String(d.getMinutes()).padStart(
+      2,
+      "0"
+    )}`;
+
   return (
     <View style={styles.inputWrap}>
+      {/* 날짜 인풋 */}
       <View style={styles.inputCol}>
+        <Text style={styles.title}>방문 날짜</Text>
+
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
@@ -39,6 +58,25 @@ const DateInput = ({
         </View>
       </View>
 
+      {/* 시간 인풋 */}
+      <View style={styles.inputCol}>
+        <Text style={styles.title}>방문 시간</Text>
+        <View style={styles.inputRow}>
+          <TextInput
+            style={styles.input}
+            value={formatTime(date)}
+            editable={false}
+          />
+          <TouchableOpacity
+            onPress={() => setShowTime(true)}
+            style={styles.icon}
+          >
+            <Ionicons name="time-outline" size={22} color="#333" />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      {/* 날짜 선택기 */}
       <DateTimePickerModal
         isVisible={showDate}
         mode="date"
@@ -55,6 +93,24 @@ const DateInput = ({
         }}
         onCancel={() => setShowDate(false)}
       />
+
+      {/* 시간 선택기 */}
+      <DateTimePickerModal
+        isVisible={showTime}
+        mode="time"
+        date={date}
+        onConfirm={(selected) => {
+          setShowTime(false);
+          if (selected) {
+            const newDate = new Date(date);
+            newDate.setHours(selected.getHours());
+            newDate.setMinutes(selected.getMinutes());
+            onChangeDate(newDate);
+          }
+        }}
+        onCancel={() => setShowTime(false)}
+        is24Hour={true}
+      />
     </View>
   );
 };
@@ -62,7 +118,7 @@ const DateInput = ({
 const styles = StyleSheet.create({
   inputWrap: {
     flexDirection: "row",
-    alignItems: "flex-start", // 가운데 → 왼쪽 정렬로 변경
+    alignItems: "center",
     gap: 10,
   },
   inputRow: {
@@ -95,4 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default DateInput;
+export default DateTimeInput;
