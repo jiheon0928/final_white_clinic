@@ -1,17 +1,24 @@
 import { Injectable } from '@nestjs/common';
-import { CreateDriverDto } from '../auth/dto/create-auth.dto';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { DeliveryDriver } from '../auth/entites/auth.entity';
 
 @Injectable()
 export class UserService {
-  findAll(CreateDriverDto: CreateDriverDto) {
-    return `This action returns all user`;
+  constructor(
+    @InjectRepository(DeliveryDriver)
+    private readonly driverRepo: Repository<DeliveryDriver>,
+  ) {}
+
+  async findAll(): Promise<DeliveryDriver[]> {
+    return await this.driverRepo.find();
   }
 
-  findbyName(name: string) {
-    return `This action returns a #${name} user`;
+  async findbyName(name: string) {
+    return await this.driverRepo.findOneBy({ name });
   }
 
-  update(name: string, CreateDriverDto: CreateDriverDto) {
-    return `This action updates a #${name} user`;
+  async update(name: string, DeliveryDriver: DeliveryDriver) {
+    return await this.driverRepo.update(name, DeliveryDriver);
   }
 }

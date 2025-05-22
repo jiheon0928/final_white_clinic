@@ -11,12 +11,22 @@ import { TokenService } from './service/token.service';
 import { JwtStrategy } from './strategy/jwt.strategy';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { RefreshTokenService } from './service/refresh-token.service';
+import { ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([DeliveryDriver, RefreshToken]),
     PassportModule.register({ defaultStrategy: 'jwt' }),
-    JwtModule.register({}), // secret/opts는 TokenService에서 처리
+    JwtModule.registerAsync({
+      global: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: '111',
+        signOptions: { expiresIn: '1h' },
+      }),
+    }),
   ],
   providers: [
     AuthService,

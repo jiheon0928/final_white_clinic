@@ -1,5 +1,4 @@
 import { CompleteState } from './entities/compliteState.entity';
-// src/list/list.service.ts
 import {
   ForbiddenException,
   Injectable,
@@ -37,6 +36,11 @@ export class ListService {
       relations: ['driver', 'field', 'compliteState'],
     });
   }
+
+  async listupdate(name: string, list: List) {
+    return this.listRepository.update(name, list);
+  }
+
   // =============================기사 픽업 로직============================
   async pickup(taskId: number, driverId: number) {
     const inProgress = await this.compliteStateRepository.findOneBy({

@@ -28,6 +28,11 @@ export class ListController {
     return this.listService.findstate();
   }
 
+  @Patch(':name')
+  async listupdate(@Param('name') name: string, @Body() list: List) {
+    return this.listService.listupdate(name, list);
+  }
+
   @Patch(':id/pickup')
   @UseGuards(JwtAuthGuard)
   async pickup(

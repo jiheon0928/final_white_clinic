@@ -1,14 +1,14 @@
 import { Controller, Get, Body, Patch, Param, Query } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateDriverDto } from '../auth/dto/create-auth.dto';
+import { DeliveryDriver } from '../auth/entites/auth.entity';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
   @Get()
-  async findAll(CreateDriverDto: CreateDriverDto) {
-    return await this.userService.findAll(CreateDriverDto);
+  async findAll() {
+    return await this.userService.findAll();
   }
 
   @Get(':name')
@@ -19,8 +19,8 @@ export class UserController {
   @Patch(':name')
   async update(
     @Param('name') name: string,
-    @Body() CreateDriverDto: CreateDriverDto,
+    @Body() DeliveryDriver: DeliveryDriver,
   ) {
-    return await this.userService.update(name, CreateDriverDto);
+    return await this.userService.update(name, DeliveryDriver);
   }
 }
