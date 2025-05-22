@@ -1,7 +1,12 @@
-import styles from "@/styles/EditReservation/EditReservationStyle";
 import { router } from "expo-router";
 import React from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 type AddressProps = {
   zipCode: string;
@@ -56,5 +61,41 @@ const Address = ({
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  label: {
+    fontSize: 15,
+    marginLeft: 8,
+    marginBottom: 6,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#bbb",
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 15,
+    backgroundColor: "#fff",
+    width: "100%",
+    textAlignVertical: "top",
+  },
+  zipRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  zipButton: {
+    marginLeft: 10,
+    backgroundColor: "#eee",
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    borderRadius: 6,
+  },
+  zipButtonText: {
+    fontSize: 13,
+  },
+});
 
 export default Address;

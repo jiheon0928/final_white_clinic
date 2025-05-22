@@ -1,14 +1,19 @@
+import CalenderInput from "@/components/common/calender";
+import Page from "@/components/common/Page";
+import Input from "@/components/common/Input";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
-  View,
 } from "react-native";
-// import DateTimePickerModal from "react-native-modal-datetime-picker";
+import Address from "@/components/common/Address";
+import CheckBoxBundle from "@/components/common/CheckBoxBundle";
+import DefaultBtn from "@/components/common/DefualtBtn";
 
 const edit = () => {
   const [name, setName] = useState("");
@@ -44,125 +49,39 @@ const edit = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-        <Ionicons name="arrow-back" size={28} color="#222" />
-      </TouchableOpacity>
-      <Text style={styles.title}>기사 정보 수정</Text>
-      <Text style={styles.label}>이름</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="이름"
-        value={name}
-        onChangeText={setName}
-      />
-      <Text style={styles.label}>전화번호</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="전화번호"
-        value={phone}
-        onChangeText={setPhone}
-        keyboardType="phone-pad"
-      />
-      <Text style={styles.label}>이메일</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="이메일"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <Text style={styles.label}>생년월일</Text>
-      <View style={styles.inputRow}>
-        <TextInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="생년월일"
-          value={birth}
-          editable={false}
+    <Page>
+      <ScrollView>
+        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
+          <Ionicons name="arrow-back" size={28} color="#222" />
+        </TouchableOpacity>
+        <Text style={styles.title}>기사 정보 수정</Text>
+        <Input title="이름" onChangeText={setName} />
+        <Input title="전화번호" onChangeText={setPhone} />
+        <Input title="이메일" onChangeText={setEmail} />
+        <Text style={styles.label}>생년월일</Text>
+        <CalenderInput
+          date={birth ? new Date(birth) : new Date()}
+          showDate={showDate}
+          setShowDate={setShowDate}
+          onChangeDate={onChangeDate}
         />
-        <TouchableOpacity
-          onPress={() => setShowDate(true)}
-          style={styles.iconBtn}
-        >
-          <Ionicons name="calendar-outline" size={22} color="#222" />
-        </TouchableOpacity>
-      </View>
-      {/* <DateTimePickerModal
-        isVisible={showDate}
-        mode="date"
-        onConfirm={onChangeDate}
-        onCancel={() => setShowDate(false)}
-        date={birth ? new Date(birth) : new Date()}
-      /> */}
-
-      <Text style={styles.label}>주소</Text>
-      <View style={styles.inputRow}>
-        <TextInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="우편번호"
-          value={zipcodeField}
-          onChangeText={setZipcodeField}
+        <Address
+          zipCode={zipcodeField}
+          address={addressField}
+          onAddressChange={setAddressField}
+          detailAddress={detail}
+          onDetailAddressChange={setDetail}
         />
-        <TouchableOpacity style={styles.zipBtn}>
-          <Text onPress={clickAddress} style={styles.zipBtnText}>
-            우편번호찾기
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <TextInput
-        style={styles.input}
-        placeholder="도로명 주소"
-        value={addressField}
-        onChangeText={setAddress}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="상세주소"
-        value={detail}
-        onChangeText={setDetail}
-      />
-
-      <Text style={styles.label}>가능 품목 리스트</Text>
-      <View style={styles.checkboxRow}>
-        <TouchableOpacity
-          style={styles.checkbox}
-          onPress={() => setItemWasher((v) => !v)}
-        >
-          <View
-            style={[styles.checkBoxSquare, itemWasher && styles.checkedBox]}
-          >
-            {itemWasher && <Ionicons name="checkmark" size={16} color="#222" />}
-          </View>
-          <Text style={styles.checkLabel}>세탁기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.checkbox}
-          onPress={() => setItemAircon((v) => !v)}
-        >
-          <View
-            style={[styles.checkBoxSquare, itemAircon && styles.checkedBox]}
-          >
-            {itemAircon && <Ionicons name="checkmark" size={16} color="#222" />}
-          </View>
-          <Text style={styles.checkLabel}>에어컨</Text>
-        </TouchableOpacity>
-      </View>
-      <Text style={[styles.infoText, { marginTop: 10 }]}>관리자 메모</Text>
-      <TextInput
-        style={styles.memoInput}
-        multiline
-        placeholder="메모를 입력하세요"
-        placeholderTextColor="#888"
-        value={memo}
-        onChangeText={setMemo}
-      />
-      <TouchableOpacity
-        style={styles.submitBtn}
-        onPress={() => router.replace("/")}
-      >
-        <Text style={styles.submitBtnText}>완료</Text>
-      </TouchableOpacity>
-    </View>
+        <CheckBoxBundle
+          ACvalue={itemAircon}
+          onValueChangAC={setItemAircon}
+          WSvalue={itemWasher}
+          onValueChangeWS={setItemWasher}
+        />
+        <Input title="관리자 메모" onChangeText={setMemo} numberOfLines={4} />
+        <DefaultBtn text="완료" onPress={() => router.replace("/")} />
+      </ScrollView>
+    </Page>
   );
 };
 

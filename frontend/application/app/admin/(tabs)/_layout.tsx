@@ -1,6 +1,5 @@
 import TabIcon from "@/components/common/TabIcon";
 import { adminTabs } from "@/dummyData/admintab";
-import { Ionicons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
 import { Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
