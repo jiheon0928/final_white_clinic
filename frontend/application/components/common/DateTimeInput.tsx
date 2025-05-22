@@ -39,10 +39,9 @@ const DateTimeInput = ({
 
   return (
     <View style={styles.inputWrap}>
-      {/* 날짜 인풋 */}
+      {/* 방문 날짜 */}
       <View style={styles.inputCol}>
         <Text style={styles.title}>방문 날짜</Text>
-
         <View style={styles.inputRow}>
           <TextInput
             style={styles.input}
@@ -58,7 +57,7 @@ const DateTimeInput = ({
         </View>
       </View>
 
-      {/* 시간 인풋 */}
+      {/* 방문 시간 */}
       <View style={styles.inputCol}>
         <Text style={styles.title}>방문 시간</Text>
         <View style={styles.inputRow}>
@@ -118,23 +117,14 @@ const DateTimeInput = ({
 const styles = StyleSheet.create({
   inputWrap: {
     flexDirection: "row",
-    alignItems: "center",
+    flexWrap: "nowrap", // 🔥 한 줄 유지
     gap: 10,
+    justifyContent: "space-between",
+    width: "100%",
   },
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  input: {
+  inputCol: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    fontSize: 15,
-    backgroundColor: "#fff",
+    maxWidth: "48%", // 🔥 두 칼럼 나란히 보이게
   },
   title: {
     fontSize: 15,
@@ -143,10 +133,27 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: "bold",
   },
-  inputCol: { flexDirection: "column", alignItems: "flex-start" },
+  inputRow: {
+    position: "relative",
+    width: "100%",
+    marginBottom: 12,
+  },
+  input: {
+    width: "100%",
+    borderWidth: 1,
+    borderColor: "#bbb",
+    borderRadius: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+    fontSize: 15,
+    backgroundColor: "#fff",
+    paddingRight: 40,
+  },
   icon: {
-    padding: 8,
-    marginLeft: -36,
+    position: "absolute",
+    right: 10,
+    top: "50%",
+    transform: [{ translateY: -11 }],
     zIndex: 1,
   },
 });
