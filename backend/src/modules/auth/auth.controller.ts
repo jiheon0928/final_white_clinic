@@ -1,12 +1,5 @@
 // src/auth/auth.controller.ts
-import {
-  Controller,
-  Post,
-  Body,
-  Req,
-  UseGuards,
-  HttpCode,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateDriverDto } from './dto/create-auth.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';

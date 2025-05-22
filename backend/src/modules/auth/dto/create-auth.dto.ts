@@ -1,5 +1,6 @@
 // src/registration/dto/create-delivery-driver.dto.ts
 
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsInt,
@@ -15,6 +16,7 @@ export class CreateDriverDto {
   @Length(1, 50)
   name: string;
 
+  @Type(() => Number)
   @IsInt()
   @Min(20)
   age: number;
@@ -38,6 +40,7 @@ export class CreateDriverDto {
   @IsEmail()
   email: string;
 
+  @Type(() => Boolean)
   @IsBoolean()
   approval: boolean;
 
