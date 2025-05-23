@@ -1,4 +1,4 @@
-import Address from "@/components/common/Address";
+import Address from "@/components/common/AddressInput";
 
 import CheckBoxBundle from "@/components/common/CheckBoxBundle";
 import DateTimeInput from "@/components/common/DateTimeInput";
@@ -8,7 +8,8 @@ import Page from "@/components/common/Page";
 import styles from "@/styles/EditReservation/EditReservationStyle";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, View } from "react-native";
-
+import BackBtnHeader from "@/components/common/header/BackBtnHeader";
+import { router } from "expo-router";
 const EditReservationPage = () => {
   const [items, setItems] = useState({
     washer: false,
@@ -21,13 +22,13 @@ const EditReservationPage = () => {
 
   const handleUpdate = () => {
     Alert.alert("수정 완료", "예약 정보가 수정되었습니다.");
+    router.back();
   };
 
   return (
     <Page>
+      <BackBtnHeader title="예약수정" />
       <ScrollView contentContainerStyle={styles.container}>
-        <Text style={styles.title}>예약수정</Text>
-
         <View style={styles.card}>
           <Input title={"고객명"} numberOfLines={1} />
           <Input title={"연락처"} numberOfLines={1} />
@@ -68,7 +69,7 @@ const EditReservationPage = () => {
             />
             <Text style={styles.wonmargin}>원</Text>
           </View>
-          <DefaultBtn text={"확인"} onPress={handleUpdate} />
+          <DefaultBtn text={"완료"} onPress={handleUpdate} />
         </View>
       </ScrollView>
     </Page>

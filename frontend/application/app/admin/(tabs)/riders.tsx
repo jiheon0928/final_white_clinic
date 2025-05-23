@@ -3,20 +3,18 @@ import SearchInput from "@/components/common/SearchInput";
 import Card from "@/components/common/Card";
 import { router } from "expo-router";
 import { riderDummy } from "@/dummyData/riderData";
-import DetailBtn from "@/components/common/DetailBtn";
 import Page from "@/components/common/Page";
+import BetweenHeader from "@/components/common/header/BetweenHeader";
+
 const Riders = () => {
   return (
-    // 헤더 작업 끝나면 해더 추가 해서 UI 맞추기
     <Page>
-      <DetailBtn
-        name="승인대기"
+      <BetweenHeader
+        title="기사 현황"
+        btnName="승인대기"
         onPress={() => router.push("/admin/riders/pending/page")}
-        position="absolute"
-        top={30}
-        right={0}
       />
-      <SearchInput placeholder="" onChangeText={() => {}} />
+      <SearchInput placeholder="검색하세요" onChangeText={() => {}} />
       <ScrollView>
         {riderDummy.map((rider) => (
           <Card

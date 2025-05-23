@@ -7,7 +7,7 @@ export const ReservationInfo = () => {
   const reservation = reservationData[0]; // 첫 번째 예약 데이터를 가져옴
 
   return (
-    <Layout title="예약 상세 정보">
+    <Layout title="예약 상세 정보" className="h-screen">
       <div key={reservation.id} className="space-y-6">
         <div className="bg-gray-50 p-6 rounded-lg">
           <h2 className="text-xl font-semibold text-blue-600 mb-4 border-b pb-2">

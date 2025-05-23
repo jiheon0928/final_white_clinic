@@ -19,7 +19,8 @@ export type DetailBtnProps = {
 
 export type InputProps = {
   title: string;
-  inputStyle?: StyleProp<TextStyle>;
+  value?: string;
+
   onChangeText?: (text: string) => void;
   numberOfLines?: number;
   containerStyle?: StyleProp<TextStyle>;

@@ -1,10 +1,11 @@
-import Address from "@/components/common/Address";
+import AddressInput from "@/components/common/AddressInput";
 import CheckBoxBundle from "@/components/common/CheckBoxBundle";
 import DateTimeInput from "@/components/common/DateTimeInput";
 import DefaultBtn from "@/components/common/DefualtBtn";
 import Input from "@/components/common/Input";
 import Page from "@/components/common/Page";
 import styles from "@/styles/EditReservation/EditReservationStyle";
+import { router } from "expo-router";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, View } from "react-native";
 
@@ -29,7 +30,7 @@ const CreateReservationPage = () => {
           <Input title={"고객명"} numberOfLines={1} />
           <Input title={"연락처"} numberOfLines={1} />
 
-          <Address />
+          <AddressInput />
 
           <Input title={"고객 요청 사항"} numberOfLines={2} />
           <CheckBoxBundle
