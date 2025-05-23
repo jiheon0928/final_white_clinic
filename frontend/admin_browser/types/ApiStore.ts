@@ -10,3 +10,4 @@ export type ApiStore = {
   getReservations: () => Promise<void>;
   getVerificationPending: () => Promise<void>;
 };
+//;
