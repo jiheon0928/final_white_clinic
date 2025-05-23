@@ -1,4 +1,4 @@
-import CalenderInput from "@/components/common/calender";
+import CalenderInput from "@/components/common/CalenderInput";
 import Page from "@/components/common/Page";
 import Input from "@/components/common/Input";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,7 +11,7 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import Address from "@/components/common/Address";
+import Address from "@/components/common/AddressInput";
 import CheckBoxBundle from "@/components/common/CheckBoxBundle";
 import DefaultBtn from "@/components/common/DefualtBtn";
 

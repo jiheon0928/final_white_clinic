@@ -5,19 +5,23 @@ import { StyleSheet, TextInput, View } from "react-native";
 const Input = ({
   title,
   onChangeText,
-  inputStyle,
-  numberOfLines,
+  numberOfLines = 1,
+  value,
 }: InputProps) => {
+  const lineHeight = 20;
+  const calculatedHeight = numberOfLines * lineHeight + 20;
+
   return (
-    <View style={[inputStyles.container]}>
+    <View style={inputStyles.container}>
       <Text style={inputStyles.title}>{title}</Text>
       <TextInput
-        style={[inputStyles.input, inputStyle]}
+        value={value}
         onChangeText={onChangeText}
-        multiline={true}
-        textAlignVertical="top"
-        scrollEnabled={true}
+        multiline
         numberOfLines={numberOfLines}
+        style={[inputStyles.input, { height: calculatedHeight }]}
+        scrollEnabled={true}
+        textAlignVertical="top"
       />
     </View>
   );

@@ -1,14 +1,12 @@
-import { Ionicons } from "@expo/vector-icons";
+import AddressInput from "@/components/common/AddressInput";
+import CheckBoxBundle from "@/components/common/CheckBoxBundle";
+import DefaultBtn from "@/components/common/DefualtBtn";
+import BackBtnHeader from "@/components/common/header/BackBtnHeader";
+import Input from "@/components/common/Input";
+import Page from "@/components/common/Page";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import Calender from "@/components/common/calender";
+import { StyleSheet } from "react-native";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -43,101 +41,27 @@ const Signup = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-        <Ionicons name="arrow-back" size={28} color="#222" />
-      </TouchableOpacity>
-      <Text style={styles.title}>회원가입</Text>
-      <Text style={styles.label}>이름</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="이름"
-        value={name}
-        onChangeText={setName}
+    <Page>
+      <BackBtnHeader title="회원가입" />
+      <Input title="이름" onChangeText={setName} />
+      <Input title="전화번호" onChangeText={setPhone} />
+      <Input title="이메일" onChangeText={setEmail} numberOfLines={4} />
+      <AddressInput
+        zipCode={zipcodeField}
+        address={addressField}
+        onAddressChange={setAddress}
+        detailAddress={detail}
+        onDetailAddressChange={setDetail}
       />
-      <Text style={styles.label}>전화번호</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="전화번호"
-        value={phone}
-        onChangeText={setPhone}
-        keyboardType="phone-pad"
-      />
-      <Text style={styles.label}>이메일</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="이메일"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
-      <Text style={styles.label}>생년월일</Text>
-      <Calender
-        onChangeDate={onChangeDate}
-        date={birth ? new Date(birth) : new Date()}
-        showDate={showDate}
-        setShowDate={setShowDate}
-      />
-      <Text style={styles.label}>주소</Text>
-      <View style={styles.inputRow}>
-        <TextInput
-          style={[styles.input, { flex: 1 }]}
-          placeholder="우편번호"
-          value={zipcodeField}
-          onChangeText={setZipcodeField}
-        />
-        <TouchableOpacity style={styles.zipBtn}>
-          <Text onPress={clickAddress} style={styles.zipBtnText}>
-            우편번호찾기
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <TextInput
-        style={styles.input}
-        placeholder="도로명 주소"
-        value={addressField}
-        onChangeText={setAddress}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="상세주소"
-        value={detail}
-        onChangeText={setDetail}
+      <CheckBoxBundle
+        ACvalue={itemAircon}
+        onValueChangAC={setItemAircon}
+        WSvalue={itemWasher}
+        onValueChangeWS={setItemWasher}
       />
 
-      <Text style={styles.label}>가능 품목 리스트</Text>
-      <View style={styles.checkboxRow}>
-        <TouchableOpacity
-          style={styles.checkbox}
-          onPress={() => setItemWasher((v) => !v)}
-        >
-          <View
-            style={[styles.checkBoxSquare, itemWasher && styles.checkedBox]}
-          >
-            {itemWasher && <Ionicons name="checkmark" size={16} color="#222" />}
-          </View>
-          <Text style={styles.checkLabel}>세탁기</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.checkbox}
-          onPress={() => setItemAircon((v) => !v)}
-        >
-          <View
-            style={[styles.checkBoxSquare, itemAircon && styles.checkedBox]}
-          >
-            {itemAircon && <Ionicons name="checkmark" size={16} color="#222" />}
-          </View>
-          <Text style={styles.checkLabel}>에어컨</Text>
-        </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity
-        style={styles.submitBtn}
-        onPress={() => router.replace("/")}
-      >
-        <Text style={styles.submitBtnText}>완료</Text>
-      </TouchableOpacity>
-    </View>
+      <DefaultBtn text="완료" onPress={() => router.replace("/")} />
+    </Page>
   );
 };
 

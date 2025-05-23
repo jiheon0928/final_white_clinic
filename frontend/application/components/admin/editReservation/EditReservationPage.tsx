@@ -1,4 +1,4 @@
-import Address from "@/components/common/Address";
+import Address from "@/components/common/AddressInput";
 
 import CheckBoxBundle from "@/components/common/CheckBoxBundle";
 import DateTimeInput from "@/components/common/DateTimeInput";

@@ -17,7 +17,7 @@ type AddressProps = {
   onDetailAddressChange: (text: string) => void;
 };
 
-const Address = ({
+const AddressInput = ({
   zipCode,
   address,
   onAddressChange,
@@ -98,4 +98,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Address;
+export default AddressInput;
