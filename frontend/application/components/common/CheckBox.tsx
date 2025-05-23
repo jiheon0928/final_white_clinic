@@ -40,11 +40,11 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   checkmark: {
-    fontSize: 14,
+    fontSize: 15,
     color: "#00aaff",
   },
   checkboxLabel: {
-    fontSize: 14,
+    fontSize: 15,
     marginRight: 10,
   },
 });

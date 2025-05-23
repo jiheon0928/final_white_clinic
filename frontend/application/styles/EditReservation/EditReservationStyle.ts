@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
 
   sectionTitle: {
     fontWeight: "600",
-    fontSize: 14,
+    fontSize: 15,
     marginVertical: 12,
   },
   checkboxRow: {
