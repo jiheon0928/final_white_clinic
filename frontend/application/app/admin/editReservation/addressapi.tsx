@@ -1,11 +1,10 @@
 import { router } from "expo-router";
-import { useState } from "react";
 import { Alert, View } from "react-native";
 import { WebView } from "react-native-webview";
+import { useAddressStore } from "@/stores/useAddressStore"; // zustand store import
 
 const AddressSearchScreen = () => {
-  const [selectedAddress, setSelectedAddress] = useState("");
-  const [selectedZonecode, setSelectedZonecode] = useState(""); // ✅ 우편번호 상태 추가
+  const { setZipCode, setAddress } = useAddressStore();
 
   const handleMessage = (event: any) => {
     try {
@@ -13,17 +12,12 @@ const AddressSearchScreen = () => {
       const fullAddress = data.address;
       const zonecode = data.zonecode;
 
-      setSelectedAddress(fullAddress);
-      setSelectedZonecode(zonecode); // ✅ 우편번호 저장
+      setZipCode(zonecode);
+      setAddress(fullAddress);
+
       Alert.alert("주소 선택됨", `${zonecode} ${fullAddress}`);
 
-      router.push({
-        pathname: "/signup",
-        params: {
-          address2: fullAddress,
-          zipcode2: zonecode, // ✅ 파라미터로 전달
-        },
-      });
+      router.replace("/admin/CreateReservation/CreateReservationPage");
     } catch (e) {
       console.error("주소 데이터 처리 중 오류:", e);
     }

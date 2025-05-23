@@ -7,6 +7,7 @@ import Page from "@/components/common/Page";
 import styles from "@/styles/EditReservation/EditReservationStyle";
 import React, { useState } from "react";
 import { Alert, ScrollView, Text, TextInput, View } from "react-native";
+
 const CreateReservationPage = () => {
   const [items, setItems] = useState({
     washer: false,
@@ -15,9 +16,11 @@ const CreateReservationPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showDate, setShowDate] = useState(false);
   const [showTime, setShowTime] = useState(false);
+
   const handleUpdate = () => {
-    Alert.alert("등록 완료", "예약이 등록되었습니다..");
+    Alert.alert("등록 완료", "예약이 등록되었습니다.");
   };
+
   return (
     <Page>
       <ScrollView>
@@ -25,13 +28,9 @@ const CreateReservationPage = () => {
         <View style={styles.card}>
           <Input title={"고객명"} numberOfLines={1} />
           <Input title={"연락처"} numberOfLines={1} />
-          <Address
-            zipCode={"1234"}
-            address={"뭐함"}
-            onAddressChange={() => {}}
-            detailAddress={"테스트"}
-            onDetailAddressChange={() => {}}
-          />
+
+          <Address />
+
           <Input title={"고객 요청 사항"} numberOfLines={2} />
           <CheckBoxBundle
             ACvalue={items.aircon}
