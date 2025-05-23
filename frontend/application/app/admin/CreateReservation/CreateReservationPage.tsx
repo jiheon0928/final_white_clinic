@@ -34,11 +34,7 @@ const CreateReservationPage = () => {
           detailAddress={"테스트"}
           onDetailAddressChange={() => {}}
         />
-        <Input
-          title={"고객 요청 사항"}
-          numberOfLines={4}
-          inputStyle={{ height: 100 }}
-        />
+        <Input title={"고객 요청 사항"} numberOfLines={4} />
         <CheckBoxBundle
           ACvalue={items.aircon}
           onValueChangAC={(val) => setItems({ ...items, aircon: val })}
@@ -53,11 +49,7 @@ const CreateReservationPage = () => {
           setShowTime={setShowTime}
           onChangeDate={setSelectedDate}
         />
-        <Input
-          title={"기사님 전달 사항"}
-          numberOfLines={4}
-          inputStyle={{ height: 100 }}
-        />
+        <Input title={"기사님 전달 사항"} numberOfLines={4} />
         <Text style={styles.subtitle}>가격</Text>
         <View style={styles.priceRow}>
           <TextInput
