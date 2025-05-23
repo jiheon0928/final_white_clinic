@@ -91,10 +91,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#eee",
     paddingHorizontal: 12,
     paddingVertical: 10,
-    borderRadius: 6,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#bbb",
   },
   zipButtonText: {
-    fontSize: 13,
+    fontSize: 15,
   },
 });
 

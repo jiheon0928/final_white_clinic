@@ -1,28 +1,19 @@
 import CalenderInput from "@/components/common/CalenderInput";
 import Page from "@/components/common/Page";
 import Input from "@/components/common/Input";
-import { Ionicons } from "@expo/vector-icons";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
-import {
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
-import Address from "@/components/common/AddressInput";
+import { ScrollView, StyleSheet } from "react-native";
 import CheckBoxBundle from "@/components/common/CheckBoxBundle";
 import DefaultBtn from "@/components/common/DefualtBtn";
-
+import BackBtnHeader from "@/components/common/header/BackBtnHeader";
+import AddressInput from "@/components/common/AddressInput";
 const edit = () => {
   const [name, setName] = useState("");
   const [birth, setBirth] = useState("");
   const [showDate, setShowDate] = useState(false);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [zipcode, setZipcode] = useState("");
-  const [address, setAddress] = useState("");
   const [detail, setDetail] = useState("");
   const [itemWasher, setItemWasher] = useState(false);
   const [itemAircon, setItemAircon] = useState(false);
@@ -51,21 +42,17 @@ const edit = () => {
   return (
     <Page>
       <ScrollView>
-        <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-          <Ionicons name="arrow-back" size={28} color="#222" />
-        </TouchableOpacity>
-        <Text style={styles.title}>기사 정보 수정</Text>
+        <BackBtnHeader title="기사 정보 수정" />
         <Input title="이름" onChangeText={setName} />
         <Input title="전화번호" onChangeText={setPhone} />
         <Input title="이메일" onChangeText={setEmail} />
-        <Text style={styles.label}>생년월일</Text>
         <CalenderInput
           date={birth ? new Date(birth) : new Date()}
           showDate={showDate}
           setShowDate={setShowDate}
           onChangeDate={onChangeDate}
         />
-        <Address
+        <AddressInput
           zipCode={zipcodeField}
           address={addressField}
           onAddressChange={setAddressField}
@@ -78,8 +65,8 @@ const edit = () => {
           WSvalue={itemWasher}
           onValueChangeWS={setItemWasher}
         />
-        <Input title="관리자 메모" onChangeText={setMemo} numberOfLines={4} />
-        <DefaultBtn text="완료" onPress={() => router.replace("/")} />
+        <Input title="관리자 메모" onChangeText={setMemo} numberOfLines={3} />
+        <DefaultBtn text="완료" onPress={() => router.back()} />
       </ScrollView>
     </Page>
   );

@@ -24,6 +24,7 @@ const CalenderInput = ({
 
   return (
     <>
+      <Text style={styles.title}>생년월일</Text>
       <View style={styles.inputCol}>
         <View style={styles.inputRow}>
           <TextInput
