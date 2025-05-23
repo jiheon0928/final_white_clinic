@@ -10,18 +10,16 @@ import {
 
 type AddressProps = {
   zipCode: string;
-
   address: string;
   onAddressChange: (text: string) => void;
-  detailAddress: string;
   onDetailAddressChange: (text: string) => void;
 };
 
 const AddressInput = ({
   zipCode,
   address,
-  onAddressChange,
 
+  onAddressChange,
   onDetailAddressChange,
 }: AddressProps) => {
   const onZipCodeSearch = () => {
