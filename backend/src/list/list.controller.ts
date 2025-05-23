@@ -53,28 +53,28 @@ export class ListController {
 
   @Get('weekly')
   async getWeekly(
-    @Param('driverId') driverId: string,
+    @Param('riderId') riderId: string,
   ): Promise<{ currentWeek: number; lastWeek: number }> {
-    return this.listService.getWeekly(+driverId);
+    return this.listService.getWeekly(+riderId);
   }
 
   @Get('monthly')
   async getMonthly(
-    @Param('driverId') driverId: string,
+    @Param('riderId') riderId: string,
   ): Promise<{ currentMonth: number; lastMonth: number }> {
-    return this.listService.getMonthly(+driverId);
+    return this.listService.getMonthly(+riderId);
   }
 
   @Get('selectDate')
   async getRangeIncome(
-    @Param('driverId') driverId: string,
+    @Param('riderId') riderId: string,
     @Query('start') start: string,
     @Query('end') end: string,
   ): Promise<{ rangeIncome: number }> {
     const startDate = new Date(start);
     const endDate = new Date(end);
     const rangeIncome = await this.listService.getRangeIncome(
-      +driverId,
+      +riderId,
       startDate,
       endDate,
     );

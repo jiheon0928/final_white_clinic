@@ -1,48 +1,63 @@
-// src/registration/dto/create-delivery-driver.dto.ts
-
-import { PartialType } from '@nestjs/mapped-types';
+// src/modules/auth/dto/create-delivery-driver.dto.ts
 import { Type } from 'class-transformer';
 import {
   IsString,
   IsInt,
   Min,
+  MaxLength,
   IsEmail,
   IsBoolean,
-  Length,
+  IsOptional,
+  IsArray,
+  ArrayNotEmpty,
 } from 'class-validator';
 
 export class CreateDriverDto {
   @IsString()
-  @Length(1, 50)
+  @MaxLength(50)
   name: string;
 
-  @Type(() => Number)
   @IsInt()
   @Min(20)
   age: number;
 
   @IsString()
-  @Length(1, 30)
+  @MaxLength(30)
   loginId: string;
 
   @IsString()
-  @Length(6, 100)
+  @MaxLength(100)
   password: string;
 
   @IsString()
-  @Length(1, 20)
+  @MaxLength(20)
   phone: string;
 
   @IsString()
-  @Length(1, 200)
+  @MaxLength(200)
   address: string;
 
   @IsEmail()
+  @MaxLength(100)
   email: string;
 
-  @Type(() => Boolean)
-  @IsBoolean()
-  approval: boolean;
-}
+  @IsString()
+  significant: string;
 
-export class UpdateDriverDto extends PartialType(CreateDriverDto) {}
+  @IsBoolean()
+  @IsOptional()
+  @Type(() => Boolean)
+  approval: boolean;
+
+  @IsOptional()
+  @IsInt()
+  @Type(() => Number)
+  benefitId?: number;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsInt({ each: true })
+  @Type(() => Number)
+  industryIds?: number[];
+}

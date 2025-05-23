@@ -6,13 +6,13 @@ import {
   Unique,
   OneToMany,
   ManyToOne,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import { Benefit } from 'src/list/entities/benefit.entity';
-// import { BenefitEnum } from 'src/components/enum/benefit.enum';
+
 import { List } from 'src/list/entities/list.entity';
-import { PartialType } from '@nestjs/mapped-types';
-import { IsNumber, IsOptional } from 'class-validator';
-import { Type } from 'class-transformer';
+import { Industry } from 'src/list/entities/industry.entity';
 
 @Entity({ name: 'delivery_driver' })
 @Check(`"age" >= 20`)
@@ -43,13 +43,18 @@ export class DeliveryDriver {
   email: string;
 
   @Column()
+  Significant: string;
+
+  @Column()
   approval: boolean;
 
-  fitType?: string;
-
-  @ManyToOne(() => Benefit, (b) => b.driver, { nullable: true, eager: true })
+  @ManyToOne(() => Benefit, (b) => b.rider, { nullable: true, eager: true })
   benefit: Benefit;
 
-  @OneToMany(() => List, (list) => list.driver)
+  @OneToMany(() => List, (list) => list.rider)
   lists: List[];
+
+  @ManyToMany(() => Industry, (industry) => industry.drivers)
+  @JoinTable()
+  industries: Industry[];
 }

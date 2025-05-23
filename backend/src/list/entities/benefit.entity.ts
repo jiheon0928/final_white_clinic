@@ -9,6 +9,6 @@ export class Benefit {
   @Column({ type: 'varchar', length: 50, comment: '혜택 유형' })
   benefitType: string;
 
-  @OneToMany(() => DeliveryDriver, (driver) => driver.benefit)
-  driver: DeliveryDriver[];
+  @OneToMany(() => DeliveryDriver, (rider) => rider.benefit)
+  rider: DeliveryDriver[];
 }

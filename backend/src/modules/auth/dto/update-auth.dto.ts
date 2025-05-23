@@ -3,48 +3,62 @@ import { CreateDriverDto } from '../../auth/dto/create-auth.dto';
 import {
   IsOptional,
   IsString,
-  IsNumber,
   IsBoolean,
   IsEmail,
+  MaxLength,
+  IsInt,
+  Min,
+  IsArray,
+  ArrayNotEmpty,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UpdateDriverDto extends PartialType(CreateDriverDto) {
-  @IsOptional()
   @IsString()
-  name?: string;
+  @MaxLength(50)
+  name: string;
 
-  @IsOptional()
-  @IsNumber()
-  @Type(() => Number)
-  age?: number;
+  @IsInt()
+  @Min(20)
+  age: number;
 
-  @IsOptional()
   @IsString()
-  loginId?: string;
+  @MaxLength(30)
+  loginId: string;
 
-  @IsOptional()
   @IsString()
-  password?: string;
+  @MaxLength(100)
+  password: string;
 
-  @IsOptional()
   @IsString()
-  phone?: string;
+  @MaxLength(20)
+  phone: string;
 
-  @IsOptional()
   @IsString()
-  address?: string;
+  @MaxLength(200)
+  address: string;
 
-  @IsOptional()
   @IsEmail()
-  email?: string;
+  @MaxLength(100)
+  email: string;
 
-  @IsOptional()
+  @IsString()
+  significant: string;
+
   @IsBoolean()
-  approval?: boolean;
+  @IsOptional()
+  @Type(() => Boolean)
+  approval: boolean;
 
   @IsOptional()
-  @IsNumber()
+  @IsInt()
   @Type(() => Number)
   benefitId?: number;
+
+  @IsOptional()
+  @IsArray()
+  @ArrayNotEmpty()
+  @IsInt({ each: true })
+  @Type(() => Number)
+  industryIds?: number[];
 }
