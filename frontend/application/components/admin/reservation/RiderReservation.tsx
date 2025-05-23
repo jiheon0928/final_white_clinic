@@ -36,7 +36,7 @@ const RiderReservation = ({ status }: RiderReservationProps) => {
               id={item.id.toString()}
               title={item.제목}
               address={item.주소}
-              price={item.단가}
+              price={Number(item.단가)}
               status={item.상태}
             />
           ))}
