@@ -2,10 +2,12 @@ export const data = () => {
   const info = [
     {
       id: 1,
-      item: "세탁기",
-      name: "김민규",
+      item: "세탁기", //fk
+      customer: "김민규",
+      request: "빨리 와주세요",
+      memo: "빠른 방문 요청과 방문전 방문 예정 문자 안내 요망",
       rider: "장효환",
-      time: "오전9시",
+      visitTime: "오전9시",
       date: "2024.09.04",
       phone: "010-1234-5678",
       address: "부산시 서구",
@@ -17,9 +19,11 @@ export const data = () => {
     {
       id: 2,
       item: "에어컨",
-      name: "이지헌",
+      customer: "이지헌",
+      request: "오전 10시 쯤 방문 희망합니다.",
+      memo: "오전 내로 방문 희망하십니다.",
       rider: "이광녕",
-      time: "오전10시",
+      visitTime: "오전10시",
       date: "2024.09.07",
       phone: "010-1234-5678",
       address: "부산시 서구",
@@ -31,9 +35,11 @@ export const data = () => {
     {
       id: 3,
       item: "세탁기",
-      name: "이현배",
+      customer: "이현배",
+      request: "오전 10시 쯤 방문 희망합니다.",
+      memo: "오전 내로 방문 희망하십니다.",
       rider: "장효환",
-      time: "오전11시",
+      visitTime: "오전11시",
       date: "2024.09.08",
       phone: "010-1234-5678",
       address: "부산시 서구",
@@ -45,9 +51,11 @@ export const data = () => {
     {
       id: 4,
       item: "세탁기",
-      name: "이현배",
+      customer: "김현균",
+      request: "빨리 와주세요",
+      memo: "빠른 방문 요청과 방문전 방문 예정 문자 안내 요망",
       rider: "장효환",
-      time: "오전12시",
+      visitTime: "오전12시",
       date: "2024.09.09",
       phone: "010-1234-5678",
       address: "부산시 서구",
@@ -59,9 +67,11 @@ export const data = () => {
     {
       id: 5,
       item: "세탁기",
-      name: "이현배",
+      customer: "이현배",
+      request: "오전 10시 쯤 방문 희망합니다.",
+      memo: "오전 내로 방문 희망하십니다.",
       rider: "장효환",
-      time: "오전12시",
+      visitTime: "오전12시",
       date: "2024.09.09",
       phone: "010-1234-5678",
       address: "부산시 서구",
@@ -73,9 +83,11 @@ export const data = () => {
     {
       id: 6,
       item: "세탁기",
-      name: "이현배",
+      customer: "박준용",
+      request: "빨리 와주세요",
+      memo: "빠른 방문 요청과 방문전 방문 예정 문자 안내 요망",
       rider: "장효환",
-      time: "오전12시",
+      visitTime: "오전12시",
       date: "2024.09.09",
       phone: "010-1234-5678",
       address: "부산시 서구",
@@ -89,62 +101,47 @@ export const data = () => {
 };
 
 export const riderList = () => {
+  const status = ["미승인", "승인"];
   const rider = [
     {
       id: 1,
+      loginId: "gyghks123",
+      password: "1234",
       name: "장효환",
       age: 30,
       phone: "010-1234-5678",
       address: "부산시 서구",
-      email: "gygnbhks123@gmail.com",
+      email: "gyghks123@gmail.com",
+      significant: "서울, 경기 및 인천지역 위주로 원함",
       benefit: 40,
-      status: "대기",
+      approval: status[0],
     },
     {
       id: 2,
+      loginId: "rhkdsud123",
+      password: "5678",
       name: "이광녕",
       age: 30,
       phone: "010-4321-5678",
       address: "인천시 중구",
-      email: "gygnbhks123@gmail.com",
+      email: "rhkdsud123@gmail.com",
+      significant: "인천 위주이며 오후 4~5시는 가급적 피하기를 원함",
       benefit: 50,
-      status: "대기",
+      approval: status[0],
     },
     {
       id: 3,
+      loginId: "gustj123",
+      password: "9876",
       name: "우현서",
       age: 30,
       phone: "010-4321-9632",
       address: "인천시 중구",
-      email: "gygnbhks123@gmail.com",
-      benefit: 50,
-      status: "대기",
+      email: "gustj123@gmail.com",
+      significant: "주말 일거리 적극적으로 원함",
+      benefit: 55,
+      approval: status[0],
     },
   ];
   return rider;
-};
-
-export const verificationPending = () => {
-  const status = ["인증 대기중", "인증 완료", "인증 실패"];
-  const verification = [
-    {
-      id: 1,
-      name: "장효환",
-      email: "gygnbhks123@gmail.com",
-      phone: "010-1234-5678",
-      address: "부산시 서구",
-      benefit: 40,
-      status: status[0],
-    },
-    {
-      id: 2,
-      name: "이광녕",
-      email: "gygnbhks123@gmail.com",
-      phone: "010-1234-5678",
-      address: "인천시 중구",
-      benefit: 50,
-      status: status[1],
-    },
-  ];
-  return verification;
 };

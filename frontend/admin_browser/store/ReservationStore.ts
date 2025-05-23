@@ -7,15 +7,16 @@ export const useReservationStore = create<RevCardStates>((set) => ({
   currentStatus: "대기", // 기본값
   setStatus: (status) => set({ currentStatus: status }),
   formData: {
-    name: "",
+    customer: "",
     phone: "",
     address: "",
+    request: "",
+    memo: "",
     item: "",
     washer: false,
     dryer: false,
     date: "",
-    time: "",
-    message: "",
+    visitTime: "",
     price: 0,
   },
   handleCheckboxChange: (value) =>

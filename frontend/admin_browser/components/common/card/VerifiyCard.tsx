@@ -1,7 +1,7 @@
-import { verificationPending } from "@/data/data";
+import { riderList } from "@/data/data";
 
 export const VerifyCard = () => {
-  const verificationList = verificationPending();
+  const verificationList = riderList();
 
   return (
     <div className="space-y-4">
@@ -44,14 +44,14 @@ export const VerifyCard = () => {
             <div className="flex flex-col">
               <span className="text-sm text-gray-600">상태</span>
               <span className="font-semibold text-gray-900">
-                {verification.status}
+                {verification.approval}
               </span>
             </div>
           </div>
-          {verification.status[0] && (
+          {verification.approval === "미승인" && (
             <div className="flex justify-end mt-4">
               <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg">
-                인증하기
+                승인하기
               </button>
             </div>
           )}
