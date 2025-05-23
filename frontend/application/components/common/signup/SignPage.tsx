@@ -31,12 +31,7 @@ const SignPage = () => {
             onChangeText={(text) => setUserField(key, text)}
           />
         ))}
-        <AddressInput
-          zipCode={user.zipcode}
-          address={user.address}
-          onAddressChange={(text) => setUserField("address", text)}
-          onDetailAddressChange={(text) => setUserField("zipcode", text)}
-        />
+
         <CheckBoxBundle
           ACvalue={selected.includes("에어컨")}
           WSvalue={selected.includes("세탁기")}
