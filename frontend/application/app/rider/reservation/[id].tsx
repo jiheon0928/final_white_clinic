@@ -1,25 +1,25 @@
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import Info from "@/components/common/text/Info";
 import Page from "@/components/common/Page";
-import { completedDetail } from "@/dummyData/completedDate";
+import { reservationDetail } from "@/dummyData/completedDate";
 import { StyleSheet, Text, View } from "react-native";
 
-const CompletedDetail = () => {
+const ReservationDetail = () => {
   return (
     //헤더 추가하자
     <Page>
       <View style={styles.box}>
-        <Info value={completedDetail.title} category="제목" />
-        <Info value={completedDetail.customer} category="고객명" />
-        <Info value={completedDetail.phone} category="전화번호" />
-        <Info value={completedDetail.reserveDate} category="예약 날짜" />
-        <Info value={completedDetail.completedDate} category="완료 날짜" />
-        <Info value={completedDetail.address} category="주소" />
-        <Info value={completedDetail.price} category="가격" />
+        <Info value={reservationDetail.title} category="제목" />
+        <Info value={reservationDetail.customer} category="고객명" />
+        <Info value={reservationDetail.phone} category="전화번호" />
+        <Info value={reservationDetail.reserveDate} category="예약 날짜" />
+        <Info value={reservationDetail.completedDate} category="완료 날짜" />
+        <Info value={reservationDetail.address} category="주소" />
+        <Info value={reservationDetail.price} category="가격" />
         <Text style={styles.label}>고객 요청 사항</Text>
         <View style={styles.requestBox}>
           <Text style={{ color: "#333", fontSize: 14 }}>
-            {completedDetail.request}
+            {reservationDetail.request}
           </Text>
         </View>
       </View>
@@ -76,4 +76,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CompletedDetail;
+export default ReservationDetail;

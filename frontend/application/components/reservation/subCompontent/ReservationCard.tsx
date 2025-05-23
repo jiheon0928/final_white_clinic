@@ -6,27 +6,22 @@ import React from "react";
 import Card from "@/components/common/box/Card";
 
 type CardSectionProps = {
-  id: string;
   title: string;
   address: string;
   price: number;
   status: string;
+  goToLink: () => void;
 };
 
 const ReservationCard = ({
-  id,
   title,
   address,
   price,
   status,
+  goToLink,
 }: CardSectionProps) => {
   return (
-    <Card
-      btnName="상세 정보"
-      pressBtn={() => {
-        router.push(`/admin/reservations/${id}`);
-      }}
-    >
+    <Card btnName="상세 정보" pressBtn={goToLink}>
       <Title title={title} />
 
       <Info value={address} category="주소" />

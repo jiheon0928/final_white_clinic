@@ -1,5 +1,5 @@
 // 더미 데이터
-export const completedDetail = {
+export const reservationDetail = {
   title: "에어컨 청소",
   customer: "이수민",
   phone: "010-9999-8888",
