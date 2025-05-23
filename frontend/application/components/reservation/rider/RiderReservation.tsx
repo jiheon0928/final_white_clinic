@@ -1,7 +1,7 @@
-import ReservationCard from "@/components/admin/reservation/subComponents/ReservationCard";
+import ReservationCard from "@/components/reservation/subCompontent/ReservationCard";
 import DefaultHeader from "@/components/common/header/DefaultHeader";
 import Page from "@/components/common/Page";
-import SearchInput from "@/components/common/SearchInput";
+import SearchInput from "@/components/common/input/SearchInput";
 import { reservationDummy } from "@/dummyData/reservationData";
 import useReservationStore from "@/stores/reservation.store";
 import { useRef } from "react";

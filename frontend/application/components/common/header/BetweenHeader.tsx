@@ -1,5 +1,5 @@
 import { Text, View } from "react-native";
-import DetailBtn from "../DetailBtn";
+import DetailBtn from "../button/DetailBtn";
 import { HeaderStyles } from "@/styles/header";
 import { BetweenHeaderProps } from "@/types/headers";
 

@@ -1,4 +1,4 @@
-import RiderReservation from "@/components/admin/reservation/RiderReservation";
+import RiderReservation from "@/components/reservation/rider/RiderReservation";
 
 const WaitingPage = () => {
   return <RiderReservation status="대기" />;

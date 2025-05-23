@@ -1,5 +1,5 @@
-import Info from "@/components/common/Info";
-import DefaultBtn from "@/components/common/DefualtBtn";
+import Info from "@/components/common/text/Info";
+import DefaultBtn from "@/components/common/button/DefualtBtn";
 import { StyleSheet, Text, View } from "react-native";
 import Page from "@/components/common/Page";
 import { waitingDetail } from "@/dummyData/waitingData";

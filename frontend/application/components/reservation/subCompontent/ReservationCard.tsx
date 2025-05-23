@@ -1,9 +1,9 @@
-import Card from "@/components/common/Card";
-import Info from "@/components/common/Info";
+import Info from "@/components/common/text/Info";
 import StatusPill from "@/components/common/StatusPill";
-import Title from "@/components/common/Title";
+import Title from "@/components/common/text/Title";
 import { router } from "expo-router";
 import React from "react";
+import Card from "@/components/common/box/Card";
 
 type CardSectionProps = {
   id: string;

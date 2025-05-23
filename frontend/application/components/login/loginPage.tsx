@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Animated, View } from "react-native";
 import * as SplashScreen from "expo-splash-screen";
-import DefaultBtn from "../common/DefualtBtn";
+import DefaultBtn from "../common/button/DefualtBtn";
 import { router } from "expo-router";
 import Page from "../common/Page";
-import Input from "../common/Input";
+import Input from "../common/input/Input";
 
 const LoginPage = () => {
   const [isReady, setIsReady] = useState(false);

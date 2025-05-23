@@ -1,4 +1,4 @@
-import TabIcon from "@/components/common/TabIcon";
+import TabIcon from "@/components/common/box/TabIcon";
 import { adminTabs } from "@/dummyData/admintab";
 import { Tabs } from "expo-router";
 import { Platform } from "react-native";

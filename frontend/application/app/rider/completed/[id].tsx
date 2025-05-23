@@ -1,5 +1,5 @@
-import DefaultBtn from "@/components/common/DefualtBtn";
-import Info from "@/components/common/Info";
+import DefaultBtn from "@/components/common/button/DefualtBtn";
+import Info from "@/components/common/text/Info";
 import Page from "@/components/common/Page";
 import { completedDetail } from "@/dummyData/completedDate";
 import { StyleSheet, Text, View } from "react-native";

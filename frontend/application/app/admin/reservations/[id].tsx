@@ -2,10 +2,10 @@ import { View, Text, StyleSheet, ScrollView } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import Page from "@/components/common/Page";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
-import Info from "@/components/common/Info";
+import Info from "@/components/common/text/Info";
 import { reservationDummy } from "@/dummyData/reservationData";
-import MemoBox from "@/components/common/MemoBox";
-import DefaultBtn from "@/components/common/DefualtBtn";
+import MemoBox from "@/components/common/text/MemoBox";
+import DefaultBtn from "@/components/common/button/DefualtBtn";
 const ReservationDetail = () => {
   const { id } = useLocalSearchParams();
   const reservation = reservationDummy.find((v) => v.id == Number(id));
@@ -41,7 +41,7 @@ const ReservationDetail = () => {
           <DefaultBtn
             text="수정"
             onPress={() => {
-              router.push("/admin/editReservation/EditReservation");
+              router.push(`/admin/reservations/edit/${id}`);
             }}
           />
         </View>

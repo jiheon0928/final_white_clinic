@@ -1,7 +1,7 @@
 import { cardStyles } from "@/styles/reservation/reservationCard";
 import { View } from "react-native";
 import { CardProps } from "@/types/common";
-import DetailBtn from "./DetailBtn";
+import DetailBtn from "../button/DetailBtn";
 
 const Card = ({ children, btnName, pressBtn }: CardProps) => {
   return (

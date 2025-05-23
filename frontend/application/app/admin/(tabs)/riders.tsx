@@ -1,10 +1,10 @@
 import { Text, StyleSheet, ScrollView } from "react-native";
-import SearchInput from "@/components/common/SearchInput";
-import Card from "@/components/common/Card";
+import SearchInput from "@/components/common/input/SearchInput";
 import { router } from "expo-router";
 import { riderDummy } from "@/dummyData/riderData";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
+import Card from "@/components/common/box/Card";
 
 const Riders = () => {
   return (

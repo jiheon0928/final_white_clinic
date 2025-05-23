@@ -12,10 +12,10 @@ import { useMemo, useState } from "react";
 import { riderDummy } from "@/dummyData/riderData";
 import Page from "@/components/common/Page";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
-import Info from "@/components/common/Info";
-import CheckBoxBundle from "@/components/common/CheckBoxBundle";
-import Input from "@/components/common/Input";
-import DefaultBtn from "@/components/common/DefualtBtn";
+import Info from "@/components/common/text/Info";
+import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
+import Input from "@/components/common/input/Input";
+import DefaultBtn from "@/components/common/button/DefualtBtn";
 
 const RiderDetail = () => {
   const router = useRouter();

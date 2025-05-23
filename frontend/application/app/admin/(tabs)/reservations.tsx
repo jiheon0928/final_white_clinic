@@ -1,4 +1,4 @@
-import ReservationPage from "@/components/admin/reservation/ReservationPage";
+import ReservationPage from "@/components/reservation/admin/ReservationPage";
 
 const Reservations = () => {
   return <ReservationPage />;

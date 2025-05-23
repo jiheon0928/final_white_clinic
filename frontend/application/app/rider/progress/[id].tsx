@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View } from "react-native";
 import { progressDetail } from "@/dummyData/progressData";
 import Page from "@/components/common/Page";
-import Info from "@/components/common/Info";
-import DefaultBtn from "@/components/common/DefualtBtn";
+import Info from "@/components/common/text/Info";
+import DefaultBtn from "@/components/common/button/DefualtBtn";
 
 const ProgressDetail = () => {
   return (

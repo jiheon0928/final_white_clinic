@@ -1,4 +1,4 @@
-import RiderReservation from "@/components/admin/reservation/RiderReservation";
+import RiderReservation from "@/components/reservation/rider/RiderReservation";
 
 const CompletedPage = () => {
   return <RiderReservation status="완료" />;

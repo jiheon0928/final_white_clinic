@@ -1,13 +1,13 @@
-import CalenderInput from "@/components/common/CalenderInput";
+import CalenderInput from "@/components/common/input/CalenderInput";
 import Page from "@/components/common/Page";
-import Input from "@/components/common/Input";
+import Input from "@/components/common/input/Input";
 import { router, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { ScrollView, StyleSheet } from "react-native";
-import CheckBoxBundle from "@/components/common/CheckBoxBundle";
-import DefaultBtn from "@/components/common/DefualtBtn";
+import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
+import DefaultBtn from "@/components/common/button/DefualtBtn";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
-import AddressInput from "@/components/common/AddressInput";
+import AddressInput from "@/components/common/input/AddressInput";
 const edit = () => {
   const [name, setName] = useState("");
   const [birth, setBirth] = useState("");
@@ -52,13 +52,7 @@ const edit = () => {
           setShowDate={setShowDate}
           onChangeDate={onChangeDate}
         />
-        <AddressInput
-          zipCode={zipcodeField}
-          address={addressField}
-          onAddressChange={setAddressField}
-          detailAddress={detail}
-          onDetailAddressChange={setDetail}
-        />
+        <AddressInput />
         <CheckBoxBundle
           ACvalue={itemAircon}
           onValueChangAC={setItemAircon}

@@ -1,8 +1,9 @@
 import { View, Text, StyleSheet, ScrollView } from "react-native";
 import pendingRiders from "@/dummyData/pendingData";
 import Page from "@/components/common/Page";
-import Info from "@/components/common/Info";
-import Card from "@/components/common/Card";
+import Info from "@/components/common/text/Info";
+import Card from "@/components/common/box/Card";
+
 const pending = () => {
   return (
     <Page>

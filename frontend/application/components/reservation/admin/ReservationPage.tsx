@@ -1,9 +1,9 @@
 import { ScrollView } from "react-native";
 import { reservationDummy } from "@/dummyData/reservationData";
-import ReservationCard from "./subComponents/ReservationCard";
-import SearchInput from "@/components/common/SearchInput";
+import ReservationCard from "../../reservation/subCompontent/ReservationCard";
+import SearchInput from "@/components/common/input/SearchInput";
 import Page from "@/components/common/Page";
-import StatusBar from "./subComponents/StatusBar";
+import StatusBar from "../../reservation/subCompontent/StatusBar";
 import useReservationStore from "@/stores/reservation.store";
 import { useRef, useEffect } from "react";
 import BetweenHeader from "@/components/common/header/BetweenHeader";

@@ -1,11 +1,11 @@
 import { ScrollView } from "react-native";
-import Input from "../Input";
+import Input from "../input/Input";
 import BackBtnHeader from "../header/BackBtnHeader";
-import AddressInput from "../AddressInput";
+import AddressInput from "../input/AddressInput";
 import Page from "../Page";
-import CheckBoxBundle from "../CheckBoxBundle";
+import CheckBoxBundle from "../input/CheckBoxBundle";
 import useSignupStore from "@/stores/signup.store";
-import DefaultBtn from "../DefualtBtn";
+import DefaultBtn from "../button/DefualtBtn";
 import { router } from "expo-router";
 import useIndustryStore from "@/stores/industry.store";
 
