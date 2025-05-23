@@ -10,6 +10,12 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { useMemo, useState } from "react";
 import { riderDummy } from "@/dummyData/riderData";
+import Page from "@/components/common/Page";
+import BackBtnHeader from "@/components/common/header/BackBtnHeader";
+import Info from "@/components/common/Info";
+import CheckBoxBundle from "@/components/common/CheckBoxBundle";
+import Input from "@/components/common/Input";
+import DefaultBtn from "@/components/common/DefualtBtn";
 
 const RiderDetail = () => {
   const router = useRouter();
@@ -33,64 +39,34 @@ const RiderDetail = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.backBtn} onPress={() => router.back()}>
-        <Ionicons name="chevron-back" size={28} color="#222" />
-      </TouchableOpacity>
-      <Text style={styles.title}>기사 상세 정보</Text>
+    <Page>
+      <BackBtnHeader title="기사 상세 정보" />
       <View style={styles.card}>
-        <Text style={styles.infoText}>이름 : {rider?.name}</Text>
-        <Text style={styles.infoText}>생년월일 : {rider?.birth}</Text>
-        <Text style={styles.infoText}>연락처 : {rider?.phone}</Text>
-        <Text style={styles.infoText}>주소 : {rider?.address}</Text>
-        <Text style={styles.infoText}>이메일 : {rider?.email}</Text>
+        <Info category="이름" value={rider?.name || ""} />
+        <Info category="생년월일" value={rider?.birth || ""} />
+        <Info category="연락처" value={rider?.phone || ""} />
+        <Info category="주소" value={rider?.address || ""} />
+        <Info category="이메일" value={rider?.email || ""} />
         <Text style={[styles.infoText, { marginTop: 10 }]}>품목 리스트</Text>
-        <View style={styles.checkboxRow}>
-          <TouchableOpacity
-            style={styles.checkboxItem}
-            onPress={() => toggleCheckbox("washer")}
-          >
-            <View style={styles.checkbox}>
-              {checkedItems.washer && (
-                <Ionicons name="checkmark" size={16} color="black" />
-              )}
-            </View>
-            <Text style={styles.checkboxLabel}>세탁기</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.checkboxItem}
-            onPress={() => toggleCheckbox("aircon")}
-          >
-            <View style={styles.checkbox}>
-              {checkedItems.aircon && (
-                <Ionicons name="checkmark" size={16} color="black" />
-              )}
-            </View>
-            <Text style={styles.checkboxLabel}>에어컨</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={[styles.infoText, { marginTop: 10 }]}>관리자 메모</Text>
-        <TextInput
-          style={styles.memoInput}
-          multiline
-          placeholder="메모를 입력하세요"
-          placeholderTextColor="#888"
-          value={memo}
-          onChangeText={setMemo}
+        <CheckBoxBundle
+          ACvalue={checkedItems.aircon}
+          onValueChangAC={() => toggleCheckbox("aircon")}
+          WSvalue={checkedItems.washer}
+          onValueChangeWS={() => toggleCheckbox("washer")}
         />
-        <TouchableOpacity
-          style={styles.editBtn}
-          onPress={() =>
-            router.push({
-              pathname: "/admin/riders/[id]/edit",
-              params: { id: Number(id) },
-            })
-          }
-        >
-          <Text style={styles.editBtnText}>수정</Text>
-        </TouchableOpacity>
+        <Input
+          title="관리자 메모"
+          onChangeText={setMemo}
+          inputStyle={{ height: 100 }}
+        />
+        <DefaultBtn
+          text="수정"
+          onPress={() => {
+            router.push("/admin/riders/[id]/edit");
+          }}
+        />
       </View>
-    </View>
+    </Page>
   );
 };
 

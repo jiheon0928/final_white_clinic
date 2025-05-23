@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Calender from "@/components/common/calender";
+import Calender from "@/components/common/CalenderInput";
 
 const Signup = () => {
   const [name, setName] = useState("");

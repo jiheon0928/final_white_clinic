@@ -17,7 +17,7 @@ const Input = ({
         multiline={true}
         textAlignVertical="top"
         scrollEnabled={true}
-        numberOfLines={numberOfLines}
+        numberOfLines={numberOfLines || 1}
       />
     </View>
   );
