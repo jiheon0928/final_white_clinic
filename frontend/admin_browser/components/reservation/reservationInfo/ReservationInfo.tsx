@@ -29,7 +29,7 @@ export const ReservationInfo = () => {
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">예약 시간:</span>{" "}
-              {reservation.time}
+              {reservation.visitTime}
             </p>
             <p className="flex items-center text-blue-600 font-semibold">
               <span className="font-medium mr-2">총 금액:</span>{" "}
@@ -44,7 +44,7 @@ export const ReservationInfo = () => {
           <div className="space-y-3">
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">고객 이름:</span>{" "}
-              {reservation.name}
+              {reservation.customer}
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">고객 전화번호:</span>{" "}
@@ -53,6 +53,18 @@ export const ReservationInfo = () => {
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">고객 주소:</span>{" "}
               {reservation.address}
+            </p>
+            <p className="flex items-center text-gray-700">
+              <span className="font-medium mr-2">담당 기사:</span>{" "}
+              {reservation.rider}
+            </p>
+            <p className="flex items-center text-gray-700">
+              <span className="font-medium mr-2">요청사항:</span>{" "}
+              {reservation.request}
+            </p>
+            <p className="flex items-center text-gray-700">
+              <span className="font-medium mr-2">기사님 전달사항:</span>{" "}
+              {reservation.memo}
             </p>
           </div>
         </div>

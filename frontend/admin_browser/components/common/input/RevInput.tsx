@@ -8,9 +8,9 @@ export const RevInput = () => {
       <Input
         title="고객성함"
         type="text"
-        name="name"
+        name="customer"
         placeholder="고객성함"
-        value={formData.name || ""}
+        value={formData.customer || ""}
         onChange={handleChange}
       />
       <Input
@@ -32,17 +32,17 @@ export const RevInput = () => {
       <Input
         title="고객 요청사항"
         type="text"
-        name="item"
+        name="request"
         placeholder="고객 요청사항을 입력해주세요."
-        value={formData.item || ""}
+        value={formData.request || ""}
         onChange={handleChange}
       />
       <Input
         title="기사님 전달사항"
         type="text"
-        name="message"
+        name="memo"
         placeholder="기사님 전달사항을 입력해주세요."
-        value={formData.message || ""}
+        value={formData.memo || ""}
         onChange={handleChange}
       />
     </>

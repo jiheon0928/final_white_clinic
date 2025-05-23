@@ -4,15 +4,16 @@ export type RevCardStates = {
   currentStatus: "진행" | "완료" | "대기";
   setStatus: (status: "진행" | "완료" | "대기") => void;
   formData: {
-    name: string;
+    customer: string;
     phone: string;
     address: string;
     item: string;
     washer: boolean;
     dryer: boolean;
     date: string;
-    time: string;
-    message: string;
+    visitTime: string;
+    request: string;
+    memo: string;
     price: number;
   };
   handleCheckboxChange: (value: string) => void;
