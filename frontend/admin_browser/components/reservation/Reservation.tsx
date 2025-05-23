@@ -13,7 +13,7 @@ export const Reservation = () => {
   const { currentStatus, setStatus } = useReservationStore();
 
   return (
-    <Layout title="예약 관리">
+    <Layout title="예약 관리" className="h-screen">
       <div className="flex justify-between items-center gap-2 mb-4">
         <div className="flex gap-2">
           <Button
@@ -29,7 +29,7 @@ export const Reservation = () => {
           <Button
             title="완료 예약목록"
             onClick={() => setStatus("완료")}
-            className="bg-gray-500"
+            className="bg-gray-500 hover:bg-gray-600"
           />
         </div>
         <Button

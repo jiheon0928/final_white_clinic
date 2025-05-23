@@ -7,6 +7,7 @@ const API_URL = "http://localhost:3001";
 export const useApiStore = create<ApiStore>((set) => ({
   riders: [],
   reservations: [],
+  verificationPending: [],
 
   getRiders: async () => {
     try {
@@ -25,6 +26,16 @@ export const useApiStore = create<ApiStore>((set) => ({
     } catch (error) {
       console.error("예약 데이터 가져오기 실패", error);
       set({ reservations: [] });
+    }
+  },
+
+  getVerificationPending: async () => {
+    try {
+      const response = await axios.get(`${API_URL}/verificationPending`);
+      set({ verificationPending: response.data });
+    } catch (error) {
+      console.error("인증 대기 데이터 가져오기 실패", error);
+      set({ verificationPending: [] });
     }
   },
 }));
