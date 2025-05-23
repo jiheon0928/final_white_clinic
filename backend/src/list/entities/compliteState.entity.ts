@@ -9,6 +9,6 @@ export class CompleteState {
   @Column()
   status: string;
 
-  @OneToMany(() => List, (list) => list.compliteState)
+  @OneToMany(() => List, (list) => list.Status)
   statusLists: List[];
 }

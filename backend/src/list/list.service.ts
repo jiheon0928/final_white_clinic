@@ -19,21 +19,21 @@ export class ListService {
   ) {}
 
   async create(dto: CreateListDto): Promise<List> {
-    const { driverId, fieldId, compliteStateId, ...rest } = dto;
+    const { riderId, industryId, statusId, ...rest } = dto;
     const entity = this.listRepository.create({
       ...rest,
-      driver: { id: driverId },
-      field: { id: fieldId },
-      compliteState: { id: compliteStateId },
-      registrationTime: new Date(),
+      rider: { id: riderId },
+      industry: { id: industryId },
+      Status: { id: statusId },
+      date: new Date(),
     });
     return this.listRepository.save(entity);
   }
   // =============================대기 상태 조회============================
   async findstate(): Promise<List[]> {
     return this.listRepository.find({
-      where: { compliteState: { status: '대기' } },
-      relations: ['driver', 'field', 'compliteState'],
+      where: { Status: { status: '대기' } },
+      relations: ['rider', 'industry', 'Status'],
     });
   }
 
@@ -42,7 +42,7 @@ export class ListService {
   }
 
   // =============================기사 픽업 로직============================
-  async pickup(taskId: number, driverId: number) {
+  async pickup(taskId: number, riderId: number) {
     const inProgress = await this.compliteStateRepository.findOneBy({
       status: '진행',
     });
@@ -54,21 +54,21 @@ export class ListService {
     });
     if (!task) throw new NotFoundException('해당 작업이 없어');
 
-    task.driver = { id: driverId } as any;
-    task.compliteState = inProgress;
+    task.rider = { id: riderId } as any;
+    task.Status = inProgress;
 
     return this.listRepository.save(task);
   }
 
   // =============================기사 완료 로직============================
-  async complete(taskId: number, driverId: number): Promise<List> {
+  async complete(taskId: number, riderId: number): Promise<List> {
     const task = await this.listRepository.findOne({
       where: { id: taskId },
-      relations: ['driver', 'field', 'compliteState'],
+      relations: ['rider', 'industry', 'Status'],
     });
     if (!task) throw new NotFoundException('해당 작업이 없습니다.');
 
-    if (!task.driver || task.driver.id !== driverId) {
+    if (!task.rider || task.rider.id !== riderId) {
       throw new ForbiddenException('본인이 픽업한 작업만 완료할 수 있습니다.');
     }
 
@@ -77,12 +77,12 @@ export class ListService {
     });
     if (!done) throw new NotFoundException('완료 상태가 없습니다.');
 
-    task.compliteState = done;
+    task.Status = done;
     return this.listRepository.save(task);
   }
 
   // =============================주간 조회============================
-  async getWeekly(driverId: number) {
+  async getWeekly(riderId: number) {
     const now = new Date();
     const day = now.getDay();
     const mondayOffset = day === 0 ? -6 : 1 - day;
@@ -100,8 +100,8 @@ export class ListService {
       const raw = await this.listRepository
         .createQueryBuilder('list')
         .select('SUM(list.amount)', 'sum')
-        .where('list.driverId = :driverId', { driverId })
-        .andWhere('list.registrationTime BETWEEN :start AND :end', {
+        .where('list.riderId = :riderId', { riderId })
+        .andWhere('list.date BETWEEN :start AND :end', {
           start: start.toISOString(),
           end: end.toISOString(),
         })
@@ -118,7 +118,7 @@ export class ListService {
   // =============================월간 조회============================
 
   async getMonthly(
-    driverId: number,
+    riderId: number,
   ): Promise<{ currentMonth: number; lastMonth: number }> {
     const now = new Date(); // 오늘 날짜
 
@@ -138,8 +138,8 @@ export class ListService {
       const raw = await this.listRepository
         .createQueryBuilder('list')
         .select('SUM(list.amount)', 'sum')
-        .where('list.driverId = :driverId', { driverId })
-        .andWhere('list.registrationTime BETWEEN :start AND :end', {
+        .where('list.riderId = :riderId', { riderId })
+        .andWhere('list.date BETWEEN :start AND :end', {
           start: start.toISOString(),
           end: end.toISOString(),
         })
@@ -154,15 +154,15 @@ export class ListService {
   }
   // =============================선택 일수 조회============================
   async getRangeIncome(
-    driverId: number,
+    riderId: number,
     start: Date,
     end: Date,
   ): Promise<number> {
     const raw = await this.listRepository
       .createQueryBuilder('list')
       .select('SUM(list.amount)', 'sum')
-      .where('list.driverId = :driverId', { driverId })
-      .andWhere('list.registrationTime BETWEEN :start AND :end', {
+      .where('list.riderId = :riderId', { riderId })
+      .andWhere('list.date BETWEEN :start AND :end', {
         start: start.toISOString(),
         end: end.toISOString(),
       })

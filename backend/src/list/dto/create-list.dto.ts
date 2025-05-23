@@ -1,34 +1,64 @@
 // src/list/dto/create-list.dto.ts
-import { IsString, IsNumber, IsEnum } from 'class-validator';
-import { Type, Transform } from 'class-transformer';
-import { PartialType } from '@nestjs/mapped-types';
+import { Type } from 'class-transformer';
+import {
+  IsString,
+  IsPhoneNumber,
+  IsOptional,
+  IsInt,
+  IsNotEmpty,
+  MaxLength,
+  IsPositive,
+} from 'class-validator';
 
 export class CreateListDto {
-  @IsString() worklist: string;
+  @IsString()
+  @MaxLength(255)
+  item: string;
 
-  @IsString() reservation: string;
+  // date는 자동 생성되므로 DTO에서 제외
 
-  @IsNumber()
+  @IsString()
+  @MaxLength(255)
+  visitTime: string;
+
+  @IsInt()
+  @IsPositive()
+  price: number;
+
+  @IsString()
+  @MaxLength(255)
+  customer: string;
+
+  @IsString()
+  @MaxLength(500)
+  address: string;
+
+  @IsString()
+  @MaxLength(20)
+  @IsPhoneNumber()
+  phone: string;
+
+  @IsOptional()
+  @IsString()
+  request?: string;
+
+  @IsString()
+  @MaxLength(255)
+  memo: string;
+
+  // 관계 필드는 ID로 받기
+  @IsOptional()
+  @IsInt()
   @Type(() => Number)
-  @Transform(({ value }) => value ?? 0)
-  price: number = 0;
+  riderId?: number;
 
-  @IsString() customer: string;
-  @IsString() address: string;
-  @IsString() contact: string;
-  @IsString() request: string;
-
-  @IsNumber()
+  @IsInt()
+  @IsNotEmpty()
   @Type(() => Number)
-  driverId: number;
+  statusId: number;
 
-  @IsNumber()
+  @IsInt()
+  @IsNotEmpty()
   @Type(() => Number)
-  compliteStateId: number;
-
-  @IsNumber()
-  @Type(() => Number)
-  fieldId: number;
+  industryId: number;
 }
-
-export class UpdateListDto extends PartialType(CreateListDto) {}

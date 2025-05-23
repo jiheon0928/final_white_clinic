@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 
 import { CompleteState as StatusEntity } from 'src/list/entities/compliteState.entity';
-import { Field } from 'src/list/entities/fleid.entity';
+import { Industry } from 'src/list/entities/industry.entity';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 import { PartialType } from '@nestjs/mapped-types';
 
@@ -18,13 +18,13 @@ export class List {
   id: number;
 
   @Column({ type: 'varchar', length: 255 })
-  worklist: string;
+  item: string;
 
   @CreateDateColumn({ type: 'timestamp' })
-  registrationTime: Date;
+  date: Date;
 
   @Column({ type: 'varchar', length: 255 })
-  reservation: string;
+  visitTime: string;
 
   @Column({ type: 'int' })
   price: number;
@@ -36,31 +36,28 @@ export class List {
   address: string;
 
   @Column({ type: 'varchar', length: 20 })
-  contact: string;
+  phone: string;
 
   @Column({ type: 'text', nullable: true })
   request: string;
 
-  @Column()
-  driverId: number;
+  @Column({ type: 'varchar', length: 255 })
+  memo: string;
 
   @ManyToOne(() => DeliveryDriver, { eager: true, nullable: true })
-  @JoinColumn({ name: 'driverId' })
-  driver: DeliveryDriver;
+  @JoinColumn({ name: 'riderId' })
+  rider: DeliveryDriver;
 
   @ManyToOne(() => StatusEntity, { eager: true })
-  @JoinColumn({ name: 'compliteStateId' })
-  compliteState: StatusEntity;
+  @JoinColumn({ name: 'StatusId' })
+  Status: StatusEntity;
+
+  @ManyToOne(() => Industry, { eager: true })
+  @JoinColumn({ name: 'industryId' })
+  industry: Industry;
 
   @Column()
-  compliteStateId: number;
-
-  @ManyToOne(() => Field, { eager: true })
-  @JoinColumn({ name: 'fieldId' })
-  field: Field;
-
-  @Column()
-  fieldId: number;
+  industryId: number;
 }
 
 export class UpdateListDto extends PartialType(List) {}
