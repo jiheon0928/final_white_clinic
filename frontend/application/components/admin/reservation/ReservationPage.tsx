@@ -6,7 +6,8 @@ import Page from "@/components/common/Page";
 import StatusBar from "./subComponents/StatusBar";
 import useReservationStore from "@/stores/reservation.store";
 import { useRef, useEffect } from "react";
-import DefaultHeader from "@/components/common/header/DefaultHeader";
+import BetweenHeader from "@/components/common/header/BetweenHeader";
+import { router } from "expo-router";
 
 const ReservationPage = () => {
   const { status, searchValue, setSearchValue } = useReservationStore();
@@ -18,7 +19,13 @@ const ReservationPage = () => {
 
   return (
     <Page>
-      <DefaultHeader title="예약 현황" />
+      <BetweenHeader
+        title="예약 현황"
+        btnName="예약등록"
+        onPress={() => {
+          router.push("/admin/CreateReservation/CreateReservationPage");
+        }}
+      />
       <StatusBar />
       <SearchInput
         placeholder="검색어를 입력해주세요"
@@ -40,7 +47,7 @@ const ReservationPage = () => {
               id={item.id.toString()}
               title={item.제목}
               address={item.주소}
-              price={item.단가}
+              price={Number(item.단가)}
               status={item.상태}
             />
           ))}
