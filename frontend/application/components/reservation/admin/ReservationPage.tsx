@@ -23,7 +23,7 @@ const ReservationPage = () => {
         title="예약 현황"
         btnName="예약등록"
         onPress={() => {
-          router.push("/admin/CreateReservation/CreateReservationPage");
+          router.push("/admin/reservations/create");
         }}
       />
       <StatusBar />
@@ -44,7 +44,9 @@ const ReservationPage = () => {
           .map((item) => (
             <ReservationCard
               key={item.id}
-              id={item.id.toString()}
+              goToLink={() => {
+                router.push(`/admin/reservations/${item.id}`);
+              }}
               title={item.제목}
               address={item.주소}
               price={Number(item.단가)}

@@ -45,9 +45,7 @@ const LoginPage = () => {
         <Input title="비밀번호" />
         <View>
           <DefaultBtn
-            onPress={() =>
-              router.push("/admin/CreateReservation/CreateReservationPage")
-            }
+            onPress={() => router.push("/rider/(tabs)/waiting")}
             text="로그인"
           />
           <DefaultBtn onPress={() => router.push("/signup")} text="회원가입" />

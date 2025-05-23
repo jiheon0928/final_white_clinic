@@ -6,13 +6,14 @@ import { reservationDummy } from "@/dummyData/reservationData";
 import useReservationStore from "@/stores/reservation.store";
 import { useRef } from "react";
 import { ScrollView } from "react-native";
+import { router } from "expo-router";
 
 type RiderReservationProps = {
   status: "대기" | "진행" | "완료";
 };
 const RiderReservation = ({ status }: RiderReservationProps) => {
-  const { searchValue, setSearchValue } = useReservationStore();
   const scrollViewRef = useRef<ScrollView>(null);
+  const { searchValue, setSearchValue } = useReservationStore();
   return (
     <Page>
       <DefaultHeader title="대기" />
@@ -33,7 +34,9 @@ const RiderReservation = ({ status }: RiderReservationProps) => {
           .map((item) => (
             <ReservationCard
               key={item.id}
-              id={item.id.toString()}
+              goToLink={() => {
+                router.push(`/rider/reservation/${item.id}`);
+              }}
               title={item.제목}
               address={item.주소}
               price={Number(item.단가)}
