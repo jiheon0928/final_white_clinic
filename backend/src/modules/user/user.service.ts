@@ -10,6 +10,7 @@ import { Benefit } from '../../list/entities/benefit.entity';
 import { DeliveryDriver } from '../auth/entites/auth.entity';
 import { Repository } from 'typeorm';
 import { UpdateDriverDto } from '../auth/dto/update-auth.dto';
+import { Industry } from 'src/list/entities/industry.entity';
 
 @Injectable()
 export class UserService {
@@ -26,45 +27,35 @@ export class UserService {
     return this.driverRepo.find();
   }
 
-  async findbyName(name: string): Promise<DeliveryDriver | null> {
-    return this.driverRepo.findOne({ where: { name } });
+  async findByName(name: string): Promise<DeliveryDriver> {
+    return this.driverRepo.findOneOrFail({ where: { name } });
   }
 
   async update(name: string, dto: UpdateDriverDto): Promise<DeliveryDriver> {
-    try {
-      this.logger.log(`update(): name=${name}, dto=${JSON.stringify(dto)}`);
-      const driver = await this.driverRepo.findOne({
-        where: { name },
-        relations: ['benefit'],
-      });
-      if (!driver)
-        throw new NotFoundException(`사용자 "${name}"를 찾을 수 없습니다.`);
+    // 1) 기존 드라이버를 찾되, 없으면 내부적으로 예외 발생
+    const driver = await this.driverRepo.findOneOrFail({
+      where: { name },
+      relations: ['benefit', 'industries'],
+    });
 
-      // benefitId가 있으면 관계 설정
-      if (dto.benefitId !== undefined) {
-        const b = await this.benefitRepo.findOne({
-          where: { id: dto.benefitId },
-        });
-        if (!b)
-          throw new NotFoundException(
-            `혜택 ID ${dto.benefitId}를 찾을 수 없습니다.`,
-          );
-        driver.benefit = b;
-      }
+    // 2) benefitId가 주어졌으면 findOneOrFail로 바로 조회 → driver.benefit에 할당
+    const benefit = await this.benefitRepo.findOneOrFail({
+      where: { id: dto.benefitId },
+    });
+    driver.benefit = benefit;
 
-      // dto에서 benefitId만 빼고 나머지 필드 덮어쓰기
-      const { benefitId, ...rest } = dto;
-      Object.assign(driver, rest);
+    // 3) approval undefined면 false, 아니면 dto.approval 그대로
+    driver.approval = dto.approval ?? false;
 
-      const saved = await this.driverRepo.save(driver);
-      this.logger.log(`update(): 성공 name=${saved.name}`);
-      return saved;
-    } catch (e) {
-      this.logger.error('update(): 예기치 못한 오류', e.stack);
-      if (e instanceof NotFoundException) throw e;
-      throw new InternalServerErrorException(
-        `업데이트 중 오류가 발생했습니다: ${e.message}`,
-      );
-    }
+    // 4) industryIds가 있으면 id 매핑, 없으면 빈 배열
+    driver.industries =
+      dto.industryIds?.map((id) => ({ id }) as Industry) ?? [];
+
+    // 5) DTO에서 relation용 키만 빼고 나머지 필드를 한 번에 덮어쓰기
+    const { benefitId, approval, industryIds, ...rest } = dto;
+    Object.assign(driver, rest);
+
+    // 6) 저장
+    return await this.driverRepo.save(driver);
   }
 }
