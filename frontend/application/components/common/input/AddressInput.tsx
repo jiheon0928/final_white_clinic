@@ -14,7 +14,7 @@ const AddressInput = () => {
     useAddressStore();
 
   const onZipCodeSearch = () => {
-    router.replace("/admin/editReservation/addressapi");
+    router.replace("/addressapi");
   };
 
   return (

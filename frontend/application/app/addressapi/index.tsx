@@ -17,7 +17,7 @@ const AddressSearchScreen = () => {
 
       Alert.alert("주소 선택됨", `${zonecode} ${fullAddress}`);
 
-      router.replace("/admin/CreateReservation/CreateReservationPage");
+      router.replace("/admin/reservations/create");
     } catch (e) {
       console.error("주소 데이터 처리 중 오류:", e);
     }
