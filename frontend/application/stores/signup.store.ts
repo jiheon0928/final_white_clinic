@@ -9,12 +9,14 @@ type SignupState = {
     email: string;
     address: string;
     zipcode: string;
+    detailAddress: string;
     industry: IndustryType[];
   };
   setUserField: <K extends keyof SignupState["user"]>(
     key: K,
     value: SignupState["user"][K]
   ) => void;
+  resetUser: () => void;
 };
 
 const useSignupStore = create<SignupState>((set) => ({
@@ -24,13 +26,27 @@ const useSignupStore = create<SignupState>((set) => ({
     email: "",
     address: "",
     zipcode: "",
+    detailAddress: "",
     industry: [],
   },
-  setUserField: (key, value) =>
+  setUserField: (key, value) => {
     set((state) => ({
       user: {
         ...state.user,
         [key]: value,
+      },
+    }));
+  },
+  resetUser: () =>
+    set(() => ({
+      user: {
+        name: "",
+        phone: "",
+        email: "",
+        address: "",
+        zipcode: "",
+        detailAddress: "",
+        industry: [],
       },
     })),
 }));
