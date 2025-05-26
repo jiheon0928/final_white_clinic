@@ -8,6 +8,7 @@ export const riderDummy = [
     status: "승인대기",
     birth: "1990-01-01",
     address: "서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층",
+    items: ["세탁기"],
   },
   {
     id: 2,
@@ -18,6 +19,7 @@ export const riderDummy = [
     status: "승인완료",
     birth: "1990-01-01",
     address: "서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층",
+    items: ["에어컨"],
   },
   {
     id: 3,
@@ -28,5 +30,6 @@ export const riderDummy = [
     status: "승인대기",
     birth: "1990-01-01",
     address: "서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층",
+    items: ["에어컨", "세탁기"],
   },
 ];

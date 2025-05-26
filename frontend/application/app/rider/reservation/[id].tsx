@@ -3,11 +3,21 @@ import Info from "@/components/common/text/Info";
 import Page from "@/components/common/Page";
 import { reservationDetail } from "@/dummyData/completedDate";
 import { StyleSheet, Text, View } from "react-native";
+import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 
 const ReservationDetail = () => {
+  const btnText = (status: string) => {
+    if (status == "대기") {
+      return "수락";
+    } else if (status == "진행") {
+      return "완료";
+    } else {
+      return "리뷰 보기";
+    }
+  };
   return (
-    //헤더 추가하자
     <Page>
+      <BackBtnHeader title="예약 상세" />
       <View style={styles.box}>
         <Info value={reservationDetail.title} category="제목" />
         <Info value={reservationDetail.customer} category="고객명" />
@@ -23,7 +33,7 @@ const ReservationDetail = () => {
           </Text>
         </View>
       </View>
-      <DefaultBtn onPress={() => {}} text="리뷰 보기" />
+      <DefaultBtn onPress={() => {}} text={btnText(reservationDetail.status)} />
     </Page>
   );
 };
