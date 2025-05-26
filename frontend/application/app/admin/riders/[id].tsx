@@ -58,7 +58,7 @@ const RiderDetail = () => {
         <DefaultBtn
           text="수정"
           onPress={() => {
-            router.push("/admin/riders/[id]/edit");
+            router.push(`/admin/riders/edit/${id}`);
           }}
         />
       </View>

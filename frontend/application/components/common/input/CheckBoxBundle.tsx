@@ -1,6 +1,5 @@
-import styles from "@/styles/EditReservation/EditReservationStyle";
 import React from "react";
-import { Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import CheckBox from "./CheckBox";
 
 type CheckBoxBundleProps = {
@@ -18,8 +17,8 @@ const CheckBoxBundle = ({
 }: CheckBoxBundleProps) => {
   return (
     <View>
-      <Text style={styles.sectionTitle}>가능 품목 리스트</Text>
-      <View style={styles.checkboxRow}>
+      <Text style={checkBoxBundleStyles.sectionTitle}>가능 품목 리스트</Text>
+      <View style={checkBoxBundleStyles.checkboxRow}>
         <CheckBox
           label="에어컨"
           value={ACvalue}
@@ -34,5 +33,18 @@ const CheckBoxBundle = ({
     </View>
   );
 };
+
+const checkBoxBundleStyles = StyleSheet.create({
+  sectionTitle: {
+    fontSize: 15,
+    marginLeft: 8,
+    marginBottom: 6,
+    fontWeight: "bold",
+  },
+  checkboxRow: {
+    padding: 6,
+    flexDirection: "row",
+  },
+});
 
 export default CheckBoxBundle;
