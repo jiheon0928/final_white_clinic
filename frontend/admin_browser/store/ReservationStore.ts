@@ -13,8 +13,6 @@ export const useReservationStore = create<RevCardStates>((set) => ({
     request: "",
     memo: "",
     item: "",
-    washer: false,
-    dryer: false,
     date: "",
     visitTime: "",
     price: 0,

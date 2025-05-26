@@ -8,8 +8,6 @@ export type RevCardStates = {
     phone: string;
     address: string;
     item: string;
-    washer: boolean;
-    dryer: boolean;
     date: string;
     visitTime: string;
     request: string;

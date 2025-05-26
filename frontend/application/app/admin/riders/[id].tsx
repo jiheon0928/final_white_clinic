@@ -1,22 +1,11 @@
 import { useLocalSearchParams, useRouter } from "expo-router";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-} from "react-native";
-
-import { Ionicons } from "@expo/vector-icons";
+import { View, Text, StyleSheet } from "react-native";
 import { useMemo, useState } from "react";
 import { riderDummy } from "@/dummyData/riderData";
 import Page from "@/components/common/Page";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import Info from "@/components/common/text/Info";
-import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
-import Input from "@/components/common/input/Input";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
-
 const RiderDetail = () => {
   const router = useRouter();
   const { id } = useLocalSearchParams();
@@ -24,20 +13,7 @@ const RiderDetail = () => {
     () => riderDummy.find((r) => r.id === Number(id)),
     [id]
   );
-
   const [memo, setMemo] = useState("");
-  const [checkedItems, setCheckedItems] = useState({
-    washer: false,
-    aircon: false,
-  });
-
-  const toggleCheckbox = (item: "washer" | "aircon") => {
-    setCheckedItems((prev) => ({
-      ...prev,
-      [item]: !prev[item],
-    }));
-  };
-
   return (
     <Page>
       <BackBtnHeader title="기사 상세 정보" />
@@ -47,14 +23,18 @@ const RiderDetail = () => {
         <Info category="연락처" value={rider?.phone || ""} />
         <Info category="주소" value={rider?.address || ""} />
         <Info category="이메일" value={rider?.email || ""} />
-        <Text style={[styles.infoText, { marginTop: 10 }]}>품목 리스트</Text>
-        <CheckBoxBundle
-          ACvalue={checkedItems.aircon}
-          onValueChangAC={() => toggleCheckbox("aircon")}
-          WSvalue={checkedItems.washer}
-          onValueChangeWS={() => toggleCheckbox("washer")}
-        />
-        <Input title="관리자 메모" onChangeText={setMemo} />
+        <Text style={[styles.infoText, { marginTop: 10 }]}>
+          가능 품목 리스트
+        </Text>
+        {rider?.items.map((item, index) => (
+          <Text key={index}>
+            {index + 1}. {item}
+          </Text>
+        ))}
+        <Text style={[styles.infoText, styles.infoTextBold]}>관리자 메모</Text>
+        <View style={styles.requestBox}>
+          <Text style={{ color: "#333", fontSize: 14 }}>{memo}</Text>
+        </View>
         <DefaultBtn
           text="수정"
           onPress={() => {
@@ -71,6 +51,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     padding: 16,
+  },
+  requestBox: {
+    borderWidth: 1,
+    borderColor: "#333",
+    borderRadius: 8,
+    padding: 12,
+    marginTop: 8,
+    marginBottom: 8,
   },
   backBtn: {
     position: "absolute",
@@ -90,10 +78,14 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 18,
     marginTop: 18,
+    gap: 10,
   },
   infoText: {
     fontSize: 15,
     marginBottom: 4,
+  },
+  infoTextBold: {
+    fontWeight: "bold",
   },
   checkboxRow: {
     flexDirection: "row",
