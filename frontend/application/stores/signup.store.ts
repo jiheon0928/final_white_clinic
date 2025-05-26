@@ -4,12 +4,15 @@ type IndustryType = "에어컨" | "세탁기";
 
 type SignupState = {
   user: {
+    loginId: string;
+    password: string;
     name: string;
     phone: string;
     email: string;
     address: string;
     zipcode: string;
     detailAddress: string;
+    birth: string;
     industry: IndustryType[];
   };
   setUserField: <K extends keyof SignupState["user"]>(
@@ -21,12 +24,15 @@ type SignupState = {
 
 const useSignupStore = create<SignupState>((set) => ({
   user: {
+    loginId: "",
+    password: "",
     name: "",
     phone: "",
     email: "",
     address: "",
     zipcode: "",
     detailAddress: "",
+    birth: "",
     industry: [],
   },
   setUserField: (key, value) => {
@@ -40,12 +46,15 @@ const useSignupStore = create<SignupState>((set) => ({
   resetUser: () =>
     set(() => ({
       user: {
+        loginId: "",
+        password: "",
         name: "",
         phone: "",
         email: "",
         address: "",
         zipcode: "",
         detailAddress: "",
+        birth: "",
         industry: [],
       },
     })),

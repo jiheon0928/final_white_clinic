@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -13,8 +13,6 @@ type AddressInputProps = {
   address: string;
   detailAddress: string;
   setDetailAddress: (detailAddress: string) => void;
-  isModalVisible: boolean;
-  setIsModalVisible: () => void;
 };
 
 const AddressInput = ({
@@ -22,9 +20,8 @@ const AddressInput = ({
   address,
   detailAddress,
   setDetailAddress,
-  isModalVisible,
-  setIsModalVisible,
 }: AddressInputProps) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
   return (
     <View>
       <Text style={styles.label}>주소</Text>
@@ -37,7 +34,10 @@ const AddressInput = ({
           placeholder="우편번호"
           editable={false}
         />
-        <TouchableOpacity onPress={setIsModalVisible} style={styles.zipButton}>
+        <TouchableOpacity
+          onPress={() => setIsModalVisible(true)}
+          style={styles.zipButton}
+        >
           <Text style={styles.zipButtonText}>우편번호찾기</Text>
         </TouchableOpacity>
       </View>
@@ -58,7 +58,10 @@ const AddressInput = ({
         onChangeText={setDetailAddress}
       />
 
-      <AddressModal visible={isModalVisible} onClose={setIsModalVisible} />
+      <AddressModal
+        visible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+      />
     </View>
   );
 };

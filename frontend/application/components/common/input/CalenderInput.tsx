@@ -1,22 +1,21 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text } from "@react-navigation/elements";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 type CalenderInputProps = {
   date: Date;
-  showDate: boolean;
-  setShowDate: (b: boolean) => void;
+
   onChangeDate: (d: Date) => void;
 };
 
 const CalenderInput = ({
   date,
-  showDate,
-  setShowDate,
+
   onChangeDate,
 }: CalenderInputProps) => {
+  const [showDate, setShowDate] = useState(false);
   const formatDate = (d: Date) =>
     `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
       d.getDate()
