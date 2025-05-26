@@ -18,7 +18,6 @@ export class CreateDriverDto {
   name: string;
 
   @IsString()
-  @Min(20)
   birth: string;
 
   @IsString()
