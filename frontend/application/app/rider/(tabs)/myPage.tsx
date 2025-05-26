@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-
+import Page from "@/components/common/Page";
+import BetweenHeader from "@/components/common/header/BetweenHeader";
 // props 타입 정의
 interface MyPageProps {
   name: string;
@@ -23,71 +24,71 @@ const MyPage = ({ name, phone, email, rate }: MyPageProps) => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>마이페이지</Text>
-        <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
-          <Text style={styles.logoutBtnText}>로그아웃</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.profileCard}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Text style={styles.profileName}>{name}</Text>
-          <TouchableOpacity
-            style={styles.editBtn}
-            onPress={() => router.push("/rider/mypage/[id]")}
+    <Page>
+      <View style={styles.container}>
+        <BetweenHeader
+          title="마이페이지"
+          btnName="로그아웃"
+          onPress={handleLogout}
+        />
+        <View style={styles.profileCard}>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            <Text style={styles.editBtnText}>정보 수정</Text>
-          </TouchableOpacity>
+            <Text style={styles.profileName}>{name}</Text>
+            <TouchableOpacity
+              style={styles.editBtn}
+              onPress={() => router.push("/rider/mypage/[id]")}
+            >
+              <Text style={styles.editBtnText}>정보 수정</Text>
+            </TouchableOpacity>
+          </View>
+          <Text style={styles.profileText}>전화번호 : {phone}</Text>
+          <Text style={styles.profileText}>이메일: {email}</Text>
+          <Text style={styles.profileText}>수당률 : {rate}</Text>
         </View>
-        <Text style={styles.profileText}>전화번호 : {phone}</Text>
-        <Text style={styles.profileText}>이메일: {email}</Text>
-        <Text style={styles.profileText}>수당률 : {rate}</Text>
-      </View>
 
-      <View style={styles.chartSection}>
-        <View style={{ alignItems: "flex-end", marginBottom: 8 }}>
-          <TouchableOpacity
-            style={styles.dropdown}
-            onPress={() => setShowPeriod(!showPeriod)}
-          >
-            <Text style={styles.dropdownText}>{selectedPeriod}</Text>
-            <Ionicons
-              name={showPeriod ? "chevron-up" : "chevron-down"}
-              size={16}
-              color="#222"
-              style={{ marginLeft: 4 }}
-            />
-          </TouchableOpacity>
-          {showPeriod && (
-            <View style={styles.dropdownList}>
-              {periodOptions.map((option) => (
-                <TouchableOpacity
-                  key={option}
-                  style={styles.dropdownItem}
-                  onPress={() => {
-                    setSelectedPeriod(option);
-                    setShowPeriod(false);
-                  }}
-                >
-                  <Text style={styles.dropdownText}>{option}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          )}
-        </View>
-        <View style={styles.chartBox}>
-          <Text style={styles.chartPlaceholder}>매출 차트</Text>
+        <View style={styles.chartSection}>
+          <View style={{ alignItems: "flex-end", marginBottom: 8 }}>
+            <TouchableOpacity
+              style={styles.dropdown}
+              onPress={() => setShowPeriod(!showPeriod)}
+            >
+              <Text style={styles.dropdownText}>{selectedPeriod}</Text>
+              <Ionicons
+                name={showPeriod ? "chevron-up" : "chevron-down"}
+                size={16}
+                color="#222"
+                style={{ marginLeft: 4 }}
+              />
+            </TouchableOpacity>
+            {showPeriod && (
+              <View style={styles.dropdownList}>
+                {periodOptions.map((option) => (
+                  <TouchableOpacity
+                    key={option}
+                    style={styles.dropdownItem}
+                    onPress={() => {
+                      setSelectedPeriod(option);
+                      setShowPeriod(false);
+                    }}
+                  >
+                    <Text style={styles.dropdownText}>{option}</Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
+          </View>
+          <View style={styles.chartBox}>
+            <Text style={styles.chartPlaceholder}>매출 차트</Text>
+          </View>
         </View>
       </View>
-    </View>
+    </Page>
   );
 };
 
