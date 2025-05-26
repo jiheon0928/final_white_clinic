@@ -10,8 +10,7 @@ import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import AddressInput from "@/components/common/input/AddressInput";
 const edit = () => {
   const [name, setName] = useState("");
-  const [birth, setBirth] = useState("");
-  const [showDate, setShowDate] = useState(false);
+
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [detail, setDetail] = useState("");
@@ -25,7 +24,8 @@ const edit = () => {
   const [zipcodeField, setZipcodeField] = useState(
     typeof zipcode2 === "string" ? zipcode2 : ""
   );
-
+  const [showDate, setShowDate] = useState(false);
+  const [birth, setBirth] = useState("");
   const onChangeDate = (selectedDate: Date | undefined) => {
     setShowDate(false);
     if (selectedDate) {
