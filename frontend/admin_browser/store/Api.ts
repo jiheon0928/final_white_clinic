@@ -28,14 +28,4 @@ export const useApiStore = create<ApiStore>((set) => ({
       set({ reservations: [] });
     }
   },
-
-  getVerificationPending: async () => {
-    try {
-      const response = await axios.get(`${API_URL}/verificationPending`);
-      set({ verificationPending: response.data });
-    } catch (error) {
-      console.error("인증 대기 데이터 가져오기 실패", error);
-      set({ verificationPending: [] });
-    }
-  },
 }));
