@@ -33,6 +33,14 @@ export class CreateListDto {
   address: string;
 
   @IsString()
+  @MaxLength(200)
+  addressDetail: string;
+
+  @IsString()
+  @MaxLength(20)
+  zipcode: string;
+
+  @IsString()
   @MaxLength(20)
   phone: string;
 

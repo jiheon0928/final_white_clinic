@@ -1,9 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  InternalServerErrorException,
-  Logger,
-} from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Benefit } from '../../list/entities/benefit.entity';
@@ -31,10 +26,18 @@ export class UserService {
     return this.driverRepo.findOneOrFail({ where: { name } });
   }
 
-  async update(name: string, dto: UpdateDriverDto): Promise<DeliveryDriver> {
+  async updateInfo(id: number, dto: UpdateDriverDto): Promise<DeliveryDriver> {
+    const driver = await this.driverRepo.findOneOrFail({ where: { id } });
+
+    Object.assign(driver, dto);
+
+    return this.driverRepo.save(driver);
+  }
+
+  async update(id: number, dto: UpdateDriverDto): Promise<DeliveryDriver> {
     // 1) 기존 드라이버를 찾되, 없으면 내부적으로 예외 발생
     const driver = await this.driverRepo.findOneOrFail({
-      where: { name },
+      where: { id },
       relations: ['benefit', 'industries'],
     });
 
@@ -45,7 +48,9 @@ export class UserService {
     driver.benefit = benefit;
 
     // 3) approval undefined면 false, 아니면 dto.approval 그대로
-    driver.approval = dto.approval ?? false;
+    if (driver.approval === false) {
+      driver.approval = true;
+    }
 
     // 4) industryIds가 있으면 id 매핑, 없으면 빈 배열
     driver.industries =

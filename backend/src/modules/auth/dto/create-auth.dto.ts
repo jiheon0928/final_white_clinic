@@ -17,9 +17,9 @@ export class CreateDriverDto {
   @MaxLength(50)
   name: string;
 
-  @IsInt()
+  @IsString()
   @Min(20)
-  age: number;
+  birth: string;
 
   @IsString()
   @MaxLength(30)
@@ -36,6 +36,14 @@ export class CreateDriverDto {
   @IsString()
   @MaxLength(200)
   address: string;
+
+  @IsString()
+  @MaxLength(200)
+  addressDetail: string;
+
+  @IsString()
+  @MaxLength(20)
+  zipcode: string;
 
   @IsEmail()
   @MaxLength(100)

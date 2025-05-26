@@ -36,6 +36,12 @@ export class List {
   @Column({ type: 'varchar', length: 500 })
   address: string;
 
+  @Column({ type: 'varchar', length: 200 })
+  addressDetail: string;
+
+  @Column({ type: 'varchar', length: 20 })
+  zipcode: string;
+
   @Column({ type: 'varchar', length: 20 })
   phone: string;
 

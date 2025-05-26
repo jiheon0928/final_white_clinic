@@ -39,6 +39,12 @@ export class DeliveryDriver {
   @Column({ length: 200 })
   address: string;
 
+  @Column({ length: 200 })
+  addressDetail: string;
+
+  @Column({ length: 20 })
+  zipcode: string;
+
   @Column({ length: 100 })
   email: string;
 
