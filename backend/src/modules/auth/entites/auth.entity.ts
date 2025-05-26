@@ -24,8 +24,8 @@ export class DeliveryDriver {
   @Column({ length: 50 })
   name: string;
 
-  @Column('int')
-  age: number;
+  @Column()
+  birth: string;
 
   @Column({ length: 30 })
   loginId: string;
@@ -40,7 +40,7 @@ export class DeliveryDriver {
   address: string;
 
   @Column({ length: 200 })
-  addressDetail: string;
+  detailAddress: string;
 
   @Column({ length: 20 })
   zipcode: string;

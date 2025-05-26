@@ -32,6 +32,14 @@ export class UpdateListDto extends PartialType(CreateListDto) {
   address: string;
 
   @IsString()
+  @MaxLength(200)
+  detailAddress: string;
+
+  @IsString()
+  @MaxLength(20)
+  zipcode: string;
+
+  @IsString()
   @MaxLength(20)
   @IsPhoneNumber()
   phone: string;

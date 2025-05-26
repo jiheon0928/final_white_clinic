@@ -39,6 +39,10 @@ export class UpdateDriverDto extends PartialType(CreateDriverDto) {
   address: string;
 
   @IsString()
+  @MaxLength(200)
+  detailAddress: string;
+
+  @IsString()
   @MaxLength(20)
   zipcode: string;
 

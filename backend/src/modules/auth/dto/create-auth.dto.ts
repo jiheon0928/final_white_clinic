@@ -39,7 +39,7 @@ export class CreateDriverDto {
 
   @IsString()
   @MaxLength(200)
-  addressDetail: string;
+  detailAddress: string;
 
   @IsString()
   @MaxLength(20)

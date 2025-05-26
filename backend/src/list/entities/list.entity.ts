@@ -37,7 +37,7 @@ export class List {
   address: string;
 
   @Column({ type: 'varchar', length: 200 })
-  addressDetail: string;
+  detailAddress: string;
 
   @Column({ type: 'varchar', length: 20 })
   zipcode: string;
