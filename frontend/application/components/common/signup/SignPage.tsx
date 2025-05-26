@@ -27,45 +27,43 @@ const SignPage = () => {
 
   return (
     <Page>
-      <ScrollView>
-        <BackBtnHeader title="회원가입" />
-        {signupInputFields.map(({ title, key }) => (
-          <Input
-            key={key}
-            title={title}
-            value={user[key]}
-            onChangeText={(text) => setUserField(key, text)}
-          />
-        ))}
-        <CheckBoxBundle
-          ACvalue={industry.includes("에어컨")}
-          WSvalue={industry.includes("세탁기")}
-          onValueChangAC={(value) => toggle("에어컨", value)}
-          onValueChangeWS={(value) => toggle("세탁기", value)}
+      <BackBtnHeader title="회원가입" />
+      {signupInputFields.map(({ title, key }) => (
+        <Input
+          key={key}
+          title={title}
+          value={user[key]}
+          onChangeText={(text) => setUserField(key, text)}
         />
-        <AddressInput
-          zipCode={zipcode}
-          address={address}
-          detailAddress={detailAddress}
-          setDetailAddress={(text) => setDetailAddress(text)}
-          isModalVisible={isModalVisible}
-          setIsModalVisible={() => setIsModalVisible(!isModalVisible)}
-        />
-        <DefaultBtn
-          text="완료"
-          onPress={() => {
-            setUserField("industry", industry);
-            setUserField("zipcode", zipcode);
-            setUserField("address", address);
-            setUserField("detailAddress", detailAddress);
-            console.log("✅ 제출 데이터:", useSignupStore.getState().user);
-            resetUser();
-            resetIndustry();
-            resetAddress();
-            router.replace("/");
-          }}
-        />
-      </ScrollView>
+      ))}
+      <CheckBoxBundle
+        ACvalue={industry.includes("에어컨")}
+        WSvalue={industry.includes("세탁기")}
+        onValueChangAC={(value) => toggle("에어컨", value)}
+        onValueChangeWS={(value) => toggle("세탁기", value)}
+      />
+      <AddressInput
+        zipCode={zipcode}
+        address={address}
+        detailAddress={detailAddress}
+        setDetailAddress={(text) => setDetailAddress(text)}
+        isModalVisible={isModalVisible}
+        setIsModalVisible={() => setIsModalVisible(!isModalVisible)}
+      />
+      <DefaultBtn
+        text="완료"
+        onPress={() => {
+          setUserField("industry", industry);
+          setUserField("zipcode", zipcode);
+          setUserField("address", address);
+          setUserField("detailAddress", detailAddress);
+          console.log("✅ 제출 데이터:", useSignupStore.getState().user);
+          resetUser();
+          resetIndustry();
+          resetAddress();
+          router.replace("/");
+        }}
+      />
     </Page>
   );
 };

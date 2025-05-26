@@ -17,7 +17,7 @@ const CheckBoxBundle = ({
   onValueChangeWS,
 }: CheckBoxBundleProps) => {
   return (
-    <>
+    <View>
       <Text style={styles.sectionTitle}>가능 품목 리스트</Text>
       <View style={styles.checkboxRow}>
         <CheckBox
@@ -31,7 +31,7 @@ const CheckBoxBundle = ({
           onValueChange={onValueChangeWS}
         />
       </View>
-    </>
+    </View>
   );
 };
 
