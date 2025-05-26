@@ -1,24 +1,25 @@
 import { create } from "zustand";
 
+// industry.store.ts
 export type IndustryType = "에어컨" | "세탁기";
 
 type IndustryStore = {
-  selected: IndustryType[];
+  industry: IndustryType[];
   toggle: (label: IndustryType, checked: boolean) => void;
   setSelected: (list: IndustryType[]) => void;
-  clear: () => void;
+  resetIndustry: () => void;
 };
 
 const useIndustryStore = create<IndustryStore>((set) => ({
-  selected: [],
+  industry: [],
   toggle: (label, checked) =>
     set((state) => ({
-      selected: checked
-        ? [...state.selected, label].filter((v, i, arr) => arr.indexOf(v) === i)
-        : state.selected.filter((v) => v !== label),
+      industry: checked
+        ? [...state.industry, label].filter((v, i, arr) => arr.indexOf(v) === i)
+        : state.industry.filter((v) => v !== label),
     })),
-  setSelected: (list) => set({ selected: list }),
-  clear: () => set({ selected: [] }),
+  setSelected: (list) => set({ industry: list }),
+  resetIndustry: () => set({ industry: [] }),
 }));
 
 export default useIndustryStore;

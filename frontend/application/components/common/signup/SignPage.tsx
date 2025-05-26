@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { ScrollView } from "react-native";
 import Input from "../input/Input";
 import BackBtnHeader from "../header/BackBtnHeader";
@@ -8,10 +9,15 @@ import useSignupStore from "@/stores/signup.store";
 import DefaultBtn from "../button/DefualtBtn";
 import { router } from "expo-router";
 import useIndustryStore from "@/stores/industry.store";
+import useAddressStore from "@/stores/address.store";
 
 const SignPage = () => {
-  const { user, setUserField } = useSignupStore();
-  const { selected, toggle } = useIndustryStore();
+  const { user, setUserField, resetUser } = useSignupStore();
+  const { industry, toggle, resetIndustry } = useIndustryStore();
+  const { zipcode, address, detailAddress, setDetailAddress, resetAddress } =
+    useAddressStore();
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const signupInputFields = [
     { title: "이름", key: "name" },
@@ -31,14 +37,34 @@ const SignPage = () => {
             onChangeText={(text) => setUserField(key, text)}
           />
         ))}
-
         <CheckBoxBundle
-          ACvalue={selected.includes("에어컨")}
-          WSvalue={selected.includes("세탁기")}
-          onValueChangAC={(val) => toggle("에어컨", val)}
-          onValueChangeWS={(val) => toggle("세탁기", val)}
+          ACvalue={industry.includes("에어컨")}
+          WSvalue={industry.includes("세탁기")}
+          onValueChangAC={(value) => toggle("에어컨", value)}
+          onValueChangeWS={(value) => toggle("세탁기", value)}
         />
-        <DefaultBtn text="완료" onPress={() => router.replace("/")} />
+        <AddressInput
+          zipCode={zipcode}
+          address={address}
+          detailAddress={detailAddress}
+          setDetailAddress={(text) => setDetailAddress(text)}
+          isModalVisible={isModalVisible}
+          setIsModalVisible={() => setIsModalVisible(!isModalVisible)}
+        />
+        <DefaultBtn
+          text="완료"
+          onPress={() => {
+            setUserField("industry", industry);
+            setUserField("zipcode", zipcode);
+            setUserField("address", address);
+            setUserField("detailAddress", detailAddress);
+            console.log("✅ 제출 데이터:", useSignupStore.getState().user);
+            resetUser();
+            resetIndustry();
+            resetAddress();
+            router.replace("/");
+          }}
+        />
       </ScrollView>
     </Page>
   );

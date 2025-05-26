@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import React from "react";
 import {
   StyleSheet,
@@ -7,16 +6,25 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { useAddressStore } from "@/stores/useAddressStore";
+import AddressModal from "../modal/AddressModal";
 
-const AddressInput = () => {
-  const { zipCode, address, detailAddress, setDetailAddress } =
-    useAddressStore();
+type AddressInputProps = {
+  zipCode: string;
+  address: string;
+  detailAddress: string;
+  setDetailAddress: (detailAddress: string) => void;
+  isModalVisible: boolean;
+  setIsModalVisible: () => void;
+};
 
-  const onZipCodeSearch = () => {
-    router.replace("/addressapi");
-  };
-
+const AddressInput = ({
+  zipCode,
+  address,
+  detailAddress,
+  setDetailAddress,
+  isModalVisible,
+  setIsModalVisible,
+}: AddressInputProps) => {
   return (
     <View>
       <Text style={styles.label}>주소</Text>
@@ -29,7 +37,7 @@ const AddressInput = () => {
           placeholder="우편번호"
           editable={false}
         />
-        <TouchableOpacity onPress={onZipCodeSearch} style={styles.zipButton}>
+        <TouchableOpacity onPress={setIsModalVisible} style={styles.zipButton}>
           <Text style={styles.zipButtonText}>우편번호찾기</Text>
         </TouchableOpacity>
       </View>
@@ -49,6 +57,8 @@ const AddressInput = () => {
         value={detailAddress}
         onChangeText={setDetailAddress}
       />
+
+      <AddressModal visible={isModalVisible} onClose={setIsModalVisible} />
     </View>
   );
 };
