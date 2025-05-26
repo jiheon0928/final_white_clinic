@@ -13,6 +13,7 @@ export type RevCardStates = {
     request: string;
     memo: string;
     price: number;
+    industryId?: string;
   };
   handleCheckboxChange: (value: string) => void;
   setManager: (value: string) => void;
