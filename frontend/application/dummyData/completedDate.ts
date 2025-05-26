@@ -8,4 +8,5 @@ export const reservationDetail = {
   address: "서울특별시 강남구",
   price: "100,000원",
   request: "완료된 서비스입니다.",
+  status: "대기",
 };
