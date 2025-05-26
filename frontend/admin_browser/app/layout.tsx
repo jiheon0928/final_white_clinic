@@ -16,6 +16,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "WHITECLINIC",
   description: "WHITECLINIC",
+  metadataBase: new URL("https://whiteclinic.kr"),
   openGraph: {
     title: "WHITECLINIC",
     description: "화이트 클리닉 관리자 페이지입니다.",

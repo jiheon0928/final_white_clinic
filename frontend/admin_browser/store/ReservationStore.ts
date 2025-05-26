@@ -16,6 +16,7 @@ export const useReservationStore = create<RevCardStates>((set) => ({
     date: "",
     visitTime: "",
     price: 0,
+    industryId: "",
   },
   handleCheckboxChange: (value) =>
     set((state) => ({

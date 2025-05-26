@@ -25,36 +25,14 @@ export const useApiStore = create<ApiStore>((set) => ({
     try {
       set({ isLoading: true, error: null });
       const response = await api.get("/list/pending");
-      console.log("예약 데이터 응답:", response.data);
+      console.log("API 응답 데이터:", response.data);
       set({
         reservations: response.data,
         isLoading: false,
       });
     } catch (error) {
       console.error("예약 데이터 가져오기 실패:", error);
-      let errorMessage = "알 수 없는 에러가 발생했습니다.";
-
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          // 서버가 응답을 반환한 경우
-          errorMessage = `서버 에러: ${error.response.status} - ${
-            error.response.data?.message || "알 수 없는 서버 에러"
-          }`;
-        } else if (error.request) {
-          // 요청은 보냈지만 응답을 받지 못한 경우
-          errorMessage =
-            "서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.";
-        } else {
-          // 요청 설정 중 에러가 발생한 경우
-          errorMessage = `요청 에러: ${error.message}`;
-        }
-      }
-
-      set({
-        reservations: [],
-        isLoading: false,
-        error: errorMessage,
-      });
+      throw error;
     }
   },
 

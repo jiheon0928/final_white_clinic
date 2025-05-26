@@ -5,8 +5,7 @@ export type RiderInfoStore = {
     email: string;
     address: string;
     notes: string;
-    washer: boolean;
-    dryer: boolean;
+    industry: boolean;
     birthDate: string;
     benefit: string;
   };
