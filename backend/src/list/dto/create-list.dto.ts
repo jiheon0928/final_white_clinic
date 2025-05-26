@@ -51,9 +51,9 @@ export class CreateListDto {
   riderId?: number;
 
   @IsInt()
-  @IsNotEmpty()
+  @IsOptional()
   @Type(() => Number)
-  statusId: number;
+  statusId?: number;
 
   @IsInt()
   @IsNotEmpty()

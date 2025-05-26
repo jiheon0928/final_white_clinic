@@ -5,7 +5,7 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, Entity } from 'typeorm';
+import { Repository } from 'typeorm';
 import { List } from './entities/list.entity';
 import { CreateListDto } from './dto/create-list.dto';
 
@@ -16,14 +16,11 @@ export class ListService {
     private readonly listRepository: Repository<List>,
     @InjectRepository(CompleteState)
     private readonly statusRepository: Repository<CompleteState>,
-    @InjectRepository(CreateListDto)
-    private readonly createListDto: Repository<CreateListDto>,
     @InjectRepository(CompleteState)
     private readonly compliteStateRepository: Repository<CompleteState>,
   ) {}
 
   async create(dto: CreateListDto): Promise<List> {
-    // 1) 기본 상태(대기) 찾아오기
     const defaultValue = await this.compliteStateRepository.findOneBy({
       id: 1,
     });
@@ -31,18 +28,14 @@ export class ListService {
       status: defaultValue?.status,
     });
 
-    // 2) DTO 에서 industryId 빼고, 나머지는 rest 에 담기
     const { industryId, ...rest } = dto;
 
-    // 3) create() 호출 — 레포지토리에서, relation 프로퍼티 이름에 맞춰서 세팅
     const entity = this.listRepository.create({
-      ...rest, // item, visitTime, price, customer, address, phone, request, memo
-      industry: { id: industryId }, // Industry relation
-      Status: defaultState!, // Status relation
-      // rider는 생략하면 NULL 처리
+      ...rest,
+      industry: { id: industryId },
+      Status: defaultState!,
     });
 
-    // 4) 저장
     return this.listRepository.save(entity);
   }
 

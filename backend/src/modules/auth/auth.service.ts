@@ -37,7 +37,13 @@ export class AuthService {
       }
 
       const hashed = await bcrypt.hash(dto.password, 10);
-      const driver = this.driverRepo.create({ ...dto, password: hashed });
+      // dto.approval이 undefined면 false, 아니면 dto.approval 사용
+      const driver = this.driverRepo.create({
+        ...dto,
+        password: hashed,
+        approval: dto.approval ?? false,
+      });
+
       return await this.driverRepo.save(driver);
     } catch (e) {
       if (e instanceof ConflictException) throw e;

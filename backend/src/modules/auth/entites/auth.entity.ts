@@ -43,7 +43,7 @@ export class DeliveryDriver {
   email: string;
 
   @Column()
-  Significant: string;
+  significant: string;
 
   @Column()
   approval: boolean;
