@@ -1,10 +1,10 @@
-import { data } from "@/data/data";
 import { useReservationStore } from "@/store/ReservationStore";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
+import { useApiStore } from "@/store/Api";
 
 export const ReservationCard = () => {
-  const reservationList = data();
+  const { reservations } = useApiStore();
   const router = useRouter();
   const { currentStatus, setStatus } = useReservationStore();
 
@@ -12,7 +12,7 @@ export const ReservationCard = () => {
     router.push(path);
   };
 
-  const filteredReservations = reservationList.filter(
+  const filteredReservations = reservations.filter(
     (reservation) => reservation.status === currentStatus
   );
 
@@ -29,7 +29,7 @@ export const ReservationCard = () => {
                 수리 물품: {reservation.item}
               </h3>
               <span className="text-blue-500 font-semibold">
-                {reservation.price}
+                {reservation.price}원
               </span>
             </div>
             <div className="grid grid-cols-2 gap-3 text-sm font-bold">
