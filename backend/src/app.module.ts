@@ -7,7 +7,7 @@ import { ListModule } from './list/list.module';
 import { Benefit } from './list/entities/benefit.entity';
 import { List } from './list/entities/list.entity';
 import { CompleteState } from './list/entities/compliteState.entity';
-import { Field } from './list/entities/industry.entity';
+import { Industry } from './list/entities/industry.entity';
 import { RefreshToken } from './modules/auth/dto/refresh-token.entity';
 import { UserModule } from './modules/user/user.module';
 import { DeliveryDriver } from './modules/auth/entites/auth.entity';
@@ -45,7 +45,7 @@ import { JwtModule } from '@nestjs/jwt';
           Benefit,
           List,
           CompleteState,
-          Field,
+          Industry,
           RefreshToken,
         ],
         synchronize: true,

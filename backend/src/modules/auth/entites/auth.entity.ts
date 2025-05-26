@@ -1,3 +1,4 @@
+// src/modules/auth/entities/delivery-driver.entity.ts
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -10,7 +11,6 @@ import {
   JoinTable,
 } from 'typeorm';
 import { Benefit } from 'src/list/entities/benefit.entity';
-
 import { List } from 'src/list/entities/list.entity';
 import { Industry } from 'src/list/entities/industry.entity';
 
@@ -54,7 +54,17 @@ export class DeliveryDriver {
   @OneToMany(() => List, (list) => list.rider)
   lists: List[];
 
-  @ManyToMany(() => Industry, (industry) => industry.drivers)
-  @JoinTable()
+  @ManyToMany(() => Industry, (industry) => industry.riders)
+  @JoinTable({
+    name: 'industry_delivery_driver',
+    joinColumn: {
+      name: 'driver_id',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'industry_id',
+      referencedColumnName: 'id',
+    },
+  })
   industries: Industry[];
 }

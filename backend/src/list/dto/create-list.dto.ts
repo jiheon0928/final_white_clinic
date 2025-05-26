@@ -2,7 +2,6 @@
 import { Type } from 'class-transformer';
 import {
   IsString,
-  IsPhoneNumber,
   IsOptional,
   IsInt,
   IsNotEmpty,
@@ -35,7 +34,6 @@ export class CreateListDto {
 
   @IsString()
   @MaxLength(20)
-  @IsPhoneNumber()
   phone: string;
 
   @IsOptional()

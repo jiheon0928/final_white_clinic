@@ -11,6 +11,7 @@ import { CompleteState as StatusEntity } from 'src/list/entities/compliteState.e
 import { Industry } from 'src/list/entities/industry.entity';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 import { PartialType } from '@nestjs/mapped-types';
+import { Type } from 'class-transformer';
 
 @Entity()
 export class List {
@@ -46,18 +47,18 @@ export class List {
 
   @ManyToOne(() => DeliveryDriver, { eager: true, nullable: true })
   @JoinColumn({ name: 'riderId' })
-  rider: DeliveryDriver;
+  @Type(() => Number)
+  rider?: DeliveryDriver;
 
   @ManyToOne(() => StatusEntity, { eager: true })
   @JoinColumn({ name: 'StatusId' })
-  Status: StatusEntity;
+  @Type(() => Number)
+  Status?: StatusEntity;
 
   @ManyToOne(() => Industry, { eager: true })
   @JoinColumn({ name: 'industryId' })
+  @Type(() => Number)
   industry: Industry;
-
-  @Column()
-  industryId: number;
 }
 
 export class UpdateListDto extends PartialType(List) {}
