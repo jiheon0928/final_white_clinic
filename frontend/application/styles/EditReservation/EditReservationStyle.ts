@@ -74,38 +74,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 
-  sectionTitle: {
-    fontWeight: "600",
-    fontSize: 15,
-    marginVertical: 12,
-  },
-  checkboxRow: {
-    flexDirection: "row",
-
-    marginBottom: 16,
-  },
-  checkboxItem: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-  checkboxBox: {
-    width: 20,
-    height: 20,
-    borderWidth: 1,
-    borderColor: "#333",
-    justifyContent: "center",
-    alignItems: "center",
-    marginRight: 8,
-    borderRadius: 4,
-  },
-  checkmark: {
-    fontSize: 14,
-    color: "#00aaff",
-  },
-  checkboxLabel: {
-    fontSize: 14,
-    marginRight: 10,
-  },
   wonmargin: { marginLeft: 10 },
   row: {
     flexDirection: "row",

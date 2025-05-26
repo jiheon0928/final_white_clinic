@@ -9,18 +9,18 @@ type CheckBoxProps = {
 
 const CheckBox = ({ label, value, onValueChange }: CheckBoxProps) => (
   <TouchableOpacity
-    style={styles.checkboxItem}
+    style={checkBoxstyles.checkboxItem}
     onPress={() => onValueChange(!value)}
     activeOpacity={0.8}
   >
-    <View style={styles.checkboxBox}>
-      {value && <Text style={styles.checkmark}>✔</Text>}
+    <View style={checkBoxstyles.checkboxBox}>
+      {value && <Text style={checkBoxstyles.checkmark}>✔</Text>}
     </View>
-    <Text style={styles.checkboxLabel}>{label}</Text>
+    <Text style={checkBoxstyles.checkboxLabel}>{label}</Text>
   </TouchableOpacity>
 );
 
-const styles = StyleSheet.create({
+const checkBoxstyles = StyleSheet.create({
   checkboxRow: {
     flexDirection: "row",
     marginBottom: 16,

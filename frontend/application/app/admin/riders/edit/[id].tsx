@@ -26,9 +26,6 @@ const edit = () => {
     typeof zipcode2 === "string" ? zipcode2 : ""
   );
 
-  const clickAddress = () => {
-    router.replace("/signup/addressapi");
-  };
   const onChangeDate = (selectedDate: Date | undefined) => {
     setShowDate(false);
     if (selectedDate) {
@@ -52,7 +49,7 @@ const edit = () => {
           setShowDate={setShowDate}
           onChangeDate={onChangeDate}
         />
-        <AddressInput />
+
         <CheckBoxBundle
           ACvalue={itemAircon}
           onValueChangAC={setItemAircon}
