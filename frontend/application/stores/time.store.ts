@@ -1,16 +1,11 @@
-import { formatTime } from "@/app/hooks/input";
+import { formatTime } from "@/app/hooks/format";
+import { TimeState } from "@/types/stores";
 import { create } from "zustand";
-
-type TimeState = {
-  time: string;
-  setTime: (time: string) => void;
-  resetTime: () => void;
-};
 
 const useTimeStore = create<TimeState>((set) => ({
   time: formatTime(new Date()),
-  setTime: (time: string) => set({ time }),
-  resetTime: () => set({ time: new Date().toISOString().split("T")[1] }),
+  setTime: (time: Date) => set({ time: formatTime(time) }),
+  resetTime: () => set({ time: formatTime(new Date()) }),
 }));
 
 export default useTimeStore;

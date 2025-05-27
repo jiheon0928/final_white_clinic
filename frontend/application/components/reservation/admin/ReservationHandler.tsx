@@ -8,9 +8,11 @@ import { View, Text, Platform, ScrollView } from "react-native";
 import CalenderInput from "@/components/common/input/CalenderInput";
 import useReservationStore from "@/stores/reservation.store";
 import useTimeStore from "@/stores/time.store";
-import useDateStore from "@/stores/calender.store";
-import { updateDateWithoutTime } from "@/app/hooks/input";
+import useDateStore from "@/stores/date.store";
 import { router } from "expo-router";
+import { combineDateAndTime } from "@/app/hooks/format";
+import AddressInput from "@/components/common/input/AddressInput";
+import useAddressStore from "@/stores/address.store";
 
 type ReservationHandlerProps = {
   id?: string;
@@ -20,15 +22,20 @@ const ReservationHandler = ({ id }: ReservationHandlerProps) => {
   const { reservation, setReservationField, resetReservation } =
     useReservationStore();
   const { date, resetDate } = useDateStore();
-  const { time, setTime, resetTime } = useTimeStore();
+  const { time, resetTime } = useTimeStore();
+  const { zipcode, address, detailAddress, resetAddress } = useAddressStore();
 
   const handleSubmit = () => {
-    setReservationField("reservationDate", date);
-    setReservationField("reservationTime", time);
+    setReservationField("visitTime", combineDateAndTime(date, time));
+    setReservationField("customerZipCode", zipcode);
+    setReservationField("customerAddress", address);
+    setReservationField("customerDetailAddress", detailAddress);
     console.log("✅ 제출 데이터:", useReservationStore.getState().reservation);
     resetReservation();
     resetDate();
     resetTime();
+    resetAddress();
+
     router.back();
   };
 
@@ -58,20 +65,13 @@ const ReservationHandler = ({ id }: ReservationHandlerProps) => {
               onChangeText={(text) => setReservationField(key, text)}
             />
           ))}
-
+          <AddressInput />
           <View style={{ flexDirection: "row", gap: 10 }}>
             <View style={{ flex: 1 }}>
-              <CalenderInput
-                title="예약 날짜"
-                date={new Date(date)}
-                onChangeDate={(selected) => updateDateWithoutTime(selected)}
-              />
+              <CalenderInput title="예약 날짜" />
             </View>
             <View style={{ flex: 1 }}>
-              <TimeInput
-                time={time.split(".")[0]}
-                onChangeTime={(selected) => setTime(selected)}
-              />
+              <TimeInput />
             </View>
           </View>
 

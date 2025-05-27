@@ -10,23 +10,18 @@ import useEditRiderStore from "@/stores/editRider.store";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
-import useIndustryStore, { IndustryType } from "@/stores/industry.store";
+import useIndustryStore from "@/stores/industry.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ToggleInput from "@/components/common/input/ToggleInput";
-import useDateStore from "@/stores/calender.store";
-import { updateDateWithoutTime } from "@/app/hooks/input";
-const EditRiderPage = () => {
+import useDateStore from "@/stores/date.store";
+import { IndustryType } from "@/types/stores";
+
+const EditRiderPage = ({ id }: { id: string }) => {
   const { rider, setRiderField, resetRider, setRider } = useEditRiderStore();
   const { date, resetDate } = useDateStore();
-  const {
-    zipcode,
-    address,
-    detailAddress,
-    setDetailAddress,
-    setAddress,
-    resetAddress,
-  } = useAddressStore();
-  const { industry, toggle, resetIndustry, setSelected } = useIndustryStore();
+  const { address, detailAddress, zipcode, setAddress, resetAddress } =
+    useAddressStore();
+  const { industry, resetIndustry, setSelected } = useIndustryStore();
   const insets = useSafeAreaInsets();
   const [selectedBenefit, setSelectedBenefit] = useState(0.4);
 
@@ -78,8 +73,9 @@ const EditRiderPage = () => {
         : [String(userData.industry) as IndustryType],
     });
     setSelected(userData.industry as IndustryType[]);
-    setAddress(userData.zipcode, userData.address);
-    setDetailAddress(userData.detailAddress);
+    setAddress("zipcode", userData.zipcode);
+    setAddress("address", userData.address);
+    setAddress("detailAddress", userData.detailAddress);
   }, []);
 
   return (
@@ -101,23 +97,9 @@ const EditRiderPage = () => {
               onChangeText={(text) => setRiderField(key, text)}
             />
           ))}
-          <CalenderInput
-            title="생년월일"
-            date={new Date(date)}
-            onChangeDate={(selected) => updateDateWithoutTime(selected)}
-          />
-          <AddressInput
-            zipCode={zipcode}
-            address={address}
-            detailAddress={detailAddress}
-            setDetailAddress={(text) => setDetailAddress(text)}
-          />
-          <CheckBoxBundle
-            ACvalue={industry.includes("에어컨")}
-            WSvalue={industry.includes("세탁기")}
-            onValueChangAC={(value) => toggle("에어컨", value)}
-            onValueChangeWS={(value) => toggle("세탁기", value)}
-          />
+          <CalenderInput title="생년월일" />
+          <AddressInput />
+          <CheckBoxBundle />
           <ToggleInput
             title="수당률"
             boxStyle={{ width: 100 }}

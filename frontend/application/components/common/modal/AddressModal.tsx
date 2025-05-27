@@ -1,21 +1,22 @@
 import React from "react";
-import { Modal, View, StyleSheet, Pressable, Text } from "react-native";
+import { Modal, View, Pressable, Text } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
-
 import useAddressStore from "@/stores/address.store";
+import { AddressModalStyles } from "@/styles/address";
 
-type Props = {
+type AddressModalProps = {
   visible: boolean;
   onClose: () => void;
 };
 
-const AddressModal = ({ visible, onClose }: Props) => {
+const AddressModal = ({ visible, onClose }: AddressModalProps) => {
   const { setAddress } = useAddressStore();
 
   const handleMessage = (event: WebViewMessageEvent) => {
     try {
       const data = JSON.parse(event.nativeEvent.data);
-      setAddress(data.zonecode, data.address);
+      setAddress("zipcode", data.zonecode);
+      setAddress("address", data.address);
       onClose();
     } catch (e) {
       console.warn("주소 파싱 실패", e);
@@ -25,8 +26,8 @@ const AddressModal = ({ visible, onClose }: Props) => {
   return (
     <Modal visible={visible} animationType="slide">
       <View style={{ flex: 1 }}>
-        <Pressable onPress={onClose} style={addressModalStyles.closeButton}>
-          <Text style={addressModalStyles.closeText}>닫기</Text>
+        <Pressable onPress={onClose} style={AddressModalStyles.closeButton}>
+          <Text style={AddressModalStyles.closeText}>닫기</Text>
         </Pressable>
 
         <WebView
@@ -37,17 +38,5 @@ const AddressModal = ({ visible, onClose }: Props) => {
     </Modal>
   );
 };
-
-const addressModalStyles = StyleSheet.create({
-  closeButton: {
-    padding: 10,
-    backgroundColor: "#ddd",
-    alignItems: "center",
-  },
-  closeText: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-});
 
 export default AddressModal;

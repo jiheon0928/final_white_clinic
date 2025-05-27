@@ -1,16 +1,7 @@
+import { IndustryState } from "@/types/stores";
 import { create } from "zustand";
 
-// industry.store.ts
-export type IndustryType = "에어컨" | "세탁기";
-
-type IndustryStore = {
-  industry: IndustryType[];
-  toggle: (label: IndustryType, checked: boolean) => void;
-  setSelected: (list: IndustryType[]) => void;
-  resetIndustry: () => void;
-};
-
-const useIndustryStore = create<IndustryStore>((set) => ({
+const useIndustryStore = create<IndustryState>((set) => ({
   industry: [],
   toggle: (label, checked) =>
     set((state) => ({

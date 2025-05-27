@@ -10,17 +10,16 @@ import useEditRiderStore from "@/stores/editRider.store";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
-import useIndustryStore, { IndustryType } from "@/stores/industry.store";
+import useIndustryStore from "@/stores/industry.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useDateStore from "@/stores/calender.store";
-import { updateDateWithoutTime } from "@/app/hooks/input";
+import useDateStore from "@/stores/date.store";
 
 const EditMyPage = () => {
   const { rider, setRiderField, resetRider } = useEditRiderStore();
   const { date, resetDate } = useDateStore();
-  const { zipcode, address, detailAddress, setDetailAddress, resetAddress } =
+  const { zipcode, address, detailAddress, setAddress, resetAddress } =
     useAddressStore();
-  const { industry, toggle, resetIndustry } = useIndustryStore();
+  const { industry, resetIndustry } = useIndustryStore();
   const insets = useSafeAreaInsets();
 
   const editRiderInputFields = [
@@ -64,25 +63,11 @@ const EditMyPage = () => {
               onChangeText={(text) => setRiderField(key, text)}
             />
           ))}
-          <CalenderInput
-            title="생년월일"
-            date={new Date(date)}
-            onChangeDate={(selected) => updateDateWithoutTime(selected)}
-          />
+          <CalenderInput title="생년월일" />
 
-          <AddressInput
-            zipCode={zipcode}
-            address={address}
-            detailAddress={detailAddress}
-            setDetailAddress={(text) => setDetailAddress(text)}
-          />
+          <AddressInput />
 
-          <CheckBoxBundle
-            ACvalue={industry.includes("에어컨")}
-            WSvalue={industry.includes("세탁기")}
-            onValueChangAC={(value) => toggle("에어컨", value)}
-            onValueChangeWS={(value) => toggle("세탁기", value)}
-          />
+          <CheckBoxBundle />
 
           <DefaultBtn text="완료" onPress={handleSubmit} />
         </View>

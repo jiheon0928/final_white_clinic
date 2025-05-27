@@ -1,63 +1,42 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import AddressModal from "../modal/AddressModal";
+import useAddressStore from "@/stores/address.store";
+import { AddressInputStyles } from "@/styles/address";
 
-type AddressInputProps = {
-  zipCode: string;
-  address: string;
-  detailAddress: string;
-  setDetailAddress: (detailAddress: string) => void;
-};
-
-const AddressInput = ({
-  zipCode,
-  address,
-  detailAddress,
-  setDetailAddress,
-}: AddressInputProps) => {
+const AddressInput = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const { zipcode, address, detailAddress, setAddress } = useAddressStore();
   return (
-    <View>
-      <Text style={styles.label}>주소</Text>
+    <View style={{ gap: 10 }}>
+      <Text style={AddressInputStyles.label}>주소</Text>
 
-      {/* 우편번호 버튼 */}
-      <View style={styles.zipRow}>
+      <View style={AddressInputStyles.zipRow}>
         <TextInput
-          style={[styles.input, { flex: 1 }]}
-          value={zipCode}
+          style={[AddressInputStyles.input, { flex: 1 }]}
+          value={zipcode}
           placeholder="우편번호"
           editable={false}
         />
         <TouchableOpacity
           onPress={() => setIsModalVisible(true)}
-          style={styles.zipButton}
+          style={AddressInputStyles.zipButton}
         >
-          <Text style={styles.zipButtonText}>우편번호찾기</Text>
+          <Text style={AddressInputStyles.zipButtonText}>우편번호찾기</Text>
         </TouchableOpacity>
       </View>
-
-      {/* 기본 주소 */}
       <TextInput
-        style={[styles.input, { marginBottom: 10 }]}
+        style={[AddressInputStyles.input]}
         value={address}
         placeholder="기본 주소"
         editable={false}
       />
-
-      {/* 상세 주소 입력 */}
       <TextInput
-        style={styles.input}
+        style={AddressInputStyles.input}
         placeholder="상세주소 입력"
         value={detailAddress}
-        onChangeText={setDetailAddress}
+        onChangeText={(text) => setAddress("detailAddress", text)}
       />
-
       <AddressModal
         visible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
@@ -65,43 +44,5 @@ const AddressInput = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  label: {
-    fontSize: 15,
-    marginLeft: 8,
-    marginBottom: 6,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    fontSize: 15,
-    backgroundColor: "#fff",
-    width: "100%",
-    textAlignVertical: "top",
-  },
-  zipRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 10,
-  },
-  zipButton: {
-    marginLeft: 10,
-    backgroundColor: "#eee",
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#bbb",
-  },
-  zipButtonText: {
-    fontSize: 15,
-  },
-});
 
 export default AddressInput;

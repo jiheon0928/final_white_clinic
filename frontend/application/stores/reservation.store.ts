@@ -5,8 +5,10 @@ type ReservationState = {
     customerName: string;
     customerPhone: string;
     customerRequest: string;
-    reservationDate: string;
-    reservationTime: string;
+    customerZipCode: string;
+    customerAddress: string;
+    customerDetailAddress: string;
+    visitTime: Date;
     reservationStatus: "대기" | "진행" | "완료";
     reservationPrice: string;
   };
@@ -16,7 +18,7 @@ type ReservationState = {
   setSearchValue: (searchValue: string) => void;
   setReservationField: (
     field: keyof ReservationState["reservation"],
-    value: string
+    value: string | Date
   ) => void;
   resetReservation: () => void;
 };
@@ -26,8 +28,10 @@ const useReservationStore = create<ReservationState>((set) => ({
     customerName: "",
     customerPhone: "",
     customerRequest: "",
-    reservationDate: "",
-    reservationTime: "",
+    customerZipCode: "",
+    customerAddress: "",
+    customerDetailAddress: "",
+    visitTime: new Date(),
     reservationStatus: "대기",
     reservationPrice: "0",
   },
@@ -37,7 +41,7 @@ const useReservationStore = create<ReservationState>((set) => ({
   setSearchValue: (searchValue: string) => set({ searchValue }),
   setReservationField: (
     field: keyof ReservationState["reservation"],
-    value: string
+    value: string | Date
   ) =>
     set((state) => ({
       reservation: { ...state.reservation, [field]: value },
@@ -48,8 +52,10 @@ const useReservationStore = create<ReservationState>((set) => ({
         customerName: "",
         customerPhone: "",
         customerRequest: "",
-        reservationDate: "",
-        reservationTime: "",
+        customerZipCode: "",
+        customerAddress: "",
+        customerDetailAddress: "",
+        visitTime: new Date(),
         reservationStatus: "대기",
         reservationPrice: "0",
       },

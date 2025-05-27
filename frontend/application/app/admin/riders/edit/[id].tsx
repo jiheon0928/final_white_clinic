@@ -4,7 +4,7 @@ import { useLocalSearchParams } from "expo-router";
 const EditRider = () => {
   const { id } = useLocalSearchParams();
 
-  return <EditRiderPage />;
+  return <EditRiderPage id={id as string} />;
 };
 
 export default EditRider;
