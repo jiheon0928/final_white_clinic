@@ -1,39 +1,33 @@
 import { create } from "zustand";
-import { Rider } from "@/types/RiderStore/RiderTypes";
 import { RiderSearchStore } from "@/types/RiderStore/RiderSearchTypes";
 
 export const useRiderStore = create<RiderSearchStore>((set, get) => ({
-  search: "",
   riders: [],
   filteredRiders: [],
+  search: "",
 
-  setSearch: (value: string) => {
-    set({ search: value });
-    get().filterRiders(value);
+  setRiders: (riders) => {
+    const approvedRiders = riders.filter((rider) => rider.approval === true);
+    set({ riders: approvedRiders, filteredRiders: approvedRiders });
   },
 
-  filterRiders: (search: string) => {
-    const lowerSearch = search.toLowerCase();
-    const filtered = get().riders.filter(
-      (rider: Rider) =>
-        rider.approval &&
-        (rider.name.toLowerCase().includes(lowerSearch) ||
-          rider.phone.includes(search) ||
-          rider.email.toLowerCase().includes(lowerSearch) ||
-          rider.address.toLowerCase().includes(lowerSearch))
+  setSearch: (searchTerm) => {
+    set({ search: searchTerm });
+    get().filterRiders(searchTerm);
+  },
+
+  filterRiders: (searchTerm) => {
+    const { riders } = get();
+    const filtered = riders.filter(
+      (rider) =>
+        rider.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        rider.phone.includes(searchTerm)
     );
     set({ filteredRiders: filtered });
   },
 
-  resetRiders: () => {
-    set({
-      search: "",
-      filteredRiders: get().riders.filter((rider) => rider.approval),
-    });
-  },
-
-  setRiders: (riders: Rider[]) => {
-    const approvedRiders = riders.filter((rider) => rider.approval);
-    set({ riders: approvedRiders, filteredRiders: approvedRiders });
+  getApprovedRiders: () => {
+    const { riders } = get();
+    return riders.filter((rider) => rider.approval === true);
   },
 }));

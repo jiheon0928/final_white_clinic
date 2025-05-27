@@ -18,7 +18,7 @@ const LoginPage = () => {
   useEffect(() => {
     const prepare = async () => {
       await SplashScreen.preventAutoHideAsync();
-      await new Promise((res) => setTimeout(res, 1500));
+      await new Promise((res) => setTimeout(res, 500));
       setIsReady(true);
       SplashScreen.hideAsync();
     };
@@ -28,7 +28,7 @@ const LoginPage = () => {
   useEffect(() => {
     if (isReady)
       Animated.sequence([
-        Animated.delay(1500),
+        Animated.delay(500),
         Animated.stagger(600, [
           Animated.timing(logoPosition, {
             toValue: initialLogoY - 250,

@@ -9,7 +9,7 @@ export const ReservationCard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    getReservations();
+    getReservations("pending");
   }, [getReservations]);
 
   const handleClick = (path: string) => {
@@ -21,7 +21,7 @@ export const ReservationCard = () => {
       <RevErrorMessage
         isLoading={isLoading}
         error={error || ""}
-        getReservations={getReservations}
+        getReservations={() => getReservations("pending")}
         reservations={reservations}
       />
       <div className="grid grid-cols-1 gap-4">
@@ -40,31 +40,24 @@ export const ReservationCard = () => {
                 </span>
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm font-bold">
-                <div className="flex items-center space-x-2">
-                  <span className="text-gray-600">
-                    고객명: {reservation.customer}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-gray-600">
-                    방문시간: {reservation.visitTime}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-gray-600">
-                    방문날짜: {reservation.date.split("T")[0]}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2">
-                  <span className="text-gray-600">
-                    전화번호: {reservation.phone}
-                  </span>
-                </div>
-                <div className="flex items-center space-x-2 col-span-2">
-                  <span className="text-gray-600">
-                    주소: {reservation.address}
-                  </span>
-                </div>
+                {[
+                  { label: "고객명", value: reservation.customer },
+                  { label: "방문시간", value: reservation.visitTime },
+                  { label: "방문날짜", value: reservation.date.split("T")[0] },
+                  { label: "전화번호", value: reservation.phone },
+                  { label: "주소", value: reservation.address, colSpan: 2 },
+                ].map((item, index) => (
+                  <div
+                    key={index}
+                    className={`flex items-center space-x-2 ${
+                      item.colSpan ? `col-span-${item.colSpan}` : ""
+                    }`}
+                  >
+                    <span className="text-gray-600">
+                      {item.label}: {item.value}
+                    </span>
+                  </div>
+                ))}
               </div>
               <div className="flex justify-end gap-2">
                 <Button
