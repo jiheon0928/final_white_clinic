@@ -3,17 +3,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from './admin/admin.module';
-import { ListModule } from './reservation/reservation.module';
-import { Benefit } from './reservation/entities/benefit.entity';
-import { List } from './reservation/entities/reservation.entity';
-import { CompleteState } from './reservation/entities/compliteState.entity';
-import { Industry } from './reservation/entities/industry.entity';
 import { RefreshToken } from './modules/auth/dto/refresh-token.entity';
 import { UserModule } from './modules/user/user.module';
 import { DeliveryDriver } from './modules/auth/entites/auth.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
 import { SalesModule } from './sales/sales.module';
+import { Reservation } from './reservation/entities/reservation.entity';
+import { Benefit } from './reservation/entities/benefit.entity';
+import { Industry } from './reservation/entities/industry.entity';
+import { CompleteState } from './reservation/entities/compliteState.entity';
+import { ReservationModule } from './reservation/reservation.module';
 
 @Module({
   imports: [
@@ -44,7 +44,7 @@ import { SalesModule } from './sales/sales.module';
         entities: [
           DeliveryDriver,
           Benefit,
-          List,
+          Reservation,
           CompleteState,
           Industry,
           RefreshToken,
@@ -55,7 +55,7 @@ import { SalesModule } from './sales/sales.module';
 
     AdminModule,
     AuthModule,
-    ListModule,
+    ReservationModule,
     UserModule,
     SalesModule,
   ],

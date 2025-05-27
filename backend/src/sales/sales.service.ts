@@ -20,12 +20,15 @@ export class SalesService {
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
       .innerJoin('r.status', 's')
-      .select('SUM(r.price)', 'totalPrice')
-      .where('r.date BETWEEN :start AND :end', {
-        start: todayStart.toISOString(),
-        end: tomorrowStart.toISOString(),
+      .select('COALESCE(SUM(r.price), 0)', 'totalPrice')
+      .where('r.createdAt BETWEEN :start AND :end', {
+        start: todayStart,
+        end: tomorrowStart,
       })
       .andWhere('s.status = :status', { status: '완료' })
-      .getRawOne();
+      .getRawOne<{ totalPrice: string }>();
+
+    const total = parseFloat(raw?.totalPrice ?? '0');
+    return { todaySales: total };
   }
 }
