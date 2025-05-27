@@ -147,4 +147,46 @@ export class SalesService {
       netProfit: parseFloat(raw?.netProfit ?? '0'),
     };
   }
+
+  //==========================주간 요일별 매출 조회==========================
+  async getWeeklySalesByDay(refDate: Date): Promise<
+    Array<{
+      date: string;
+      totalSales: number;
+      totalCommission: number;
+      netProfit: number;
+    }>
+  > {
+    const start = new Date(refDate);
+    start.setDate(refDate.getDate() - refDate.getDay());
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date(start);
+    end.setDate(start.getDate() + 7);
+
+    const raw = await this.reservationRepository
+      .createQueryBuilder('r')
+      .innerJoin('r.rider', 'd')
+      .innerJoin('r.status', 's')
+      .select('r.date', 'date')
+      .addSelect('COALESCE(SUM(r.price), 0)', 'totalSales')
+      .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
+      .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
+      .where('r.date BETWEEN :start AND :end', { start, end })
+      .andWhere('s.status = :status', { status: '완료' })
+      .groupBy('r.date')
+      .getRawMany<{
+        date: string;
+        totalSales: string;
+        totalCommission: string;
+        netProfit: string;
+      }>();
+
+    return raw.map((item) => ({
+      date: item.date,
+      totalSales: parseFloat(item.totalSales),
+      totalCommission: parseFloat(item.totalCommission),
+      netProfit: parseFloat(item.netProfit),
+    }));
+  }
 }
