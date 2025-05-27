@@ -6,15 +6,15 @@ import React, { useEffect, useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
-import useBirthStore from "@/stores/calender.store";
+import useBirthStore from "@/stores/date.store";
 import useEditRiderStore from "@/stores/editRider.store";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
 import useIndustryStore, { IndustryType } from "@/stores/industry.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import useDateStore from "@/stores/calender.store";
-import { updateDateWithoutTime } from "@/app/hooks/input";
+import useDateStore from "@/stores/date.store";
+import { updateDateWithoutTime } from "@/app/hooks/format";
 
 const EditMyPage = () => {
   const { rider, setRiderField, resetRider, setRider } = useEditRiderStore();

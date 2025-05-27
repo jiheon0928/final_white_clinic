@@ -12,8 +12,8 @@ import useIndustryStore from "@/stores/industry.store";
 import useAddressStore from "@/stores/address.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CalenderInput from "../input/CalenderInput";
-import useDateStore from "@/stores/calender.store";
-import { updateDateWithoutTime } from "@/app/hooks/input";
+import useDateStore from "@/stores/date.store";
+import { updateDateWithoutTime } from "@/app/hooks/format";
 
 const SignPage = () => {
   const { user, setUserField, resetUser } = useSignupStore();
