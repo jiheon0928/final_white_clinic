@@ -1,4 +1,3 @@
-// src/list/list.module.ts
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { CompleteState as StatusEntity } from 'src/reservation/entities/compliteState.entity';
