@@ -8,4 +8,7 @@ export type ApiStore = {
   error: string | null;
   getRiders: () => Promise<void>;
   getReservations: () => Promise<void>;
+  updateRiderBenefit: (riderId: number, benefit: number) => void;
+  updateRiderApproval: (riderId: number) => void;
+  getApprovedRiders: () => RiderInfoList;
 };
