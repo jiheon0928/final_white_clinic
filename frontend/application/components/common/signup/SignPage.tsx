@@ -12,16 +12,31 @@ import useIndustryStore from "@/stores/industry.store";
 import useAddressStore from "@/stores/address.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CalenderInput from "../input/CalenderInput";
-import useBirthStore from "@/stores/calender.store";
+import useDateStore from "@/stores/calender.store";
+import { updateDateWithoutTime } from "@/app/hooks/input";
 
 const SignPage = () => {
   const { user, setUserField, resetUser } = useSignupStore();
   const { industry, toggle, resetIndustry } = useIndustryStore();
-  const { birth, setBirth, resetBirth } = useBirthStore();
+  const { date, setDate, resetDate } = useDateStore();
   const { zipcode, address, detailAddress, setDetailAddress, resetAddress } =
     useAddressStore();
 
   const insets = useSafeAreaInsets();
+
+  const handleSubmit = () => {
+    setUserField("industry", industry);
+    setUserField("zipcode", zipcode);
+    setUserField("address", address);
+    setUserField("detailAddress", detailAddress);
+    setUserField("birth", date);
+    console.log("✅ 제출 데이터:", useSignupStore.getState().user);
+    resetUser();
+    resetIndustry();
+    resetAddress();
+    resetDate();
+    router.replace("/");
+  };
 
   const signupInputFields = [
     { title: "아이디", key: "loginId" },
@@ -51,8 +66,9 @@ const SignPage = () => {
             />
           ))}
           <CalenderInput
-            date={birth ? new Date(birth) : new Date()}
-            onChangeDate={(selected) => setBirth(selected)}
+            title="생년월일"
+            date={new Date(date)}
+            onChangeDate={(selected) => updateDateWithoutTime(selected)}
           />
           <CheckBoxBundle
             ACvalue={industry.includes("에어컨")}
@@ -66,22 +82,7 @@ const SignPage = () => {
             detailAddress={detailAddress}
             setDetailAddress={(text) => setDetailAddress(text)}
           />
-          <DefaultBtn
-            text="완료"
-            onPress={() => {
-              setUserField("industry", industry);
-              setUserField("zipcode", zipcode);
-              setUserField("address", address);
-              setUserField("detailAddress", detailAddress);
-              setUserField("birth", birth.toISOString().split("T")[0]);
-              console.log("✅ 제출 데이터:", useSignupStore.getState().user);
-              resetUser();
-              resetIndustry();
-              resetAddress();
-              resetBirth();
-              router.replace("/");
-            }}
-          />
+          <DefaultBtn text="완료" onPress={handleSubmit} />
         </View>
       </ScrollView>
     </Page>
