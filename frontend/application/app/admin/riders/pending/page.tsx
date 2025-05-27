@@ -3,14 +3,15 @@ import pendingRiders from "@/dummyData/pendingData";
 import Page from "@/components/common/Page";
 import Info from "@/components/common/text/Info";
 import Card from "@/components/common/box/Card";
+import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 
 const pending = () => {
   return (
     <Page>
+      <BackBtnHeader title="승인 대기" />
       <ScrollView style={{ backgroundColor: "#fff" }}>
-        <Text style={styles.title}>인증 대기</Text>
         {pendingRiders.map((rider, idx) => (
-          <Card key={idx} btnName="인증하기" pressBtn={() => {}}>
+          <Card key={idx} btnName="승인하기" pressBtn={() => {}}>
             <View
               style={{ flexDirection: "row", justifyContent: "space-between" }}
             >
