@@ -173,7 +173,7 @@ export class SalesService {
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
       .where('r.date BETWEEN :start AND :end', { start, end })
-      .andWhere('s.status = :status', { status: '완료' })
+      .andWhere('s.status = :status', { status: 3 })
       .groupBy('r.date')
       .getRawMany<{
         date: string;
