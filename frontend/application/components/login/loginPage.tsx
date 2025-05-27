@@ -29,7 +29,7 @@ const LoginPage = () => {
     if (isReady)
       Animated.sequence([
         Animated.delay(1500),
-        Animated.stagger(400, [
+        Animated.stagger(600, [
           Animated.timing(logoPosition, {
             toValue: initialLogoY - 250,
             duration: 800,
