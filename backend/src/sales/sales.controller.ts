@@ -5,7 +5,7 @@ import { SalesService } from './sales.service';
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
-  @Get('sales')
+  @Get('date')
   async salesByDate(@Query('date') dateStr: string) {
     if (!dateStr) throw new BadRequestException('date');
     const date = new Date(dateStr);
