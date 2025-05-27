@@ -2,11 +2,10 @@ import CalenderInput from "@/components/common/input/CalenderInput";
 import Page from "@/components/common/Page";
 import Input from "@/components/common/input/Input";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Platform, ScrollView, View } from "react-native";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
-import useBirthStore from "@/stores/calender.store";
 import useEditRiderStore from "@/stores/editRider.store";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
@@ -17,17 +16,11 @@ import useDateStore from "@/stores/calender.store";
 import { updateDateWithoutTime } from "@/app/hooks/input";
 
 const EditMyPage = () => {
-  const { rider, setRiderField, resetRider, setRider } = useEditRiderStore();
+  const { rider, setRiderField, resetRider } = useEditRiderStore();
   const { date, resetDate } = useDateStore();
-  const {
-    zipcode,
-    address,
-    detailAddress,
-    setDetailAddress,
-    setAddress,
-    resetAddress,
-  } = useAddressStore();
-  const { industry, toggle, resetIndustry, setSelected } = useIndustryStore();
+  const { zipcode, address, detailAddress, setDetailAddress, resetAddress } =
+    useAddressStore();
+  const { industry, toggle, resetIndustry } = useIndustryStore();
   const insets = useSafeAreaInsets();
 
   const editRiderInputFields = [
@@ -41,7 +34,7 @@ const EditMyPage = () => {
     setRiderField("zipcode", zipcode);
     setRiderField("detailAddress", detailAddress);
     setRiderField("industry", industry);
-    setRiderField("birth", date.toISOString().split("T")[0]);
+    setRiderField("birth", date);
 
     console.log("✅ 제출 데이터:", useEditRiderStore.getState().rider);
 
@@ -72,7 +65,8 @@ const EditMyPage = () => {
             />
           ))}
           <CalenderInput
-            date={date}
+            title="생년월일"
+            date={new Date(date)}
             onChangeDate={(selected) => updateDateWithoutTime(selected)}
           />
 
