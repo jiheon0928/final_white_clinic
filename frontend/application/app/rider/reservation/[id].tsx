@@ -4,10 +4,10 @@ import Page from "@/components/common/Page";
 import { StyleSheet, Text, View } from "react-native";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import { reservationDummy } from "@/dummyData/reservationData";
-type ReservationDetailProps = {
-  id: number;
-};
-const ReservationDetail = ({ id }: ReservationDetailProps) => {
+import { router, useLocalSearchParams } from "expo-router";
+
+const ReservationDetail = () => {
+  const { id } = useLocalSearchParams();
   const reservation = reservationDummy.find((v) => v.id == Number(id));
   const btnText = (status: string) => {
     if (status == "대기") {
@@ -15,7 +15,7 @@ const ReservationDetail = ({ id }: ReservationDetailProps) => {
     } else if (status == "진행") {
       return "완료";
     } else {
-      return "리뷰 보기";
+      return "확인";
     }
   };
   const completedDate = () => {
@@ -24,33 +24,48 @@ const ReservationDetail = ({ id }: ReservationDetailProps) => {
     } else if (reservation?.상태 == "진행") {
       return "진행중";
     } else {
-      return "대기중";
+      return;
     }
   };
   return (
     <Page>
-      <BackBtnHeader title="예약 상세" />
-      <View style={styles.box}>
+      <BackBtnHeader title="예약 상세 페이지" />
+      <View style={ReservationDetailStyles.box}>
         <Info value={reservation?.제목 ?? ""} category="제목" />
+        <Info value={reservation?.분야 ?? ""} category="분야" />
         <Info value={reservation?.고객이름 ?? ""} category="고객명" />
-        <Info value={reservation?.연락처 ?? ""} category="전화번호" />
-        <Info value={reservation?.예약날짜 ?? ""} category="예약 날짜" />
+        <Info value={reservation?.연락처 ?? ""} category="연락처" />
+        <Info value={reservation?.방문날짜 ?? ""} category="방문 날짜" />
+        <Info value={reservation?.방문시간 ?? ""} category="방문 시간" />
         <Info value={completedDate() ?? ""} category="완료 날짜" />
         <Info value={reservation?.주소 ?? ""} category="주소" />
-        <Info value={reservation?.단가 ?? ""} category="가격" />
-        <Text style={styles.label}>고객 요청 사항</Text>
-        <View style={styles.requestBox}>
+        <Info value={reservation?.단가 ?? ""} category="단가" />
+        <Text style={ReservationDetailStyles.label}>고객 요청 사항</Text>
+        <View style={ReservationDetailStyles.requestBox}>
           <Text style={{ color: "#333", fontSize: 14 }}>
             {reservation?.고객요청 ?? ""}
           </Text>
         </View>
+        <Text style={ReservationDetailStyles.label}>기사 요청 사항</Text>
+        <View style={ReservationDetailStyles.requestBox}>
+          <Text style={{ color: "#333", fontSize: 14 }}>
+            {reservation?.기사요청 ?? ""}
+          </Text>
+        </View>
       </View>
-      <DefaultBtn onPress={() => {}} text={btnText(reservation?.상태 ?? "")} />
+      {reservation?.상태 !== "완료" && (
+        <DefaultBtn
+          onPress={() => {
+            router.back();
+          }}
+          text={btnText(reservation?.상태 ?? "")}
+        />
+      )}
     </Page>
   );
 };
 
-const styles = StyleSheet.create({
+const ReservationDetailStyles = StyleSheet.create({
   box: {
     borderWidth: 1,
     borderColor: "#bbb",
@@ -58,6 +73,7 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: "#fff",
     marginBottom: 24,
+    gap: 8,
   },
   backBtn: {
     position: "absolute",
@@ -69,15 +85,16 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 15,
-    color: "#222",
     marginBottom: 4,
+    fontWeight: "bold",
   },
   value: {
     fontWeight: "400",
     color: "#444",
   },
   requestBox: {
-    backgroundColor: "#f5f5f5",
+    borderWidth: 1,
+    borderColor: "#333",
     borderRadius: 8,
     padding: 12,
     marginTop: 8,

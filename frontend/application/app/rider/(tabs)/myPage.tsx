@@ -8,7 +8,6 @@ import {
   Dimensions,
 } from "react-native";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import DetailBtn from "@/components/common/button/DetailBtn";
@@ -150,13 +149,13 @@ const MyPage = ({ name, phone, email, benefit }: MyPageProps) => {
   };
   return (
     <Page>
+      <BetweenHeader
+        title="마이페이지"
+        btnName="로그아웃"
+        onPress={handleLogout}
+      />
       <ScrollView>
         <View style={styles.container}>
-          <BetweenHeader
-            title="마이페이지"
-            btnName="로그아웃"
-            onPress={handleLogout}
-          />
           <View style={styles.profileCard}>
             <View style={styles.card}>
               <Text style={styles.profileName}>{name}ㅇㅇㅇ기사님</Text>
@@ -169,6 +168,7 @@ const MyPage = ({ name, phone, email, benefit }: MyPageProps) => {
             <Info value={`이메일 : ${email}`} />
             <Info value={`수당률 : ${benefit}`} />
           </View>
+          <Text style={styles.chartMainTitle}>매출 현황</Text>
           <View style={styles.tabContainer}>
             {(["daily", "weekly", "monthly"] as ChartKey[]).map((key) => (
               <TouchableOpacity
@@ -201,9 +201,7 @@ const MyPage = ({ name, phone, email, benefit }: MyPageProps) => {
                 <Text
                   style={{ fontWeight: "bold" }}
                 >{`${selectedMonth} ▼`}</Text>
-                <Text>{`${selectedMonth} ▼`}</Text>
               </TouchableOpacity>
-
               {showMonthDropdown && (
                 <View style={styles.dropdownOverlay}>
                   <View style={styles.monthDropdown}>
@@ -255,7 +253,14 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
     paddingTop: 16,
-    marginTop: 30,
+  },
+  chartMainTitle: {
+    fontSize: 26,
+    fontWeight: "bold",
+    textAlign: "center",
+    marginBottom: 10,
+
+    padding: 16,
   },
   card: {
     flexDirection: "row",
@@ -267,7 +272,6 @@ const styles = StyleSheet.create({
     borderColor: "#222",
     borderRadius: 12,
     padding: 16,
-    marginHorizontal: 16,
     marginBottom: 16,
     backgroundColor: "#fff",
   },
@@ -280,14 +284,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-around",
     marginBottom: 8,
+    borderWidth: 1,
+    borderColor: "#222",
+    borderRadius: 12,
+    padding: 8,
   },
   tabButton: {
     paddingBottom: 10,
-    marginBottom: 50,
   },
   activeTab: {
     borderBottomWidth: 2,
-    borderColor: "#3f51b5",
+    borderColor: "#222",
   },
 
   monthTitleContainer: {
@@ -340,7 +347,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
   activeMonthItem: {
-    backgroundColor: "#3f51b5",
+    backgroundColor: "#222",
   },
 });
 
