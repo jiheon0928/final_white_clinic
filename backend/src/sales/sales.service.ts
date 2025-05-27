@@ -173,13 +173,12 @@ export class SalesService {
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
       .innerJoin('r.rider', 'd')
-      .innerJoin('r.status', 's')
       .select('r.date', 'date')
       .addSelect('COALESCE(SUM(r.price), 0)', 'totalSales')
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
       .where('r.date BETWEEN :start AND :end', { start, end })
-      .andWhere('s.status = :status', { status: 3 })
+      .andWhere('r.statusId = :statusId', { statusId: 3 })
       .groupBy('r.date')
       .getRawMany<{
         date: string;
