@@ -1,4 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { ReservationService } from './../reservation/reservation.service';
+import { Get, Injectable, Query } from '@nestjs/common';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,6 +9,7 @@ export class SalesService {
   constructor(
     @InjectRepository(Reservation)
     private readonly reservationRepository: Repository<Reservation>,
+    private readonly reservationService: ReservationService,
   ) {}
 
   //========================선택 일수 매출 조회========================
@@ -25,7 +27,7 @@ export class SalesService {
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
       .where('r.date BETWEEN :start AND :end', { start, end })
-      .andWhere('s.status = :status', { status: '완료' })
+      .andWhere('s.status = :status', { status: 3 })
       .getRawOne<{
         totalSales: string;
         totalCommission: string;
@@ -67,7 +69,7 @@ export class SalesService {
         start: weekStart,
         end: weekEnd,
       })
-      .andWhere('s.status = :status', { status: '완료' })
+      .andWhere('s.status = :status', { status: 3 })
       .getRawOne<{
         totalSales: string;
         totalCommission: string;
@@ -103,7 +105,7 @@ export class SalesService {
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
       .where('r.date BETWEEN :start AND :end', { start, end })
-      .andWhere('s.status = :status', { status: '완료' })
+      .andWhere('s.status = :status', { status: 3 })
       .getRawOne<{
         totalSales: string;
         totalCommission: string;
@@ -134,7 +136,7 @@ export class SalesService {
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
       .where('r.date BETWEEN :start AND :end', { start, end })
-      .andWhere('s.status = :status', { status: '완료' })
+      .andWhere('s.status = :status', { status: 3 })
       .getRawOne<{
         totalSales: string;
         totalCommission: string;
@@ -149,6 +151,7 @@ export class SalesService {
   }
 
   //==========================주간 요일별 매출 조회==========================
+
   async getWeeklySalesByDay(refDate: Date): Promise<
     Array<{
       date: string;
@@ -157,13 +160,16 @@ export class SalesService {
       netProfit: number;
     }>
   > {
+    // 주 시작(일요일)과 다음 주 시작 계산
     const start = new Date(refDate);
     start.setDate(refDate.getDate() - refDate.getDay());
     start.setHours(0, 0, 0, 0);
 
     const end = new Date(start);
     end.setDate(start.getDate() + 7);
+    end.setHours(0, 0, 0, 0);
 
+    // 쿼리: 날짜별로 그룹핑, "완료" 상태(id=3)만 합산
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
       .innerJoin('r.rider', 'd')
