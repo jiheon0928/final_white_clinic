@@ -8,11 +8,20 @@ import DefaultBtn from "@/components/common/button/DefualtBtn";
 const ReservationDetail = () => {
   const { id } = useLocalSearchParams();
   const reservation = reservationDummy.find((v) => v.id == Number(id));
-  const adminCompletedDate = () => {
+  const adminCompletedStatus = () => {
     if (reservation?.상태 == "대기" || reservation?.상태 == "진행") {
       return "수정";
     } else {
       return;
+    }
+  };
+  const adminCompleted = () => {
+    if (reservation?.상태 == "완료") {
+      return reservation?.완료날짜;
+    } else if (reservation?.상태 == "진행") {
+      return "진행중";
+    } else {
+      return "대기중";
     }
   };
 
@@ -26,7 +35,7 @@ const ReservationDetail = () => {
         <Info value={reservation?.연락처 ?? ""} category="연락처" />
         <Info value={reservation?.방문날짜 ?? ""} category="방문 날짜" />
         <Info value={reservation?.방문시간 ?? ""} category="방문 시간" />
-        <Info value={reservation?.완료날짜 ?? ""} category="완료 날짜" />
+        <Info value={adminCompleted() ?? ""} category="완료 날짜" />
         <Info value={reservation?.주소 ?? ""} category="주소" />
         <Info value={reservation?.단가 ?? ""} category="단가" />
         <Text style={ReservationDetailStyles.infoText}>고객 요청사항</Text>
@@ -44,7 +53,7 @@ const ReservationDetail = () => {
       </View>
       {reservation?.상태 !== "완료" && (
         <DefaultBtn
-          text={adminCompletedDate() ?? ""}
+          text={adminCompletedStatus() ?? ""}
           onPress={() => {
             router.push(`/admin/reservations/edit/${id}`);
           }}

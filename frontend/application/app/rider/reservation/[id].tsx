@@ -24,7 +24,7 @@ const ReservationDetail = () => {
     } else if (reservation?.상태 == "진행") {
       return "진행중";
     } else {
-      return;
+      return "대기중";
     }
   };
   return (
