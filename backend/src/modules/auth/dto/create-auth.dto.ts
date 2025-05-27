@@ -10,6 +10,7 @@ import {
   IsOptional,
   IsArray,
   ArrayNotEmpty,
+  IsDate,
 } from 'class-validator';
 
 export class CreateDriverDto {
@@ -17,8 +18,9 @@ export class CreateDriverDto {
   @MaxLength(50)
   name: string;
 
-  @IsString()
-  birth: string;
+  @IsDate()
+  @Type(() => Date)
+  birth: Date;
 
   @IsString()
   @MaxLength(30)

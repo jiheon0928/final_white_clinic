@@ -24,8 +24,8 @@ export class DeliveryDriver {
   @Column({ length: 50 })
   name: string;
 
-  @Column()
-  birth: string;
+  @Column({ type: 'date' })
+  birth: Date;
 
   @Column({ length: 30 })
   loginId: string;

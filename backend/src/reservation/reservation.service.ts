@@ -7,7 +7,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateListDto } from './dto/create-list.dto';
+import { CreateReservationDto } from './dto/create-list.dto';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 import { Reservation } from './entities/reservation.entity';
 
@@ -22,7 +22,7 @@ export class ReservationService {
     private readonly compliteStateRepository: Repository<CompleteState>,
   ) {}
 
-  async create(dto: CreateListDto): Promise<Reservation> {
+  async create(dto: CreateReservationDto): Promise<Reservation> {
     const defaultValue = await this.compliteStateRepository.findOneBy({
       id: 1,
     });
@@ -49,8 +49,8 @@ export class ReservationService {
     });
   }
 
-  async listupdate(name: string, list: Reservation) {
-    return this.reservationRepository.update(name, list);
+  async listupdate(name: string, reservation: Reservation) {
+    return this.reservationRepository.update(name, reservation);
   }
 
   // =============================기사 픽업 로직============================

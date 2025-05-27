@@ -24,8 +24,9 @@ export class Reservation {
   @CreateDateColumn({ type: 'timestamp' })
   date: Date;
 
-  @Column({ type: 'varchar', length: 255 })
-  visitTime: string;
+  @Column({ type: 'timestamp' })
+  @Type(() => Date)
+  visitTime: Date;
 
   @Column({ type: 'int' })
   price: number;

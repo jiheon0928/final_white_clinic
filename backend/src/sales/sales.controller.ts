@@ -1,14 +1,15 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
+import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 import { SalesService } from './sales.service';
-import { Reservation } from 'src/reservation/entities/reservation.entity';
 
 @Controller('sales')
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
-  @Get()
-  todaySales(@Body() reservation: Reservation) {
-    const { id, status, ...rest } = reservation;
-    return this.salesService.todaySales(reservation);
+  @Get('sales')
+  async salesByDate(@Query('date') dateStr: string) {
+    if (!dateStr) throw new BadRequestException('date');
+    const date = new Date(dateStr);
+    const result = await this.salesService.getSalesByDate(date);
+    return result;
   }
 }

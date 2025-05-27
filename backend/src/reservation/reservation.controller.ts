@@ -11,7 +11,7 @@ import {
   ParseIntPipe,
 } from '@nestjs/common';
 
-import { CreateListDto } from './dto/create-list.dto';
+import { CreateReservationDto } from './dto/create-list.dto';
 import { Reservation } from './entities/reservation.entity';
 import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
 import { ReservationService } from './reservation.service';
@@ -21,7 +21,7 @@ export class ReservationController {
   constructor(private readonly reservationService: ReservationService) {}
 
   @Post()
-  async create(@Body() dto: CreateListDto): Promise<Reservation> {
+  async create(@Body() dto: CreateReservationDto): Promise<Reservation> {
     return this.reservationService.create(dto);
   }
 
@@ -38,7 +38,6 @@ export class ReservationController {
   @Patch(':id/pickup')
   @UseGuards(JwtAuthGuard)
   async pickup(@Param('id', ParseIntPipe) taskId: number, @Req() req: any) {
-    console.log(req.user);
     const riderId = req.user.id;
     return this.reservationService.pickup(taskId, riderId);
   }
@@ -53,32 +52,31 @@ export class ReservationController {
   }
 
   @Get('weekly')
-  async getWeekly(
-    @Param('riderId') riderId: string,
-  ): Promise<{ currentWeek: number; lastWeek: number }> {
-    return this.reservationService.getWeekly(+riderId);
+  @UseGuards(JwtAuthGuard)
+  async getWeekly(@Req() req: any) {
+    const riderId = req.user.id;
+    return this.reservationService.getWeekly(riderId);
   }
 
   @Get('monthly')
-  async getMonthly(
-    @Param('riderId') riderId: string,
-  ): Promise<{ currentMonth: number; lastMonth: number }> {
-    return this.reservationService.getMonthly(+riderId);
+  @UseGuards(JwtAuthGuard)
+  async getMonthly(@Req() req: any) {
+    const riderId = req.user.id;
+    return this.reservationService.getMonthly(riderId);
   }
 
   @Get('selectDate')
+  @UseGuards(JwtAuthGuard)
   async getRangeIncome(
-    @Param('riderId') riderId: string,
+    @Req() req: any,
     @Query('start') start: string,
     @Query('end') end: string,
-  ): Promise<{ rangeIncome: number }> {
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const rangeIncome = await this.reservationService.getRangeIncome(
-      +riderId,
-      startDate,
-      endDate,
+  ) {
+    const riderId = req.user.id;
+    return this.reservationService.getRangeIncome(
+      riderId,
+      new Date(start),
+      new Date(end),
     );
-    return { rangeIncome };
   }
 }

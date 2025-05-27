@@ -1,4 +1,3 @@
-// src/list/dto/create-list.dto.ts
 import { Type } from 'class-transformer';
 import {
   IsString,
@@ -7,18 +6,17 @@ import {
   IsNotEmpty,
   MaxLength,
   IsPositive,
+  IsDate,
 } from 'class-validator';
 
-export class CreateListDto {
+export class CreateReservationDto {
   @IsString()
   @MaxLength(255)
   item: string;
 
-  // date는 자동 생성되므로 DTO에서 제외
-
-  @IsString()
-  @MaxLength(255)
-  visitTime: string;
+  @IsDate()
+  @Type(() => Date)
+  visitTime: Date;
 
   @IsInt()
   @IsPositive()
@@ -52,7 +50,6 @@ export class CreateListDto {
   @MaxLength(255)
   memo: string;
 
-  // 관계 필드는 ID로 받기
   @IsOptional()
   @IsInt()
   @Type(() => Number)

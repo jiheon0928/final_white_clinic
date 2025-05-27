@@ -7,9 +7,9 @@ import {
   IsEmail,
   MaxLength,
   IsInt,
-  Min,
   IsArray,
   ArrayNotEmpty,
+  IsDate,
 } from 'class-validator';
 import { Type } from 'class-transformer';
 
@@ -18,9 +18,9 @@ export class UpdateDriverDto extends PartialType(CreateDriverDto) {
   @MaxLength(50)
   name: string;
 
-  @IsString()
-  @Min(20)
-  birth: string;
+  @IsDate()
+  @Type(() => Date)
+  birth: Date;
 
   @IsString()
   @MaxLength(30)
