@@ -16,7 +16,6 @@ const mypageDetail = () => {
   const [showDate, setShowDate] = useState(false);
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [zipcode, setZipcode] = useState("");
   const [address, setAddress] = useState("");
   const [detail, setDetail] = useState("");
   const [itemWasher, setItemWasher] = useState(false);
@@ -29,19 +28,6 @@ const mypageDetail = () => {
   const [zipcodeField, setZipcodeField] = useState(
     typeof zipcode2 === "string" ? zipcode2 : ""
   );
-
-  const clickAddress = () => {
-    router.replace("/signup/addressapi");
-  };
-  const onChangeDate = (selectedDate: Date | undefined) => {
-    setShowDate(false);
-    if (selectedDate) {
-      const yyyy = selectedDate.getFullYear();
-      const mm = String(selectedDate.getMonth() + 1).padStart(2, "0");
-      const dd = String(selectedDate.getDate()).padStart(2, "0");
-      setBirth(`${yyyy}-${mm}-${dd}`);
-    }
-  };
 
   return (
     <View style={styles.container}>

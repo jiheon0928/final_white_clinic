@@ -1,7 +1,6 @@
 import { View, Text, StyleSheet } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import Page from "@/components/common/Page";
-import DefaultHeader from "@/components/common/header/DefaultHeader";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import Info from "@/components/common/text/Info";
 import { reservationDummy } from "@/dummyData/reservationData";

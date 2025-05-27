@@ -1,93 +1,251 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
-import { useRouter } from "expo-router";
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
+} from "react-native";
+import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
+import DetailBtn from "@/components/common/button/DetailBtn";
+import Info from "@/components/common/text/Info";
+import { BarChart } from "react-native-chart-kit";
 // props 타입 정의
 interface MyPageProps {
   name: string;
   phone: string;
   email: string;
-  rate: string;
+  benefit: string;
 }
+const screenWidth = Dimensions.get("window").width;
 
-const periodOptions = ["일일 매출", "주간 매출", "월간 매출"];
+const chartConfig = {
+  backgroundGradientFrom: "#fff",
+  backgroundGradientTo: "#fff",
+  decimalPlaces: 0,
+  color: (opacity = 1) => `rgba(63, 93, 231, ${opacity})`,
+  labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
+};
 
-const MyPage = ({ name, phone, email, rate }: MyPageProps) => {
-  const router = useRouter();
-  const [selectedPeriod, setSelectedPeriod] = useState(periodOptions[0]);
-  const [showPeriod, setShowPeriod] = useState(false);
+type ChartDataType = {
+  labels: string[];
+  datasets: { data: number[] }[];
+};
 
+type MonthlyChartData = {
+  [key: string]: ChartDataType;
+};
+
+type ChartKey = "daily" | "weekly" | "monthly";
+
+const chartData: {
+  daily: ChartDataType;
+  weekly: ChartDataType;
+  monthly: MonthlyChartData;
+} = {
+  daily: {
+    labels: [..."월화수목금토일"].map((d) => d),
+    datasets: [{ data: [10, 40, 30, 35, 45, 60, 70] }],
+  },
+  weekly: {
+    labels: ["1주차", "2주차", "3주차", "4주차"],
+    datasets: [{ data: [20, 40, 80, 50] }],
+  },
+  monthly: {
+    "1월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [400, 600, 500, 700] }],
+    },
+    "2월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [300, 550, 450, 600] }],
+    },
+    "3월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [320, 480, 510, 630] }],
+    },
+    "4월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [290, 400, 420, 500] }],
+    },
+    "5월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [500, 520, 510, 530] }],
+    },
+    "6월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [460, 470, 490, 510] }],
+    },
+    "7월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [520, 530, 500, 550] }],
+    },
+    "8월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [600, 630, 620, 610] }],
+    },
+    "9월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [430, 460, 450, 470] }],
+    },
+    "10월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [470, 480, 490, 510] }],
+    },
+    "11월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [550, 530, 520, 510] }],
+    },
+    "12월": {
+      labels: ["1주", "2주", "3주", "4주"],
+      datasets: [{ data: [610, 620, 640, 630] }],
+    },
+  },
+};
+
+const monthList = [
+  "1월",
+  "2월",
+  "3월",
+  "4월",
+  "5월",
+  "6월",
+  "7월",
+  "8월",
+  "9월",
+  "10월",
+  "11월",
+  "12월",
+];
+const MyPage = ({ name, phone, email, benefit }: MyPageProps) => {
   const handleLogout = () => {
     router.replace("/");
   };
+  const [type, setType] = useState<ChartKey>("daily");
+  const [selectedMonth, setSelectedMonth] = useState("1월");
+  const [showMonthDropdown, setShowMonthDropdown] = useState(false);
 
+  const renderChart = () => {
+    const data =
+      type === "monthly" ? chartData.monthly[selectedMonth] : chartData[type];
+    return (
+      <BarChart
+        data={data}
+        width={screenWidth - 32}
+        height={420}
+        chartConfig={chartConfig}
+        fromZero
+        showValuesOnTopOfBars
+        style={{
+          marginVertical: 12,
+          borderRadius: 16,
+          alignSelf: "center",
+        }}
+      />
+    );
+  };
   return (
     <Page>
-      <View style={styles.container}>
-        <BetweenHeader
-          title="마이페이지"
-          btnName="로그아웃"
-          onPress={handleLogout}
-        />
-        <View style={styles.profileCard}>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <Text style={styles.profileName}>{name}</Text>
-            <TouchableOpacity
-              style={styles.editBtn}
-              onPress={() => router.push("/rider/mypage/[id]")}
-            >
-              <Text style={styles.editBtnText}>정보 수정</Text>
-            </TouchableOpacity>
-          </View>
-          <Text style={styles.profileText}>전화번호 : {phone}</Text>
-          <Text style={styles.profileText}>이메일: {email}</Text>
-          <Text style={styles.profileText}>수당률 : {rate}</Text>
-        </View>
-
-        <View style={styles.chartSection}>
-          <View style={{ alignItems: "flex-end", marginBottom: 8 }}>
-            <TouchableOpacity
-              style={styles.dropdown}
-              onPress={() => setShowPeriod(!showPeriod)}
-            >
-              <Text style={styles.dropdownText}>{selectedPeriod}</Text>
-              <Ionicons
-                name={showPeriod ? "chevron-up" : "chevron-down"}
-                size={16}
-                color="#222"
-                style={{ marginLeft: 4 }}
+      <ScrollView>
+        <View style={styles.container}>
+          <BetweenHeader
+            title="마이페이지"
+            btnName="로그아웃"
+            onPress={handleLogout}
+          />
+          <View style={styles.profileCard}>
+            <View style={styles.card}>
+              <Text style={styles.profileName}>{name}ㅇㅇㅇ기사님</Text>
+              <DetailBtn
+                onPress={() => router.push("/rider/mypage/[id]")}
+                name="정보 수정"
               />
-            </TouchableOpacity>
-            {showPeriod && (
-              <View style={styles.dropdownList}>
-                {periodOptions.map((option) => (
-                  <TouchableOpacity
-                    key={option}
-                    style={styles.dropdownItem}
-                    onPress={() => {
-                      setSelectedPeriod(option);
-                      setShowPeriod(false);
-                    }}
-                  >
-                    <Text style={styles.dropdownText}>{option}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
+            </View>
+            <Info value={`전화번호 : ${phone}`} />
+            <Info value={`이메일 : ${email}`} />
+            <Info value={`수당률 : ${benefit}`} />
           </View>
-          <View style={styles.chartBox}>
-            <Text style={styles.chartPlaceholder}>매출 차트</Text>
+          <View style={styles.tabContainer}>
+            {(["daily", "weekly", "monthly"] as ChartKey[]).map((key) => (
+              <TouchableOpacity
+                key={key}
+                onPress={() => {
+                  setType(key);
+                  if (key !== "monthly") setShowMonthDropdown(false);
+                }}
+                style={[styles.tabButton, type === key && styles.activeTab]}
+              >
+                <Text>
+                  {key === "daily"
+                    ? "일일 매출"
+                    : key === "weekly"
+                    ? "주간 매출"
+                    : "월간 매출"}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
+
+          {type === "monthly" ? (
+            <View style={styles.monthTitleContainer}>
+              <Text style={styles.chartTitle}>{`${selectedMonth} 매출`}</Text>
+              <Text style={styles.currencyUnit}> 단위:만원</Text>
+              <TouchableOpacity
+                onPress={() => setShowMonthDropdown((v) => !v)}
+                style={[styles.monthToggleSmall]}
+              >
+                <Text
+                  style={{ fontWeight: "bold" }}
+                >{`${selectedMonth} ▼`}</Text>
+                <Text>{`${selectedMonth} ▼`}</Text>
+              </TouchableOpacity>
+
+              {showMonthDropdown && (
+                <View style={styles.dropdownOverlay}>
+                  <View style={styles.monthDropdown}>
+                    {monthList.map((month) => (
+                      <TouchableOpacity
+                        key={month}
+                        onPress={() => {
+                          setSelectedMonth(month);
+                          setShowMonthDropdown(false);
+                        }}
+                        style={[
+                          styles.monthDropdownItem,
+                          selectedMonth === month && styles.activeMonthItem,
+                        ]}
+                      >
+                        <Text
+                          style={
+                            selectedMonth === month
+                              ? { color: "#fff", fontSize: 12 }
+                              : undefined
+                          }
+                        >
+                          {month}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                </View>
+              )}
+            </View>
+          ) : (
+            <View style={styles.currencyUnitLayout}>
+              <Text style={styles.chartTitle}>
+                {type === "daily" ? "일일 매출" : "주간 매출"}
+              </Text>
+              <Text style={styles.currencyUnit}> 단위:만원</Text>
+            </View>
+          )}
+
+          {renderChart()}
         </View>
-      </View>
+      </ScrollView>
     </Page>
   );
 };
@@ -99,31 +257,10 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     marginTop: 30,
   },
-  header: {
+  card: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 16,
-    position: "relative",
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    textAlign: "center",
-    flex: 1,
-  },
-  logoutBtn: {
-    position: "absolute",
-    right: 16,
-    backgroundColor: "#d60000",
-    borderRadius: 6,
-    paddingHorizontal: 12,
-    paddingVertical: 4,
-  },
-  logoutBtnText: {
-    color: "#fff",
-    fontWeight: "bold",
-    fontSize: 15,
   },
   profileCard: {
     borderWidth: 1,
@@ -139,71 +276,71 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 6,
   },
-  editBtn: {
-    backgroundColor: "#eee",
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-  },
-  editBtnText: {
-    fontSize: 13,
-    color: "#222",
-  },
-  profileText: {
-    fontSize: 16,
-    marginBottom: 2,
-  },
-  chartSection: {
-    marginHorizontal: 16,
-    marginTop: 8,
-  },
-  dropdown: {
+  tabContainer: {
     flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 8,
+  },
+  tabButton: {
+    paddingBottom: 10,
+    marginBottom: 50,
+  },
+  activeTab: {
+    borderBottomWidth: 2,
+    borderColor: "#3f51b5",
+  },
+
+  monthTitleContainer: {
+    position: "relative",
+    marginVertical: 8,
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#888",
-    borderRadius: 6,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: "#fff",
-    minWidth: 90,
   },
-  dropdownText: {
-    fontSize: 14,
-    color: "#222",
-  },
-  dropdownList: {
-    position: "absolute",
-    top: 32,
-    right: 0,
-    backgroundColor: "#fff",
-    borderWidth: 1,
-    borderColor: "#888",
-    borderRadius: 6,
-    zIndex: 10,
-    width: 94,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
-  },
-  dropdownItem: {
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-  },
-  chartBox: {
-    backgroundColor: "#ddd",
-    height: 180,
-    borderRadius: 8,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-  },
-  chartPlaceholder: {
-    fontSize: 20,
-    color: "#222",
+  chartTitle: {
+    fontSize: 18,
     fontWeight: "bold",
+    textAlign: "center",
+  },
+  currencyUnitLayout: {
+    position: "relative",
+  },
+  currencyUnit: {
+    position: "absolute",
+    left: -3,
+    fontSize: 12,
+    top: 6,
+  },
+  monthToggleSmall: {
+    position: "absolute",
+    right: 16,
+    top: -3,
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    borderWidth: 1,
+    alignItems: "center",
+    borderColor: "#ccc",
+    borderRadius: 5,
+    backgroundColor: "#fff",
+  },
+  dropdownOverlay: {
+    position: "absolute",
+    top: 28,
+    right: 16,
+    zIndex: 1000,
+  },
+  monthDropdown: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    padding: 6,
+    backgroundColor: "#fff",
+  },
+  monthDropdownItem: {
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+  activeMonthItem: {
+    backgroundColor: "#3f51b5",
   },
 });
 
