@@ -12,7 +12,10 @@ import useDateStore from "@/stores/calender.store";
 import { updateDateWithoutTime } from "@/app/hooks/input";
 import { router } from "expo-router";
 
-const EditReservationPage = () => {
+type ReservationHandlerProps = {
+  id?: string;
+};
+const ReservationHandler = ({ id }: ReservationHandlerProps) => {
   const insets = useSafeAreaInsets();
   const { reservation, setReservationField, resetReservation } =
     useReservationStore();
@@ -32,7 +35,7 @@ const EditReservationPage = () => {
   const editReservationInputFields = [
     { title: "고객명", key: "customerName", numberOfLines: 1 },
     { title: "연락처", key: "customerPhone", numberOfLines: 1 },
-    { title: "고객 요청 사항", key: "customerRequest", numberOfLines: 2 },
+    { title: "고객 요청 사항", key: "customerRequest", numberOfLines: 4 },
   ] as const;
 
   return (
@@ -98,4 +101,4 @@ const EditReservationPage = () => {
   );
 };
 
-export default EditReservationPage;
+export default ReservationHandler;

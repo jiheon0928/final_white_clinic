@@ -1,7 +1,9 @@
-import EditReservationPage from "@/components/reservation/admin/EditReservationPage";
+import ReservationHandler from "@/components/reservation/admin/ReservationHandler";
+import { useLocalSearchParams } from "expo-router";
 
 const EditReservationScreen = () => {
-  return <EditReservationPage />;
+  const { id } = useLocalSearchParams();
+  return <ReservationHandler id={id as string} />;
 };
 
 export default EditReservationScreen;
