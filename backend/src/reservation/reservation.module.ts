@@ -1,35 +1,39 @@
-import { Module } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CompleteState as StatusEntity } from 'src/reservation/entities/compliteState.entity';
-import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
-import { Industry } from './entities/industry.entity';
-import { CreateReservationDto } from './dto/create-list.dto';
 import { AuthModule } from 'src/modules/auth/auth.module';
+import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
+import { SalesModule } from 'src/sales/sales.module';
+import { Industry } from './entities/industry.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigModule } from '@nestjs/config';
+import { Module, forwardRef } from '@nestjs/common';
 import { Reservation } from './entities/reservation.entity';
 import { ReservationController } from './reservation.controller';
 import { ReservationService } from './reservation.service';
-import { SalesModule } from 'src/sales/sales.module';
-import { JwtModule } from '@nestjs/jwt';
-import { ConfigService } from '@nestjs/config';
-import { ConfigModule } from '@nestjs/config';
+import { CompleteState } from './entities/compliteState.entity';
+
 @Module({
   imports: [
     TypeOrmModule.forFeature([
       Reservation,
       DeliveryDriver,
-      StatusEntity,
+      CompleteState,
       Industry,
-      CreateReservationDto,
     ]),
     AuthModule,
-    SalesModule,
+    forwardRef(() => SalesModule),
     JwtModule.registerAsync({
       global: true,
       imports: [ConfigModule],
       inject: [ConfigService],
+      useFactory: (config: ConfigService) => ({
+        secret: config.get<string>('JWT_SECRET') || '111',
+        signOptions: { expiresIn: '1h' },
+      }),
     }),
   ],
   controllers: [ReservationController],
   providers: [ReservationService],
+  exports: [ReservationService],
 })
 export class ReservationModule {}
