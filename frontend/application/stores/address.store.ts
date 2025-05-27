@@ -1,20 +1,13 @@
+import { AddressState } from "@/types/stores";
 import { create } from "zustand";
 
-type AddressStore = {
-  zipcode: string;
-  address: string;
-  detailAddress: string;
-  setAddress: (zipcode: string, address: string) => void;
-  setDetailAddress: (detailAddress: string) => void;
-  resetAddress: () => void;
-};
-
-const useAddressStore = create<AddressStore>((set) => ({
+const useAddressStore = create<AddressState>((set) => ({
   zipcode: "",
   address: "",
   detailAddress: "",
-  setAddress: (zipcode, address) => set({ zipcode, address }),
-  setDetailAddress: (detailAddress) => set({ detailAddress }),
+
+  setAddress: (key, value) => set((state) => ({ [key]: value })),
+
   resetAddress: () => set({ zipcode: "", address: "", detailAddress: "" }),
 }));
 

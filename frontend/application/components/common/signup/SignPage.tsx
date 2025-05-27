@@ -1,5 +1,4 @@
 import useAddressStore from "@/stores/address.store";
-import useBirthStore from "@/stores/calender.store";
 import useIndustryStore from "@/stores/industry.store";
 import useSignupStore from "@/stores/signup.store";
 import { router } from "expo-router";
@@ -10,19 +9,15 @@ import DefaultBtn from "../button/DefualtBtn";
 import BackBtnHeader from "../header/BackBtnHeader";
 import AddressInput from "../input/AddressInput";
 import CalenderInput from "../input/CalenderInput";
-
-import useDateStore from "@/stores/calender.store";
-import { updateDateWithoutTime } from "@/app/hooks/input";
-
-import CheckBoxBundle from "../input/CheckBoxBundle";
+import useDateStore from "@/stores/date.store";
 import Input from "../input/Input";
 import Page from "../Page";
 
 const SignPage = () => {
   const { user, setUserField, resetUser } = useSignupStore();
-  const { industry, toggle, resetIndustry } = useIndustryStore();
-  const { date, setDate, resetDate } = useDateStore();
-  const { zipcode, address, detailAddress, setDetailAddress, resetAddress } =
+  const { industry, resetIndustry } = useIndustryStore();
+  const { date, resetDate } = useDateStore();
+  const { zipcode, address, detailAddress, setAddress, resetAddress } =
     useAddressStore();
 
   const insets = useSafeAreaInsets();
@@ -68,23 +63,8 @@ const SignPage = () => {
               onChangeText={(text) => setUserField(key, text)}
             />
           ))}
-          <CalenderInput
-            title="생년월일"
-            date={new Date(date)}
-            onChangeDate={(selected) => updateDateWithoutTime(selected)}
-          />
-          <CheckBoxBundle
-            ACvalue={industry.includes("에어컨")}
-            WSvalue={industry.includes("세탁기")}
-            onValueChangAC={(value) => toggle("에어컨", value)}
-            onValueChangeWS={(value) => toggle("세탁기", value)}
-          />
-          <AddressInput
-            zipCode={zipcode}
-            address={address}
-            detailAddress={detailAddress}
-            setDetailAddress={(text) => setDetailAddress(text)}
-          />
+          <CalenderInput title="생년월일" />
+          <AddressInput />
           <DefaultBtn text="완료" onPress={handleSubmit} />
         </View>
       </ScrollView>

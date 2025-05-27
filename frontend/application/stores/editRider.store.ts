@@ -7,10 +7,10 @@ type EditRiderState = {
     name: string;
     phone: string;
     email: string;
+    birth: string;
     zipcode: string;
     address: string;
     detailAddress: string;
-    birth: string;
     significant: string;
     industry: IndustryType[];
     benefit: number;

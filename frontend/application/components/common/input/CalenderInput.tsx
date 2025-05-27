@@ -1,36 +1,30 @@
 import { Ionicons } from "@expo/vector-icons";
 import { Text } from "@react-navigation/elements";
 import React, { useState } from "react";
-import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
+import { TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import useDateStore from "@/stores/date.store";
+import { CalenderInputStyles } from "@/styles/calender";
+import { combineDateAndTime, formatDate } from "@/app/hooks/format";
 
-type CalenderInputProps = {
-  title: string;
-  date: Date;
-  onChangeDate: (d: Date) => void;
-};
-
-const CalenderInput = ({ date, title, onChangeDate }: CalenderInputProps) => {
+const CalenderInput = ({ title }: { title: string }) => {
   const [showDate, setShowDate] = useState(false);
-  const formatDate = (d: Date) =>
-    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
-      d.getDate()
-    ).padStart(2, "0")}`;
+  const { date, setDateFromDate } = useDateStore();
 
   return (
     <>
-      <View style={styles.inputCol}>
-        <Text style={styles.title}>{title}</Text>
+      <View style={CalenderInputStyles.inputCol}>
+        <Text style={CalenderInputStyles.title}>{title}</Text>
 
-        <View style={styles.inputRow}>
+        <View style={CalenderInputStyles.inputRow}>
           <TextInput
-            style={[styles.input, { flex: 1 }]}
-            value={formatDate(date)}
+            style={[CalenderInputStyles.input, { flex: 1 }]}
+            value={date}
             editable={false}
           />
           <TouchableOpacity
             onPress={() => setShowDate(true)}
-            style={styles.iconBtn}
+            style={CalenderInputStyles.iconBtn}
           >
             <Ionicons name="calendar-outline" size={22} color="#222" />
           </TouchableOpacity>
@@ -39,15 +33,11 @@ const CalenderInput = ({ date, title, onChangeDate }: CalenderInputProps) => {
       <DateTimePickerModal
         isVisible={showDate}
         mode="date"
-        date={date}
+        date={new Date(date)}
         onConfirm={(selected) => {
           setShowDate(false);
           if (selected) {
-            const newDate = new Date(date);
-            newDate.setFullYear(selected.getFullYear());
-            newDate.setMonth(selected.getMonth());
-            newDate.setDate(selected.getDate());
-            onChangeDate(newDate);
+            setDateFromDate(selected);
           }
         }}
         onCancel={() => setShowDate(false)}
@@ -55,40 +45,5 @@ const CalenderInput = ({ date, title, onChangeDate }: CalenderInputProps) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  inputRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 12,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: "#bbb",
-    borderRadius: 10,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    fontSize: 15,
-    backgroundColor: "#fff",
-  },
-  title: {
-    fontSize: 15,
-    marginLeft: 8,
-    marginBottom: 6,
-    marginTop: 10,
-    fontWeight: "bold",
-  },
-  inputCol: {
-    flexDirection: "column",
-    alignItems: "flex-start",
-    width: "100%",
-  },
-  iconBtn: {
-    padding: 8,
-    marginLeft: -36,
-    zIndex: 1,
-  },
-});
 
 export default CalenderInput;
