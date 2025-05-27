@@ -1,19 +1,22 @@
-import React, { useState } from "react";
+import useAddressStore from "@/stores/address.store";
+import useBirthStore from "@/stores/calender.store";
+import useIndustryStore from "@/stores/industry.store";
+import useSignupStore from "@/stores/signup.store";
+import { router } from "expo-router";
+import React from "react";
 import { Platform, ScrollView, View } from "react-native";
-import Input from "../input/Input";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import DefaultBtn from "../button/DefualtBtn";
 import BackBtnHeader from "../header/BackBtnHeader";
 import AddressInput from "../input/AddressInput";
-import Page from "../Page";
-import CheckBoxBundle from "../input/CheckBoxBundle";
-import useSignupStore from "@/stores/signup.store";
-import DefaultBtn from "../button/DefualtBtn";
-import { router } from "expo-router";
-import useIndustryStore from "@/stores/industry.store";
-import useAddressStore from "@/stores/address.store";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import CalenderInput from "../input/CalenderInput";
+
 import useDateStore from "@/stores/calender.store";
 import { updateDateWithoutTime } from "@/app/hooks/input";
+
+import CheckBoxBundle from "../input/CheckBoxBundle";
+import Input from "../input/Input";
+import Page from "../Page";
 
 const SignPage = () => {
   const { user, setUserField, resetUser } = useSignupStore();
