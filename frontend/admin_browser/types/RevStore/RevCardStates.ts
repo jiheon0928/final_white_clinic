@@ -7,6 +7,8 @@ export type RevCardStates = {
     customer: string;
     phone: string;
     address: string;
+    detailAddress: string;
+    zipcode: string;
     item: string;
     date: string;
     visitTime: string;

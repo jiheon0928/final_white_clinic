@@ -1,3 +1,8 @@
+export type Benefit = {
+  id: number;
+  benefitType: number;
+};
+
 export type Rider = {
   id: number;
   name: string;
@@ -11,7 +16,7 @@ export type Rider = {
   email: string;
   significant: string;
   approval: boolean;
-  benefit: number;
+  benefit: Benefit;
   status: string;
 };
 
