@@ -1,4 +1,4 @@
-import { RiderInfoList } from "../RiderTypes";
+import { RiderInfoList } from "./RiderTypes";
 
 export type RiderSearchStore = {
   search: string;
@@ -7,4 +7,5 @@ export type RiderSearchStore = {
   setSearch: (value: string) => void;
   filterRiders: (search: string) => void;
   resetRiders: () => void;
+  setRiders: (riders: RiderInfoList) => void;
 };

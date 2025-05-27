@@ -1,12 +1,17 @@
 export type RiderInfoStore = {
   formData: {
     name: string;
+    birth: string;
+    loginId: string;
+    password: string;
     phone: string;
-    email: string;
     address: string;
-    notes: string;
-    industry: boolean;
-    birthDate: string;
+    detailAddress: string;
+    zipcode: string;
+    email: string;
+    significant: string;
+    approval: boolean;
+    industry?: boolean;
     benefit: string;
   };
   handleChange: (

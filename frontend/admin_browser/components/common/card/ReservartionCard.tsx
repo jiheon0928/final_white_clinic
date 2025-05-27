@@ -2,7 +2,7 @@ import Button from "../Button";
 import { useRouter } from "next/navigation";
 import { useApiStore } from "@/store/Api";
 import { useEffect } from "react";
-import { ErrorMessage } from "../ErrorMessage";
+import { RevErrorMessage } from "../errorMessage/RevError";
 
 export const ReservationCard = () => {
   const { reservations, getReservations, isLoading, error } = useApiStore();
@@ -18,7 +18,7 @@ export const ReservationCard = () => {
 
   return (
     <>
-      <ErrorMessage
+      <RevErrorMessage
         isLoading={isLoading}
         error={error || ""}
         getReservations={getReservations}
