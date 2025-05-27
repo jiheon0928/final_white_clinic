@@ -9,7 +9,7 @@ export class TokenService {
   /** 액세스 토큰 발급 */
   getAccessToken(payload: any): string {
     return this.jwtService.sign(payload, {
-      secret: process.env.JWT_SECRET,
+      secret: '111',
       expiresIn: '15m',
     });
   }
@@ -17,16 +17,14 @@ export class TokenService {
   /** 리프레시 토큰 발급 */
   getRefreshToken(payload: any): string {
     return this.jwtService.sign(payload, {
-      secret: process.env.REFRESH_SECRET,
+      secret: '111',
       expiresIn: '7d',
     });
   }
 
   /** 토큰 검증 (isRefresh=true면 REFRESH_SECRET 사용) */
   verifyToken(token: string, isRefresh = false): any {
-    const secret = isRefresh
-      ? process.env.REFRESH_SECRET
-      : process.env.JWT_SECRET;
+    const secret = isRefresh ? '111' : '111';
     return this.jwtService.verify(token, { secret });
   }
 }

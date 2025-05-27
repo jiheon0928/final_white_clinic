@@ -8,38 +8,39 @@ import {
   UseGuards,
   Req,
   Patch,
+  ParseIntPipe,
 } from '@nestjs/common';
-import { ListService } from './list.service';
-import { CreateListDto } from './dto/create-list.dto';
-import { List } from './entities/list.entity';
-import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
 
-@Controller('list')
-export class ListController {
-  constructor(private readonly listService: ListService) {}
+import { CreateListDto } from './dto/create-list.dto';
+import { Reservation } from './entities/reservation.entity';
+import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
+import { ReservationService } from './reservation.service';
+
+@Controller('reservation')
+export class ReservationController {
+  constructor(private readonly reservationService: ReservationService) {}
 
   @Post()
-  async create(@Body() dto: CreateListDto): Promise<List> {
-    return this.listService.create(dto);
+  async create(@Body() dto: CreateListDto): Promise<Reservation> {
+    return this.reservationService.create(dto);
   }
 
   @Get('pending')
-  async findstate(): Promise<List[]> {
-    return this.listService.findstate();
+  async findstate(): Promise<Reservation[]> {
+    return this.reservationService.findstate();
   }
 
   @Patch(':name')
-  async listupdate(@Param('name') name: string, @Body() list: List) {
-    return this.listService.listupdate(name, list);
+  async listupdate(@Param('name') name: string, @Body() list: Reservation) {
+    return this.reservationService.listupdate(name, list);
   }
 
   @Patch(':id/pickup')
   @UseGuards(JwtAuthGuard)
-  async pickup(
-    @Param('id') id: number,
-    @Req() { user }: Request & { user: { id: number } },
-  ) {
-    return this.listService.pickup(id, user.id);
+  async pickup(@Param('id', ParseIntPipe) taskId: number, @Req() req: any) {
+    console.log(req.user);
+    const riderId = req.user.id;
+    return this.reservationService.pickup(taskId, riderId);
   }
 
   @Patch(':id/complete')
@@ -48,21 +49,21 @@ export class ListController {
     @Param('id') id: number,
     @Req() { user }: Request & { user: { id: number } },
   ) {
-    return this.listService.complete(id, user.id);
+    return this.reservationService.complete(id, user.id);
   }
 
   @Get('weekly')
   async getWeekly(
     @Param('riderId') riderId: string,
   ): Promise<{ currentWeek: number; lastWeek: number }> {
-    return this.listService.getWeekly(+riderId);
+    return this.reservationService.getWeekly(+riderId);
   }
 
   @Get('monthly')
   async getMonthly(
     @Param('riderId') riderId: string,
   ): Promise<{ currentMonth: number; lastMonth: number }> {
-    return this.listService.getMonthly(+riderId);
+    return this.reservationService.getMonthly(+riderId);
   }
 
   @Get('selectDate')
@@ -73,7 +74,7 @@ export class ListController {
   ): Promise<{ rangeIncome: number }> {
     const startDate = new Date(start);
     const endDate = new Date(end);
-    const rangeIncome = await this.listService.getRangeIncome(
+    const rangeIncome = await this.reservationService.getRangeIncome(
       +riderId,
       startDate,
       endDate,

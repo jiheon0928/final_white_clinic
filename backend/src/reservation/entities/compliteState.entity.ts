@@ -1,4 +1,4 @@
-import { List } from 'src/list/entities/list.entity';
+import { Reservation } from 'src/reservation/entities/reservation.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
@@ -9,6 +9,6 @@ export class CompleteState {
   @Column()
   status: string;
 
-  @OneToMany(() => List, (list) => list.Status)
-  statusLists: List[];
+  @OneToMany(() => Reservation, (reservation) => reservation.status)
+  statusReservations: Reservation[];
 }

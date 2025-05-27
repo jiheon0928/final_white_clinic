@@ -1,11 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
-import { Benefit } from '../../list/entities/benefit.entity';
+import { Benefit } from '../../reservation/entities/benefit.entity';
 import { DeliveryDriver } from '../auth/entites/auth.entity';
 import { Repository } from 'typeorm';
 import { UpdateDriverDto } from '../auth/dto/update-auth.dto';
-import { Industry } from 'src/list/entities/industry.entity';
+import { Industry } from 'src/reservation/entities/industry.entity';
 
 @Injectable()
 export class UserService {
@@ -18,14 +18,17 @@ export class UserService {
     private readonly benefitRepo: Repository<Benefit>,
   ) {}
 
+  //========================기사 전체 조회========================
   async findAll(): Promise<DeliveryDriver[]> {
     return this.driverRepo.find();
   }
 
+  //========================기사 정보 조회========================
   async findByName(name: string): Promise<DeliveryDriver> {
     return this.driverRepo.findOneOrFail({ where: { name } });
   }
 
+  //========================기사 정보 수정========================
   async updateInfo(id: number, dto: UpdateDriverDto): Promise<DeliveryDriver> {
     const driver = await this.driverRepo.findOneOrFail({ where: { id } });
 
@@ -33,6 +36,8 @@ export class UserService {
 
     return this.driverRepo.save(driver);
   }
+
+  //========================기사 회원가입 승인========================
 
   async update(id: number, dto: UpdateDriverDto): Promise<DeliveryDriver> {
     // 1) 기존 드라이버를 찾되, 없으면 내부적으로 예외 발생

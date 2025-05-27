@@ -6,21 +6,23 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { List } from './entities/list.entity';
+
 import { CreateListDto } from './dto/create-list.dto';
+import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
+import { Reservation } from './entities/reservation.entity';
 
 @Injectable()
-export class ListService {
+export class ReservationService {
   constructor(
-    @InjectRepository(List)
-    private readonly listRepository: Repository<List>,
+    @InjectRepository(Reservation)
+    private readonly reservationRepository: Repository<Reservation>,
     @InjectRepository(CompleteState)
     private readonly statusRepository: Repository<CompleteState>,
     @InjectRepository(CompleteState)
     private readonly compliteStateRepository: Repository<CompleteState>,
   ) {}
 
-  async create(dto: CreateListDto): Promise<List> {
+  async create(dto: CreateListDto): Promise<Reservation> {
     const defaultValue = await this.compliteStateRepository.findOneBy({
       id: 1,
     });
@@ -30,56 +32,55 @@ export class ListService {
 
     const { industryId, ...rest } = dto;
 
-    const entity = this.listRepository.create({
+    const entity = this.reservationRepository.create({
       ...rest,
       industry: { id: industryId },
-      Status: defaultState!,
+      status: defaultState!,
     });
 
-    return this.listRepository.save(entity);
+    return this.reservationRepository.save(entity);
   }
 
   // =============================대기 상태 조회============================
-  async findstate(): Promise<List[]> {
-    return this.listRepository.find({
-      where: { Status: { status: '대기' } },
-      relations: ['rider', 'industry', 'Status'],
+  async findstate(): Promise<Reservation[]> {
+    return this.reservationRepository.find({
+      where: { status: { status: '대기' } },
+      relations: ['rider', 'industry', 'status'],
     });
   }
 
-  async listupdate(name: string, list: List) {
-    return this.listRepository.update(name, list);
+  async listupdate(name: string, list: Reservation) {
+    return this.reservationRepository.update(name, list);
   }
 
   // =============================기사 픽업 로직============================
-  async pickup(taskId: number, riderId: number) {
-    const inProgress = await this.compliteStateRepository.findOneBy({
-      status: '진행',
+  async pickup(reservationId: number, riderId: number) {
+    const IN_PROGRESS_STATE_ID = 2;
+
+    const result = await this.reservationRepository.update(reservationId, {
+      rider: { id: riderId } as DeliveryDriver,
+      status: { id: IN_PROGRESS_STATE_ID } as CompleteState,
     });
-    if (!inProgress) throw new NotFoundException('진행 상태가 없네');
 
-    const task = await this.listRepository.findOne({
-      where: { id: taskId },
-      relations: ['driver', 'field', 'compliteState'],
-    });
-    if (!task) throw new NotFoundException('해당 작업이 없어');
+    if (result.affected === 0) {
+      throw new NotFoundException(
+        `id ${reservationId} 예약을 찾을 수 없습니다.`,
+      );
+    }
 
-    task.rider = { id: riderId } as any;
-    task.Status = inProgress;
-
-    return this.listRepository.save(task);
+    return { message: '픽업 완료!' };
   }
 
   // =============================기사 완료 로직============================
-  async complete(taskId: number, riderId: number): Promise<List> {
-    const task = await this.listRepository.findOne({
-      where: { id: taskId },
-      relations: ['rider', 'industry', 'Status'],
+  async complete(reservationId: number, riderId: number): Promise<Reservation> {
+    const reservation = await this.reservationRepository.findOne({
+      where: { id: reservationId },
+      relations: ['rider', 'industry', 'status'],
     });
-    if (!task) throw new NotFoundException('해당 작업이 없습니다.');
+    if (!reservation) throw new NotFoundException('해당 예약이 없습니다.');
 
-    if (!task.rider || task.rider.id !== riderId) {
-      throw new ForbiddenException('본인이 픽업한 작업만 완료할 수 있습니다.');
+    if (!reservation.rider || reservation.rider.id !== riderId) {
+      throw new ForbiddenException('본인이 픽업한 예약만 완료할 수 있습니다.');
     }
 
     const done = await this.compliteStateRepository.findOneBy({
@@ -87,8 +88,8 @@ export class ListService {
     });
     if (!done) throw new NotFoundException('완료 상태가 없습니다.');
 
-    task.Status = done;
-    return this.listRepository.save(task);
+    reservation.status = done;
+    return this.reservationRepository.save(reservation);
   }
 
   // =============================주간 조회============================
@@ -107,11 +108,11 @@ export class ListService {
     sundayLast.setDate(sundayThis.getDate() - 7);
 
     const sumFor = async (start: Date, end: Date) => {
-      const raw = await this.listRepository
-        .createQueryBuilder('list')
-        .select('SUM(list.amount)', 'sum')
-        .where('list.riderId = :riderId', { riderId })
-        .andWhere('list.date BETWEEN :start AND :end', {
+      const raw = await this.reservationRepository
+        .createQueryBuilder('reservation')
+        .select('SUM(reservation.amount)', 'sum')
+        .where('reservation.riderId = :riderId', { riderId })
+        .andWhere('reservation.date BETWEEN :start AND :end', {
           start: start.toISOString(),
           end: end.toISOString(),
         })
@@ -145,11 +146,11 @@ export class ListService {
     const lastDayLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
 
     const sumFor = async (start: Date, end: Date): Promise<number> => {
-      const raw = await this.listRepository
-        .createQueryBuilder('list')
-        .select('SUM(list.amount)', 'sum')
-        .where('list.riderId = :riderId', { riderId })
-        .andWhere('list.date BETWEEN :start AND :end', {
+      const raw = await this.reservationRepository
+        .createQueryBuilder('reservation')
+        .select('SUM(reservation.amount)', 'sum')
+        .where('reservation.riderId = :riderId', { riderId })
+        .andWhere('reservation.date BETWEEN :start AND :end', {
           start: start.toISOString(),
           end: end.toISOString(),
         })
@@ -168,11 +169,11 @@ export class ListService {
     start: Date,
     end: Date,
   ): Promise<number> {
-    const raw = await this.listRepository
-      .createQueryBuilder('list')
-      .select('SUM(list.amount)', 'sum')
-      .where('list.riderId = :riderId', { riderId })
-      .andWhere('list.date BETWEEN :start AND :end', {
+    const raw = await this.reservationRepository
+      .createQueryBuilder('reservation')
+      .select('SUM(reservation.amount)', 'sum')
+      .where('reservation.riderId = :riderId', { riderId })
+      .andWhere('reservation.date BETWEEN :start AND :end', {
         start: start.toISOString(),
         end: end.toISOString(),
       })

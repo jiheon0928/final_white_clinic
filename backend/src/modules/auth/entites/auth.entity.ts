@@ -10,9 +10,9 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { Benefit } from 'src/list/entities/benefit.entity';
-import { List } from 'src/list/entities/list.entity';
-import { Industry } from 'src/list/entities/industry.entity';
+import { Benefit } from 'src/reservation/entities/benefit.entity';
+import { Reservation } from 'src/reservation/entities/reservation.entity';
+import { Industry } from 'src/reservation/entities/industry.entity';
 
 @Entity({ name: 'delivery_driver' })
 @Check(`"age" >= 20`)
@@ -51,14 +51,14 @@ export class DeliveryDriver {
   @Column()
   significant: string;
 
-  @Column()
+  @Column({ default: false })
   approval: boolean;
 
   @ManyToOne(() => Benefit, (b) => b.rider, { nullable: true, eager: true })
   benefit: Benefit;
 
-  @OneToMany(() => List, (list) => list.rider)
-  lists: List[];
+  @OneToMany(() => Reservation, (reservation) => reservation.rider)
+  reservations: Reservation[];
 
   @ManyToMany(() => Industry, (industry) => industry.riders)
   @JoinTable({

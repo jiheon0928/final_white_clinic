@@ -7,14 +7,14 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-import { CompleteState as StatusEntity } from 'src/list/entities/compliteState.entity';
-import { Industry } from 'src/list/entities/industry.entity';
+import { CompleteState as StatusEntity } from 'src/reservation/entities/compliteState.entity';
+import { Industry } from 'src/reservation/entities/industry.entity';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 import { PartialType } from '@nestjs/mapped-types';
 import { Type } from 'class-transformer';
 
 @Entity()
-export class List {
+export class Reservation {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -59,7 +59,7 @@ export class List {
   @ManyToOne(() => StatusEntity, { eager: true })
   @JoinColumn({ name: 'StatusId' })
   @Type(() => Number)
-  Status?: StatusEntity;
+  status?: StatusEntity;
 
   @ManyToOne(() => Industry, { eager: true })
   @JoinColumn({ name: 'industryId' })
@@ -67,4 +67,4 @@ export class List {
   industry: Industry;
 }
 
-export class UpdateListDto extends PartialType(List) {}
+export class UpdateReservationDto extends PartialType(Reservation) {}

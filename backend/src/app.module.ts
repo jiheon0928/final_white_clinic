@@ -3,16 +3,17 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AdminModule } from './admin/admin.module';
-import { ListModule } from './list/list.module';
-import { Benefit } from './list/entities/benefit.entity';
-import { List } from './list/entities/list.entity';
-import { CompleteState } from './list/entities/compliteState.entity';
-import { Industry } from './list/entities/industry.entity';
+import { ListModule } from './reservation/reservation.module';
+import { Benefit } from './reservation/entities/benefit.entity';
+import { List } from './reservation/entities/reservation.entity';
+import { CompleteState } from './reservation/entities/compliteState.entity';
+import { Industry } from './reservation/entities/industry.entity';
 import { RefreshToken } from './modules/auth/dto/refresh-token.entity';
 import { UserModule } from './modules/user/user.module';
 import { DeliveryDriver } from './modules/auth/entites/auth.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
+import { SalesModule } from './sales/sales.module';
 
 @Module({
   imports: [
@@ -56,6 +57,7 @@ import { JwtModule } from '@nestjs/jwt';
     AuthModule,
     ListModule,
     UserModule,
+    SalesModule,
   ],
 })
 export class AppModule {}
