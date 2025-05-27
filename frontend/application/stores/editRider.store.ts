@@ -1,27 +1,5 @@
+import { EditRiderState } from "@/types/stores";
 import { create } from "zustand";
-
-type IndustryType = "에어컨" | "세탁기";
-
-type EditRiderState = {
-  rider: {
-    name: string;
-    phone: string;
-    email: string;
-    birth: string;
-    zipcode: string;
-    address: string;
-    detailAddress: string;
-    significant: string;
-    industry: IndustryType[];
-    benefit: number;
-  };
-  setRiderField: <K extends keyof EditRiderState["rider"]>(
-    key: K,
-    value: EditRiderState["rider"][K]
-  ) => void;
-  setRider: (data: Partial<EditRiderState["rider"]>) => void;
-  resetRider: () => void;
-};
 
 const useEditRiderStore = create<EditRiderState>((set) => ({
   rider: {
@@ -35,6 +13,7 @@ const useEditRiderStore = create<EditRiderState>((set) => ({
     significant: "",
     industry: [],
     benefit: 0.4,
+    approval: false,
   },
   setRider: (data) =>
     set((state) => ({
@@ -64,6 +43,7 @@ const useEditRiderStore = create<EditRiderState>((set) => ({
         significant: "",
         industry: [],
         benefit: 0.4,
+        approval: false,
       },
     }));
   },
