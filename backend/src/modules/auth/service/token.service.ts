@@ -10,7 +10,7 @@ export class TokenService {
   getAccessToken(payload: any): string {
     return this.jwtService.sign(payload, {
       secret: '111',
-      expiresIn: '15m',
+      expiresIn: '1d',
     });
   }
 

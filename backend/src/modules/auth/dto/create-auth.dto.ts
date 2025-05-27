@@ -3,7 +3,6 @@ import { Type } from 'class-transformer';
 import {
   IsString,
   IsInt,
-  Min,
   MaxLength,
   IsEmail,
   IsBoolean,

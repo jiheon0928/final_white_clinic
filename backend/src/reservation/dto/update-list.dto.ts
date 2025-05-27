@@ -1,5 +1,5 @@
 import { PartialType } from '@nestjs/mapped-types';
-import { CreateListDto } from './create-list.dto';
+import { CreateReservationDto } from './create-list.dto';
 import {
   IsString,
   MaxLength,
@@ -8,16 +8,17 @@ import {
   IsPhoneNumber,
   IsOptional,
   IsNotEmpty,
+  IsDate,
 } from 'class-validator';
 import { Type } from 'class-transformer';
-export class UpdateListDto extends PartialType(CreateListDto) {
+export class UpdateReservationDto extends PartialType(CreateReservationDto) {
   @IsString()
   @MaxLength(255)
   item: string;
 
-  @IsString()
-  @MaxLength(255)
-  visitTime: string;
+  @IsDate()
+  @Type(() => Date)
+  visitTime: Date;
 
   @IsInt()
   @IsPositive()
