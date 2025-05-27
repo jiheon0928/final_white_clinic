@@ -1,16 +1,16 @@
-import { Reservation } from "@/types/RevStore/ReservationTypes";
-import Button from "./Button";
+import { Rider } from "@/types/RiderStore/RiderTypes";
+import Button from "../Button";
 
-export const ErrorMessage = ({
+export const RiderErrorMessage = ({
   isLoading,
   error,
-  getReservations,
-  reservations,
+  getRiders,
+  riders,
 }: {
   isLoading: boolean;
   error: string;
-  getReservations: () => void;
-  reservations: Reservation[];
+  getRiders: () => void;
+  riders: Rider[];
 }) => {
   if (isLoading) {
     return (
@@ -27,16 +27,16 @@ export const ErrorMessage = ({
         <p className="text-sm">{error}</p>
         <Button
           title="다시 시도"
-          onClick={() => getReservations()}
+          onClick={() => getRiders()}
           className="mt-2 bg-blue-500 hover:bg-blue-600"
         />
       </div>
     );
   }
 
-  if (reservations.length === 0) {
+  if (riders.length === 0) {
     return (
-      <div className="text-center p-4 text-gray-500">예약이 없습니다.</div>
+      <div className="text-center p-4 text-gray-500">기사가 없습니다.</div>
     );
   }
 

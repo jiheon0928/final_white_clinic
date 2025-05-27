@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import { ApiStore } from "@/types/ApiStore";
+import { useRiderStore } from "./rider/SearchRider";
 
 const API_URL = "http://localhost:3001/api";
 
@@ -14,7 +15,7 @@ const api = axios.create({
   withCredentials: true,
 });
 
-export const useApiStore = create<ApiStore>((set) => ({
+export const useApiStore = create<ApiStore>((set, get) => ({
   riders: [],
   reservations: [],
   isLoading: false,
@@ -40,33 +41,53 @@ export const useApiStore = create<ApiStore>((set) => ({
   getRiders: async () => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.get("/riders");
+      const response = await api.get("/user");
+      console.log("API 응답 데이터:", response.data);
       set({
         riders: response.data,
         isLoading: false,
       });
+      // RiderStore 업데이트
+      useRiderStore.getState().setRiders(response.data);
     } catch (error) {
       console.error("기사 데이터 가져오기 실패:", error);
-      let errorMessage = "알 수 없는 에러가 발생했습니다.";
-
-      if (axios.isAxiosError(error)) {
-        if (error.response) {
-          errorMessage = `서버 에러: ${error.response.status} - ${
-            error.response.data?.message || "알 수 없는 서버 에러"
-          }`;
-        } else if (error.request) {
-          errorMessage =
-            "서버에 연결할 수 없습니다. 서버가 실행 중인지 확인해주세요.";
-        } else {
-          errorMessage = `요청 에러: ${error.message}`;
-        }
-      }
-
-      set({
-        riders: [],
-        isLoading: false,
-        error: errorMessage,
-      });
+      throw error;
     }
+  },
+
+  // 기사 수수료 업데이트
+  updateRiderBenefit: (riderId: number, benefit: number) => {
+    set((state) => ({
+      riders: state.riders.map((rider) =>
+        rider.id === riderId ? { ...rider, benefit } : rider
+      ),
+    }));
+  },
+
+  // 기사 승인 상태 업데이트
+  updateRiderApproval: async (riderId: number) => {
+    try {
+      set({ isLoading: true, error: null });
+      await api.patch(`/user/${riderId}/approval`);
+      const response = await api.get("/user");
+      set({
+        riders: response.data,
+        isLoading: false,
+      });
+      // RiderStore 업데이트
+      useRiderStore.getState().setRiders(response.data);
+    } catch (error) {
+      console.error("기사 승인 상태 업데이트 실패:", error);
+      set({
+        error: "기사 승인 상태 업데이트에 실패했습니다.",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // 승인된 기사만 필터링
+  getApprovedRiders: () => {
+    return get().riders.filter((rider) => rider.approval === true);
   },
 }));

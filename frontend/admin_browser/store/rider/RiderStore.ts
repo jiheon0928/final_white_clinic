@@ -4,12 +4,17 @@ import { RiderInfoStore } from "@/types/RiderStore/RiderInfoTypes";
 const useRiderStore = create<RiderInfoStore>((set) => ({
   formData: {
     name: "",
+    birth: "",
+    loginId: "",
+    password: "",
     phone: "",
-    email: "",
     address: "",
-    notes: "",
+    detailAddress: "",
+    zipcode: "",
+    email: "",
+    significant: "",
+    approval: false,
     industry: false,
-    birthDate: "",
     benefit: "",
   },
   handleChange: (e) => {

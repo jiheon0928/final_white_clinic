@@ -1,11 +1,19 @@
-import { riderList } from "@/data/data";
+"use client";
+import { useApiStore } from "@/store/Api";
+import Button from "../Button";
+import { useEffect } from "react";
 
 export const VerifyCard = () => {
-  const verificationList = riderList();
+  const { riders, getRiders, updateRiderBenefit, updateRiderApproval } =
+    useApiStore();
+
+  useEffect(() => {
+    getRiders();
+  }, [getRiders]);
 
   return (
     <div className="space-y-4">
-      {verificationList.map((verification) => (
+      {riders.map((verification) => (
         <div
           key={verification.id}
           className="p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200"
@@ -37,22 +45,27 @@ export const VerifyCard = () => {
             </div>
             <div className="flex flex-col">
               <span className="text-sm text-gray-600">수수료</span>
-              <span className="font-semibold text-gray-900">
-                {verification.benefit}%
-              </span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm text-gray-600">상태</span>
-              <span className="font-semibold text-gray-900">
-                {verification.approval}
-              </span>
+              <select
+                className="font-semibold text-gray-900 border rounded p-1"
+                value={verification.benefit || 40}
+                onChange={(e) => {
+                  const newBenefit = parseInt(e.target.value);
+                  updateRiderBenefit(verification.id, newBenefit);
+                }}
+              >
+                <option value={40}>40%</option>
+                <option value={50}>50%</option>
+                <option value={55}>55%</option>
+              </select>
             </div>
           </div>
-          {verification.approval === "미승인" && (
+          {verification.approval === false && (
             <div className="flex justify-end mt-4">
-              <button className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-6 py-2 rounded-lg hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg">
-                승인하기
-              </button>
+              <Button
+                title="승인하기"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
+                onClick={() => updateRiderApproval(verification.id)}
+              />
             </div>
           )}
         </div>
