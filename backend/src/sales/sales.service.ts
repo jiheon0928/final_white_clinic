@@ -19,12 +19,12 @@ export class SalesService {
 
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
-      .innerJoin('r.driver', 'd')
+      .innerJoin('r.rider', 'd')
       .innerJoin('r.status', 's')
       .select('COALESCE(SUM(r.price), 0)', 'totalSales')
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
-      .where('r.createdAt BETWEEN :start AND :end', { start, end })
+      .where('r.date BETWEEN :start AND :end', { start, end })
       .andWhere('s.status = :status', { status: '완료' })
       .getRawOne<{
         totalSales: string;
@@ -58,12 +58,12 @@ export class SalesService {
 
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
-      .innerJoin('r.driver', 'd')
+      .innerJoin('r.rider', 'd')
       .innerJoin('r.status', 's')
       .select('COALESCE(SUM(r.price),          0)', 'totalSales')
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
-      .where('r.createdAt BETWEEN :start AND :end', {
+      .where('r.date BETWEEN :start AND :end', {
         start: weekStart,
         end: weekEnd,
       })
@@ -97,12 +97,12 @@ export class SalesService {
 
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
-      .innerJoin('r.driver', 'd')
+      .innerJoin('r.rider', 'd')
       .innerJoin('r.status', 's')
       .select('COALESCE(SUM(r.price), 0)', 'totalSales')
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
-      .where('r.createdAt BETWEEN :start AND :end', { start, end })
+      .where('r.date BETWEEN :start AND :end', { start, end })
       .andWhere('s.status = :status', { status: '완료' })
       .getRawOne<{
         totalSales: string;
@@ -128,12 +128,12 @@ export class SalesService {
   }> {
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
-      .innerJoin('r.driver', 'd')
+      .innerJoin('r.rider', 'd')
       .innerJoin('r.status', 's')
       .select('COALESCE(SUM(r.price), 0)', 'totalSales')
       .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
       .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
-      .where('r.createdAt BETWEEN :start AND :end', { start, end })
+      .where('r.date BETWEEN :start AND :end', { start, end })
       .andWhere('s.status = :status', { status: '완료' })
       .getRawOne<{
         totalSales: string;
