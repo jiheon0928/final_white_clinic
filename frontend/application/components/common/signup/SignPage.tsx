@@ -33,6 +33,7 @@ const SignPage = () => {
 
   return (
     <Page>
+      <BackBtnHeader title="회원가입" />
       <ScrollView>
         <View
           style={{
@@ -41,7 +42,6 @@ const SignPage = () => {
             gap: 10,
           }}
         >
-          <BackBtnHeader title="회원가입" />
           {signupInputFields.map(({ title, key }) => (
             <Input
               key={key}

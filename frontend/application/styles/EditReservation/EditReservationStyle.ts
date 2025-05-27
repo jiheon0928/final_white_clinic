@@ -1,11 +1,6 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
-    backgroundColor: "#fff",
-    flexGrow: 1,
-  },
   title: {
     fontSize: 20,
     fontWeight: "bold",
@@ -19,12 +14,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: "bold",
   },
-  card: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 16,
-    padding: 16,
-  },
+
   inputGroup: {
     marginBottom: 14,
   },
@@ -74,16 +64,11 @@ const styles = StyleSheet.create({
     fontSize: 13,
   },
 
-  wonmargin: { marginLeft: 10 },
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  priceRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 16,
-  },
+
   button: {
     backgroundColor: "#00aaff",
     padding: 14,

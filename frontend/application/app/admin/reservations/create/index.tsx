@@ -1,6 +1,6 @@
 import AddressInput from "@/components/common/input/AddressInput";
 import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
-import DateTimeInput from "@/components/common/input/DateTimeInput";
+import DateTimeInput from "@/components/common/input/TimeInput";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import Input from "@/components/common/input/Input";
 import Page from "@/components/common/Page";

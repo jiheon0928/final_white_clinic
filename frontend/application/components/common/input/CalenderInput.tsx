@@ -5,16 +5,12 @@ import { StyleSheet, TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 type CalenderInputProps = {
+  title: string;
   date: Date;
-
   onChangeDate: (d: Date) => void;
 };
 
-const CalenderInput = ({
-  date,
-
-  onChangeDate,
-}: CalenderInputProps) => {
+const CalenderInput = ({ date, title, onChangeDate }: CalenderInputProps) => {
   const [showDate, setShowDate] = useState(false);
   const formatDate = (d: Date) =>
     `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(
@@ -23,12 +19,12 @@ const CalenderInput = ({
 
   return (
     <>
-      <Text style={styles.title}>생년월일</Text>
       <View style={styles.inputCol}>
+        <Text style={styles.title}>{title}</Text>
+
         <View style={styles.inputRow}>
           <TextInput
             style={[styles.input, { flex: 1 }]}
-            placeholder="생년월일"
             value={formatDate(date)}
             editable={false}
           />
@@ -83,7 +79,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
     fontWeight: "bold",
   },
-  inputCol: { flexDirection: "column", alignItems: "flex-start" },
+  inputCol: {
+    flexDirection: "column",
+    alignItems: "flex-start",
+    width: "100%",
+  },
   iconBtn: {
     padding: 8,
     marginLeft: -36,
