@@ -28,6 +28,14 @@
       "eas": {
         "projectId": "dcac6f74-3c9c-4414-9335-f66dd114b3f3"
       }
+    },
+
+    "assetBundlePatterns": ["assets/**/*"],
+
+    "splash": {
+      "image": "./assets/images/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
     }
   }
 }
