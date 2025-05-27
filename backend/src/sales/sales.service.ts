@@ -116,4 +116,35 @@ export class SalesService {
       netProfit: parseFloat(raw?.netProfit ?? '0'),
     };
   }
+
+  //========================기간별 매출 조회========================
+  async getRangeSales(
+    start: Date,
+    end: Date,
+  ): Promise<{
+    totalSales: number;
+    totalCommission: number;
+    netProfit: number;
+  }> {
+    const raw = await this.reservationRepository
+      .createQueryBuilder('r')
+      .innerJoin('r.driver', 'd')
+      .innerJoin('r.status', 's')
+      .select('COALESCE(SUM(r.price), 0)', 'totalSales')
+      .addSelect('COALESCE(SUM(r.price * d.benefit), 0)', 'totalCommission')
+      .addSelect('COALESCE(SUM(r.price * (1 - d.benefit)), 0)', 'netProfit')
+      .where('r.createdAt BETWEEN :start AND :end', { start, end })
+      .andWhere('s.status = :status', { status: '완료' })
+      .getRawOne<{
+        totalSales: string;
+        totalCommission: string;
+        netProfit: string;
+      }>();
+
+    return {
+      totalSales: parseFloat(raw?.totalSales ?? '0'),
+      totalCommission: parseFloat(raw?.totalCommission ?? '0'),
+      netProfit: parseFloat(raw?.netProfit ?? '0'),
+    };
+  }
 }

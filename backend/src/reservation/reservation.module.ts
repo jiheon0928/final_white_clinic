@@ -9,6 +9,10 @@ import { AuthModule } from 'src/modules/auth/auth.module';
 import { Reservation } from './entities/reservation.entity';
 import { ReservationController } from './reservation.controller';
 import { ReservationService } from './reservation.service';
+import { SalesModule } from 'src/sales/sales.module';
+import { JwtModule } from '@nestjs/jwt';
+import { ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     TypeOrmModule.forFeature([
@@ -19,6 +23,12 @@ import { ReservationService } from './reservation.service';
       CreateReservationDto,
     ]),
     AuthModule,
+    SalesModule,
+    JwtModule.registerAsync({
+      global: true,
+      imports: [ConfigModule],
+      inject: [ConfigService],
+    }),
   ],
   controllers: [ReservationController],
   providers: [ReservationService],
