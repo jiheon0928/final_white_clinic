@@ -1,23 +1,15 @@
 import { create } from "zustand";
 
-type BirthStore = {
-  birth: Date;
-  setBirth: (date: Date) => void;
-  setBirthFromDate: (selectedDate: Date) => void;
-  resetBirth: () => void;
+type DateStore = {
+  date: string;
+  setDate: (date: string) => void;
+  resetDate: () => void;
 };
 
-const useBirthStore = create<BirthStore>((set) => ({
-  birth: new Date(),
-  setBirth: (date) => set({ birth: date }),
-  setBirthFromDate: (selectedDate) => {
-    const yyyy = selectedDate.getFullYear();
-    const mm = String(selectedDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(selectedDate.getDate()).padStart(2, "0");
-    const formatted = new Date(`${yyyy}-${mm}-${dd}`);
-    set({ birth: formatted });
-  },
-  resetBirth: () => set({ birth: new Date() }),
+const useDateStore = create<DateStore>((set) => ({
+  date: new Date().toISOString().split("T")[0],
+  setDate: (date) => set({ date }),
+  resetDate: () => set({ date: new Date().toISOString().split("T")[0] }),
 }));
 
-export default useBirthStore;
+export default useDateStore;

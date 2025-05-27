@@ -6,16 +6,17 @@ import React, { useEffect, useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
+import useBirthStore from "@/stores/calender.store";
 import useEditRiderStore from "@/stores/editRider.store";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
 import useIndustryStore, { IndustryType } from "@/stores/industry.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import ToggleInput from "@/components/common/input/ToggleInput";
 import useDateStore from "@/stores/calender.store";
 import { updateDateWithoutTime } from "@/app/hooks/input";
-const EditRiderPage = () => {
+
+const EditMyPage = () => {
   const { rider, setRiderField, resetRider, setRider } = useEditRiderStore();
   const { date, resetDate } = useDateStore();
   const {
@@ -28,59 +29,28 @@ const EditRiderPage = () => {
   } = useAddressStore();
   const { industry, toggle, resetIndustry, setSelected } = useIndustryStore();
   const insets = useSafeAreaInsets();
-  const [selectedBenefit, setSelectedBenefit] = useState(0.4);
 
-  const handleSubmit = () => {
-    setRiderField("address", address);
-    setRiderField("zipcode", zipcode);
-    setRiderField("detailAddress", detailAddress);
-    setRiderField("industry", industry);
-    setRiderField("birth", date);
-    setRiderField("benefit", selectedBenefit);
-    console.log("✅ 제출 데이터:", useEditRiderStore.getState().rider);
-    resetRider();
-    resetDate();
-    resetAddress();
-    resetIndustry();
-    router.back();
-  };
   const editRiderInputFields = [
     { title: "이름", key: "name" },
     { title: "전화번호", key: "phone" },
     { title: "이메일", key: "email" },
   ] as const;
 
-  const benefit = [0.4, 0.5, 0.6];
-  const userData = {
-    name: "김민규",
-    phone: "010-0101-0101",
-    email: "asd@asd.com",
-    address: "서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층",
-    zipcode: "06236",
-    birth: "1990-01-01",
-    detailAddress: "201호",
-    significant: "메모",
-    industry: ["에어컨", "세탁기"],
-  };
+  const handleSubmit = () => {
+    setRiderField("address", address);
+    setRiderField("zipcode", zipcode);
+    setRiderField("detailAddress", detailAddress);
+    setRiderField("industry", industry);
+    setRiderField("birth", date.toISOString().split("T")[0]);
 
-  useEffect(() => {
-    setRider({
-      name: String(userData.name),
-      phone: String(userData.phone),
-      email: String(userData.email),
-      address: String(userData.address),
-      zipcode: String(userData.zipcode),
-      birth: String(userData.birth),
-      detailAddress: String(userData.detailAddress),
-      significant: String(userData.significant),
-      industry: Array.isArray(userData.industry)
-        ? (userData.industry as IndustryType[])
-        : [String(userData.industry) as IndustryType],
-    });
-    setSelected(userData.industry as IndustryType[]);
-    setAddress(userData.zipcode, userData.address);
-    setDetailAddress(userData.detailAddress);
-  }, []);
+    console.log("✅ 제출 데이터:", useEditRiderStore.getState().rider);
+
+    resetRider();
+    resetDate();
+    resetAddress();
+    resetIndustry();
+    router.back();
+  };
 
   return (
     <Page>
@@ -102,36 +72,24 @@ const EditRiderPage = () => {
             />
           ))}
           <CalenderInput
-            title="생년월일"
-            date={new Date(date)}
+            date={date}
             onChangeDate={(selected) => updateDateWithoutTime(selected)}
           />
+
           <AddressInput
             zipCode={zipcode}
             address={address}
             detailAddress={detailAddress}
             setDetailAddress={(text) => setDetailAddress(text)}
           />
+
           <CheckBoxBundle
             ACvalue={industry.includes("에어컨")}
             WSvalue={industry.includes("세탁기")}
             onValueChangAC={(value) => toggle("에어컨", value)}
             onValueChangeWS={(value) => toggle("세탁기", value)}
           />
-          <ToggleInput
-            title="수당률"
-            boxStyle={{ width: 100 }}
-            options={benefit}
-            selected={selectedBenefit}
-            setSelected={(option) => setSelectedBenefit(Number(option))}
-          />
 
-          <Input
-            title="관리자 메모"
-            value={rider.significant}
-            onChangeText={(text) => setRiderField("significant", text)}
-            numberOfLines={3}
-          />
           <DefaultBtn text="완료" onPress={handleSubmit} />
         </View>
       </ScrollView>
@@ -139,4 +97,4 @@ const EditRiderPage = () => {
   );
 };
 
-export default EditRiderPage;
+export default EditMyPage;
