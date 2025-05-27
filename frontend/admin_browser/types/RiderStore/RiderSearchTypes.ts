@@ -1,11 +1,11 @@
 import { RiderInfoList } from "./RiderTypes";
 
 export type RiderSearchStore = {
-  search: string;
   riders: RiderInfoList;
   filteredRiders: RiderInfoList;
-  setSearch: (value: string) => void;
-  filterRiders: (search: string) => void;
-  resetRiders: () => void;
+  search: string;
   setRiders: (riders: RiderInfoList) => void;
+  setSearch: (searchTerm: string) => void;
+  filterRiders: (searchTerm: string) => void;
+  getApprovedRiders: () => RiderInfoList;
 };

@@ -22,10 +22,10 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   error: null,
 
   // 예약자 데이터
-  getReservations: async () => {
+  getReservations: async (status: "pending" | "progress" | "complete") => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.get("/list/pending");
+      const response = await api.get(`/reservation/${status}`);
       console.log("API 응답 데이터:", response.data);
       set({
         reservations: response.data,
@@ -40,14 +40,19 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   // 기사 데이터
   getRiders: async () => {
     try {
-      set({ isLoading: true, error: null });
+      set((state) => {
+        // 이미 로딩 중이거나 에러가 있으면 요청하지 않음
+        if (state.riders.length > 0) {
+          return {};
+        }
+        return { isLoading: true, error: null };
+      });
       const response = await api.get("/user");
       console.log("API 응답 데이터:", response.data);
       set({
         riders: response.data,
         isLoading: false,
       });
-      // RiderStore 업데이트
       useRiderStore.getState().setRiders(response.data);
     } catch (error) {
       console.error("기사 데이터 가져오기 실패:", error);
@@ -55,11 +60,50 @@ export const useApiStore = create<ApiStore>((set, get) => ({
     }
   },
 
+  // 기사 이름 목록
+  getRiderNames: async () => {
+    try {
+      set({ isLoading: true, error: null });
+      const response = await api.get("/user");
+      set({ isLoading: false });
+      return response.data.map((rider: any) => ({
+        id: rider.id,
+        name: rider.name,
+      }));
+    } catch (error) {
+      console.error("기사 이름 목록 가져오기 실패:", error);
+      set({
+        error: "기사 이름 목록을 가져오는데 실패했습니다.",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // 기사 상세 정보
+  getRiderInfo: async (riderId: number) => {
+    try {
+      set({ isLoading: true, error: null });
+      const response = await api.get(`/user/${riderId}`);
+      set({ isLoading: false });
+      return response.data;
+    } catch (error) {
+      console.error("기사 상세 정보 가져오기 실패:", error);
+      set({
+        error: "기사 상세 정보를 가져오는데 실패했습니다.",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
   // 기사 수수료 업데이트
-  updateRiderBenefit: (riderId: number, benefit: number) => {
+  updateRiderBenefit: (riderId: number, benefitType: number) => {
     set((state) => ({
       riders: state.riders.map((rider) =>
-        rider.id === riderId ? { ...rider, benefit } : rider
+        rider.id === riderId
+          ? { ...rider, benefit: { ...rider.benefit, benefitType } }
+          : rider
       ),
     }));
   },
