@@ -1,6 +1,12 @@
 import { Text, View } from "react-native";
 
-const Info = ({ value, category }: { value: string; category?: string }) => {
+const Info = ({
+  value,
+  category,
+}: {
+  value: string | number;
+  category?: string;
+}) => {
   return (
     <View>
       <Text style={{ fontSize: 14 }}>

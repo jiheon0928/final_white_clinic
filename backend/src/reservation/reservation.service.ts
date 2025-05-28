@@ -6,7 +6,6 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-
 import { CreateReservationDto } from './dto/create-list.dto';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
 import { Reservation } from './entities/reservation.entity';
@@ -41,14 +40,17 @@ export class ReservationService {
     return this.reservationRepository.save(entity);
   }
 
-  // =============================대기 상태 조회============================
-  async findstate(): Promise<Reservation[]> {
+  // ============================= 상태 조회============================
+  async findByStatus(status: '대기' | '진행' | '완료'): Promise<Reservation[]> {
     return this.reservationRepository.find({
-      where: { status: { status: '대기' } },
+      where: {
+        status: { status }, // CompleteState.status 컬럼
+      },
       relations: ['rider', 'industry', 'status'],
     });
   }
 
+  // ============================= 예약 정보 수정 ============================
   async listupdate(name: string, reservation: Reservation) {
     return this.reservationRepository.update(name, reservation);
   }
@@ -71,7 +73,7 @@ export class ReservationService {
     return { message: '픽업 완료!' };
   }
 
-  // =============================기사 완료 로직============================
+  // =============================일거리 완료 로직============================
   async complete(reservationId: number, riderId: number): Promise<Reservation> {
     const reservation = await this.reservationRepository.findOne({
       where: { id: reservationId },
@@ -92,93 +94,108 @@ export class ReservationService {
     return this.reservationRepository.save(reservation);
   }
 
-  // =============================주간 조회============================
-  async getWeekly(riderId: number) {
-    const now = new Date();
-    const day = now.getDay();
-    const mondayOffset = day === 0 ? -6 : 1 - day;
-    const mondayThis = new Date(now);
-    mondayThis.setDate(now.getDate() + mondayOffset);
-    const sundayThis = new Date(mondayThis);
-    sundayThis.setDate(mondayThis.getDate() + 6);
+  // // =============================주간 조회============================
+  // async getWeeklyByDate(
+  //   riderId: number,
+  //   refDate: Date,
+  // ): Promise<{ totalSales: number; netProfit: number }> {
+  //   // 이번 주 월요일 00:00
+  //   const d = refDate.getDay();
+  //   const diff = d === 0 ? -6 : 1 - d;
+  //   const mon = new Date(refDate);
+  //   mon.setDate(refDate.getDate() + diff);
+  //   mon.setHours(0, 0, 0, 0);
 
-    const mondayLast = new Date(mondayThis);
-    mondayLast.setDate(mondayThis.getDate() - 7);
-    const sundayLast = new Date(sundayThis);
-    sundayLast.setDate(sundayThis.getDate() - 7);
+  //   // 이번 주 일요일 23:59:59
+  //   const sun = new Date(mon);
+  //   sun.setDate(mon.getDate() + 6);
+  //   sun.setHours(23, 59, 59, 999);
 
-    const sumFor = async (start: Date, end: Date) => {
-      const raw = await this.reservationRepository
-        .createQueryBuilder('reservation')
-        .select('SUM(reservation.amount)', 'sum')
-        .where('reservation.riderId = :riderId', { riderId })
-        .andWhere('reservation.date BETWEEN :start AND :end', {
-          start: start.toISOString(),
-          end: end.toISOString(),
-        })
-        .getRawOne();
-      return Number(raw.sum) || 0;
-    };
+  //   // aggregate 쿼리
+  //   const raw = await this.reservationRepository
+  //     .createQueryBuilder('r')
+  //     .leftJoin('r.rider', 'd')
+  //     .leftJoin('d.benefit', 'b')
+  //     .select('COALESCE(SUM(r.price), 0)', 'totalSales')
+  //     .addSelect(
+  //       'COALESCE(SUM(r.price * COALESCE(b.benefitType, 0)), 0)',
+  //       'netProfit',
+  //     )
+  //     .where('r.riderId = :riderId', { riderId })
+  //     .andWhere('r.visitTime >= :start AND r.visitTime <= :end', {
+  //       start: mon.toISOString(),
+  //       end: sun.toISOString(),
+  //     })
+  //     .andWhere('r.StatusId = :stateId', { stateId: 3 }) // 완료 상태만
+  //     .getRawOne<{ totalSales: string; netProfit: string }>();
 
-    const currentWeek = await sumFor(mondayThis, sundayThis);
-    const lastWeek = await sumFor(mondayLast, sundayLast);
+  //   return {
+  //     totalSales: parseFloat(raw?.totalSales || '0'),
+  //     netProfit: parseFloat(raw?.netProfit || '0'),
+  //   };
+  // }
 
-    return { currentWeek, lastWeek };
-  }
+  // // ============================= 월간 조회 =============================
+  // async getMonthlyByDate(
+  //   riderId: number,
+  //   refDate: Date,
+  // ): Promise<{ totalSales: number; netProfit: number }> {
+  //   const year = refDate.getFullYear();
+  //   const month = refDate.getMonth(); // 0-11
+  //   const start = new Date(year, month, 1, 0, 0, 0, 0);
+  //   const end = new Date(year, month + 1, 1, 0, 0, 0, 0);
 
-  // =============================월간 조회============================
+  //   const raw = await this.reservationRepository
+  //     .createQueryBuilder('r')
+  //     .leftJoin('r.rider', 'd')
+  //     .leftJoin('d.benefit', 'b')
+  //     .select('COALESCE(SUM(r.price), 0)', 'totalSales')
+  //     .addSelect(
+  //       'COALESCE(SUM(r.price * COALESCE(b.benefitType, 0)), 0)',
+  //       'netProfit',
+  //     )
+  //     .where('r.riderId = :riderId', { riderId })
+  //     .andWhere('r.visitTime >= :start AND r.visitTime < :end', {
+  //       start: start.toISOString(),
+  //       end: end.toISOString(),
+  //     })
+  //     .andWhere('r.StatusId = :stateId', { stateId: 3 })
+  //     .getRawOne<{ totalSales: string; netProfit: string }>();
 
-  async getMonthly(
-    riderId: number,
-  ): Promise<{ currentMonth: number; lastMonth: number }> {
-    const now = new Date(); // 오늘 날짜
+  //   return {
+  //     totalSales: parseFloat(raw?.totalSales || '0'),
+  //     netProfit: parseFloat(raw?.netProfit || '0'),
+  //   };
+  // }
 
-    const firstDayThisMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+  // // ============================= 연별 조회 =============================
+  // async getYearlyByYear(
+  //   riderId: number,
+  //   year: number,
+  // ): Promise<{ totalSales: number; netProfit: number }> {
+  //   const start = new Date(year, 0, 1, 0, 0, 0, 0);
+  //   const end = new Date(year + 1, 0, 1, 0, 0, 0, 0);
 
-    const lastDayThisMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+  //   const raw = await this.reservationRepository
+  //     .createQueryBuilder('r')
+  //     .leftJoin('r.rider', 'd')
+  //     .leftJoin('d.benefit', 'b')
+  //     .select('COALESCE(SUM(r.price), 0)', 'totalSales')
+  //     .addSelect(
+  //       'COALESCE(SUM(r.price * COALESCE(b.benefitType, 0)), 0)',
+  //       'netProfit',
+  //     )
+  //     .where('r.riderId = :riderId', { riderId })
+  //     .andWhere('r.visitTime >= :start AND r.visitTime < :end', {
+  //       start: start.toISOString(),
+  //       end: end.toISOString(),
+  //     })
+  //     .andWhere('r.StatusId = :stateId', { stateId: 3 })
+  //     .getRawOne<{ totalSales: string; netProfit: string }>();
 
-    const firstDayLastMonth = new Date(
-      now.getFullYear(),
-      now.getMonth() - 1,
-      1,
-    );
-
-    const lastDayLastMonth = new Date(now.getFullYear(), now.getMonth(), 0);
-
-    const sumFor = async (start: Date, end: Date): Promise<number> => {
-      const raw = await this.reservationRepository
-        .createQueryBuilder('reservation')
-        .select('SUM(reservation.amount)', 'sum')
-        .where('reservation.riderId = :riderId', { riderId })
-        .andWhere('reservation.date BETWEEN :start AND :end', {
-          start: start.toISOString(),
-          end: end.toISOString(),
-        })
-        .getRawOne();
-      return Number(raw.sum) || 0;
-    };
-
-    const currentMonth = await sumFor(firstDayThisMonth, lastDayThisMonth);
-    const lastMonth = await sumFor(firstDayLastMonth, lastDayLastMonth);
-
-    return { currentMonth, lastMonth };
-  }
-  // =============================선택 일수 조회============================
-  async getRangeIncome(
-    riderId: number,
-    start: Date,
-    end: Date,
-  ): Promise<number> {
-    const raw = await this.reservationRepository
-      .createQueryBuilder('reservation')
-      .select('SUM(reservation.amount)', 'sum')
-      .where('reservation.riderId = :riderId', { riderId })
-      .andWhere('reservation.date BETWEEN :start AND :end', {
-        start: start.toISOString(),
-        end: end.toISOString(),
-      })
-      .getRawOne();
-    return Number(raw.sum) || 0;
-  }
+  //   return {
+  //     totalSales: parseFloat(raw?.totalSales || '0'),
+  //     netProfit: parseFloat(raw?.netProfit || '0'),
+  //   };
+  // }
 }
-//.
