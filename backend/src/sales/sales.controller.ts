@@ -22,6 +22,18 @@ export class SalesController {
     };
   }
 
+  //요번달 매출 조회
+  @Get('monthly-sales')
+  async monthlySales() {
+    const { totalSales, totalCommission, netProfit } =
+      await this.salesService.getMonthlySales();
+    return {
+      매출: totalSales,
+      '기사 매출': totalCommission,
+      '순 수익': netProfit,
+    };
+  }
+
   // 2) 해당 날짜가 속한 주의 매출 합계
   @Get('weekly-sales-summary')
   async weeklySalesSummary(@Query('date') dateStr?: string) {

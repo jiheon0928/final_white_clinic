@@ -61,6 +61,43 @@ export class SalesService {
     };
   }
 
+  //요번달 매출 조회
+  async getMonthlySales(): Promise<{
+    totalSales: number;
+    totalCommission: number;
+    netProfit: number;
+  }> {
+    const start = new Date();
+    start.setDate(1);
+    start.setHours(0, 0, 0, 0);
+
+    const end = new Date(start);
+    end.setMonth(start.getMonth() + 1);
+    end.setHours(0, 0, 0, 0);
+
+    const raw = await this.reservationRepository
+      .createQueryBuilder('r')
+      .leftJoin('r.rider', 'd')
+      .leftJoin('d.benefit', 'b')
+      .innerJoin('r.status', 's')
+      .select('COALESCE(SUM(r.price), 0)', 'totalSales')
+      .addSelect('COALESCE(SUM(r.price * b.benefitType), 0)', 'totalCommission')
+      .addSelect('COALESCE(SUM(r.price * (1 - b.benefitType)), 0)', 'netProfit')
+      .where('r.visitTime >= :start AND r.visitTime < :end', { start, end })
+      .andWhere('s.id = :stateId', { stateId: 3 })
+      .getRawOne<{
+        totalSales: string;
+        totalCommission: string;
+        netProfit: string;
+      }>();
+
+    return {
+      totalSales: parseFloat(raw?.totalSales || '0'),
+      totalCommission: parseFloat(raw?.totalCommission || '0'),
+      netProfit: parseFloat(raw?.netProfit || '0'),
+    };
+  }
+
   // 2) 주간 통합 매출 요약
   async getWeeklySalesAggregate(refDate: Date): Promise<{
     totalSales: number;
