@@ -7,9 +7,7 @@ export type ApiStore = {
   isLoading: boolean;
   error: string | null;
   getRiders: () => Promise<void>;
-  getReservations: (
-    status: "pending" | "progress" | "complete"
-  ) => Promise<void>;
+  getReservations: (status: "대기" | "진행" | "완료") => Promise<void>;
   updateRiderBenefit: (riderId: number, benefit: number) => void;
   updateRiderApproval: (riderId: number) => void;
   getApprovedRiders: () => RiderInfoList;

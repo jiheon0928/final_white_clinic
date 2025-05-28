@@ -1,3 +1,4 @@
+"useclient";
 import { Sales } from "@/components/sales/Sales";
 
 const SalesPage = () => {
