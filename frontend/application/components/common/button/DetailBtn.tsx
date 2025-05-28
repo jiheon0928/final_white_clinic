@@ -1,5 +1,6 @@
+import { detailBtnStyles } from "@/styles/detailBtnStyle";
 import { DetailBtnProps } from "@/types/common";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
 const DetailBtn = ({
   onPress,
@@ -23,17 +24,5 @@ const DetailBtn = ({
     </TouchableOpacity>
   );
 };
-
-const detailBtnStyles = StyleSheet.create({
-  btn: {
-    padding: 7,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 1,
-  },
-});
 
 export default DetailBtn;

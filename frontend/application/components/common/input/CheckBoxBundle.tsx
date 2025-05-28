@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import CheckBox from "./CheckBox";
 import industryStore from "@/stores/industry.store";
+import { checkBoxBundleStyles } from "@/styles/checkBoxBundleStyle";
 
 const CheckBoxBundle = () => {
   const { industry, toggle } = industryStore();
@@ -23,18 +24,5 @@ const CheckBoxBundle = () => {
     </View>
   );
 };
-
-const checkBoxBundleStyles = StyleSheet.create({
-  sectionTitle: {
-    fontSize: 15,
-    marginLeft: 8,
-    marginBottom: 6,
-    fontWeight: "bold",
-  },
-  checkboxRow: {
-    padding: 6,
-    flexDirection: "row",
-  },
-});
 
 export default CheckBoxBundle;
