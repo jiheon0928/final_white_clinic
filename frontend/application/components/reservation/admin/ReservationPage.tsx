@@ -37,7 +37,7 @@ const ReservationPage = () => {
         showsVerticalScrollIndicator={false}
       >
         {reservationDummy
-          .filter((v) => statusData[v.statusId - 1].status == status)
+          .filter((v) => statusData[v.statusId - 1].status === status)
           .filter(
             (v) =>
               v.item.includes(searchValue) ||
