@@ -6,7 +6,7 @@ import { useRiderSearchStore } from "./rider/SearchRider";
 const API_URL = "http://localhost:3001/api";
 
 // axios 인스턴스 생성
-const api = axios.create({
+export const api = axios.create({
   baseURL: API_URL,
   timeout: 5000,
   headers: {
@@ -22,10 +22,10 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   error: null,
 
   // 예약자 데이터
-  getReservations: async (status: "pending" | "progress" | "complete") => {
+  getReservations: async (status: "대기" | "진행" | "완료") => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.get(`/reservation/${status}`);
+      const response = await api.get(`/reservation/by-status?status=${status}`);
       console.log("API 응답 데이터:", response.data);
       const visitTime = response.data.map((reservation: any) => ({
         ...reservation,

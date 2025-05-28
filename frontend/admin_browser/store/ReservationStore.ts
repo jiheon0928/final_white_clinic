@@ -4,8 +4,10 @@ import { RevCardStates } from "@/types/RevStore/RevCardStates";
 export const useReservationStore = create<RevCardStates>((set) => ({
   selectedItems: [], // 선택된 아이템 상태에 따라 배열로 저장
   manager: "",
-  currentStatus: "대기", // 기본값
+  currentStatus: "완료", // 기본값
+
   setStatus: (status) => set({ currentStatus: status }),
+
   formData: {
     customer: "",
     phone: "",
