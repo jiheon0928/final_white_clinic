@@ -5,59 +5,106 @@ import { SalesService } from './sales.service';
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
-  @Get('date')
-  async salesByDate(@Query('date') dateStr: string) {
-    if (!dateStr) throw new BadRequestException('date');
-    const date = new Date(dateStr);
-    const result = await this.salesService.getSalesByDate(date);
-    return result;
-  }
-
-  @Get('weekly')
-  async weeklySales(@Query('date') dateStr: string) {
-    if (!dateStr) throw new BadRequestException('date');
-    const date = new Date(dateStr);
-    const result = await this.salesService.getWeeklySales(date);
-    return result;
-  }
-
-  @Get('monthly')
-  async monthlySales(@Query('date') dateStr: string) {
-    if (!dateStr) throw new BadRequestException('date');
-    const date = new Date(dateStr);
-    const result = await this.salesService.getMonthlySales(date);
-    return result;
-  }
-
-  @Get('range')
-  async rangeSales(@Query('start') start: string, @Query('end') end: string) {
-    if (!start || !end) throw new BadRequestException('start, end');
-    const startDate = new Date(start);
-    const endDate = new Date(end);
-    const result = await this.salesService.getRangeSales(startDate, endDate);
-    return result;
-  }
-
-  @Get('weekly-sales-by-day')
-  async weeklySalesByDay(@Query('date') dateStr?: string) {
-    const refDate = dateStr ? new Date(dateStr) : new Date();
-    if (isNaN(refDate.getTime())) {
-      throw new BadRequestException('Invalid date');
+  // 1) 원하는 날짜 매출 조회
+  @Get('sales-by-date')
+  async salesByDate(@Query('date') dateStr?: string) {
+    const target = dateStr ? new Date(dateStr) : new Date();
+    if (isNaN(target.getTime())) {
+      throw new BadRequestException('유효하지 않은 날짜야');
     }
 
+    const { totalSales, driverCommission, netProfit } =
+      await this.salesService.getSalesByDate(target);
+    return {
+      매출: totalSales,
+      '기사 매출': driverCommission,
+      '순 수익': netProfit,
+    };
+  }
+
+  // 2) 해당 날짜가 속한 주의 매출 합계
+  @Get('weekly-sales-summary')
+  async weeklySalesSummary(@Query('date') dateStr?: string) {
+    const refDate = dateStr ? new Date(dateStr) : new Date();
+    if (isNaN(refDate.getTime())) {
+      throw new BadRequestException('유효하지 않은 날짜야');
+    }
+
+    const { totalSales, totalCommission, netProfit } =
+      await this.salesService.getWeeklySalesAggregate(refDate);
+
+    return {
+      매출: totalSales,
+      '기사 매출': totalCommission,
+      '순 수익': netProfit,
+    };
+  }
+
+  //========================주간 요일별 매출 조회========================
+  @Get('weekly-sales-by-day')
+  async weeklySalesByDay(@Query('date') dateStr?: string) {
+    // 1) 기준 날짜 파싱
+    const refDate = dateStr ? new Date(dateStr) : new Date();
+    if (isNaN(refDate.getTime())) {
+      throw new BadRequestException('유효하지 않은 날짜야');
+    }
+
+    // 2) 서비스에서 [{ date, totalSales, netProfit }, …] 받아오기
     const stats = await this.salesService.getWeeklySalesByDay(refDate);
 
+    // 3) 요일 배열
     const WEEK_DAYS = ['일', '월', '화', '수', '목', '금', '토'];
-    const salesByDay: Record<string, number> = WEEK_DAYS.reduce(
-      (acc, day) => ({ ...acc, [day]: 0 }),
-      {},
-    );
 
-    stats.forEach(({ date, totalSales }) => {
-      const dayName = WEEK_DAYS[new Date(date).getDay()];
-      salesByDay[dayName] = totalSales;
+    // 4) 매출·순수익 객체 초기화
+    const salesByDay: Record<string, number> = {};
+    const profitByDay: Record<string, number> = {};
+    WEEK_DAYS.forEach((day) => {
+      salesByDay[day] = 0;
+      profitByDay[day] = 0;
     });
 
-    return salesByDay;
+    // 5) 실제 값 채우기
+    stats.forEach(({ date, totalSales, netProfit }) => {
+      const dayName = WEEK_DAYS[new Date(date).getDay()];
+      salesByDay[dayName] = totalSales;
+      profitByDay[dayName] = netProfit;
+    });
+
+    // 6) 최종 반환
+    return {
+      매출: salesByDay,
+      순수익: profitByDay,
+    };
+  }
+
+  //========================년도별 월별 매출 조회========================
+  @Get('yearly-sales-by-month')
+  async yearlySalesByMonth(@Query('date') dateStr?: string) {
+    // 1) 연도 파싱 (없으면 올해)
+    const year = dateStr ? parseInt(dateStr, 10) : new Date().getFullYear();
+    if (isNaN(year)) {
+      throw new BadRequestException('유효하지 않은 연도야');
+    }
+
+    // 2) 서비스에서 [{month, totalSales, netProfit}, ...] 받아오기
+    const stats = await this.salesService.getMonthlySalesByYear(year);
+
+    // 3) 라벨(1월~12월) 생성
+    const MONTH_NAMES = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
+
+    // 4) 매출 객체, 순수익 객체 초기화
+    const salesByMonth: Record<string, number> = {};
+    const profitByMonth: Record<string, number> = {};
+    MONTH_NAMES.forEach((m, idx) => {
+      const stat = stats.find((s) => s.month === idx + 1);
+      salesByMonth[m] = stat ? stat.totalSales : 0;
+      profitByMonth[m] = stat ? stat.netProfit : 0;
+    });
+
+    // 5) 최종 반환
+    return {
+      매출: salesByMonth,
+      순수익: profitByMonth,
+    };
   }
 }

@@ -6,8 +6,8 @@ export class Benefit {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 50, comment: '혜택 유형' })
-  benefitType: string;
+  @Column({ type: 'float', comment: '혜택 유형' })
+  benefitType: number;
 
   @OneToMany(() => DeliveryDriver, (rider) => rider.benefit)
   rider: DeliveryDriver[];
