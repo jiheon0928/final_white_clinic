@@ -1,4 +1,4 @@
-import { formatTime } from "@/app/hooks/format";
+import { formatTime } from "../hooks/format";
 import { TimeState } from "@/types/stores";
 import { create } from "zustand";
 

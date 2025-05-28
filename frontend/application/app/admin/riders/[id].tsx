@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
+import { router, useLocalSearchParams, useRouter } from "expo-router";
 import { View, Text, StyleSheet } from "react-native";
 import { useMemo, useState } from "react";
 import { riderDummy } from "@/dummyData/riderData";
@@ -7,13 +7,12 @@ import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import Info from "@/components/common/text/Info";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 const RiderDetail = () => {
-  const router = useRouter();
   const { id } = useLocalSearchParams();
   const rider = useMemo(
     () => riderDummy.find((r) => r.id === Number(id)),
     [id]
   );
-  const [memo, setMemo] = useState("");
+
   return (
     <Page>
       <BackBtnHeader title="기사 상세 정보" />
@@ -33,7 +32,7 @@ const RiderDetail = () => {
         ))}
         <Text style={[styles.infoText, styles.infoTextBold]}>관리자 메모</Text>
         <View style={styles.requestBox}>
-          <Text style={{ color: "#333", fontSize: 14 }}>{memo}</Text>
+          <Text style={{ color: "#333", fontSize: 14 }}></Text>
         </View>
         <DefaultBtn
           text="수정"

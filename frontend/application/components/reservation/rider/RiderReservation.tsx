@@ -8,15 +8,12 @@ import { useRef } from "react";
 import { ScrollView } from "react-native";
 import { router } from "expo-router";
 
-type RiderReservationProps = {
-  status: "대기" | "진행" | "완료";
-};
-const RiderReservation = ({ status }: RiderReservationProps) => {
+const RiderReservation = ({ status }: { status: "대기" | "진행" | "완료" }) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const { searchValue, setSearchValue } = useReservationStore();
   return (
     <Page>
-      <DefaultHeader title="대기" />
+      <DefaultHeader title={status} />
       <SearchInput
         placeholder="검색어를 입력해주세요"
         onChangeText={(text) => setSearchValue(text)}

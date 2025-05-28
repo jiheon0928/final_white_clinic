@@ -17,8 +17,7 @@ const SignPage = () => {
   const { user, setUserField, resetUser } = useSignupStore();
   const { industry, resetIndustry } = useIndustryStore();
   const { date, resetDate } = useDateStore();
-  const { zipcode, address, detailAddress, setAddress, resetAddress } =
-    useAddressStore();
+  const { zipcode, address, detailAddress, resetAddress } = useAddressStore();
 
   const insets = useSafeAreaInsets();
 
