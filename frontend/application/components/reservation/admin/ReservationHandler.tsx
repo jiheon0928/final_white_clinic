@@ -10,14 +10,11 @@ import useReservationStore from "@/stores/reservation.store";
 import useTimeStore from "@/stores/time.store";
 import useDateStore from "@/stores/date.store";
 import { router } from "expo-router";
-import { combineDateAndTime } from "@/app/hooks/format";
+import { combineDateAndTime } from "../../../hooks/format";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 
-type ReservationHandlerProps = {
-  id?: string;
-};
-const ReservationHandler = ({ id }: ReservationHandlerProps) => {
+const ReservationHandler = ({ id }: { id?: string }) => {
   const insets = useSafeAreaInsets();
   const { reservation, setReservationField, resetReservation } =
     useReservationStore();

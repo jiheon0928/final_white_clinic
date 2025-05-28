@@ -13,13 +13,13 @@ import BetweenHeader from "@/components/common/header/BetweenHeader";
 import DetailBtn from "@/components/common/button/DetailBtn";
 import Info from "@/components/common/text/Info";
 import { BarChart } from "react-native-chart-kit";
-// props 타입 정의
-interface MyPageProps {
+
+type MyPageProps = {
   name: string;
   phone: string;
   email: string;
   benefit: string;
-}
+};
 const screenWidth = Dimensions.get("window").width;
 
 const chartConfig = {

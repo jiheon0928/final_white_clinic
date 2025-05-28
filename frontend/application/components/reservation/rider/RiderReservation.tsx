@@ -8,10 +8,7 @@ import { useRef } from "react";
 import { ScrollView } from "react-native";
 import { router } from "expo-router";
 
-type RiderReservationProps = {
-  status: "대기" | "진행" | "완료";
-};
-const RiderReservation = ({ status }: RiderReservationProps) => {
+const RiderReservation = ({ status }: { status: "대기" | "진행" | "완료" }) => {
   const scrollViewRef = useRef<ScrollView>(null);
   const { searchValue, setSearchValue } = useReservationStore();
   return (

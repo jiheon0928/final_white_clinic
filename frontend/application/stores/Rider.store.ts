@@ -1,7 +1,7 @@
-import { EditRiderState } from "@/types/stores";
+import { RiderState } from "@/types/stores";
 import { create } from "zustand";
 
-const useEditRiderStore = create<EditRiderState>((set) => ({
+const useRiderStore = create<RiderState>((set) => ({
   rider: {
     name: "",
     phone: "",
@@ -15,6 +15,7 @@ const useEditRiderStore = create<EditRiderState>((set) => ({
     benefit: 0.4,
     approval: false,
   },
+  searchRiderValue: "",
   setRider: (data) =>
     set((state) => ({
       rider: {
@@ -47,6 +48,11 @@ const useEditRiderStore = create<EditRiderState>((set) => ({
       },
     }));
   },
+  setSearchRiderValue: (value) => {
+    set(() => ({
+      searchRiderValue: value,
+    }));
+  },
 }));
 
-export default useEditRiderStore;
+export default useRiderStore;

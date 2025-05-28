@@ -33,7 +33,7 @@ export type TimeState = {
   resetTime: () => void;
 };
 
-export type EditRiderState = {
+export type RiderState = {
   rider: {
     name: string;
     phone: string;
@@ -47,10 +47,12 @@ export type EditRiderState = {
     benefit: number;
     approval: boolean;
   };
-  setRiderField: <K extends keyof EditRiderState["rider"]>(
+  searchRiderValue: string;
+  setRiderField: <K extends keyof RiderState["rider"]>(
     key: K,
-    value: EditRiderState["rider"][K]
+    value: RiderState["rider"][K]
   ) => void;
-  setRider: (data: Partial<EditRiderState["rider"]>) => void;
+  setRider: (data: Partial<RiderState["rider"]>) => void;
+  setSearchRiderValue: (value: string) => void;
   resetRider: () => void;
 };

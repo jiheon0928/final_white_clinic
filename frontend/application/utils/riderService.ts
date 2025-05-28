@@ -1,4 +1,4 @@
-import useEditRiderStore from "@/stores/editRider.store";
+import useEditRiderStore from "@/stores/Rider.store";
 import api from "./api";
 
 // 기사 데이터

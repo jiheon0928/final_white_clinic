@@ -6,7 +6,6 @@ import React, { useEffect, useState } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
-import useEditRiderStore from "@/stores/editRider.store";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import CheckBoxBundle from "@/components/common/input/CheckBoxBundle";
@@ -15,9 +14,10 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ToggleInput from "@/components/common/input/ToggleInput";
 import useDateStore from "@/stores/date.store";
 import { IndustryType } from "@/types/stores";
+import useRiderStore from "@/stores/Rider.store";
 
 const EditRiderPage = ({ id }: { id: string }) => {
-  const { rider, setRiderField, resetRider, setRider } = useEditRiderStore();
+  const { rider, setRiderField, resetRider, setRider } = useRiderStore();
   const { date, resetDate } = useDateStore();
   const { address, detailAddress, zipcode, setAddress, resetAddress } =
     useAddressStore();
@@ -32,7 +32,7 @@ const EditRiderPage = ({ id }: { id: string }) => {
     setRiderField("industry", industry);
     setRiderField("birth", date);
     setRiderField("benefit", selectedBenefit);
-    console.log("✅ 제출 데이터:", useEditRiderStore.getState().rider);
+    console.log("✅ 제출 데이터:", useRiderStore.getState().rider);
     resetRider();
     resetDate();
     resetAddress();
