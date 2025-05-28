@@ -3,14 +3,17 @@ import { useRouter } from "next/navigation";
 import { useApiStore } from "@/store/Api";
 import { useEffect } from "react";
 import { RevErrorMessage } from "../errorMessage/RevError";
+import { useReservationStore } from "@/store/ReservationStore";
 
 export const ReservationCard = () => {
   const { reservations, getReservations, isLoading, error } = useApiStore();
+  const { currentStatus } = useReservationStore();
   const router = useRouter();
 
   useEffect(() => {
-    getReservations("pending");
-  }, [getReservations]);
+    getReservations(currentStatus);
+  }, [getReservations, currentStatus]);
+  console.log(currentStatus);
 
   const handleClick = (path: string) => {
     router.push(path);
@@ -21,7 +24,7 @@ export const ReservationCard = () => {
       <RevErrorMessage
         isLoading={isLoading}
         error={error || ""}
-        getReservations={() => getReservations("pending")}
+        getReservations={() => getReservations(currentStatus)}
         reservations={reservations}
       />
       <div className="grid grid-cols-1 gap-4">

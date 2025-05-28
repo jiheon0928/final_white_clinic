@@ -1,23 +1,25 @@
 "use client";
 import { VictoryBar, VictoryChart, VictoryTheme } from "victory";
 import Layout from "../common/Layout";
+import { useEffect } from "react";
+import { useSalesStore } from "@/store/useSalesStore";
 
 export const Sales = () => {
-  const dailySalesData = [
-    { x: "화요일", y: 50 },
-    { x: "월요일", y: 10 },
-    { x: "수요일", y: 30 },
-    { x: "목요일", y: 40 },
-    { x: "금요일", y: 20 },
-    { x: "토요일", y: 60 },
-    { x: "일요일", y: 70 },
-  ];
-  const weeklySalesData = [
-    { x: "1주차", y: 20 },
-    { x: "2주차", y: 50 },
-    { x: "3주차", y: 80 },
-    { x: "4주차", y: 40 },
-  ];
+  const {
+    weeklySalesByDay,
+    yearlySalesByMonth,
+    getWeeklySalesByDay,
+    getYearlySalesByMonth,
+    isLoading,
+    error,
+  } = useSalesStore();
+
+  useEffect(() => {
+    getWeeklySalesByDay("2025-05-27");
+    getYearlySalesByMonth("2025");
+  }, []);
+
+  console.log(yearlySalesByMonth);
 
   return (
     <Layout title="매출 현황">
@@ -44,7 +46,13 @@ export const Sales = () => {
         width={500}
         height={250}
       >
-        <VictoryBar animate={{ duration: 1000 }} data={dailySalesData} />
+        <VictoryBar
+          animate={{ duration: 1000 }}
+          data={weeklySalesByDay?.map((item) => ({
+            x: item?.x ?? "알수없음",
+            y: typeof item?.y === "number" ? item.y : 0,
+          }))}
+        />
       </VictoryChart>
 
       <h1 className="text-5xl font-bold text-center bg-gradient-to-r from-blue-600 to-blue-200 bg-clip-text text-transparent mb-4">
@@ -57,7 +65,7 @@ export const Sales = () => {
         width={600}
         height={300}
       >
-        <VictoryBar animate={{ duration: 1000 }} data={weeklySalesData} />
+        <VictoryBar animate={{ duration: 1000 }} data={yearlySalesByMonth} />
       </VictoryChart>
     </Layout>
   );
