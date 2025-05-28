@@ -28,7 +28,7 @@ export class ReservationController {
   }
 
   // ============================= 상태 조회 =============================
-  @Get('by-status')
+  @Get()
   async findByStatus(
     @Query('status') status: '대기' | '진행' | '완료',
   ): Promise<Reservation[]> {

@@ -29,6 +29,14 @@ export class UserController {
     return this.userService.findById(id);
   }
 
+  //승인 비승인 조회
+  @Get('rider/:id')
+  async findStatus(
+    @Query('status') status: '승인' | '비승인',
+  ): Promise<DeliveryDriver[]> {
+    return this.userService.findStatus(status);
+  }
+
   @Patch(':id/info') //기사 정보 수정
   async updateInfo(
     @Param('id', ParseIntPipe) id: number,

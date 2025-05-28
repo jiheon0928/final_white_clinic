@@ -23,6 +23,11 @@ export class UserService {
     return this.driverRepo.find();
   }
 
+  //========================기사 승인 비승인 조회========================
+  async findStatus(status: '승인' | '비승인'): Promise<DeliveryDriver[]> {
+    return this.driverRepo.find({ where: { approval: status === '승인' } });
+  }
+
   //========================기사 정보 조회========================
   async findById(id: number): Promise<DeliveryDriver> {
     return this.driverRepo.findOneOrFail({ where: { id } });
