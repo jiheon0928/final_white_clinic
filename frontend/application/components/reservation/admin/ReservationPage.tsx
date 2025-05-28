@@ -1,5 +1,5 @@
 import { ScrollView } from "react-native";
-import { reservationDummy } from "@/dummyData/reservationData";
+import { reservationDummy, statusData } from "@/dummyData/reservationData";
 import ReservationCard from "../../reservation/subCompontent/ReservationCard";
 import SearchInput from "@/components/common/input/SearchInput";
 import Page from "@/components/common/Page";
@@ -37,9 +37,12 @@ const ReservationPage = () => {
         showsVerticalScrollIndicator={false}
       >
         {reservationDummy
-          .filter((v) => v.상태 == status)
+          .filter((v) => statusData[v.statusId - 1].status == status)
           .filter(
-            (v) => v.제목.includes(searchValue) || v.주소.includes(searchValue)
+            (v) =>
+              v.item.includes(searchValue) ||
+              v.address.includes(searchValue) ||
+              v.customer.includes(searchValue)
           )
           .map((item) => (
             <ReservationCard
@@ -47,10 +50,10 @@ const ReservationPage = () => {
               goToLink={() => {
                 router.push(`/admin/reservations/${item.id}`);
               }}
-              title={item.제목}
-              address={item.주소}
-              price={Number(item.단가)}
-              status={item.상태}
+              title={item.item}
+              address={item.address}
+              price={Number(item.price)}
+              status={statusData[item.statusId - 1].status}
             />
           ))}
       </ScrollView>
