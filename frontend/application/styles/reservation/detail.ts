@@ -26,4 +26,7 @@ export const ReservationDetailStyles = StyleSheet.create({
     fontSize: 14,
     color: "#333",
   },
+  riderInfo: {
+    gap: 8,
+  },
 });

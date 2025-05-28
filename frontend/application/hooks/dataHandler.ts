@@ -3,7 +3,7 @@ import {
   reservationDummyType,
   statusData,
 } from "@/dummyData/reservationData";
-import { benefitData } from "@/dummyData/ridersData";
+import ridersData, { benefitData } from "@/dummyData/ridersData";
 import { RiderData } from "@/dummyData/ridersData";
 import { formatDate, formatTime } from "@/hooks/format";
 
@@ -12,7 +12,7 @@ const getIndustryName = (industryId: number): string => {
 };
 
 export const isReservationCompleted = (statusId: number): boolean => {
-  return statusData[statusId - 1]?.status === "완료";
+  return statusData[statusId - 1]?.status == "완료";
 };
 
 export const getReservationDetailInfoList = (
@@ -33,6 +33,22 @@ export const getReservationDetailInfoList = (
     },
     { category: "주소", value: reservation.address },
     { category: "단가", value: `${reservation.price.toLocaleString()}원` },
+  ];
+};
+export const getReservationDetailRiderInfo = (
+  reservation: reservationDummyType
+) => {
+  if (!reservation.riderId) return [];
+  return [
+    { category: "이름", value: ridersData[reservation.riderId - 1].name },
+    { category: "연락처", value: ridersData[reservation.riderId - 1].phone },
+    {
+      category: "수당률",
+      value: `${
+        benefitData[ridersData[reservation.riderId - 1].benefitId - 1].benefit *
+        100
+      }%`,
+    },
   ];
 };
 

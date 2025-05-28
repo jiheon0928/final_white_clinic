@@ -8,8 +8,11 @@ import DefaultBtn from "@/components/common/button/DefualtBtn";
 import { ReservationDetailStyles } from "@/styles/reservation/detail";
 import {
   getReservationDetailInfoList,
+  getReservationDetailRiderInfo,
   isReservationCompleted,
 } from "@/hooks/dataHandler";
+import { benefitData, ridersData } from "@/dummyData/ridersData";
+import Title from "@/components/common/text/Title";
 
 const ReservationDetail = ({ id }: { id: string }) => {
   const reservation = reservationDummy.find((v) => v.id === Number(id));
@@ -44,7 +47,20 @@ const ReservationDetail = ({ id }: { id: string }) => {
         <View style={ReservationDetailStyles.requestBox}>
           <Text style={ReservationDetailStyles.text}>{memo}</Text>
         </View>
+        {reservation.riderId && (
+          <View style={ReservationDetailStyles.riderInfo}>
+            <Title title="< 기사 정보 >" />
+            {getReservationDetailRiderInfo(reservation).map((info) => (
+              <Info
+                key={info.category}
+                category={info.category}
+                value={info.value}
+              />
+            ))}
+          </View>
+        )}
       </View>
+
       {!isReservationCompleted(statusId) && (
         <DefaultBtn
           text="예약 수정"
