@@ -24,8 +24,8 @@ export class UserService {
   }
 
   //========================기사 정보 조회========================
-  async findByName(name: string): Promise<DeliveryDriver> {
-    return this.driverRepo.findOneOrFail({ where: { name } });
+  async findById(id: number): Promise<DeliveryDriver> {
+    return this.driverRepo.findOneOrFail({ where: { id } });
   }
 
   //========================기사 정보 수정========================
@@ -67,5 +67,20 @@ export class UserService {
 
     // 6) 저장
     return await this.driverRepo.save(driver);
+  }
+
+  async getWeeklyByDate(riderId: number, refDate: Date) {
+    // TODO: Implement weekly stats logic
+    return [];
+  }
+
+  async getMonthlyByDate(riderId: number, refDate: Date) {
+    // TODO: Implement monthly stats logic
+    return [];
+  }
+
+  async getYearlyByYear(riderId: number, year: number) {
+    // TODO: Implement yearly stats logic
+    return [];
   }
 }
