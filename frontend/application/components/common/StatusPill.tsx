@@ -1,13 +1,6 @@
+import { statusPillStyles } from "@/styles/status/statusPillStyle";
+import { StatusPillProps, StatusType } from "@/types/status";
 import { View } from "react-native";
-
-type StatusPillProps = {
-  status: string;
-  position?: "absolute";
-  top?: number;
-  right?: number;
-  bottom?: number;
-  left?: number;
-};
 
 const StatusPill = ({
   status,
@@ -15,33 +8,30 @@ const StatusPill = ({
   right,
   bottom,
   left,
-  position,
+  position = "absolute",
 }: StatusPillProps) => {
   return (
     <View
-      style={{
-        width: 10,
-        height: 10,
-        borderRadius: 5,
-        backgroundColor: getStatusColor(status),
-        position: position,
-        top: top,
-        right: right,
-        bottom: bottom,
-        left: left,
-      }}
+      style={[
+        statusPillStyles.base,
+        {
+          backgroundColor: getStatusColor(status),
+          position,
+          top,
+          right,
+          bottom,
+          left,
+        },
+      ]}
     />
   );
 };
 
-const getStatusColor = (status: string) => {
-  if (status === "대기") {
-    return "#4299e1";
-  } else if (status === "진행") {
-    return "#48bb78";
-  } else if (status === "완료") {
-    return "#a0aec0";
-  }
+const getStatusColor = (status: StatusType) => {
+  if (status === "대기") return "#4299e1";
+  if (status === "진행") return "#48bb78";
+  if (status === "완료") return "#a0aec0";
+  return "#000";
 };
 
 export default StatusPill;

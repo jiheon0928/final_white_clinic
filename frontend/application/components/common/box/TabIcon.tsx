@@ -1,6 +1,7 @@
+import { tabIconStyles } from "@/styles/tabIconStyle";
 import { TabIconProps } from "@/types/tabBar";
 import { Ionicons } from "@expo/vector-icons";
-import { StyleSheet, Text, View } from "react-native";
+import { Text, View } from "react-native";
 
 const TabIcon = ({ iconName, title, size, color }: TabIconProps) => {
   return (
@@ -13,12 +14,4 @@ const TabIcon = ({ iconName, title, size, color }: TabIconProps) => {
   );
 };
 
-const tabIconStyles = StyleSheet.create({
-  text: {
-    fontSize: 11,
-    marginTop: 4,
-    width: 80,
-    textAlign: "center",
-  },
-});
 export default TabIcon;
