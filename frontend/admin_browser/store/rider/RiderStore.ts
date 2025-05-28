@@ -30,6 +30,14 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
     e.preventDefault();
     console.log("Form submitted");
   },
+  setFormData: (data: Partial<RiderInfoStore["formData"]>) => {
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        ...data,
+      },
+    }));
+  },
 }));
 
 export default useRiderStore;

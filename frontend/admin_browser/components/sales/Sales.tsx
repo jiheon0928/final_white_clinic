@@ -4,8 +4,8 @@ import Layout from "../common/Layout";
 
 export const Sales = () => {
   const dailySalesData = [
-    { x: "월요일", y: 10 },
     { x: "화요일", y: 50 },
+    { x: "월요일", y: 10 },
     { x: "수요일", y: 30 },
     { x: "목요일", y: 40 },
     { x: "금요일", y: 20 },

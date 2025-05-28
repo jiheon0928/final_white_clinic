@@ -3,19 +3,36 @@ import { useRouter } from "next/navigation";
 import { Rider } from "@/types/RiderStore/RiderTypes";
 import { useApiStore } from "@/store/Api";
 import { RiderErrorMessage } from "../errorMessage/RiderError";
-import { useRiderStore } from "@/store/rider/SearchRider";
 import { useEffect } from "react";
+import { RiderInfoStore } from "@/types/RiderStore/RiderInfoTypes";
+import { useRiderSearchStore } from "@/store/rider/SearchRider";
+import useRiderStore from "@/store/rider/RiderStore";
 
 export const RiderCard = () => {
   const router = useRouter();
   const { riders, getRiders, isLoading, error } = useApiStore();
-  const { filteredRiders } = useRiderStore();
+  const { filteredRiders } = useRiderSearchStore();
 
   useEffect(() => {
     getRiders();
   }, []);
 
-  const handleClick = (path: string) => {
+  const handleClick = (path: string, data: Rider) => {
+    const formData: Partial<RiderInfoStore["formData"]> = {
+      name: data.name,
+      birth: data.birth,
+      loginId: data.loginId,
+      password: data.password,
+      phone: data.phone,
+      address: data.address,
+      detailAddress: data.detailAddress,
+      zipcode: data.zipcode,
+      email: data.email,
+      significant: data.significant,
+      approval: data.approval,
+      benefit: data.benefit?.benefitType?.toString() || "40",
+    };
+    useRiderStore.getState().setFormData(formData);
     router.push(path);
   };
 
@@ -50,13 +67,15 @@ export const RiderCard = () => {
                   <Button
                     title="기사님 정보수정"
                     onClick={() =>
-                      handleClick(`/rider/update?name=${rider.name}`)
+                      handleClick(`/rider/update?name=${rider.name}`, rider)
                     }
                     className="bg-green-500 hover:bg-green-600"
                   />
                   <Button
                     title="기사님 상세정보"
-                    onClick={() => handleClick(`/rider/detail?id=${rider.id}`)}
+                    onClick={() =>
+                      handleClick(`/rider/detail?id=${rider.id}`, rider)
+                    }
                     className="bg-blue-500 hover:bg-blue-600"
                   />
                 </div>
