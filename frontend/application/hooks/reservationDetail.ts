@@ -33,3 +33,13 @@ export const getReservationDetailInfoList = (
     { category: "단가", value: `${reservation.price.toLocaleString()}원` },
   ];
 };
+
+export const btnText = (status: number) => {
+  if (status == 1) {
+    return "수락";
+  } else if (status == 2) {
+    return "완료";
+  } else {
+    return "확인";
+  }
+};
