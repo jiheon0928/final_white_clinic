@@ -29,6 +29,7 @@ const Input = ({
   onChange,
   className,
   title,
+  value,
 }: ExtendedInputProps) => {
   return (
     <div className="flex flex-col gap-2 ">
@@ -48,6 +49,7 @@ const Input = ({
         name={name}
         placeholder={placeholder}
         onChange={onChange}
+        value={value}
         className={classNames(
           "w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black ",
           className
@@ -56,5 +58,4 @@ const Input = ({
     </div>
   );
 };
-
 export default Input;

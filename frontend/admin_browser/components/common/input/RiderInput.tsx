@@ -32,19 +32,35 @@ export const RiderInput = () => {
         value={formData.email}
       />
       <Input
-        title="거주 지역"
+        title="우편번호"
+        type="text"
+        name="zipcode"
+        placeholder="기사님 우편번호를 작성해주세요"
+        onChange={handleChange}
+        value={formData.zipcode}
+      />
+      <Input
+        title="주소"
         type="text"
         name="address"
-        placeholder="기사님 거주 지역을 작성해주세요"
+        placeholder="기사님 주소를 작성해주세요"
         onChange={handleChange}
         value={formData.address}
+      />
+      <Input
+        title="상세주소"
+        type="text"
+        name="detailAddress"
+        placeholder="기사님 상세주소를 작성해주세요"
+        onChange={handleChange}
+        value={formData.detailAddress}
       />
       <div className="flex flex-col gap-2">
         <label className="text-gray-700 font-semibold">특이사항</label>
         <textarea
-          name="notes"
+          name="significant"
           placeholder="기사님 특이사항 또는 추가 정보를 입력해주세요"
-          value={formData.notes}
+          value={formData.significant}
           rows={4}
           className="w-full border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
           onChange={handleChange}

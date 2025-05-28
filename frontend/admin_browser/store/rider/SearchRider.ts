@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { RiderSearchStore } from "@/types/RiderStore/RiderSearchTypes";
 
-export const useRiderStore = create<RiderSearchStore>((set, get) => ({
+export const useRiderSearchStore = create<RiderSearchStore>((set, get) => ({
   riders: [],
   filteredRiders: [],
   search: "",
