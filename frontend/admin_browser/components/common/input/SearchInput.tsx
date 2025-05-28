@@ -1,8 +1,8 @@
 import Input from "./Input";
-import { useRiderStore } from "@/store/rider/SearchRider";
+import { useRiderSearchStore } from "@/store/rider/SearchRider";
 
 export const SearchInput = () => {
-  const { search, setSearch } = useRiderStore();
+  const { search, setSearch } = useRiderSearchStore();
   return (
     <>
       <Input

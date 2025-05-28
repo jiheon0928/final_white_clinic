@@ -8,6 +8,7 @@ export const Revenue = () => {
       <Benefit
         type="number"
         name="benefit"
+        value={formData.benefit}
         onChange={handleChange}
         title="수수료 (%)"
         step={5}

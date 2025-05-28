@@ -2,6 +2,7 @@ export type ButtonProps = {
   title: string;
   onClick: () => void;
   className?: string;
+  type?: "button" | "submit" | "reset";
 };
 
 export type InputProps = {
@@ -28,6 +29,7 @@ export type DateProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   title: string;
+  value: string;
 };
 
 export type BenefitProps = {
@@ -37,6 +39,7 @@ export type BenefitProps = {
   className?: string;
   title: string;
   step: number;
+  value: string;
 };
 
 export type ManagerProps = {

@@ -42,7 +42,10 @@ export const ReservationCard = () => {
               <div className="grid grid-cols-2 gap-3 text-sm font-bold">
                 {[
                   { label: "고객명", value: reservation.customer },
-                  { label: "방문시간", value: reservation.visitTime },
+                  {
+                    label: "방문시간",
+                    value: new Date(reservation.visitTime).toLocaleString(),
+                  },
                   { label: "방문날짜", value: reservation.date.split("T")[0] },
                   { label: "전화번호", value: reservation.phone },
                   { label: "주소", value: reservation.address, colSpan: 2 },
