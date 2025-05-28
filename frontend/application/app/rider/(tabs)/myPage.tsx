@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   View,
   Text,
@@ -9,7 +9,6 @@ import {
 import { router } from "expo-router";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
-import DetailBtn from "@/components/common/button/DetailBtn";
 import Info from "@/components/common/text/Info";
 import { BarChart } from "react-native-chart-kit";
 import { ChartKey, MyPageProps } from "@/types/riderMyPage";

@@ -11,7 +11,6 @@ import {
   getReservationDetailRiderInfo,
   isReservationCompleted,
 } from "@/hooks/dataHandler";
-import { benefitData, ridersData } from "@/dummyData/ridersData";
 import Title from "@/components/common/text/Title";
 
 const ReservationDetail = ({ id }: { id: string }) => {

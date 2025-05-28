@@ -24,7 +24,7 @@ const RiderReservation = ({ status }: { status: number }) => {
         showsVerticalScrollIndicator={false}
       >
         {reservationDummy
-          .filter((v) => v.statusId == status)
+          .filter((v) => v.statusId === status)
           .filter(
             (v) =>
               v.item.includes(searchValue) || v.address.includes(searchValue)

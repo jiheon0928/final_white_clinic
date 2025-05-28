@@ -10,11 +10,11 @@ import {
   getReservationDetailInfoList,
   isReservationCompleted,
   btnText,
-} from "@/hooks/reservationDetail";
+} from "@/hooks/dataHandler";
 
 const ReservationDetail = () => {
   const { id } = useLocalSearchParams();
-  const reservation = reservationDummy.find((v) => v.id == Number(id));
+  const reservation = reservationDummy.find((v) => v.id === Number(id));
 
   if (!reservation) {
     return (
@@ -48,7 +48,7 @@ const ReservationDetail = () => {
       {!isReservationCompleted(statusId) && (
         <DefaultBtn
           onPress={() => {
-            if (statusId == 1) {
+            if (statusId === 1) {
               router.push(`/rider/(tabs)/progress`);
             } else {
               router.push(`/rider/(tabs)/completed`);
