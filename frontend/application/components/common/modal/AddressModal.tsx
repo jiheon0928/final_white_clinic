@@ -2,7 +2,7 @@ import React from "react";
 import { Modal, View, Pressable, Text } from "react-native";
 import { WebView, WebViewMessageEvent } from "react-native-webview";
 import useAddressStore from "@/stores/address.store";
-import { AddressModalStyles } from "@/styles/address";
+import { AddressModalStyles } from "@/styles/input/address";
 import { AddressModalProps } from "@/types/address";
 
 const AddressModal = ({ visible, onClose }: AddressModalProps) => {

@@ -1,4 +1,4 @@
-import { statusPillStyles } from "@/styles/status/statusPillStyle";
+import { statusPillStyles } from "@/styles/status";
 import { StatusPillProps, StatusType } from "@/types/status";
 import { View } from "react-native";
 

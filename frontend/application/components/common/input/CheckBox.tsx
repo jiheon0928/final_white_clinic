@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import { CheckBoxProps } from "@/types/checkBox";
-import { checkBoxstyles } from "@/styles/checkBoxStyle";
+import { checkBoxstyles } from "@/styles/input/checkBox";
 
 const CheckBox = ({ label, value, onValueChange }: CheckBoxProps) => (
   <TouchableOpacity

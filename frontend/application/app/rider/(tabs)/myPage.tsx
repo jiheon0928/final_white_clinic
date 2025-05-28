@@ -13,7 +13,7 @@ import DetailBtn from "@/components/common/button/DetailBtn";
 import Info from "@/components/common/text/Info";
 import { BarChart } from "react-native-chart-kit";
 import { ChartKey, MyPageProps } from "@/types/riderMyPage";
-import { riderMyPageStyles } from "@/styles/riderMyPageStyle";
+import { riderMyPageStyles } from "@/styles/rider/riderMyPage";
 import { chartData } from "@/dummyData/maPagechartData";
 import { useSalesChart } from "@/hooks/sales/riderMyPage";
 import { handleLogout } from "@/hooks/sales/logout";

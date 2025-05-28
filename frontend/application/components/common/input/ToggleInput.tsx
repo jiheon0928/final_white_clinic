@@ -1,4 +1,4 @@
-import { toggleInputStyles } from "@/styles/toggleInputStyle";
+import { toggleInputStyles } from "@/styles/input/toggle";
 import { ToggleInputProps } from "@/types/toggleInput";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";

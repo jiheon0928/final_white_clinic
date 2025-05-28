@@ -23,3 +23,11 @@ export const statusBarStyles = StyleSheet.create({
     borderRadius: 8,
   },
 });
+
+export const statusPillStyles = StyleSheet.create({
+  base: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+});

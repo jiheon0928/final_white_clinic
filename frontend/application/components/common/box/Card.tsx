@@ -1,4 +1,4 @@
-import { cardStyles } from "@/styles/reservation/reservationCard";
+import { cardStyles } from "@/styles/card";
 import { View } from "react-native";
 import { CardProps } from "@/types/common";
 import DetailBtn from "../button/DetailBtn";

@@ -1,7 +1,7 @@
 import Ionicons from "@expo/vector-icons/build/Ionicons";
 import { TextInput, View } from "react-native";
 import { SearchInputProps } from "@/types/searchInput";
-import { searchInputStyles } from "@/styles/searchInputStyle";
+import { searchInputStyles } from "@/styles/input/search";
 const SearchInput = ({ placeholder, onChangeText }: SearchInputProps) => {
   return (
     <View style={searchInputStyles.input}>

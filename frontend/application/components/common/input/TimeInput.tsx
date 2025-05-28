@@ -1,4 +1,4 @@
-import { TimeInputStyles } from "@/styles/time";
+import { TimeInputStyles } from "@/styles/input/time";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";

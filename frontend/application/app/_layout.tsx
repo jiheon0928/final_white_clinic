@@ -11,6 +11,7 @@ const RootLayout = () => {
         <Stack.Screen name="signup" />
         <Stack.Screen name="rider/(tabs)" />
         <Stack.Screen name="admin/(tabs)" />
+        <Stack.Screen name="admin/riders/[id]" />
       </Stack>
       <Toast />
     </View>
