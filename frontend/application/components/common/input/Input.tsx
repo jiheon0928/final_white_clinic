@@ -1,5 +1,6 @@
 import { inputStyles } from "@/styles/input/Default";
-import { InputProps } from "@/types/common";
+import { InputProps } from "@/types/ui/ui.types";
+
 import { Text, TextInput, View } from "react-native";
 
 const Input = ({

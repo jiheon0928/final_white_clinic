@@ -1,5 +1,5 @@
 import { toggleInputStyles } from "@/styles/input/toggle";
-import { ToggleInputProps } from "@/types/toggleInput";
+import { ToggleInputProps } from "@/types/ui/ui.types";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";

@@ -13,8 +13,8 @@ import useIndustryStore from "@/stores/industry.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ToggleInput from "@/components/common/input/ToggleInput";
 import useDateStore from "@/stores/date.store";
-import { IndustryType } from "@/types/stores";
 import useRiderStore from "@/stores/Rider.store";
+import { IndustryType } from "@/types/stores/zustandStore.types";
 
 const EditRiderPage = ({ id }: { id: string }) => {
   const { rider, setRiderField, resetRider, setRider } = useRiderStore();
