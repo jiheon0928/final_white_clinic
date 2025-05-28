@@ -5,6 +5,7 @@ import { riderDummy } from "@/dummyData/riderData";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import Card from "@/components/common/box/Card";
+import Info from "@/components/common/text/Info";
 
 const Riders = () => {
   return (
@@ -27,13 +28,9 @@ const Riders = () => {
               })
             }
           >
-            <Text>{rider.name}</Text>
-            <Text>
-              연락처 : <Text>{rider.phone}</Text>
-            </Text>
-            <Text>
-              주소 : <Text>{rider.address}</Text>
-            </Text>
+            <Info value={rider.name} category="이름" />
+            <Info value={rider.phone} category="연락처" />
+            <Info value={rider.address} category="주소" />
           </Card>
         ))}
       </ScrollView>

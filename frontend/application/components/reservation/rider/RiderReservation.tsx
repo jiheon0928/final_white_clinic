@@ -16,7 +16,7 @@ const RiderReservation = ({ status }: RiderReservationProps) => {
   const { searchValue, setSearchValue } = useReservationStore();
   return (
     <Page>
-      <DefaultHeader title="대기" />
+      <DefaultHeader title={status} />
       <SearchInput
         placeholder="검색어를 입력해주세요"
         onChangeText={(text) => setSearchValue(text)}
