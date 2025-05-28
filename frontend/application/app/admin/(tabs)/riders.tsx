@@ -1,7 +1,7 @@
-import RidersPage from "@/components/rider/admin/RidersPage";
+import RidersList from "@/components/rider/admin/RidersList";
 
-const Riders = () => {
-  return <RidersPage />;
+const RidersPage = () => {
+  return <RidersList />;
 };
 
-export default Riders;
+export default RidersPage;

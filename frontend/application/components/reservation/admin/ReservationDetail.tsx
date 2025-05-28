@@ -9,7 +9,7 @@ import { ReservationDetailStyles } from "@/styles/reservation/detail";
 import {
   getReservationDetailInfoList,
   isReservationCompleted,
-} from "@/hooks/reservationDetail";
+} from "@/hooks/dataHandler";
 
 const ReservationDetail = ({ id }: { id: string }) => {
   const reservation = reservationDummy.find((v) => v.id === Number(id));

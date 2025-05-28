@@ -3,6 +3,8 @@ import {
   reservationDummyType,
   statusData,
 } from "@/dummyData/reservationData";
+import { benefitData } from "@/dummyData/ridersData";
+import { RiderData } from "@/dummyData/ridersData";
 import { formatDate, formatTime } from "@/hooks/format";
 
 const getIndustryName = (industryId: number): string => {
@@ -33,3 +35,16 @@ export const getReservationDetailInfoList = (
     { category: "단가", value: `${reservation.price.toLocaleString()}원` },
   ];
 };
+
+// 기사 데이터
+export const getPendingRider = (rider: RiderData) => [
+  { category: "이름", value: rider.name },
+  { category: "연락처", value: rider.phone },
+  { category: "생년월일", value: rider.birth },
+  { category: "주소", value: rider.address },
+  { category: "이메일", value: rider.email },
+  {
+    category: "수당률",
+    value: `${benefitData[rider.benefitId - 1].benefit * 100}%`,
+  },
+];

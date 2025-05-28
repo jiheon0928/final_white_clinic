@@ -14,7 +14,7 @@ import useIndustryStore from "@/stores/industry.store";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import useDateStore from "@/stores/date.store";
 
-const EditMyPage = () => {
+const EditMyPage = ({ id }: { id: string }) => {
   const { rider, setRiderField, resetRider } = useEditRiderStore();
   const { date, resetDate } = useDateStore();
   const { zipcode, address, detailAddress, setAddress, resetAddress } =

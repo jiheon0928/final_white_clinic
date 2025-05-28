@@ -8,7 +8,7 @@ const StatusPill = ({
   right,
   bottom,
   left,
-  position = "absolute",
+  position,
 }: StatusPillProps) => {
   return (
     <View

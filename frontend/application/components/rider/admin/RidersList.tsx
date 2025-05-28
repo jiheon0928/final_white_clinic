@@ -1,14 +1,16 @@
 import { Text, ScrollView } from "react-native";
 import SearchInput from "@/components/common/input/SearchInput";
 import { router } from "expo-router";
-import { riderDummy } from "@/dummyData/riderData";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import Card from "@/components/common/box/Card";
 import useRiderStore from "@/stores/Rider.store";
+import { ridersData } from "@/dummyData/ridersData";
+import Title from "@/components/common/text/Title";
 
-const RidersPage = () => {
+const RidersList = () => {
   const { searchRiderValue, setSearchRiderValue } = useRiderStore();
+  const riders = ridersData.filter((rider) => rider.approval);
   return (
     <Page>
       <BetweenHeader
@@ -21,7 +23,7 @@ const RidersPage = () => {
         onChangeText={(value) => setSearchRiderValue(value)}
       />
       <ScrollView>
-        {riderDummy
+        {riders
           .filter(
             (rider) =>
               rider.name.includes(searchRiderValue) ||
@@ -38,7 +40,7 @@ const RidersPage = () => {
                 })
               }
             >
-              <Text>{rider.name}</Text>
+              <Title title={rider.name} />
               <Text>
                 연락처 : <Text>{rider.phone}</Text>
               </Text>
@@ -52,4 +54,4 @@ const RidersPage = () => {
   );
 };
 
-export default RidersPage;
+export default RidersList;
