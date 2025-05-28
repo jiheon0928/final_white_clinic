@@ -1,4 +1,4 @@
-import { detailBtnStyles } from "@/styles/detailBtnStyle";
+import { detailBtnStyles } from "@/styles/Button";
 import { DetailBtnProps } from "@/types/common";
 import { Text, TouchableOpacity } from "react-native";
 

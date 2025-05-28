@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { TextInput, TouchableOpacity, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import useDateStore from "@/stores/date.store";
-import { CalenderInputStyles } from "@/styles/calender";
+import { CalenderInputStyles } from "@/styles/input/calender";
 
 const CalenderInput = ({ title }: { title: string }) => {
   const [showDate, setShowDate] = useState(false);

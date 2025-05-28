@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import AddressModal from "../modal/AddressModal";
 import useAddressStore from "@/stores/address.store";
-import { AddressInputStyles } from "@/styles/address";
+import { AddressInputStyles } from "@/styles/input/address";
 
 const AddressInput = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);

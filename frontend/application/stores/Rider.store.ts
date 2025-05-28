@@ -1,4 +1,4 @@
-import { RiderState } from "@/types/stores";
+import { RiderState } from "@/types/stores/zustandStore.types";
 import { create } from "zustand";
 
 const useRiderStore = create<RiderState>((set) => ({

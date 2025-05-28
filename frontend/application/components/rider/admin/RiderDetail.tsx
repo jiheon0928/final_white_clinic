@@ -7,7 +7,7 @@ import Info from "@/components/common/text/Info";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import { getPendingRider } from "@/hooks/dataHandler";
 import { industryData } from "@/dummyData/reservationData";
-import { RiderDetailPageStyles } from "@/styles/riderDetailPageStyle";
+import { RiderDetailPageStyles } from "@/styles/rider/riderDetailPage";
 const RiderDetail = ({ id }: { id: string }) => {
   const rider = ridersData.find((r) => r.id === Number(id));
   if (!rider) {

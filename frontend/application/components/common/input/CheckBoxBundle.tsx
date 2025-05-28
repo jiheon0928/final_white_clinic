@@ -2,7 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import CheckBox from "./CheckBox";
 import industryStore from "@/stores/industry.store";
-import { checkBoxBundleStyles } from "@/styles/checkBoxBundleStyle";
+import { checkBoxBundleStyles } from "@/styles/input/checkBox";
 
 const CheckBoxBundle = () => {
   const { industry, toggle } = industryStore();

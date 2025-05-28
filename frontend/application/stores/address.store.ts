@@ -1,4 +1,4 @@
-import { AddressState } from "@/types/stores";
+import { AddressState } from "@/types/stores/zustandStore.types";
 import { create } from "zustand";
 
 const useAddressStore = create<AddressState>((set) => ({

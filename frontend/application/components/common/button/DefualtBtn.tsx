@@ -1,10 +1,6 @@
-import { DefaultBtnStyles } from "@/styles/defaultBtnStyle";
+import { DefaultBtnStyles } from "@/styles/Button";
+import { DefaultBtnProps } from "@/types/ui/ui.types";
 import { Text, TouchableOpacity } from "react-native";
-
-type DefaultBtnProps = {
-  onPress: () => void;
-  text: string;
-};
 
 const DefaultBtn = ({ text, onPress }: DefaultBtnProps) => {
   return (

@@ -1,27 +1,5 @@
+import { ReservationState } from "@/types/stores/zustandStore.types";
 import { create } from "zustand";
-
-type ReservationState = {
-  reservation: {
-    customerName: string;
-    customerPhone: string;
-    customerRequest: string;
-    customerZipCode: string;
-    customerAddress: string;
-    customerDetailAddress: string;
-    visitTime: Date;
-    reservationStatus: "대기" | "진행" | "완료";
-    reservationPrice: string;
-  };
-  status: "대기" | "진행" | "완료";
-  searchValue: string;
-  setStatus: (status: "대기" | "진행" | "완료") => void;
-  setSearchValue: (searchValue: string) => void;
-  setReservationField: (
-    field: keyof ReservationState["reservation"],
-    value: string | Date
-  ) => void;
-  resetReservation: () => void;
-};
 
 const useReservationStore = create<ReservationState>((set) => ({
   reservation: {

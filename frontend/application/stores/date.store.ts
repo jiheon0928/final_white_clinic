@@ -1,5 +1,5 @@
 import { formatDate } from "../hooks/format";
-import { DateState } from "@/types/stores";
+import { DateState } from "@/types/stores/zustandStore.types";
 import { create } from "zustand";
 
 const useDateStore = create<DateState>((set) => ({

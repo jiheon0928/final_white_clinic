@@ -1,4 +1,4 @@
-import { IndustryState } from "@/types/stores";
+import { IndustryState } from "@/types/stores/zustandStore.types";
 import { create } from "zustand";
 
 const useIndustryStore = create<IndustryState>((set) => ({
