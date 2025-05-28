@@ -25,7 +25,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   getReservations: async (status: "대기" | "진행" | "완료") => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.get(`/reservation/by-status?status=${status}`);
+      const response = await api.get(`/reservation?status=${status}`);
       console.log("API 응답 데이터:", response.data);
       const visitTime = response.data.map((reservation: any) => ({
         ...reservation,
@@ -107,14 +107,14 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   },
 
   // 기사 정보 수정
-  updateRiderInfo: async (riderName: string, updateData: any) => {
+  updateRiderInfo: async (riderId: number, updateData: any) => {
     try {
       set({ isLoading: true, error: null });
-      const rider = get().riders.find((r) => r.name === riderName);
+      const rider = get().riders.find((r) => r.id === riderId);
       if (!rider) {
         throw new Error("기사를 찾을 수 없습니다.");
       }
-      const response = await api.patch(`/user/${rider.name}`, updateData);
+      const response = await api.patch(`/user/${rider.id}/info`, updateData);
       console.log("기사 정보 수정 응답:", response.data);
       const updatedRiders = get().riders.map((r) =>
         r.id === rider.id ? { ...r, ...response.data } : r

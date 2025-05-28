@@ -1,6 +1,6 @@
 export type ButtonProps = {
   title: string;
-  onClick: () => void;
+  onClick?: (e: React.FormEvent | React.MouseEvent) => void;
   className?: string;
   type?: "button" | "submit" | "reset";
 };
