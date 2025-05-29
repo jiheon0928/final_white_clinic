@@ -17,7 +17,7 @@ const Benefit = ({
       <input
         type={type}
         name={name}
-        step={5}
+        step={1}
         value={value}
         onChange={onChange}
         className={classNames(
