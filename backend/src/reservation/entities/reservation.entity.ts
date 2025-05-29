@@ -53,17 +53,14 @@ export class Reservation {
 
   @ManyToOne(() => Industry, { eager: true })
   @JoinColumn({ name: 'industryId' })
-  @Type(() => Number)
   industry: Industry;
 
   @ManyToOne(() => DeliveryDriver, { eager: true, nullable: true })
   @JoinColumn({ name: 'riderId' })
-  @Type(() => Number)
   rider?: DeliveryDriver;
 
   @ManyToOne(() => StatusEntity, { eager: true })
   @JoinColumn({ name: 'StatusId' })
-  @Type(() => Number)
   status?: StatusEntity;
 }
 

@@ -16,9 +16,9 @@ export class SalesController {
     const { totalSales, driverCommission, netProfit } =
       await this.salesService.getSalesByDate(target);
     return {
-      매출: totalSales,
-      '기사 매출': driverCommission,
-      '순 수익': netProfit,
+      totalSales: totalSales,
+      totalCommission: driverCommission,
+      netProfit: netProfit,
     };
   }
 
@@ -28,9 +28,9 @@ export class SalesController {
     const { totalSales, totalCommission, netProfit } =
       await this.salesService.getMonthlySales();
     return {
-      매출: totalSales,
-      '기사 매출': totalCommission,
-      '순 수익': netProfit,
+      totalSales: totalSales,
+      totalCommission: totalCommission,
+      netProfit: netProfit,
     };
   }
 
@@ -46,9 +46,9 @@ export class SalesController {
       await this.salesService.getWeeklySalesAggregate(refDate);
 
     return {
-      매출: totalSales,
-      '기사 매출': totalCommission,
-      '순 수익': netProfit,
+      totalSales: totalSales,
+      totalCommission: totalCommission,
+      netProfit: netProfit,
     };
   }
 
@@ -84,8 +84,8 @@ export class SalesController {
 
     // 6) 최종 반환
     return {
-      매출: salesByDay,
-      순수익: profitByDay,
+      totalSales: salesByDay,
+      totalCommission: profitByDay,
     };
   }
 
@@ -115,8 +115,8 @@ export class SalesController {
 
     // 5) 최종 반환
     return {
-      매출: salesByMonth,
-      순수익: profitByMonth,
+      totalSales: salesByMonth,
+      totalCommission: profitByMonth,
     };
   }
 }
