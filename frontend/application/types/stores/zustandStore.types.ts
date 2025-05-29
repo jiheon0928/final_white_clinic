@@ -76,8 +76,8 @@ export type ReservationState = {
     detailAddress: string;
     visitTime: Date;
     memo: string;
-    price: string;
-    industry: number;
+    price: number;
+    industryId: number;
   };
   status: "대기" | "진행" | "완료";
   searchValue: string;

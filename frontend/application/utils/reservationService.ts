@@ -1,14 +1,27 @@
 import { ReservationState } from "@/types/stores/zustandStore.types";
 import api from "./api";
+import { reservationType } from "@/dummyData/reservationData";
 
 // 예약 데이터
-const getReservations = async (status: "대기" | "진행" | "완료") => {
+const getReservations = async (
+  status: "대기" | "진행" | "완료"
+): Promise<reservationType[]> => {
   try {
-    const response = await api.get(`/reservation/status=${status}`);
+    const response = await api.get(`/reservation?status=${status}`);
     console.log("API 응답 데이터:", response.data);
     return response.data;
   } catch (error) {
     console.error("예약 데이터 가져오기 실패:", error);
+    throw error;
+  }
+};
+
+const getReservationDetail = async (id: number): Promise<reservationType> => {
+  try {
+    const response = await api.get(`/reservation/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("예약 상세 데이터 가져오기 실패:", error);
     throw error;
   }
 };

@@ -23,11 +23,11 @@ const IndustryToggle = () => {
           onPress={() => {
             setSelected(option);
             if (option === "에어컨") {
-              setReservationField("industry", 1);
+              setReservationField("industryId", 1);
             } else if (option === "세탁기") {
-              setReservationField("industry", 2);
+              setReservationField("industryId", 2);
             } else {
-              setReservationField("industry", 3);
+              setReservationField("industryId", 3);
             }
           }}
         >
