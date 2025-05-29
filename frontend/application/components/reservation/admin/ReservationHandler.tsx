@@ -14,24 +14,64 @@ import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import useReservationStore from "@/stores/reservation.store";
 import IndustryToggle from "@/components/common/input/IndustyToggle";
-import { createReservation } from "@/utils/reservationService";
+import {
+  createReservation,
+  getReservationDetail,
+  updateReservation,
+} from "@/utils/reservationService";
+import { useEffect } from "react";
+import useIndustryStore from "@/stores/industry.store";
 
 const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
   const insets = useSafeAreaInsets();
-  const { reservation, setReservationField, resetReservation } =
+  const { reservation, setReservationField, resetReservation, setReservation } =
     useReservationStore();
-  const { date, resetDate } = useDateStore();
-  const { time, resetTime } = useTimeStore();
-  const { zipcode, address, detailAddress, resetAddress } = useAddressStore();
+  const { industryId, setSelectedIndustry } = useIndustryStore();
+  const { date, resetDate, setDate } = useDateStore();
+  const { time, resetTime, setTime } = useTimeStore();
+  const { zipcode, address, detailAddress, resetAddress, setAddress } =
+    useAddressStore();
+
+  useEffect(() => {
+    if (id) {
+      const fetchData = async () => {
+        const reservation = await getReservationDetail(Number(id));
+        setReservation({
+          reservationName: reservation.reservationName,
+          customerName: reservation.customerName,
+          customerPhone: reservation.customerPhone,
+          customerRequest: reservation.customerRequest,
+          zipcode: reservation.zipcode,
+          address: reservation.address,
+          detailAddress: reservation.detailAddress,
+          visitTime: reservation.visitTime,
+          memo: reservation.memo,
+          price: reservation.price,
+          industryId: reservation.industry.id,
+        });
+        setAddress("zipcode", reservation.zipcode);
+        setAddress("address", reservation.address);
+        setAddress("detailAddress", reservation.detailAddress);
+        setDate(new Date(reservation.visitTime));
+        setTime(new Date(reservation.visitTime));
+        setSelectedIndustry(reservation.industry.industry);
+      };
+      fetchData();
+    }
+  }, [id]);
 
   const handleSubmit = async () => {
+    setReservationField("industryId", industryId);
     setReservationField("visitTime", combineDateAndTime(date, time));
     setReservationField("zipcode", zipcode);
     setReservationField("address", address);
     setReservationField("detailAddress", detailAddress);
     const result = useReservationStore.getState().reservation;
     console.log("제출 데이터:", result);
-    await createReservation(result);
+
+    if (id) await updateReservation(result, Number(id));
+    else await createReservation(result);
+
     resetReservation();
     resetDate();
     resetTime();
@@ -80,6 +120,7 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
             title={"기사님 전달 사항"}
             numberOfLines={4}
             onChangeText={(text) => setReservationField("memo", text)}
+            value={reservation.memo}
           />
           <IndustryToggle />
 

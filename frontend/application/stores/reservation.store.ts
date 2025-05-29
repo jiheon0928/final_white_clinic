@@ -26,6 +26,8 @@ const useReservationStore = create<ReservationState>((set) => ({
     set((state) => ({
       reservation: { ...state.reservation, [field]: value },
     })),
+  setReservation: (reservation: ReservationState["reservation"]) =>
+    set({ reservation }),
   resetReservation: () =>
     set({
       reservation: {
