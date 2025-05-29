@@ -14,7 +14,7 @@ import { Type } from 'class-transformer';
 export class UpdateReservationDto extends PartialType(CreateReservationDto) {
   @IsString()
   @MaxLength(255)
-  item: string;
+  reservationName: string;
 
   @IsDate()
   @Type(() => Date)
@@ -26,7 +26,7 @@ export class UpdateReservationDto extends PartialType(CreateReservationDto) {
 
   @IsString()
   @MaxLength(255)
-  customer: string;
+  customerName: string;
 
   @IsString()
   @MaxLength(500)
@@ -43,11 +43,11 @@ export class UpdateReservationDto extends PartialType(CreateReservationDto) {
   @IsString()
   @MaxLength(20)
   @IsPhoneNumber()
-  phone: string;
+  customerPhone: string;
 
   @IsOptional()
   @IsString()
-  request?: string;
+  customerRequest?: string;
 
   @IsString()
   @MaxLength(255)
