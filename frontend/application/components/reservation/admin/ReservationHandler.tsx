@@ -4,9 +4,8 @@ import Page from "@/components/common/Page";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TimeInput from "@/components/common/input/TimeInput";
-import { View, Text, Platform, ScrollView, Switch } from "react-native";
+import { View, Text, Platform, ScrollView } from "react-native";
 import CalenderInput from "@/components/common/input/CalenderInput";
-
 import useTimeStore from "@/stores/time.store";
 import useDateStore from "@/stores/date.store";
 import { router } from "expo-router";
@@ -14,15 +13,10 @@ import { combineDateAndTime } from "../../../hooks/format";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import useReservationStore from "@/stores/reservation.store";
-import useIndustryStore from "@/stores/industry.store";
-import { useState } from "react";
 import IndustryToggle from "@/components/common/input/IndustyToggle";
 import { createReservation } from "@/utils/reservationService";
 
 const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
-  const [isEnabled, setIsEnabled] = useState(false);
-
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const insets = useSafeAreaInsets();
   const { reservation, setReservationField, resetReservation } =
     useReservationStore();
@@ -99,8 +93,10 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
           >
             <Input
               title={"가격"}
-              value={reservation.price}
-              onChangeText={(text) => setReservationField("price", text)}
+              value={reservation.price.toString()}
+              onChangeText={(text) =>
+                setReservationField("price", Number(text))
+              }
             />
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>원</Text>
           </View>

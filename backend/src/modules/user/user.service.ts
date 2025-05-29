@@ -39,25 +39,33 @@ export class UserService {
 
   //========================기사 정보 수정========================
   async updateInfo(id: number, dto: UpdateDriverDto): Promise<DeliveryDriver> {
-    // industries relation 같이 불러오기
+    // benefit, industries 둘 다 같이 불러오기
     const driver = await this.driverRepo.findOneOrFail({
       where: { id },
-      relations: ['industries'],
+      relations: ['benefit', 'industries'],
     });
 
-    // 기본 컬럼 덮어쓰기
+    // 기본 필드 덮어쓰기
     Object.assign(driver, dto);
 
-    // industryIds가 있으면 M:N 테이블 덮어쓰기
+    // industryIds 처리
     if (dto.industryIds) {
-      // 유효한 industry만 추려서
-      const inds = await this.industryRepo.findBy({
-        id: In(dto.industryIds),
-      });
+      const inds = await this.industryRepo.findBy({ id: In(dto.industryIds) });
       if (inds.length !== dto.industryIds.length) {
         throw new NotFoundException('존재하지 않는 industryId가 있어');
       }
       driver.industries = inds;
+    }
+
+    // benefitId 처리
+    if (dto.benefitId) {
+      const benefit = await this.benefitRepo.findOne({
+        where: { id: dto.benefitId },
+      });
+      if (!benefit) {
+        throw new NotFoundException('존재하지 않는 benefitId야');
+      }
+      driver.benefit = benefit;
     }
 
     return this.driverRepo.save(driver);
