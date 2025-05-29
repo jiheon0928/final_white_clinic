@@ -25,4 +25,4 @@ const createReservation = async (
   }
 };
 
-export { getReservations };
+export { getReservations, createReservation };
