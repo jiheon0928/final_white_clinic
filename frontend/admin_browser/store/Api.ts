@@ -48,7 +48,6 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       const data = {
         ...reservationData,
         price: Number(reservationData.price),
-        industryIds: Number(reservationData.industryIds),
       };
       const response = await api.post("/reservation", data);
       console.log("예약 생성 응답:", response.data);

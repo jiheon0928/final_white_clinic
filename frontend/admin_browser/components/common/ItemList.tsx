@@ -9,23 +9,33 @@ export const ItemList = () => {
     {
       name: "washer",
       title: "세탁기",
-      industryIds: 1,
-      checked: formData.industryIds === 1,
+      checked: formData.industryIds.includes(1),
     },
     {
       name: "dryer",
       title: "건조기",
-      industryIds: 2,
-      checked: formData.industryIds === 2,
+      checked: formData.industryIds.includes(2),
     },
   ];
 
   const handleItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const industryIds = e.target.name === "washer" ? 1 : 2;
+    let industryId: number | undefined;
+    if (e.target.name === "washer") industryId = 1;
+    else if (e.target.name === "dryer") industryId = 2;
+    if (industryId === undefined) {
+      console.warn("❌ 잘못된 name입니다:", e.target.name);
+      return;
+    }
+    const newIndustryIds = e.target.checked
+      ? Array.from(new Set([...formData.industryIds, industryId])).filter(
+          (id): id is number => typeof id === "number" && !isNaN(id)
+        )
+      : formData.industryIds.filter((id) => id !== industryId);
+
     handleChange({
       target: {
         name: "industryIds",
-        value: industryIds,
+        value: newIndustryIds,
       },
     } as any);
   };

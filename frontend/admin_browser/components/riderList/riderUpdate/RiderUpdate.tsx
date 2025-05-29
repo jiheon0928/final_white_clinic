@@ -34,8 +34,8 @@ export const RiderUpdate = () => {
               zipcode: rider.zipcode || "",
               email: rider.email || "",
               significant: rider.significant || "",
-              industryIds: [rider.industryId], // ✅ 고치기
-              benefitId: Number(rider.benefitId),
+              industryIds: [rider.industryId],
+              benefitId: Number(rider.benefitId || 1),
             });
           }
         } catch (error) {
