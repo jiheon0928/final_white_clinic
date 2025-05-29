@@ -34,7 +34,7 @@ export const RiderUpdate = () => {
               zipcode: rider.zipcode || "",
               email: rider.email || "",
               significant: rider.significant || "",
-              industryIds: [rider.industryId],
+              industryIds: [rider.industryId], // ✅ 고치기
               benefitId: rider.benefitId,
             });
           }
@@ -48,14 +48,15 @@ export const RiderUpdate = () => {
   }, [id, riders, setFormData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    console.log(formData, "formData");
+    const { approval, loginId, password, ...updateData } = formData;
+
+    console.log("업데이트데이터", updateData);
     e.preventDefault();
     try {
       if (!id) {
         alert("기사 ID가 없습니다.");
         return;
       }
-      const { approval, industryId, benefitId, ...updateData } = formData;
       console.log("전송할 데이터:", updateData);
       await updateRiderInfo(Number(id), updateData);
       alert("기사 정보가 성공적으로 수정되었습니다.");
