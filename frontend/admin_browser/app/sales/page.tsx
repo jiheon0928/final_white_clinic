@@ -1,5 +1,6 @@
 "useclient";
-import { Sales } from "@/components/sales/Sales";
+
+import Sales from "@/components/sales/Sales";
 
 const SalesPage = () => {
   return <Sales />;
