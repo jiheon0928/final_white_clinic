@@ -26,7 +26,7 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
   const insets = useSafeAreaInsets();
   const { reservation, setReservationField, resetReservation, setReservation } =
     useReservationStore();
-  const { industryId, setSelectedIndustry } = useIndustryStore();
+  const { industryId, setSelectedIndustry, resetIndustry } = useIndustryStore();
   const { date, resetDate, setDate } = useDateStore();
   const { time, resetTime, setTime } = useTimeStore();
   const { zipcode, address, detailAddress, resetAddress, setAddress } =
@@ -76,7 +76,8 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
     resetDate();
     resetTime();
     resetAddress();
-    router.back();
+    resetIndustry();
+    router.replace(`/admin/reservations/${id}`);
   };
 
   const editReservationInputFields = [
