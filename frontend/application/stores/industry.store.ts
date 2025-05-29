@@ -3,6 +3,7 @@ import { create } from "zustand";
 
 const useIndustryStore = create<IndustryState>((set) => ({
   industry: [],
+
   toggle: (label, checked) =>
     set((state) => ({
       industry: checked

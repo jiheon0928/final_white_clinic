@@ -1,6 +1,7 @@
 export type IndustryType = "에어컨" | "세탁기";
 export type IndustryState = {
   industry: IndustryType[];
+
   toggle: (label: IndustryType, checked: boolean) => void;
   setSelected: (list: IndustryType[]) => void;
   resetIndustry: () => void;
@@ -66,15 +67,17 @@ export type AuthState = {
 
 export type ReservationState = {
   reservation: {
+    reservationName: string;
     customerName: string;
     customerPhone: string;
     customerRequest: string;
-    customerZipCode: string;
-    customerAddress: string;
-    customerDetailAddress: string;
+    zipCode: string;
+    address: string;
+    detailAddress: string;
     visitTime: Date;
     memo: string;
-    reservationPrice: string;
+    price: string;
+    industry: number;
   };
   status: "대기" | "진행" | "완료";
   searchValue: string;
@@ -82,7 +85,7 @@ export type ReservationState = {
   setSearchValue: (searchValue: string) => void;
   setReservationField: (
     field: keyof ReservationState["reservation"],
-    value: string | Date
+    value: string | Date | number
   ) => void;
   resetReservation: () => void;
 };

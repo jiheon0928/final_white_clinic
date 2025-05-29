@@ -3,15 +3,17 @@ import { create } from "zustand";
 
 const useReservationStore = create<ReservationState>((set) => ({
   reservation: {
+    reservationName: "",
     customerName: "",
     customerPhone: "",
     customerRequest: "",
-    customerZipCode: "",
-    customerAddress: "",
-    customerDetailAddress: "",
+    zipCode: "",
+    address: "",
+    detailAddress: "",
     visitTime: new Date(),
     memo: "",
-    reservationPrice: "0",
+    price: "0",
+    industry: 0,
   },
   status: "대기",
   searchValue: "",
@@ -19,7 +21,7 @@ const useReservationStore = create<ReservationState>((set) => ({
   setSearchValue: (searchValue: string) => set({ searchValue }),
   setReservationField: (
     field: keyof ReservationState["reservation"],
-    value: string | Date
+    value: string | Date | number
   ) =>
     set((state) => ({
       reservation: { ...state.reservation, [field]: value },
@@ -27,15 +29,17 @@ const useReservationStore = create<ReservationState>((set) => ({
   resetReservation: () =>
     set({
       reservation: {
+        reservationName: "",
         customerName: "",
         customerPhone: "",
         customerRequest: "",
-        customerZipCode: "",
-        customerAddress: "",
-        customerDetailAddress: "",
+        zipCode: "",
+        address: "",
+        detailAddress: "",
         visitTime: new Date(),
         memo: "",
-        reservationPrice: "0",
+        price: "0",
+        industry: 0,
       },
     }),
 }));

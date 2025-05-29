@@ -4,7 +4,7 @@ import Page from "@/components/common/Page";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TimeInput from "@/components/common/input/TimeInput";
-import { View, Text, Platform, ScrollView } from "react-native";
+import { View, Text, Platform, ScrollView, Switch } from "react-native";
 import CalenderInput from "@/components/common/input/CalenderInput";
 
 import useTimeStore from "@/stores/time.store";
@@ -14,8 +14,15 @@ import { combineDateAndTime } from "../../../hooks/format";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
 import useReservationStore from "@/stores/reservation.store";
+import useIndustryStore from "@/stores/industry.store";
+import { useState } from "react";
+import IndustryToggle from "@/components/common/input/IndustyToggle";
+import { createReservation } from "@/utils/reservationService";
 
 const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
+  const [isEnabled, setIsEnabled] = useState(false);
+
+  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   const insets = useSafeAreaInsets();
   const { reservation, setReservationField, resetReservation } =
     useReservationStore();
@@ -23,19 +30,14 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
   const { time, resetTime } = useTimeStore();
   const { zipcode, address, detailAddress, resetAddress } = useAddressStore();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setReservationField("visitTime", combineDateAndTime(date, time));
-    setReservationField("customerZipCode", zipcode);
-    setReservationField("customerAddress", address);
-    setReservationField("customerDetailAddress", detailAddress);
-
-    setTimeout(() => {
-      console.log(
-        "✅ 제출 데이터:",
-        useReservationStore.getState().reservation
-      );
-    }, 100);
-
+    setReservationField("zipCode", zipcode);
+    setReservationField("address", address);
+    setReservationField("detailAddress", detailAddress);
+    const result = useReservationStore.getState().reservation;
+    console.log("제출 데이터:", result);
+    await createReservation(result);
     resetReservation();
     resetDate();
     resetTime();
@@ -44,6 +46,7 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
   };
 
   const editReservationInputFields = [
+    { title: "예약명", key: "reservationName", numberOfLines: 1 },
     { title: "고객명", key: "customerName", numberOfLines: 1 },
     { title: "연락처", key: "customerPhone", numberOfLines: 1 },
     { title: "고객 요청 사항", key: "customerRequest", numberOfLines: 4 },
@@ -84,6 +87,8 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
             numberOfLines={4}
             onChangeText={(text) => setReservationField("memo", text)}
           />
+          <IndustryToggle />
+
           <View
             style={{
               width: "50%",
@@ -94,15 +99,13 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
           >
             <Input
               title={"가격"}
-              value={reservation.reservationPrice}
-              onChangeText={(text) =>
-                setReservationField("reservationPrice", text)
-              }
+              value={reservation.price}
+              onChangeText={(text) => setReservationField("price", text)}
             />
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>원</Text>
           </View>
 
-          <DefaultBtn text={"완료"} onPress={() => handleSubmit()} />
+          <DefaultBtn text={"완료"} onPress={handleSubmit} />
         </View>
       </ScrollView>
     </Page>
