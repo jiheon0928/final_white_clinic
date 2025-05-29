@@ -7,7 +7,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL!;
 
 export const useLoginStore = create<LoginState>((set) => ({
   formData: {
-    email: "",
+    loginId: "",
     password: "",
   },
   handleChange: (e) => {
@@ -22,8 +22,8 @@ export const useLoginStore = create<LoginState>((set) => ({
   handleSubmit: async (e) => {
     e.preventDefault();
 
-    const { email, password } = useLoginStore.getState().formData;
-    if (!email || !password) {
+    const { loginId, password } = useLoginStore.getState().formData;
+    if (!loginId || !password) {
       alert("이메일과 비밀번호를 모두 입력해주세요.");
       return;
     }
@@ -31,7 +31,7 @@ export const useLoginStore = create<LoginState>((set) => ({
     try {
       const response = await axios.post(
         `${API_URL}/auth/login`,
-        { email, password },
+        { loginId, password },
         { withCredentials: true }
       );
 

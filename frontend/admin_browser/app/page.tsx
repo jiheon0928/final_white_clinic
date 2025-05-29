@@ -1,9 +1,9 @@
-import { Reservation } from "@/components/reservation/Reservation";
+import Loginpage from "@/components/login/Login";
 
 export default function Home() {
   return (
     <div>
-      <Reservation />
+      <Loginpage />
     </div>
   );
 }
