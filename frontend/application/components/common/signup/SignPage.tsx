@@ -12,6 +12,7 @@ import CalenderInput from "../input/CalenderInput";
 import useDateStore from "@/stores/date.store";
 import Input from "../input/Input";
 import Page from "../Page";
+import CheckBoxBundle from "../input/CheckBoxBundle";
 
 const SignPage = () => {
   const { user, setUserField, resetUser } = useSignupStore();
@@ -64,6 +65,7 @@ const SignPage = () => {
           ))}
           <CalenderInput title="생년월일" />
           <AddressInput />
+          <CheckBoxBundle />
           <DefaultBtn text="완료" onPress={handleSubmit} />
         </View>
       </ScrollView>
