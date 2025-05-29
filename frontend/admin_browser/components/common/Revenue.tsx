@@ -7,8 +7,8 @@ export const Revenue = () => {
     <div>
       <Benefit
         type="number"
-        name="benefit"
-        value={formData.benefit}
+        name="benefitId"
+        value={formData.benefitId || 0}
         onChange={handleChange}
         title="수수료 (%)"
         step={5}

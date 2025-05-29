@@ -14,7 +14,7 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
     email: "",
     significant: "",
     approval: false,
-    industryId: 0,
+    industryIds: [],
     benefitId: 0,
   },
   handleChange: (e) => {

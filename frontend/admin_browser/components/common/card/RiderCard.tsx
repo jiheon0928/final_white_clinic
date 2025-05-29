@@ -18,19 +18,10 @@ export const RiderCard = () => {
   }, []);
 
   const handleClick = (path: string, data: Rider) => {
+    const { industryId, ...riderData } = data;
     const formData: Partial<RiderInfoStore["formData"]> = {
-      name: data.name,
-      birth: data.birth,
-      loginId: data.loginId,
-      password: data.password,
-      phone: data.phone,
-      address: data.address,
-      detailAddress: data.detailAddress,
-      zipcode: data.zipcode,
-      email: data.email,
-      significant: data.significant,
-      approval: data.approval,
-      benefit: data.benefit?.benefitType?.toString() || "40",
+      ...riderData,
+      industryIds: [industryId],
     };
     useRiderStore.getState().setFormData(formData);
     router.push(path);
@@ -96,7 +87,7 @@ export const RiderCard = () => {
               </div>
               <div className="mt-4 flex justify-end">
                 <span className="text-lg font-bold text-blue-600">
-                  수수료: {rider.benefit?.benefitType || 40}%
+                  수수료: {rider.benefitId || 40}%
                 </span>
               </div>
             </div>
