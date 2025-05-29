@@ -1,6 +1,6 @@
 export type ButtonProps = {
   title: string;
-  onClick: () => void;
+  onClick?: (e: React.FormEvent | React.MouseEvent) => void;
   className?: string;
   type?: "button" | "submit" | "reset";
 };
@@ -39,7 +39,7 @@ export type BenefitProps = {
   className?: string;
   title: string;
   step: number;
-  value: string;
+  value: number;
 };
 
 export type ManagerProps = {

@@ -30,11 +30,11 @@ export class UserController {
   }
 
   //승인 비승인 조회
-  @Get('rider/:id')
+  @Get()
   async findStatus(
-    @Query('status') status: '승인' | '비승인',
+    @Query('approval') approval: boolean,
   ): Promise<DeliveryDriver[]> {
-    return this.userService.findStatus(status);
+    return this.userService.findStatus(approval);
   }
 
   @Patch(':id/info') //기사 정보 수정

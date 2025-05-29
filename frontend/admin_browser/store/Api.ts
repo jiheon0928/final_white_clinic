@@ -25,7 +25,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   getReservations: async (status: "대기" | "진행" | "완료") => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.get(`/reservation/by-status?status=${status}`);
+      const response = await api.get(`/reservation?status=${status}`);
       console.log("API 응답 데이터:", response.data);
       const visitTime = response.data.map((reservation: any) => ({
         ...reservation,
@@ -60,11 +60,11 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   },
 
   // 예약 수정
-  updateReservation: async (reservationName: string, updateData: any) => {
+  updateReservation: async (reservationId: number, updateData: any) => {
     try {
       set({ isLoading: true, error: null });
       const response = await api.patch(
-        `/reservation/${reservationName}`,
+        `/reservation/${reservationId}`,
         updateData
       );
       console.log("예약 수정 응답:", response.data);
@@ -107,14 +107,14 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   },
 
   // 기사 정보 수정
-  updateRiderInfo: async (riderName: string, updateData: any) => {
+  updateRiderInfo: async (riderId: number, updateData: any) => {
     try {
       set({ isLoading: true, error: null });
-      const rider = get().riders.find((r) => r.name === riderName);
+      const rider = get().riders.find((r) => r.id === riderId);
       if (!rider) {
         throw new Error("기사를 찾을 수 없습니다.");
       }
-      const response = await api.patch(`/user/${rider.name}`, updateData);
+      const response = await api.patch(`/user/${rider.id}/info`, updateData);
       console.log("기사 정보 수정 응답:", response.data);
       const updatedRiders = get().riders.map((r) =>
         r.id === rider.id ? { ...r, ...response.data } : r
@@ -128,7 +128,10 @@ export const useApiStore = create<ApiStore>((set, get) => ({
     } catch (error) {
       console.error("기사 정보 수정 실패:", error);
       set({
-        error: "기사 정보 수정에 실패했습니다.",
+        error:
+          error instanceof Error
+            ? error.message
+            : "기사 정보 수정에 실패했습니다.",
         isLoading: false,
       });
       throw error;
@@ -193,9 +196,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   updateRiderBenefit: (riderId: number, benefitType: number) => {
     set((state) => ({
       riders: state.riders.map((rider) =>
-        rider.id === riderId
-          ? { ...rider, benefit: { ...rider.benefit, benefitType } }
-          : rider
+        rider.id === riderId ? { ...rider, benefitId: benefitType } : rider
       ),
     }));
   },

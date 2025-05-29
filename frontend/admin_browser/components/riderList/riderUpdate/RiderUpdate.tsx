@@ -7,20 +7,21 @@ import { BirthDate } from "../../common/date/BirthDate";
 import { Revenue } from "../../common/Revenue";
 import Layout from "../../common/Layout";
 import { useApiStore } from "@/store/Api";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
 export const RiderUpdate = () => {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const name = searchParams.get("name");
+  const id = searchParams.get("id");
   const { updateRiderInfo, riders } = useApiStore();
   const { formData, handleChange, setFormData } = useRiderStore();
 
   useEffect(() => {
     const fetchRiderData = async () => {
-      if (name) {
+      if (id) {
         try {
-          const rider = riders.find((r) => r.name === name);
+          const rider = riders.find((r) => r.id === Number(id));
           if (rider) {
             setFormData({
               name: rider.name,
@@ -34,7 +35,8 @@ export const RiderUpdate = () => {
               email: rider.email,
               significant: rider.significant,
               approval: rider.approval,
-              benefit: rider.benefit?.benefitType?.toString() || "40",
+              benefitId: rider.benefitId || 1,
+              // industryId: rider.industryId,
             });
           }
         } catch (error) {
@@ -44,22 +46,33 @@ export const RiderUpdate = () => {
     };
 
     fetchRiderData();
-  }, [name, riders, setFormData]);
+  }, [id, riders, setFormData]);
 
   const handleSubmit = async (e: React.FormEvent) => {
+    console.log(formData, "formData");
     e.preventDefault();
     try {
-      if (!name) return;
-      const rider = riders.find((r) => r.name === name);
-      if (!rider) {
-        alert("기사를 찾을 수 없습니다.");
+      if (!id) {
+        alert("기사 ID가 없습니다.");
         return;
       }
-      await updateRiderInfo(name, formData);
+      const updateData = {
+        ...formData,
+        benefitId: formData.benefitId ? Number(formData.benefitId) : undefined,
+        birth: formData.birth
+          ? new Date(formData.birth).toISOString()
+          : undefined,
+      };
+      await updateRiderInfo(Number(id), updateData);
       alert("기사 정보가 성공적으로 수정되었습니다.");
+      router.push("/riderList");
     } catch (error) {
       console.error("기사 정보 수정 실패:", error);
-      alert("기사 정보 수정에 실패했습니다.");
+      alert(
+        error instanceof Error
+          ? error.message
+          : "기사 정보 수정에 실패했습니다."
+      );
     }
   };
 
@@ -79,9 +92,6 @@ export const RiderUpdate = () => {
           title="수정하기"
           type="submit"
           className="w-full bg-blue-500 hover:bg-blue-600"
-          onClick={() => {
-            console.log(formData);
-          }}
         />
       </form>
     </Layout>
