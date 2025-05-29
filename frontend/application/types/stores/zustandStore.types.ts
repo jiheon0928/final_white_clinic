@@ -73,7 +73,7 @@ export type ReservationState = {
     customerAddress: string;
     customerDetailAddress: string;
     visitTime: Date;
-    reservationStatus: "대기" | "진행" | "완료";
+    memo: string;
     reservationPrice: string;
   };
   status: "대기" | "진행" | "완료";

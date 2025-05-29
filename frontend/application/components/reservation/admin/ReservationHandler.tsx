@@ -6,15 +6,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import TimeInput from "@/components/common/input/TimeInput";
 import { View, Text, Platform, ScrollView } from "react-native";
 import CalenderInput from "@/components/common/input/CalenderInput";
-import useReservationStore from "@/stores/reservation.store";
+
 import useTimeStore from "@/stores/time.store";
 import useDateStore from "@/stores/date.store";
 import { router } from "expo-router";
 import { combineDateAndTime } from "../../../hooks/format";
 import AddressInput from "@/components/common/input/AddressInput";
 import useAddressStore from "@/stores/address.store";
+import useReservationStore from "@/stores/reservation.store";
 
-const ReservationHandler = ({ id }: { id?: string }) => {
+const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
   const insets = useSafeAreaInsets();
   const { reservation, setReservationField, resetReservation } =
     useReservationStore();
@@ -27,12 +28,18 @@ const ReservationHandler = ({ id }: { id?: string }) => {
     setReservationField("customerZipCode", zipcode);
     setReservationField("customerAddress", address);
     setReservationField("customerDetailAddress", detailAddress);
-    console.log("✅ 제출 데이터:", useReservationStore.getState().reservation);
+
+    setTimeout(() => {
+      console.log(
+        "✅ 제출 데이터:",
+        useReservationStore.getState().reservation
+      );
+    }, 100);
+
     resetReservation();
     resetDate();
     resetTime();
     resetAddress();
-
     router.back();
   };
 
@@ -44,7 +51,7 @@ const ReservationHandler = ({ id }: { id?: string }) => {
 
   return (
     <Page>
-      <BackBtnHeader title="예약수정" />
+      <BackBtnHeader title={title} />
       <ScrollView>
         <View
           style={{
@@ -72,7 +79,11 @@ const ReservationHandler = ({ id }: { id?: string }) => {
             </View>
           </View>
 
-          <Input title={"기사님 전달 사항"} numberOfLines={4} />
+          <Input
+            title={"기사님 전달 사항"}
+            numberOfLines={4}
+            onChangeText={(text) => setReservationField("memo", text)}
+          />
           <View
             style={{
               width: "50%",
@@ -91,7 +102,7 @@ const ReservationHandler = ({ id }: { id?: string }) => {
             <Text style={{ fontSize: 15, fontWeight: "bold" }}>원</Text>
           </View>
 
-          <DefaultBtn text={"완료"} onPress={handleSubmit} />
+          <DefaultBtn text={"완료"} onPress={() => handleSubmit()} />
         </View>
       </ScrollView>
     </Page>
