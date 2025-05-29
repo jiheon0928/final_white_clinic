@@ -16,7 +16,8 @@ export type Rider = {
   email: string;
   significant: string;
   approval: boolean;
-  benefit: Benefit;
+  benefitId: number;
+  industryId: number;
   status: string;
 };
 

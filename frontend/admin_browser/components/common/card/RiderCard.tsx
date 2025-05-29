@@ -67,7 +67,7 @@ export const RiderCard = () => {
                   <Button
                     title="기사님 정보수정"
                     onClick={() =>
-                      handleClick(`/rider/update?name=${rider.name}`, rider)
+                      handleClick(`/rider/update?id=${rider.id}`, rider)
                     }
                     className="bg-green-500 hover:bg-green-600"
                   />

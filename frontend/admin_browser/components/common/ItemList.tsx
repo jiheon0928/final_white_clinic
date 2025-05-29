@@ -17,12 +17,12 @@ export const ItemList = () => {
     {
       name: "washer",
       title: "세탁기",
-      checked: reservation?.industry,
+      checked: reservation?.industryId,
     },
     {
       name: "dryer",
       title: "건조기",
-      checked: reservation?.industry,
+      checked: reservation?.industryId,
     },
   ];
 
