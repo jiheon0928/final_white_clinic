@@ -42,7 +42,6 @@ export class UpdateReservationDto extends PartialType(CreateReservationDto) {
 
   @IsString()
   @MaxLength(20)
-  @IsPhoneNumber()
   customerPhone: string;
 
   @IsOptional()

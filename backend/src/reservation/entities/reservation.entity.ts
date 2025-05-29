@@ -51,17 +51,26 @@ export class Reservation {
   @Column({ type: 'int' })
   price: number;
 
+  // 1) industryId 컬럼 추가
+  @Column({ type: 'int' })
+  industryId: number;
   @ManyToOne(() => Industry, { eager: true })
   @JoinColumn({ name: 'industryId' })
   industry: Industry;
 
+  // 2) riderId 컬럼 추가 (nullable)
+  @Column({ type: 'int', nullable: true })
+  riderId?: number;
   @ManyToOne(() => DeliveryDriver, { eager: true, nullable: true })
   @JoinColumn({ name: 'riderId' })
   rider?: DeliveryDriver;
 
+  // 3) statusId 컬럼 추가
+  @Column({ type: 'int' })
+  statusId: number;
   @ManyToOne(() => StatusEntity, { eager: true })
-  @JoinColumn({ name: 'StatusId' })
-  status?: StatusEntity;
+  @JoinColumn({ name: 'statusId' }) // name도 소문자로 통일
+  status: StatusEntity;
 }
 
 export class UpdateReservationDto extends PartialType(Reservation) {}

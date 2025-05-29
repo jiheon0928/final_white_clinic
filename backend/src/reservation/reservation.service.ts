@@ -8,10 +8,9 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateReservationDto } from './dto/create-list.dto';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
-import {
-  Reservation,
-  UpdateReservationDto,
-} from './entities/reservation.entity';
+
+import { UpdateReservationDto } from './dto/update-list.dto';
+import { Reservation } from './entities/reservation.entity';
 
 @Injectable()
 export class ReservationService {

@@ -13,10 +13,8 @@ import {
 } from '@nestjs/common';
 
 import { CreateReservationDto } from './dto/create-list.dto';
-import {
-  Reservation,
-  UpdateReservationDto,
-} from './entities/reservation.entity';
+import { Reservation } from './entities/reservation.entity';
+import { UpdateReservationDto } from './dto/update-list.dto';
 import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
 import { ReservationService } from './reservation.service';
 
