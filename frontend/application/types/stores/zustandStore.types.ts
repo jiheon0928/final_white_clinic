@@ -71,7 +71,7 @@ export type ReservationState = {
     customerName: string;
     customerPhone: string;
     customerRequest: string;
-    zipCode: string;
+    zipcode: string;
     address: string;
     detailAddress: string;
     visitTime: Date;
