@@ -13,7 +13,10 @@ import {
 } from '@nestjs/common';
 
 import { CreateReservationDto } from './dto/create-list.dto';
-import { Reservation } from './entities/reservation.entity';
+import {
+  Reservation,
+  UpdateReservationDto,
+} from './entities/reservation.entity';
 import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
 import { ReservationService } from './reservation.service';
 
@@ -48,8 +51,11 @@ export class ReservationController {
 
   // ============================= 예약 정보 수정 =============================
   @Patch(':id')
-  async listupdate(@Param('id') id: number, @Body() list: Reservation) {
-    return this.reservationService.listupdate(id.toString(), list);
+  async listupdate(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() dto: UpdateReservationDto,
+  ) {
+    return this.reservationService.listupdate(id, dto);
   }
 
   // ============================= 예약 픽업 =============================

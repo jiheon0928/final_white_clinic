@@ -8,7 +8,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { CreateReservationDto } from './dto/create-list.dto';
 import { DeliveryDriver } from 'src/modules/auth/entites/auth.entity';
-import { Reservation } from './entities/reservation.entity';
+import {
+  Reservation,
+  UpdateReservationDto,
+} from './entities/reservation.entity';
 
 @Injectable()
 export class ReservationService {
@@ -51,8 +54,12 @@ export class ReservationService {
   }
 
   // ============================= 예약 정보 수정 ============================
-  async listupdate(name: string, reservation: Reservation) {
-    return this.reservationRepository.update(name, reservation);
+  async listupdate(id: number, dto: UpdateReservationDto) {
+    await this.reservationRepository.update(id, dto);
+    return this.reservationRepository.findOne({
+      where: { id },
+      relations: ['rider', 'industry', 'status'],
+    });
   }
 
   // =============================id로 조회============================

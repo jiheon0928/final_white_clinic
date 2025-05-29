@@ -61,7 +61,7 @@ export class UpdateReservationDto extends PartialType(CreateReservationDto) {
   @IsInt()
   @IsNotEmpty()
   @Type(() => Number)
-  statusId: number;
+  statusId?: number;
 
   @IsInt()
   @IsNotEmpty()
