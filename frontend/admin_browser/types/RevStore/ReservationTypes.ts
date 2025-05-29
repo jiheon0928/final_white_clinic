@@ -6,10 +6,14 @@ export type Reservation = {
   date: string;
   phone: string;
   address: string;
+  detailAddress: string;
+  zipcode: string;
   price: string;
   request: string;
   memo: string;
   status: string;
+  manager: string;
+  industryId?: number;
 };
 
 export type ReservationList = Reservation[];
