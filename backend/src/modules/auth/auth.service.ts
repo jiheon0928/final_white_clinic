@@ -13,6 +13,8 @@ import { CreateDriverDto } from './dto/create-auth.dto';
 import { TokenService } from './service/token.service';
 import { RefreshTokenService } from './service/refresh-token.service';
 import { DeliveryDriver } from './entites/auth.entity';
+import { Benefit } from 'src/reservation/entities/benefit.entity';
+import { Industry } from 'src/reservation/entities/industry.entity';
 
 @Injectable()
 export class AuthService {
@@ -37,12 +39,26 @@ export class AuthService {
       }
 
       const hashed = await bcrypt.hash(dto.password, 10);
-      // dto.approval이 undefined면 false, 아니면 dto.approval 사용
+
+      // benefitId, industryIds 분리
+      const { benefitId, industryIds, approval, ...data } = dto;
+
+      // 기본 driver 생성 (relation 필드는 나중에 매핑)
       const driver = this.driverRepo.create({
-        ...dto,
+        ...data,
         password: hashed,
-        approval: dto.approval ?? false,
+        approval: approval ?? false,
       });
+
+      // Benefit 매핑
+      if (benefitId) {
+        driver.benefit = { id: benefitId } as Benefit;
+      }
+
+      // Industry 매핑
+      if (industryIds && industryIds.length) {
+        driver.industries = industryIds.map((id) => ({ id }) as Industry);
+      }
 
       return await this.driverRepo.save(driver);
     } catch (e) {
