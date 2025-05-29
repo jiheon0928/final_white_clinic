@@ -43,6 +43,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
 
   // 예약 생성
   createReservation: async (reservationData: any) => {
+    console.log("reservationData :", reservationData);
     try {
       set({ isLoading: true, error: null });
       const data = {
@@ -60,6 +61,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       return response.data;
     } catch (error) {
       console.error("예약 생성 실패:", error);
+
       set({
         error: "예약 생성에 실패했습니다.",
         isLoading: false,

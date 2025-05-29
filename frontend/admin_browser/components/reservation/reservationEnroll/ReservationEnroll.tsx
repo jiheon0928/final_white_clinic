@@ -15,12 +15,10 @@ export const ReservationEnroll = () => {
   const { createReservation } = useApiStore() as any;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(formData);
     e.preventDefault();
     await createReservation(formData);
     router.push("/reservation");
   };
-
   return (
     <Layout title="예약 생성">
       <form onSubmit={handleSubmit} className="space-y-6">

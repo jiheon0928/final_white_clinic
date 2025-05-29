@@ -40,6 +40,8 @@ export const ItemList = () => {
     } as any);
   };
 
+  console.log("industryIds :", formData.industryIds);
+
   return (
     <div>
       <div className="flex gap-4">
