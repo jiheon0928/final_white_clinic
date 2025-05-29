@@ -1,39 +1,31 @@
 "use client";
 import ItemInput from "@/components/common/input/itemInput";
 import useRiderStore from "@/store/rider/RiderStore";
-import { useApiStore } from "@/store/Api";
-import { useSearchParams } from "next/navigation";
 
 export const ItemList = () => {
   const { formData, handleChange } = useRiderStore();
-  const { riders } = useApiStore();
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const rider = riders.find((rider) => rider.id === Number(id));
 
   const items = [
     {
       name: "washer",
       title: "세탁기",
-      checked: formData.industryIds.includes(1),
+      industryIds: 1,
+      checked: formData.industryIds === 1,
     },
     {
       name: "dryer",
       title: "건조기",
-      checked: formData.industryIds.includes(2),
+      industryIds: 2,
+      checked: formData.industryIds === 2,
     },
   ];
 
   const handleItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const industryId = e.target.name === "washer" ? 1 : 2;
-    const newIndustryIds = e.target.checked
-      ? [...formData.industryIds, industryId]
-      : formData.industryIds.filter((id) => id !== industryId);
-
+    const industryIds = e.target.name === "washer" ? 1 : 2;
     handleChange({
       target: {
         name: "industryIds",
-        value: newIndustryIds,
+        value: industryIds,
       },
     } as any);
   };

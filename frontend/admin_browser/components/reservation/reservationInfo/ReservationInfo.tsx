@@ -31,8 +31,8 @@ export const ReservationInfo = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <p className="flex items-center text-gray-700">
-              <span className="font-medium mr-2">수리 물품:</span>{" "}
-              {reservation.item}
+              <span className="font-medium mr-2">요청사항:</span>{" "}
+              {reservation.reservationName}
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">예약 번호:</span>{" "}
@@ -40,11 +40,14 @@ export const ReservationInfo = () => {
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">예약 날짜:</span>{" "}
-              {reservation.date.split("T")[0]}
+              {reservation.visitTime.split("T")[0]}
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">예약 시간:</span>{" "}
-              {reservation.visitTime}
+              {new Date(reservation.visitTime).toLocaleTimeString("ko-KR", {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
             <p className="flex items-center text-blue-600 font-semibold">
               <span className="font-medium mr-2">총 금액:</span>{" "}
@@ -58,20 +61,20 @@ export const ReservationInfo = () => {
           </h2>
           <div className="space-y-3">
             <p className="flex items-center text-gray-700">
-              <span className="font-medium mr-2">고객 이름:</span>{" "}
-              {reservation.customer}
+              <span className="font-medium mr-2">예약자 이름:</span>{" "}
+              {reservation.customerName}
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">고객 전화번호:</span>{" "}
-              {reservation.phone}
+              {reservation.customerPhone}
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">고객 주소:</span>{" "}
-              {reservation.address}
+              {`${reservation.address} ${reservation.detailAddress} (${reservation.zipcode})`}
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">요청사항:</span>{" "}
-              {reservation.request}
+              {reservation.customerRequest}
             </p>
             <p className="flex items-center text-gray-700">
               <span className="font-medium mr-2">기사님 전달사항:</span>{" "}

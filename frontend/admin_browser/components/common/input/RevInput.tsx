@@ -6,15 +6,21 @@ export const RevInput = () => {
 
   const inputFields = [
     {
-      title: "예약자 이름",
+      title: "수리건",
       name: "reservationName",
-      placeholder: "예약자 이름",
+      placeholder: "수리건",
       value: formData.reservationName,
     },
     {
-      title: "연락처",
+      title: "고객 이름",
+      name: "customerName",
+      placeholder: "고객 이름",
+      value: formData.customerName,
+    },
+    {
+      title: "고객 전화번호",
       name: "customerPhone",
-      placeholder: "연락처",
+      placeholder: "고객 전화번호",
       value: formData.customerPhone,
     },
     {

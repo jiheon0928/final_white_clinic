@@ -10,7 +10,7 @@ export const EnrollDate = () => {
     const formattedDate = formatDate(date);
     handleChange({
       target: {
-        name: "date",
+        name: "visitTime",
         value: formattedDate,
       },
     });
@@ -20,10 +20,10 @@ export const EnrollDate = () => {
     <div>
       <RevDate
         type="date"
-        name="date"
+        name="visitTime"
         onChange={handleDateChange}
         title="방문 날짜"
-        value={formData.visitTime}
+        value={formData.visitTime ? formData.visitTime.split("T")[0] : ""}
       />
     </div>
   );

@@ -1,19 +1,18 @@
 export type Reservation = {
   id: number;
-  item: string;
-  customer: string;
-  visitTime: string;
-  date: string;
-  phone: string;
+  reservationName: string;
+  customerName: string;
+  customerPhone: string;
+  customerRequest: string;
+  zipcode: string;
   address: string;
   detailAddress: string;
-  zipcode: string;
-  price: string;
-  request: string;
+  visitTime: string;
   memo: string;
+  price: number;
+  industryId: number;
   status: string;
   manager: string;
-  industryId?: number;
 };
 
 export type ReservationList = Reservation[];

@@ -38,8 +38,7 @@ export type RiderInfoStore = {
     email: string;
     significant: string;
     approval?: boolean;
-    industryId?: number;
-    industryIds: number[];
+    industryIds: number;
     benefitId?: number;
   };
   handleChange: (
