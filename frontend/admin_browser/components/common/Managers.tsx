@@ -19,7 +19,6 @@ const Managers = ({ value, onChange, className, title }: ManagerProps) => {
         console.error("기사 이름 목록을 가져오는데 실패했습니다:", error);
       }
     };
-
     fetchRiderNames();
   }, [getRiderNames]);
 
@@ -29,6 +28,7 @@ const Managers = ({ value, onChange, className, title }: ManagerProps) => {
         {title}
       </label>
       <select
+        name="manager"
         value={value}
         onChange={onChange}
         className={classNames(
@@ -38,7 +38,7 @@ const Managers = ({ value, onChange, className, title }: ManagerProps) => {
       >
         <option value="">기사님 선택</option>
         {riderNames.map((rider) => (
-          <option key={rider.id} value={rider.id}>
+          <option key={rider.id} value={rider.name}>
             {rider.name}
           </option>
         ))}

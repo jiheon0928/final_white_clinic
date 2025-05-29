@@ -6,13 +6,23 @@ import { EnrollDate } from "@/components/common/date/EnrollDate";
 import { RevInput } from "@/components/common/input/RevInput";
 import { PriceInput } from "@/components/common/input/PriceInput";
 import Layout from "@/components/common/Layout";
+import { useRouter } from "next/navigation";
+import { useApiStore } from "@/store/Api";
 
 export const ReservationEnroll = () => {
-  const { formData, handleChange } = useReservationStore();
+  const { formData } = useReservationStore();
+  const router = useRouter();
+  const { createReservation } = useApiStore() as any;
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    await createReservation(formData);
+    router.push("/reservation");
+  };
 
   return (
     <Layout title="예약 생성">
-      <form className="space-y-6">
+      <form onSubmit={handleSubmit} className="space-y-6">
         <RevInput />
         <div className="flex flex-col gap-2">
           <label htmlFor="item" className="text-gray-700 font-semibold">
@@ -24,7 +34,6 @@ export const ReservationEnroll = () => {
         <PriceInput />
         <Button
           title="예약 생성하기"
-          onClick={() => {}}
           className="w-full bg-blue-500 hover:bg-blue-600"
         />
       </form>
