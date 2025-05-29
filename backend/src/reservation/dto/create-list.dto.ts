@@ -12,7 +12,7 @@ import {
 export class CreateReservationDto {
   @IsString()
   @MaxLength(255)
-  item: string;
+  reservationName: string;
 
   @IsDate()
   @Type(() => Date)
@@ -24,7 +24,7 @@ export class CreateReservationDto {
 
   @IsString()
   @MaxLength(255)
-  customer: string;
+  customerName: string;
 
   @IsString()
   @MaxLength(500)
@@ -40,11 +40,11 @@ export class CreateReservationDto {
 
   @IsString()
   @MaxLength(20)
-  phone: string;
+  customerPhone: string;
 
   @IsOptional()
   @IsString()
-  request?: string;
+  customerRequest?: string;
 
   @IsString()
   @MaxLength(255)

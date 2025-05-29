@@ -18,21 +18,22 @@ export class Reservation {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ type: 'varchar', length: 255 })
-  item: string;
-
   @CreateDateColumn({ type: 'timestamp' })
-  date: Date;
-
-  @Column({ type: 'timestamp' })
-  @Type(() => Date)
-  visitTime: Date;
-
-  @Column({ type: 'int' })
-  price: number;
+  createdAt: Date;
 
   @Column({ type: 'varchar', length: 255 })
-  customer: string;
+  reservationName: string;
+  @Column({ type: 'varchar', length: 255 })
+  customerName: string;
+
+  @Column({ type: 'varchar', length: 20 })
+  customerPhone: string;
+
+  @Column({ type: 'text', nullable: true })
+  customerRequest: string;
+
+  @Column({ type: 'varchar', length: 20 })
+  zipcode: string;
 
   @Column({ type: 'varchar', length: 500 })
   address: string;
@@ -40,17 +41,20 @@ export class Reservation {
   @Column({ type: 'varchar', length: 200 })
   detailAddress: string;
 
-  @Column({ type: 'varchar', length: 20 })
-  zipcode: string;
-
-  @Column({ type: 'varchar', length: 20 })
-  phone: string;
-
-  @Column({ type: 'text', nullable: true })
-  request: string;
+  @Column({ type: 'timestamp' })
+  @Type(() => Date)
+  visitTime: Date;
 
   @Column({ type: 'varchar', length: 255 })
   memo: string;
+
+  @Column({ type: 'int' })
+  price: number;
+
+  @ManyToOne(() => Industry, { eager: true })
+  @JoinColumn({ name: 'industryId' })
+  @Type(() => Number)
+  industry: Industry;
 
   @ManyToOne(() => DeliveryDriver, { eager: true, nullable: true })
   @JoinColumn({ name: 'riderId' })
@@ -61,11 +65,6 @@ export class Reservation {
   @JoinColumn({ name: 'StatusId' })
   @Type(() => Number)
   status?: StatusEntity;
-
-  @ManyToOne(() => Industry, { eager: true })
-  @JoinColumn({ name: 'industryId' })
-  @Type(() => Number)
-  industry: Industry;
 }
 
 export class UpdateReservationDto extends PartialType(Reservation) {}
