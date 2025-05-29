@@ -1,6 +1,6 @@
 export type LoginState = {
   formData: {
-    email: string;
+    loginId: string;
     password: string;
   };
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
