@@ -47,7 +47,12 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       set({ isLoading: true, error: null });
       const response = await api.post("/reservation", reservationData);
       console.log("예약 생성 응답:", response.data);
-      set({ isLoading: false });
+      // 예약 생성 후 예약 목록 갱신
+      const updatedResponse = await api.get(`/reservation?status=대기`);
+      set({
+        reservations: updatedResponse.data,
+        isLoading: false,
+      });
       return response.data;
     } catch (error) {
       console.error("예약 생성 실패:", error);
@@ -68,7 +73,14 @@ export const useApiStore = create<ApiStore>((set, get) => ({
         updateData
       );
       console.log("예약 수정 응답:", response.data);
-      set({ isLoading: false });
+      // 예약 수정 후 예약 목록 갱신
+      const updatedResponse = await api.get(
+        `/reservation?status=${updateData.status || "대기"}`
+      );
+      set({
+        reservations: updatedResponse.data,
+        isLoading: false,
+      });
       return response.data;
     } catch (error) {
       console.error("예약 수정 실패:", error);

@@ -6,25 +6,37 @@ import { useSearchParams } from "next/navigation";
 
 export const ItemList = () => {
   const { formData, handleChange } = useRiderStore();
-  const { reservations } = useApiStore();
+  const { riders } = useApiStore();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const reservation = reservations.find(
-    (reservation) => reservation.id === Number(id)
-  );
+  const rider = riders.find((rider) => rider.id === Number(id));
 
   const items = [
     {
       name: "washer",
       title: "세탁기",
-      checked: reservation?.industryId,
+      checked: formData.industryIds.includes(1),
     },
     {
       name: "dryer",
       title: "건조기",
-      checked: reservation?.industryId,
+      checked: formData.industryIds.includes(2),
     },
   ];
+
+  const handleItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const industryId = e.target.name === "washer" ? 1 : 2;
+    const newIndustryIds = e.target.checked
+      ? [...formData.industryIds, industryId]
+      : formData.industryIds.filter((id) => id !== industryId);
+
+    handleChange({
+      target: {
+        name: "industryIds",
+        value: newIndustryIds,
+      },
+    } as any);
+  };
 
   return (
     <div>
@@ -33,8 +45,8 @@ export const ItemList = () => {
           <ItemInput
             key={item.name}
             type="checkbox"
-            name="industryId"
-            onChange={handleChange}
+            name={item.name}
+            onChange={handleItemChange}
             checked={item.checked}
             title={item.title}
           />

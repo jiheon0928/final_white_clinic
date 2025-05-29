@@ -15,7 +15,7 @@ export const RiderUpdate = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
   const { updateRiderInfo, riders } = useApiStore();
-  const { formData, handleChange, setFormData } = useRiderStore();
+  const { formData, setFormData } = useRiderStore();
 
   useEffect(() => {
     const fetchRiderData = async () => {
@@ -24,19 +24,18 @@ export const RiderUpdate = () => {
           const rider = riders.find((r) => r.id === Number(id));
           if (rider) {
             setFormData({
-              name: rider.name,
-              birth: rider.birth,
-              loginId: rider.loginId,
-              password: rider.password,
-              phone: rider.phone,
-              address: rider.address,
-              detailAddress: rider.detailAddress,
-              zipcode: rider.zipcode,
-              email: rider.email,
-              significant: rider.significant,
-              approval: rider.approval,
-              benefitId: rider.benefitId || 1,
-              // industryId: rider.industryId,
+              name: rider.name || "",
+              birth: rider.birth || "",
+              loginId: rider.loginId || "",
+              password: rider.password || "",
+              phone: rider.phone || "",
+              address: rider.address || "",
+              detailAddress: rider.detailAddress || "",
+              zipcode: rider.zipcode || "",
+              email: rider.email || "",
+              significant: rider.significant || "",
+              industryIds: [rider.industryId],
+              benefitId: rider.benefitId,
             });
           }
         } catch (error) {
@@ -56,16 +55,11 @@ export const RiderUpdate = () => {
         alert("기사 ID가 없습니다.");
         return;
       }
-      const updateData = {
-        ...formData,
-        benefitId: formData.benefitId ? Number(formData.benefitId) : undefined,
-        birth: formData.birth
-          ? new Date(formData.birth).toISOString()
-          : undefined,
-      };
+      const { approval, industryId, benefitId, ...updateData } = formData;
+      console.log("전송할 데이터:", updateData);
       await updateRiderInfo(Number(id), updateData);
       alert("기사 정보가 성공적으로 수정되었습니다.");
-      router.push("/riderList");
+      router.push("/rider");
     } catch (error) {
       console.error("기사 정보 수정 실패:", error);
       alert(

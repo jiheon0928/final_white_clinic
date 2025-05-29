@@ -37,9 +37,10 @@ export type RiderInfoStore = {
     zipcode: string;
     email: string;
     significant: string;
-    approval: boolean;
-    industryId: number;
-    benefitId: number;
+    approval?: boolean;
+    industryId?: number;
+    industryIds: number[];
+    benefitId?: number;
   };
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
