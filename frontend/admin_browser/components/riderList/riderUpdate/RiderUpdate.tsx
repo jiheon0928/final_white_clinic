@@ -35,7 +35,7 @@ export const RiderUpdate = () => {
               email: rider.email || "",
               significant: rider.significant || "",
               industryIds: [rider.industryId], // ✅ 고치기
-              benefitId: rider.benefitId,
+              benefitId: Number(rider.benefitId),
             });
           }
         } catch (error) {
@@ -70,7 +70,6 @@ export const RiderUpdate = () => {
       );
     }
   };
-
   return (
     <Layout title="기사 수정">
       <form onSubmit={handleSubmit} className="space-y-6">

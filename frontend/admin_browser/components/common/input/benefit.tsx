@@ -19,6 +19,7 @@ const Benefit = ({
         name={name}
         step={1}
         value={value}
+        max={3} // ✅ 3까지만 입력 가능
         onChange={onChange}
         className={classNames(
           "border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ",

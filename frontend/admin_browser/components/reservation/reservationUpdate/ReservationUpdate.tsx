@@ -27,16 +27,14 @@ export const ReservationUpdate = () => {
             reservationName: reservation.reservationName || "",
             customerName: reservation.customerName || "",
             customerPhone: reservation.customerPhone || "",
-            customerRequest: reservation.customerRequest || "",
             zipcode: reservation.zipcode || "",
             address: reservation.address || "",
             detailAddress: reservation.detailAddress || "",
             price: Number(reservation.price) || 0,
-            request: reservation.request || "",
+            customerRequest: reservation.customerRequest || "",
             memo: reservation.memo || "",
             visitTime: reservation.visitTime || "",
-            industryId: Number(reservation.industryId) || 0,
-            manager: reservation.manager || "",
+            industryIds: Number(reservation.industryId) || 0,
           });
         }
       }
@@ -80,7 +78,7 @@ export const ReservationUpdate = () => {
         </div>
         <PriceInput />
         <Managers
-          value={formData.manager || ""}
+          value={formData.customerRequest || ""}
           onChange={handleChange}
           title="담당 기사"
         />

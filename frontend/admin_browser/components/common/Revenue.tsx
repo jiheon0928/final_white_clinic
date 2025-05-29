@@ -3,6 +3,7 @@ import useRiderStore from "@/store/rider/RiderStore";
 
 export const Revenue = () => {
   const { formData, handleChange } = useRiderStore();
+  console.log(formData.benefitId);
 
   return (
     <div>
