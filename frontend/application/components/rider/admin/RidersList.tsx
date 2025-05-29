@@ -5,12 +5,27 @@ import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import Card from "@/components/common/box/Card";
 import useRiderStore from "@/stores/Rider.store";
-import { ridersData } from "@/dummyData/ridersData";
+import { RiderData } from "@/types/data/riderData";
 import Title from "@/components/common/text/Title";
+import { getRiders } from "@/utils/riderService";
+import { useEffect, useState } from "react";
 
 const RidersList = () => {
   const { searchRiderValue, setSearchRiderValue } = useRiderStore();
-  const riders = ridersData.filter((rider) => rider.approval);
+  const [riders, setRiders] = useState<RiderData[] | null>(null);
+
+  useEffect(() => {
+    const fetchRiders = async () => {
+      const riders = await getRiders();
+      setRiders(riders);
+    };
+    fetchRiders();
+  }, []);
+
+  if (!riders) {
+    return <Text>기사 목록을 불러오는 중입니다.</Text>;
+  }
+
   return (
     <Page>
       <BetweenHeader
@@ -20,7 +35,7 @@ const RidersList = () => {
       />
       <SearchInput
         placeholder="검색어를 입력하세요"
-        onChangeText={(value) => setSearchRiderValue(value)}
+        onChangeText={(value: string) => setSearchRiderValue(value)}
       />
       <ScrollView>
         {riders

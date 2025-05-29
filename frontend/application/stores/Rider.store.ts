@@ -4,16 +4,19 @@ import { create } from "zustand";
 const useRiderStore = create<RiderState>((set) => ({
   rider: {
     name: "",
+    birth: "",
+    loginId: "",
+    password: "",
     phone: "",
     email: "",
     address: "",
     zipcode: "",
     detailAddress: "",
-    birth: "",
     significant: "",
-    industry: [],
+    industries: [],
     benefit: 0.4,
     approval: false,
+    industryId: 0,
   },
   searchRiderValue: "",
   setRider: (data) =>
@@ -35,16 +38,19 @@ const useRiderStore = create<RiderState>((set) => ({
     set(() => ({
       rider: {
         name: "",
+        birth: "",
+        loginId: "",
+        password: "",
         phone: "",
         email: "",
         address: "",
         zipcode: "",
-        birth: "",
         detailAddress: "",
         significant: "",
-        industry: [],
+        industries: [],
         benefit: 0.4,
         approval: false,
+        industryId: 0,
       },
     }));
   },

@@ -1,15 +1,24 @@
 import { router } from "expo-router";
 import { View, Text } from "react-native";
-import { ridersData } from "@/dummyData/ridersData";
 import Page from "@/components/common/Page";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import Info from "@/components/common/text/Info";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import { getPendingRider } from "@/hooks/dataHandler";
-import { industryData } from "@/dummyData/reservationData";
 import { RiderDetailPageStyles } from "@/styles/rider/riderDetailPage";
+import { RiderData } from "@/types/data/riderData";
+import { useEffect, useState } from "react";
+import { getRiderById } from "@/utils/riderService";
+
 const RiderDetail = ({ id }: { id: string }) => {
-  const rider = ridersData.find((r) => r.id === Number(id));
+  const [rider, setRider] = useState<RiderData | null>(null);
+  useEffect(() => {
+    const fetchRider = async () => {
+      const rider = await getRiderById(Number(id));
+      setRider(rider);
+    };
+    fetchRider();
+  }, []);
   if (!rider) {
     return (
       <Page>
@@ -31,14 +40,14 @@ const RiderDetail = ({ id }: { id: string }) => {
           />
         ))}
 
-        <Info value={"가능 품목 리스트 : "} />
+        {/* <Info value={"가능 품목 리스트 : "} />
         <View style={RiderDetailPageStyles.industryList}>
-          {rider.industryId.map((item, index) => (
+          {rider.industries?.map((item, index) => (
             <Text key={index}>
               {index + 1}. {industryData[item - 1].industry}
             </Text>
           ))}
-        </View>
+        </View> */}
 
         <Info value={"특이사항"} />
         <View style={RiderDetailPageStyles.requestBox}>

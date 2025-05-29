@@ -1,6 +1,6 @@
 import { ReservationState } from "@/types/stores/zustandStore.types";
 import api from "./api";
-import { reservationType } from "@/dummyData/reservationData";
+import { reservationType } from "@/types/data/reservationData";
 
 // 예약 데이터
 export const getReservations = async (
@@ -8,7 +8,6 @@ export const getReservations = async (
 ): Promise<reservationType[]> => {
   try {
     const response = await api.get(`/reservation?status=${status}`);
-    console.log("API 응답 데이터:", response.data);
     return response.data;
   } catch (error) {
     console.error("예약 데이터 가져오기 실패:", error);

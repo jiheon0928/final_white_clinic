@@ -67,11 +67,8 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
     setReservationField("address", address);
     setReservationField("detailAddress", detailAddress);
     const result = useReservationStore.getState().reservation;
-    console.log("제출 데이터:", result);
-
     if (id) await updateReservation(result, Number(id));
     else await createReservation(result);
-
     resetReservation();
     resetDate();
     resetTime();
