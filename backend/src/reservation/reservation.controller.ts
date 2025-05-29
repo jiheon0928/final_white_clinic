@@ -40,6 +40,12 @@ export class ReservationController {
     return this.reservationService.findByStatus(status);
   }
 
+  //==========id로 조회====================
+  @Get(':id')
+  async findById(@Param('id') id: number): Promise<Reservation> {
+    return this.reservationService.findById(id);
+  }
+
   // ============================= 예약 정보 수정 =============================
   @Patch(':id')
   async listupdate(@Param('id') id: number, @Body() list: Reservation) {

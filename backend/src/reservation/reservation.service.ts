@@ -55,6 +55,16 @@ export class ReservationService {
     return this.reservationRepository.update(name, reservation);
   }
 
+  // =============================id로 조회============================
+  async findById(id: number): Promise<Reservation> {
+    const reservation = await this.reservationRepository.findOne({
+      where: { id },
+      relations: ['rider', 'industry', 'status'],
+    });
+    if (!reservation) throw new NotFoundException('해당 예약이 없습니다.');
+    return reservation;
+  }
+
   // =============================기사 픽업 로직============================
   async pickup(reservationId: number, riderId: number) {
     const IN_PROGRESS_STATE_ID = 2;
