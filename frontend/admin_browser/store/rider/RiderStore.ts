@@ -14,8 +14,13 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
     email: "",
     significant: "",
     approval: false,
+<<<<<<< HEAD
     industryIds: [],
     benefitId: 1,
+=======
+    industryIds: 0,
+    benefitId: 0,
+>>>>>>> kmg
   },
   handleChange: (e) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;

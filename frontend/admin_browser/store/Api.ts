@@ -45,7 +45,12 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   createReservation: async (reservationData: any) => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.post("/reservation", reservationData);
+      const data = {
+        ...reservationData,
+        price: Number(reservationData.price),
+        industryIds: Number(reservationData.industryIds),
+      };
+      const response = await api.post("/reservation", data);
       console.log("예약 생성 응답:", response.data);
       // 예약 생성 후 예약 목록 갱신
       const updatedResponse = await api.get(`/reservation?status=대기`);

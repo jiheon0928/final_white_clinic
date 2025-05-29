@@ -38,7 +38,7 @@ export const ReservationCard = () => {
             <div className="flex flex-col space-y-3">
               <div className="flex justify-between items-center border-b pb-2">
                 <h3 className="text-lg font-bold text-gray-800">
-                  수리 물품: {reservation.item}
+                  예약자: {reservation.reservationName}
                 </h3>
                 <span className="text-blue-500 font-semibold">
                   {reservation.price}원
@@ -46,13 +46,12 @@ export const ReservationCard = () => {
               </div>
               <div className="grid grid-cols-2 gap-3 text-sm font-bold">
                 {[
-                  { label: "고객명", value: reservation.customer },
+                  { label: "고객명", value: reservation.customerName },
                   {
                     label: "방문시간",
                     value: new Date(reservation.visitTime).toLocaleString(),
                   },
-                  { label: "방문날짜", value: reservation.date.split("T")[0] },
-                  { label: "전화번호", value: reservation.phone },
+                  { label: "전화번호", value: reservation.customerPhone },
                   { label: "주소", value: reservation.address, colSpan: 2 },
                   { label: "상세주소", value: reservation.detailAddress },
                   { label: "우편번호", value: reservation.zipcode },

@@ -3,11 +3,11 @@ import Button from "@/components/common/Button";
 import { useReservationStore } from "@/store/ReservationStore";
 import { ItemList } from "@/components/common/ItemList";
 import { EnrollDate } from "@/components/common/date/EnrollDate";
-import { RevInput } from "@/components/common/input/RevInput";
 import { PriceInput } from "@/components/common/input/PriceInput";
 import Layout from "@/components/common/Layout";
 import { useRouter } from "next/navigation";
 import { useApiStore } from "@/store/Api";
+import { RevInput } from "@/components/common/input/RevInput";
 
 export const ReservationEnroll = () => {
   const { formData } = useReservationStore();
@@ -15,6 +15,7 @@ export const ReservationEnroll = () => {
   const { createReservation } = useApiStore() as any;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(formData);
     e.preventDefault();
     await createReservation(formData);
     router.push("/reservation");
