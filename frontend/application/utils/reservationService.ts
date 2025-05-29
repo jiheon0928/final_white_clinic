@@ -3,7 +3,7 @@ import api from "./api";
 import { reservationType } from "@/dummyData/reservationData";
 
 // 예약 데이터
-const getReservations = async (
+export const getReservations = async (
   status: "대기" | "진행" | "완료"
 ): Promise<reservationType[]> => {
   try {
@@ -16,7 +16,9 @@ const getReservations = async (
   }
 };
 
-const getReservationDetail = async (id: number): Promise<reservationType> => {
+export const getReservationDetail = async (
+  id: number
+): Promise<reservationType> => {
   try {
     const response = await api.get(`/reservation/${id}`);
     return response.data;
@@ -26,7 +28,7 @@ const getReservationDetail = async (id: number): Promise<reservationType> => {
   }
 };
 
-const createReservation = async (
+export const createReservation = async (
   reservation: ReservationState["reservation"]
 ) => {
   try {
@@ -38,4 +40,15 @@ const createReservation = async (
   }
 };
 
-export { getReservations, createReservation };
+export const updateReservation = async (
+  reservation: ReservationState["reservation"],
+  id: number
+) => {
+  try {
+    const response = await api.patch(`/reservation/${id}`, reservation);
+    return response.data;
+  } catch (error) {
+    console.error("예약 수정 실패:", error);
+    throw error;
+  }
+};

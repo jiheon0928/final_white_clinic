@@ -22,23 +22,12 @@ type ReservationBase = {
   customerPhone: string;
   customerRequest: string;
   memo: string;
-  industry: Industry | null;
+  industry: Industry;
   rider: (typeof ridersData)[number] | null;
   status: Status;
 };
 
 export type reservationType = ReservationBase;
-
-export const statusData: Status[] = [
-  { id: 1, status: "대기" },
-  { id: 2, status: "진행" },
-  { id: 3, status: "완료" },
-];
-
-export const industryData: Industry[] = [
-  { id: 1, industry: "세탁기" },
-  { id: 2, industry: "에어컨" },
-];
 
 // export const reservationDummy: reservationType[] = [
 //   {

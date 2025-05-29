@@ -11,7 +11,8 @@ import { router } from "expo-router";
 import { getReservations } from "@/utils/reservationService";
 
 const ReservationPage = () => {
-  const { status, searchValue, setSearchValue } = useReservationStore();
+  const { status, searchValue, setSearchValue, setStatus } =
+    useReservationStore();
   const scrollViewRef = useRef<ScrollView>(null);
   const [reservations, setReservations] = useState<reservationType[]>([]);
   useEffect(() => {
@@ -20,6 +21,7 @@ const ReservationPage = () => {
     const fetchData = async () => {
       try {
         const data = await getReservations(status);
+        console.log("서버에서 받은 reservations:", data);
         setReservations(data);
       } catch (error) {
         console.error("예약 불러오기 실패:", error);
@@ -58,13 +60,11 @@ const ReservationPage = () => {
           .map((item) => (
             <ReservationCard
               key={item.id}
-              goToLink={() => {
-                router.push(`/admin/reservations/${item.id}`);
-              }}
+              goToLink={() => router.push(`/admin/reservations/${item.id}`)}
               title={item.reservationName}
               address={item.address}
-              price={Number(item.price)}
-              status={item.status.status}
+              price={item.price}
+              status={item.status?.status}
             />
           ))}
       </ScrollView>

@@ -1,28 +1,14 @@
-import {
-  industryData,
-  reservationDummyType,
-  statusData,
-} from "@/dummyData/reservationData";
+import { reservationType } from "@/dummyData/reservationData";
 import ridersData, { benefitData } from "@/dummyData/ridersData";
 import { RiderData } from "@/dummyData/ridersData";
 import { formatDate, formatTime } from "@/hooks/format";
 
-const getIndustryName = (industryId: number): string => {
-  return industryData.find((v) => v.id === industryId)?.industry ?? "-";
-};
-
-export const isReservationCompleted = (statusId: number): boolean => {
-  return statusData[statusId - 1]?.status == "완료";
-};
-
-export const getReservationDetailInfoList = (
-  reservation: reservationDummyType
-) => {
+export const getReservationDetailInfoList = (reservation: reservationType) => {
   return [
-    { category: "제목", value: reservation.item },
-    { category: "분야", value: getIndustryName(reservation.industryId) },
-    { category: "고객명", value: reservation.customer },
-    { category: "연락처", value: reservation.phone },
+    { category: "제목", value: reservation.reservationName },
+    { category: "분야", value: reservation.industry.industry },
+    { category: "고객명", value: reservation.customerName },
+    { category: "연락처", value: reservation.customerPhone },
     {
       category: "방문 날짜",
       value: formatDate(new Date(reservation.visitTime)),
@@ -36,19 +22,14 @@ export const getReservationDetailInfoList = (
   ];
 };
 
-export const getReservationDetailRiderInfo = (
-  reservation: reservationDummyType
-) => {
-  if (!reservation.riderId) return [];
+export const getReservationDetailRiderInfo = (rider: RiderData) => {
+  if (!rider) return [];
   return [
-    { category: "이름", value: ridersData[reservation.riderId - 1].name },
-    { category: "연락처", value: ridersData[reservation.riderId - 1].phone },
+    { category: "이름", value: rider.name },
+    { category: "연락처", value: rider.phone },
     {
       category: "수당률",
-      value: `${
-        benefitData[ridersData[reservation.riderId - 1].benefitId - 1].benefit *
-        100
-      }%`,
+      value: `${benefitData[rider.benefitId - 1].benefit * 100}%`,
     },
   ];
 };
