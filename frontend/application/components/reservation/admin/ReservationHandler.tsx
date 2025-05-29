@@ -77,7 +77,8 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
     resetTime();
     resetAddress();
     resetIndustry();
-    router.replace(`/admin/reservations/${id}`);
+    if (id) router.replace(`/admin/reservations/${id}`);
+    else router.replace("/admin/reservations");
   };
 
   const editReservationInputFields = [
