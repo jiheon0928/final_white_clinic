@@ -114,7 +114,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       if (!rider) {
         throw new Error("기사를 찾을 수 없습니다.");
       }
-      const response = await api.patch(`/user/${rider.id}/info`, updateData);
+      const response = await api.patch(`/user/${rider.id}`, updateData);
       console.log("기사 정보 수정 응답:", response.data);
       const updatedRiders = get().riders.map((r) =>
         r.id === rider.id ? { ...r, ...response.data } : r
