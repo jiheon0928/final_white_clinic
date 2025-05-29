@@ -15,10 +15,22 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
     significant: "",
     approval: false,
     industryIds: [],
-    benefitId: 0,
+    benefitId: 1,
   },
   handleChange: (e) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
+
+    // 배열 또는 객체 형태 처리용: 외부에서 직접 넘긴 경우
+    if (Array.isArray(value)) {
+      set((state) => ({
+        formData: {
+          ...state.formData,
+          [name]: value,
+        },
+      }));
+      return;
+    }
+
     set((state) => ({
       formData: {
         ...state.formData,
@@ -26,15 +38,28 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
       },
     }));
   },
+
   handleSubmit: (e) => {
     e.preventDefault();
     console.log("Form submitted");
   },
-  setFormData: (data: Partial<RiderInfoStore["formData"]>) => {
-    set((state) => ({
+  setFormData: (data) => {
+    set(() => ({
       formData: {
-        ...state.formData,
-        ...data,
+        name: "",
+        birth: "",
+        loginId: "",
+        password: "",
+        phone: "",
+        address: "",
+        detailAddress: "",
+        zipcode: "",
+        email: "",
+        significant: "",
+        approval: false,
+        industryIds: [],
+        benefitId: 0,
+        ...data, // 필요한 것만 덮어씀
       },
     }));
   },

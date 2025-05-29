@@ -3,15 +3,16 @@ import useRiderStore from "@/store/rider/RiderStore";
 
 export const Revenue = () => {
   const { formData, handleChange } = useRiderStore();
+
   return (
     <div>
       <Benefit
         type="number"
         name="benefitId"
-        value={formData.benefitId || 0}
+        value={formData.benefitId || 1}
         onChange={handleChange}
-        title="수수료 (%)"
-        step={5}
+        title="수수료"
+        step={1}
       />
     </div>
   );
