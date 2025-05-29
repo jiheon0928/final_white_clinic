@@ -11,7 +11,7 @@ export const ReservationCard = () => {
   const router = useRouter();
 
   useEffect(() => {
-    getReservations(currentStatus);
+    getReservations(currentStatus as "대기" | "진행" | "완료");
   }, [getReservations, currentStatus]);
   console.log(currentStatus);
 
@@ -24,7 +24,9 @@ export const ReservationCard = () => {
       <RevErrorMessage
         isLoading={isLoading}
         error={error || ""}
-        getReservations={() => getReservations(currentStatus)}
+        getReservations={() =>
+          getReservations(currentStatus as "대기" | "진행" | "완료")
+        }
         reservations={reservations}
       />
       <div className="grid grid-cols-1 gap-4">
@@ -52,6 +54,8 @@ export const ReservationCard = () => {
                   { label: "방문날짜", value: reservation.date.split("T")[0] },
                   { label: "전화번호", value: reservation.phone },
                   { label: "주소", value: reservation.address, colSpan: 2 },
+                  { label: "상세주소", value: reservation.detailAddress },
+                  { label: "우편번호", value: reservation.zipcode },
                 ].map((item, index) => (
                   <div
                     key={index}

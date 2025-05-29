@@ -1,47 +1,51 @@
 import Input from "./Input";
 import { useReservationStore } from "@/store/ReservationStore";
-import { useApiStore } from "@/store/Api";
-import { useSearchParams } from "next/navigation";
 
 export const RevInput = () => {
   const { formData, handleChange } = useReservationStore();
-  const { reservations } = useApiStore();
-  const searchParams = useSearchParams();
-  const id = searchParams.get("id");
-  const reservation = reservations.find(
-    (reservation) => reservation.id === Number(id)
-  );
 
   const inputFields = [
     {
-      title: "고객성함",
-      name: "customer",
-      placeholder: "고객성함",
-      value: reservation?.customer || "",
+      title: "예약자 이름",
+      name: "reservationName",
+      placeholder: "예약자 이름",
+      value: formData.reservationName,
     },
     {
       title: "연락처",
-      name: "phone",
+      name: "customerPhone",
       placeholder: "연락처",
-      value: reservation?.phone || "",
+      value: formData.customerPhone,
     },
     {
       title: "방문 주소",
       name: "address",
       placeholder: "방문 주소",
-      value: reservation?.address || "",
+      value: formData.address,
+    },
+    {
+      title: "상세주소",
+      name: "detailAddress",
+      placeholder: "상세주소",
+      value: formData.detailAddress,
+    },
+    {
+      title: "우편번호",
+      name: "zipcode",
+      placeholder: "우편번호",
+      value: formData.zipcode,
     },
     {
       title: "고객 요청사항",
-      name: "request",
+      name: "customerRequest",
       placeholder: "고객 요청사항을 입력해주세요.",
-      value: reservation?.request || "",
+      value: formData.customerRequest,
     },
     {
       title: "기사님 전달사항",
       name: "memo",
       placeholder: "기사님 전달사항을 입력해주세요.",
-      value: reservation?.memo || "",
+      value: formData.memo,
     },
   ];
 

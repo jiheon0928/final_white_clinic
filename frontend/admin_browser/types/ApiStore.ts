@@ -14,4 +14,5 @@ export type ApiStore = {
   getRiderInfo: (riderId: number) => Promise<Rider>;
   getRiderNames: () => Promise<{ id: number; name: string }[]>;
   updateRiderInfo: (riderId: number, updateData: any) => Promise<Rider>;
+  updateReservation: (reservationId: number, updateData: any) => Promise<any>;
 };

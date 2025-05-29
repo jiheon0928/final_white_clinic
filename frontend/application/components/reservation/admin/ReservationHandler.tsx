@@ -32,7 +32,7 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
 
   const handleSubmit = async () => {
     setReservationField("visitTime", combineDateAndTime(date, time));
-    setReservationField("zipCode", zipcode);
+    setReservationField("zipcode", zipcode);
     setReservationField("address", address);
     setReservationField("detailAddress", detailAddress);
     const result = useReservationStore.getState().reservation;

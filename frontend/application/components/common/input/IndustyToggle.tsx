@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import useReservationStore from "@/stores/reservation.store";
 import { IndustryToggleStyles } from "@/styles/input/industryInput";
+import Title from "../text/Title";
+
 const options = ["에어컨", "세탁기", "건조기"];
 
 const IndustryToggle = () => {
@@ -10,6 +12,7 @@ const IndustryToggle = () => {
 
   return (
     <View>
+      <Title title="품목" />
       {options.map((option) => (
         <TouchableOpacity
           key={option}

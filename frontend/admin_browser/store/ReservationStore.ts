@@ -1,26 +1,23 @@
+"use client";
 import { create } from "zustand";
 import { RevCardStates } from "@/types/RevStore/RevCardStates";
 
 export const useReservationStore = create<RevCardStates>((set) => ({
   selectedItems: [], // 선택된 아이템 상태에 따라 배열로 저장
   manager: "",
-  currentStatus: "완료", // 기본값
-
-  setStatus: (status) => set({ currentStatus: status }),
-
+  currentStatus: "대기", // 기본값
   formData: {
-    customer: "",
-    phone: "",
+    reservationName: "",
+    customerName: "",
+    customerPhone: "",
+    customerRequest: "",
+    zipcode: "",
     address: "",
     detailAddress: "",
-    zipcode: "",
-    request: "",
-    memo: "",
-    item: "",
-    date: "",
     visitTime: "",
+    memo: "",
     price: 0,
-    industryId: "",
+    industryId: 0,
   },
   handleCheckboxChange: (value) =>
     set((state) => ({
@@ -28,14 +25,27 @@ export const useReservationStore = create<RevCardStates>((set) => ({
         ? state.selectedItems.filter((item) => item !== value)
         : [...state.selectedItems, value],
     })),
-  setManager: (value) => set({ manager: value }),
-  handleChange: (e) => {
-    const { name, value, type, checked } = e.target;
+  setManager: (value) =>
+    set((state) => ({
+      manager: value,
+      formData: {
+        ...state.formData,
+        manager: value,
+      },
+    })),
+  setStatus: (status) => set({ currentStatus: status }),
+  handleChange: (e) =>
     set((state) => ({
       formData: {
         ...state.formData,
-        [name]: type === "checkbox" ? checked : value,
+        [e.target.name]: e.target.value,
       },
-    }));
-  },
+    })),
+  setFormData: (data) =>
+    set((state) => ({
+      formData: {
+        ...state.formData,
+        ...data,
+      },
+    })),
 }));
