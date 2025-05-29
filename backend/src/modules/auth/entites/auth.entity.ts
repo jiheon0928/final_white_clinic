@@ -9,6 +9,8 @@ import {
   ManyToOne,
   ManyToMany,
   JoinTable,
+  JoinColumn,
+  BeforeInsert,
 } from 'typeorm';
 import { Benefit } from 'src/reservation/entities/benefit.entity';
 import { Reservation } from 'src/reservation/entities/reservation.entity';
@@ -54,7 +56,17 @@ export class DeliveryDriver {
   @Column({ default: false })
   approval: boolean;
 
-  @ManyToOne(() => Benefit, (b) => b.rider, { nullable: true, eager: true })
+  @ManyToOne(() => Benefit, (b) => b.rider, {
+    nullable: true,
+    eager: true,
+    createForeignKeyConstraints: true,
+    onDelete: 'SET NULL',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({
+    name: 'benefitId',
+    referencedColumnName: 'id',
+  })
   benefit: Benefit;
 
   @OneToMany(() => Reservation, (reservation) => reservation.rider)
@@ -73,4 +85,11 @@ export class DeliveryDriver {
     },
   })
   industries: Industry[];
+
+  @BeforeInsert()
+  setDefaultBenefit() {
+    if (!this.benefit) {
+      this.benefit = { id: 1 } as Benefit;
+    }
+  }
 }

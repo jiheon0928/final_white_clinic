@@ -39,7 +39,7 @@ export type BenefitProps = {
   className?: string;
   title: string;
   step: number;
-  value: string;
+  value: number;
 };
 
 export type ManagerProps = {

@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { Benefit } from '../../reservation/entities/benefit.entity';
 import { DeliveryDriver } from '../auth/entites/auth.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { UpdateDriverDto } from '../auth/dto/update-auth.dto';
 import { Industry } from 'src/reservation/entities/industry.entity';
 
@@ -16,6 +16,8 @@ export class UserService {
     private readonly driverRepo: Repository<DeliveryDriver>,
     @InjectRepository(Benefit)
     private readonly benefitRepo: Repository<Benefit>,
+    @InjectRepository(Industry)
+    private readonly industryRepo: Repository<Industry>,
   ) {}
 
   //========================기사 전체 조회========================
@@ -37,9 +39,26 @@ export class UserService {
 
   //========================기사 정보 수정========================
   async updateInfo(id: number, dto: UpdateDriverDto): Promise<DeliveryDriver> {
-    const driver = await this.driverRepo.findOneOrFail({ where: { id } });
+    // industries relation 같이 불러오기
+    const driver = await this.driverRepo.findOneOrFail({
+      where: { id },
+      relations: ['industries'],
+    });
 
+    // 기본 컬럼 덮어쓰기
     Object.assign(driver, dto);
+
+    // industryIds가 있으면 M:N 테이블 덮어쓰기
+    if (dto.industryIds) {
+      // 유효한 industry만 추려서
+      const inds = await this.industryRepo.findBy({
+        id: In(dto.industryIds),
+      });
+      if (inds.length !== dto.industryIds.length) {
+        throw new NotFoundException('존재하지 않는 industryId가 있어');
+      }
+      driver.industries = inds;
+    }
 
     return this.driverRepo.save(driver);
   }
@@ -74,20 +93,5 @@ export class UserService {
 
     // 6) 저장
     return await this.driverRepo.save(driver);
-  }
-
-  async getWeeklyByDate(riderId: number, refDate: Date) {
-    // TODO: Implement weekly stats logic
-    return [];
-  }
-
-  async getMonthlyByDate(riderId: number, refDate: Date) {
-    // TODO: Implement monthly stats logic
-    return [];
-  }
-
-  async getYearlyByYear(riderId: number, year: number) {
-    // TODO: Implement yearly stats logic
-    return [];
   }
 }

@@ -33,7 +33,6 @@ import { ReservationModule } from './reservation/reservation.module';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-
       useFactory: (config: ConfigService) => ({
         type: 'mysql',
         host: config.get<string>('DB_HOST'),
@@ -50,6 +49,7 @@ import { ReservationModule } from './reservation/reservation.module';
           RefreshToken,
         ],
         synchronize: true,
+        timezone: '+09:00',
       }),
     }),
 
