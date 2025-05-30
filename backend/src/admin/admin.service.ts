@@ -18,8 +18,8 @@ export class AdminService {
     return this.adminRepo.save(admin);
   }
 
-  findOneByUsername(username: string) {
-    return this.adminRepo.findOne({ where: { username } });
+  findOneByLoginId(loginId: string) {
+    return this.adminRepo.findOne({ where: { loginId } });
   }
 
   update(id: number, dto: UpdateAdminDto) {
@@ -30,8 +30,8 @@ export class AdminService {
     return this.adminRepo.delete(id);
   }
 
-  async login(username: string, password: string) {
-    const admin = await this.adminRepo.findOne({ where: { username } });
+  async login(loginId: string, password: string) {
+    const admin = await this.adminRepo.findOne({ where: { loginId } });
 
     if (!admin) {
       throw new UnauthorizedException(
@@ -51,5 +51,10 @@ export class AdminService {
       message: '로그인 성공',
       accessToken: 'admin-token', // 실제로는 JWT 토큰을 발급해야 합니다
     };
+  }
+
+  async createAdmin(dto: CreateAdminDto) {
+    const admin = await this.adminRepo.create(dto);
+    return this.adminRepo.save(admin);
   }
 }
