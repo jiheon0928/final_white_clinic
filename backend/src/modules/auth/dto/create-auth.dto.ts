@@ -60,12 +60,12 @@ export class CreateDriverDto {
   @IsOptional()
   @IsInt()
   @Type(() => Number)
-  benefitId?: number;
+  benefit?: number;
 
   @IsOptional()
   @IsArray()
   @ArrayNotEmpty()
   @IsInt({ each: true })
   @Type(() => Number)
-  industryIds?: number[];
+  industry?: number[];
 }

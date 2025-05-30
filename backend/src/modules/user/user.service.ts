@@ -66,23 +66,23 @@ export class UserService {
     Object.assign(driver, dto);
 
     // industryIds 처리
-    if (dto.industryIds) {
-      const inds = await this.industryRepo.findBy({ id: In(dto.industryIds) });
-      if (inds.length !== dto.industryIds.length) {
+    if (dto.industry) {
+      const inds = await this.industryRepo.findBy({ id: In(dto.industry) });
+      if (inds.length !== dto.industry.length) {
         throw new NotFoundException('존재하지 않는 industryId가 있어');
       }
-      driver.industryIds = inds;
+      driver.industry = inds;
     }
 
     // benefitId 처리
-    if (dto.benefitId) {
+    if (dto.benefit) {
       const benefit = await this.benefitRepo.findOne({
-        where: { id: dto.benefitId },
+        where: { id: dto.benefit },
       });
       if (!benefit) {
         throw new NotFoundException('존재하지 않는 benefitId야');
       }
-      driver.benefitId = benefit;
+      driver.benefit = benefit;
     }
 
     return this.driverRepo.save(driver);

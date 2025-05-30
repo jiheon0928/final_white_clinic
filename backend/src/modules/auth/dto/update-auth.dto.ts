@@ -61,12 +61,12 @@ export class UpdateDriverDto extends PartialType(CreateDriverDto) {
   @IsOptional()
   @IsInt()
   @Type(() => Number)
-  benefitId?: number;
+  benefit?: number;
 
   @IsOptional()
   @IsArray()
   @ArrayNotEmpty()
   @IsInt({ each: true })
   @Type(() => Number)
-  industryIds?: number[];
+  industry?: number[];
 }
