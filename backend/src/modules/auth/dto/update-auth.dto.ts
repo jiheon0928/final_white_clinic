@@ -28,7 +28,7 @@ export class UpdateDriverDto extends PartialType(CreateDriverDto) {
 
   @IsString()
   @MaxLength(100)
-  password: string;
+  password?: string;
 
   @IsString()
   @MaxLength(20)

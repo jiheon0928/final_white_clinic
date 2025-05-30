@@ -50,7 +50,7 @@ export class CreateDriverDto {
   email: string;
 
   @IsString()
-  significant: string;
+  significant?: string;
 
   @IsBoolean()
   @IsOptional()
