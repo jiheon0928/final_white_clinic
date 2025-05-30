@@ -33,8 +33,8 @@ export const RiderUpdate = () => {
               zipcode: rider.zipcode || "",
               email: rider.email || "",
               significant: rider.significant || "",
-              industry: [rider.industryId],
-              benefit: Number(rider.benefitId || 1),
+              industry: rider.industry || [],
+              benefit: Number(rider.benefit || 1),
             });
           }
         } catch (error) {

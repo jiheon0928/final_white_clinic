@@ -1,3 +1,15 @@
+import { Rider } from "../RiderStore/RiderTypes";
+
+export type Status = {
+  id: number;
+  status: "대기" | "진행" | "완료";
+};
+
+export type Industry = {
+  id: number;
+  industry: "세탁기" | "에어컨" | "건조기";
+};
+
 export type Reservation = {
   id: number;
   reservationName: string;
@@ -10,8 +22,9 @@ export type Reservation = {
   visitTime: string;
   memo: string;
   price: number;
-  industryId: number;
-  status: string;
+  industry: Industry;
+  rider: Rider | null;
+  status: Status;
   manager: string;
 };
 
