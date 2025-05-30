@@ -14,16 +14,15 @@ export const NumItem = () => {
       console.warn("❌ 잘못된 name입니다:", e.target.name);
       return;
     }
-    const industryId = selectedItem.id;
-    // 항상 industryId를 덮어쓰기 (해제 불가)
+    const industry = selectedItem.id;
     handleChange({
       target: {
-        name: "industryId",
-        value: industryId,
+        name: "industry",
+        value: industry,
       },
     } as any);
   };
-  console.log(formData.industryId);
+  console.log(formData.industry);
   return (
     <div className="flex gap-4">
       {items.map((item) => (
@@ -32,7 +31,7 @@ export const NumItem = () => {
           type="checkbox"
           name={item.name}
           onChange={handleItemChange}
-          checked={formData.industryId === item.id}
+          checked={formData.industry === item.id}
           title={item.title}
         />
       ))}

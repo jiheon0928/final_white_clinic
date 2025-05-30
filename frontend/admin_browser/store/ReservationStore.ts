@@ -18,7 +18,7 @@ export const useReservationStore = create<RevCardStates>((set) => ({
     visitTime: "",
     memo: "",
     price: 0,
-    industryId: 1,
+    industry: 1,
   },
 
   // ▶️ 액션: 체크박스 토글
