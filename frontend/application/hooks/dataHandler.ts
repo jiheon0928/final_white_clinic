@@ -48,10 +48,10 @@ export const getPendingRider = (
   },
 ];
 
-export const btnText = (status: number) => {
-  if (status == 1) {
+export const btnText = (status: "대기" | "진행" | "완료") => {
+  if (status == "대기") {
     return "수락";
-  } else if (status == 2) {
+  } else if (status == "진행") {
     return "완료";
   } else {
     return "확인";
