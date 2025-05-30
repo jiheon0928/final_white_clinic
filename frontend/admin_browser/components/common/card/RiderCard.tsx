@@ -26,7 +26,6 @@ export const RiderCard = () => {
     useRiderStore.getState().setFormData(formData);
     router.push(path);
   };
-
   const sortedRiders = [...filteredRiders]
     .filter((rider) => rider.approval === true)
     .sort((a, b) => a.name.localeCompare(b.name));
