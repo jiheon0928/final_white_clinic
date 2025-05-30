@@ -99,13 +99,13 @@ export type SignupState = {
     loginId: string;
     password: string;
     name: string;
+    birth: string;
     phone: string;
     email: string;
-    address: string;
     zipcode: string;
+    address: string;
     detailAddress: string;
-    birth: string;
-    industry: IndustryType[];
+    industry: number[];
   };
   setUserField: <K extends keyof SignupState["user"]>(
     key: K,
