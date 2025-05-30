@@ -12,7 +12,7 @@ export type RiderData = {
   significant: string;
   approval: boolean;
   benefit: benefitType;
-  industries?: number[]; // 백엔드에서 내려오지 않는 경우 optional 처리
+  industry?: number[]; // 백엔드에서 내려오지 않는 경우 optional 처리
 };
 
 export type benefitType = {
