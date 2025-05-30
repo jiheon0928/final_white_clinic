@@ -13,6 +13,7 @@ import useDateStore from "@/stores/date.store";
 import Input from "../input/Input";
 import Page from "../Page";
 import CheckBoxBundle from "../input/CheckBoxBundle";
+import { signup } from "@/utils/signup";
 
 const SignPage = () => {
   const { user, setUserField, resetUser } = useSignupStore();
@@ -22,13 +23,22 @@ const SignPage = () => {
 
   const insets = useSafeAreaInsets();
 
-  const handleSubmit = () => {
-    setUserField("industry", industry);
+  const handleSubmit = async () => {
+    const industryIdMap = {
+      에어컨: 1,
+      세탁기: 2,
+      건조기: 3,
+    };
+    setUserField(
+      "industry",
+      industry.map((name) => industryIdMap[name])
+    );
     setUserField("zipcode", zipcode);
     setUserField("address", address);
     setUserField("detailAddress", detailAddress);
     setUserField("birth", date);
     console.log("✅ 제출 데이터:", useSignupStore.getState().user);
+    await signup(useSignupStore.getState().user);
     resetUser();
     resetIndustry();
     resetAddress();

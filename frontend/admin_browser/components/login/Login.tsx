@@ -3,32 +3,44 @@
 import React, { useState } from "react";
 import Input from "../common/input/Input";
 import Layout from "../common/Layout";
-import { useAuthStore } from "@/store/authStore";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+
 const Loginpage = () => {
   const router = useRouter();
   const [loginId, setLoginId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const login = useAuthStore((state) => state.login);
 
+  // 로그인아이디 : admin 비밀번호 : admin123
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    if (!loginId || !password) {
+      setError("아이디와 비밀번호를 모두 입력해주세요.");
+      return;
+    }
+
     try {
       const response = await axios.post("http://localhost:3000/admin/login", {
         loginId,
         password,
       });
-      if (response.data) {
-        login(response.data.accessToken);
+
+      if (response.data.success) {
+        localStorage.setItem("adminToken", response.data.accessToken);
         router.push("/reservation");
       }
     } catch (error) {
-      setError("아이디 또는 비밀번호가 올바르지 않습니다.");
+      if (axios.isAxiosError(error)) {
+        setError(error.response?.data?.message || "로그인에 실패했습니다.");
+      } else {
+        setError("알 수 없는 에러가 발생했습니다.");
+      }
     }
   };
+
   return (
     <Layout title="로그인">
       <form onSubmit={handleSubmit} className="space-y-4">

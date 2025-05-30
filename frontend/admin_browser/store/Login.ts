@@ -30,7 +30,7 @@ export const useLoginStore = create<LoginState>((set) => ({
 
     try {
       const response = await axios.post(
-        `${API_URL}/auth/login`,
+        `${API_URL}/admin/login`,
         { loginId, password },
         { withCredentials: true }
       );

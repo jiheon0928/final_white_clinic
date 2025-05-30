@@ -78,7 +78,6 @@ const EditRiderPage = ({ id }: { id: string }) => {
     );
     setRiderField("birth", date);
     setRiderField("benefit", rider.benefit);
-    console.log("✅ 제출 데이터:", useRiderStore.getState().rider);
     await updateRider(Number(id), useRiderStore.getState().rider);
     resetRider();
     resetDate();
