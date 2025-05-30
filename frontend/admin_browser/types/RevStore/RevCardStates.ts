@@ -25,30 +25,35 @@ export const combineDateAndTime = (dateStr: string, timeStr: string): Date => {
   return date;
 };
 
+export type ReservationFormData = {
+  reservationName: string;
+  customerName: string;
+  customerPhone: string;
+  customerRequest: string;
+  zipcode: string;
+  address: string;
+  detailAddress: string;
+  visitTime: string;
+  memo: string;
+  price: number;
+  industryId: number;
+};
+
 export type RevCardStates = {
-  selectedItems: string[];
-  manager: string;
-  currentStatus: string;
-  formData: {
-    reservationName: string;
-    customerName: string;
-    customerPhone: string;
-    customerRequest: string;
-    zipcode: string;
-    address: string;
-    detailAddress: string;
-    visitTime: string;
-    memo: string;
-    price: number;
-    industryIds: number[];
-  };
-  handleCheckboxChange: (value: string) => void;
-  setManager: (value: string) => void;
+  selectedItems: number[]; // 체크박스 토글용 아이디 배열
+  manager: string; // 담당 기사 이름
+  currentStatus: string; // 예약 상태(예: "대기", "진행", "완료")
+  formData: Partial<ReservationFormData>;
+
+  // 액션들
+  handleCheckboxChange: (value: number) => void;
+  setManager: (name: string) => void;
   setStatus: (status: string) => void;
   handleChange: (
-    e:
-      | React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-      | { target: { name: string; value: string } }
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => void;
-  setFormData: (data: Partial<RevCardStates["formData"]>) => void;
+  setFormData: (data: Partial<ReservationFormData>) => void;
+  handleSubmit: (e: React.FormEvent) => void;
 };

@@ -1,13 +1,13 @@
 "use client";
 import Button from "@/components/common/Button";
 import { useReservationStore } from "@/store/ReservationStore";
-import { ItemList } from "@/components/common/ItemList";
 import { EnrollDate } from "@/components/common/date/EnrollDate";
 import { PriceInput } from "@/components/common/input/PriceInput";
 import Layout from "@/components/common/Layout";
 import { useRouter } from "next/navigation";
 import { useApiStore } from "@/store/Api";
 import { RevInput } from "@/components/common/input/RevInput";
+import { NumItem } from "@/components/common/NumItem";
 
 export const ReservationEnroll = () => {
   const { formData } = useReservationStore();
@@ -27,7 +27,7 @@ export const ReservationEnroll = () => {
           <label htmlFor="item" className="text-gray-700 font-semibold">
             수리 물품
           </label>
-          <ItemList />
+          <NumItem />
         </div>
         <EnrollDate />
         <PriceInput />

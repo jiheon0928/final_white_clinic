@@ -1,7 +1,6 @@
 "use client";
 import { useReservationStore } from "@/store/ReservationStore";
 import Button from "@/components/common/Button";
-import { ItemList } from "@/components/common/ItemList";
 import { EnrollDate } from "@/components/common/date/EnrollDate";
 import Managers from "@/components/common/Managers";
 import { RevInput } from "@/components/common/input/RevInput";
@@ -10,6 +9,7 @@ import Layout from "@/components/common/Layout";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useApiStore } from "@/store/Api";
 import { useEffect } from "react";
+import { NumItem } from "@/components/common/NumItem";
 
 export const ReservationUpdate = () => {
   const router = useRouter();
@@ -34,7 +34,7 @@ export const ReservationUpdate = () => {
             customerRequest: reservation.customerRequest || "",
             memo: reservation.memo || "",
             visitTime: reservation.visitTime || "",
-            industryIds: Number(reservation.industryId) || 0,
+            industryId: Number(reservation.industryId) || 0,
           });
         }
       }
@@ -73,7 +73,7 @@ export const ReservationUpdate = () => {
           <label className="text-gray-700 font-semibold">
             가능 품목 리스트
           </label>
-          <ItemList />
+          <NumItem />
           <EnrollDate />
         </div>
         <PriceInput />

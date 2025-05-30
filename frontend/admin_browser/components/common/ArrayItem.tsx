@@ -2,7 +2,7 @@
 import ItemInput from "@/components/common/input/itemInput";
 import useRiderStore from "@/store/rider/RiderStore";
 
-export const ItemList = () => {
+export const ArrayItem = () => {
   const { formData, handleChange } = useRiderStore();
 
   const items = [
