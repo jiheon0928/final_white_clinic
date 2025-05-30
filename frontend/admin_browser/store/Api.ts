@@ -3,7 +3,7 @@ import axios from "axios";
 import { ApiStore } from "@/types/ApiStore";
 import { useRiderSearchStore } from "./rider/SearchRider";
 
-const API_URL = "http://192.168.4.4:3001/api";
+const API_URL = "http://localhost:3001/api";
 
 // axios 인스턴스 생성
 export const api = axios.create({

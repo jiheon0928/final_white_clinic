@@ -7,9 +7,21 @@ import Layout from "../common/Layout";
 
 export const Reservation = () => {
   const router = useRouter();
-  const { setStatus } = useReservationStore();
-
+  const { setStatus, setFormData } = useReservationStore();
   const handleClick = (path: string) => {
+    setFormData({
+      reservationName: "",
+      customerName: "",
+      customerPhone: "",
+      customerRequest: "",
+      zipcode: "",
+      address: "",
+      detailAddress: "",
+      visitTime: "",
+      memo: "",
+      price: 0,
+      industry: 0,
+    });
     router.push(path);
   };
 

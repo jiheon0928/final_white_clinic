@@ -1,47 +1,30 @@
 "use client";
 import { useReservationStore } from "@/store/ReservationStore";
 import Button from "@/components/common/Button";
-import { EnrollDate } from "@/components/common/date/EnrollDate";
 import Managers from "@/components/common/Managers";
-import { RevInput } from "@/components/common/input/RevInput";
-import { PriceInput } from "@/components/common/input/PriceInput";
+import { RevUpdateInput } from "@/components/common/input/RevInput";
+import { UpdatePriceInput } from "@/components/common/input/UpdatePriceInput.tsx";
 import Layout from "@/components/common/Layout";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useApiStore } from "@/store/Api";
 import { useEffect } from "react";
 import { NumItem } from "@/components/common/NumItem";
+import { UpdateDate } from "@/components/common/date/UpdateDate";
 
 export const ReservationUpdate = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { updateReservation, reservations } = useApiStore();
-  const { formData, setFormData, handleChange } = useReservationStore();
+  const { updateReservation, reservations, getReservations } = useApiStore();
+  const { formData, handleChange, currentStatus } = useReservationStore();
 
   useEffect(() => {
-    const fetchReservationData = async () => {
-      if (id) {
-        const reservation = reservations.find((r) => r.id === Number(id));
-        if (reservation) {
-          setFormData({
-            reservationName: reservation.reservationName || "",
-            customerName: reservation.customerName || "",
-            customerPhone: reservation.customerPhone || "",
-            zipcode: reservation.zipcode || "",
-            address: reservation.address || "",
-            detailAddress: reservation.detailAddress || "",
-            price: Number(reservation.price) || 0,
-            customerRequest: reservation.customerRequest || "",
-            memo: reservation.memo || "",
-            visitTime: reservation.visitTime || "",
-            industry: Number(reservation.industry) || 1,
-          });
-        }
-      }
-    };
-
-    fetchReservationData();
-  }, [id, reservations, setFormData]);
+    getReservations(currentStatus as "대기" | "진행" | "완료");
+  }, []);
+  const reservation = reservations.find(
+    (reservation) => reservation.id === Number(id)
+  );
+  console.log("나는 개똥벌레", reservation);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,15 +51,15 @@ export const ReservationUpdate = () => {
   return (
     <Layout title="예약 수정">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <RevInput />
+        <RevUpdateInput id={Number(id)} />
         <div className="flex flex-col gap-2">
           <label className="text-gray-700 font-semibold">
             가능 품목 리스트
           </label>
           <NumItem />
-          <EnrollDate />
+          <UpdateDate visitTime={reservation?.visitTime || ""} />
         </div>
-        <PriceInput />
+        <UpdatePriceInput price={reservation?.price || 0} />
         <Managers
           value={formData.customerRequest || ""}
           onChange={handleChange}
