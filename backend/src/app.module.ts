@@ -55,11 +55,11 @@ import { Admin } from './modules/admin/entities/admin.entity';
       }),
     }),
 
-    AdminModule,
     AuthModule,
     ReservationModule,
     UserModule,
     SalesModule,
+    AdminModule,
   ],
 })
 export class AppModule {}

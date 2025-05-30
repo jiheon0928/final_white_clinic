@@ -35,9 +35,8 @@ import { AdminService } from '../admin/admin.service';
     JwtStrategy,
     JwtAuthGuard,
     RefreshTokenService,
-    AdminService,
   ],
   controllers: [AuthController],
-  exports: [AuthService, JwtAuthGuard],
+  exports: [AuthService, JwtAuthGuard, TokenService, RefreshTokenService],
 })
 export class AuthModule {}

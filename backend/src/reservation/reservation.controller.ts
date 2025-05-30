@@ -10,7 +10,6 @@ import {
   Patch,
   ParseIntPipe,
   BadRequestException,
-  ParseArrayPipe,
 } from '@nestjs/common';
 
 import { CreateReservationDto } from './dto/create-list.dto';
