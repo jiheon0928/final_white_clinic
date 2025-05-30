@@ -13,7 +13,7 @@ export const EnrollDate = () => {
         name: "visitTime",
         value: formattedDate,
       },
-    });
+    } as any);
   };
 
   return (
