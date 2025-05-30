@@ -34,7 +34,7 @@ export const ReservationUpdate = () => {
             customerRequest: reservation.customerRequest || "",
             memo: reservation.memo || "",
             visitTime: reservation.visitTime || "",
-            industryId: Number(reservation.industryId) || 0,
+            industry: Number(reservation.industry) || 1,
           });
         }
       }

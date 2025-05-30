@@ -3,7 +3,7 @@ import axios from "axios";
 import { ApiStore } from "@/types/ApiStore";
 import { useRiderSearchStore } from "./rider/SearchRider";
 
-const API_URL = "http://localhost:3001/api";
+const API_URL = "http://192.168.4.4:3001/api";
 
 // axios 인스턴스 생성
 export const api = axios.create({
@@ -31,8 +31,13 @@ export const useApiStore = create<ApiStore>((set, get) => ({
         ...reservation,
         visitTime: reservation.visitTime.toString(),
       }));
+      const sortedReservations = visitTime.sort((a: any, b: any) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
       set({
-        reservations: visitTime,
+        reservations: sortedReservations,
         isLoading: false,
       });
     } catch (error) {
@@ -75,7 +80,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
       const response = await api.patch(
-        `/reservation/${reservationId}`,
+        `/reservation/id/${reservationId}`,
         updateData
       );
       console.log("예약 수정 응답:", response.data);
@@ -109,14 +114,12 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       });
       const response = await api.get("/user");
       console.log("API 응답 데이터:", response.data);
-      const birthDate = response.data.map((rider: any) => ({
-        ...rider,
-        birth: rider.birth.toString(),
-      }));
+      const birthDate = response.data;
       set({
         riders: birthDate,
         isLoading: false,
       });
+
       useRiderSearchStore.getState().setRiders(response.data);
     } catch (error) {
       console.error("기사 데이터 가져오기 실패:", error);
@@ -134,7 +137,10 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       if (!rider) {
         throw new Error("기사를 찾을 수 없습니다.");
       }
-      const response = await api.patch(`/user/${rider.id}/info`, updateData);
+      const response = await api.patch(
+        `/user/correction/${rider.id}`,
+        updateData
+      );
       console.log("기사 정보 수정 응답:", response.data);
       const updatedRiders = get().riders.map((r) =>
         r.id === rider.id ? { ...r, ...response.data } : r
@@ -164,10 +170,12 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       set({ isLoading: true, error: null });
       const response = await api.get("/user");
       set({ isLoading: false });
-      return response.data.map((rider: any) => ({
-        id: rider.id,
-        name: rider.name,
-      }));
+      return response.data
+        .map((rider: any) => ({
+          id: rider.id,
+          name: rider.name,
+        }))
+        .sort((a: any, b: any) => a.name.localeCompare(b.name)); // 가나다순 정렬
     } catch (error) {
       console.error("기사 이름 목록 가져오기 실패:", error);
       set({
@@ -182,30 +190,14 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   getRiderInfo: async (riderId: number) => {
     try {
       set({ isLoading: true, error: null });
-      const response = await api.get(`/user/${riderId}`);
+      const response = await api.get(`/user/id/${riderId}`);
+      console.log("기사 상세 정보:", response.data);
       set({ isLoading: false });
       return response.data;
     } catch (error) {
       console.error("기사 상세 정보 가져오기 실패:", error);
       set({
         error: "기사 상세 정보를 가져오는데 실패했습니다.",
-        isLoading: false,
-      });
-      throw error;
-    }
-  },
-
-  // 이름으로 기사 상세 정보 가져오기
-  getRiderInfoByName: async (name: string) => {
-    try {
-      set({ isLoading: true, error: null });
-      const response = await api.get(`/user/${name}`);
-      set({ isLoading: false });
-      return response.data;
-    } catch (error) {
-      console.error("기사 이름으로 상세 정보 가져오기 실패:", error);
-      set({
-        error: "기사 이름으로 상세 정보를 가져오는데 실패했습니다.",
         isLoading: false,
       });
       throw error;
@@ -225,7 +217,7 @@ export const useApiStore = create<ApiStore>((set, get) => ({
   updateRiderApproval: async (riderId: number) => {
     try {
       set({ isLoading: true, error: null });
-      await api.patch(`/user/${riderId}/approval`);
+      await api.patch(`/user/approval/${riderId}`);
       const response = await api.get("/user");
       set({
         riders: response.data,

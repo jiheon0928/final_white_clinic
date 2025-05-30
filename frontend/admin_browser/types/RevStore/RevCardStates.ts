@@ -36,7 +36,7 @@ export type ReservationFormData = {
   visitTime: string;
   memo: string;
   price: number;
-  industryId: number;
+  industry: number;
 };
 
 export type RevCardStates = {

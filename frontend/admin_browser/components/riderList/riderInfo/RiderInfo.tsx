@@ -2,12 +2,17 @@
 import Layout from "@/components/common/Layout";
 import { useApiStore } from "@/store/Api";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 
 export const RiderInfo = () => {
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { riders } = useApiStore();
+  const { riders, getRiderInfo } = useApiStore();
   const rider = riders.find((rider) => rider.id === Number(id));
+
+  useEffect(() => {
+    getRiderInfo(Number(id));
+  }, [getRiderInfo, id]);
 
   if (!rider) {
     return (
@@ -35,6 +40,7 @@ export const RiderInfo = () => {
               { label: "상세주소", value: rider.detailAddress },
               { label: "우편번호", value: rider.zipcode },
               { label: "특이사항", value: rider.significant },
+              { label: "수당률", value: `${rider.benefit}%` },
             ].map((item, index) => (
               <span key={index} className="flex items-center text-gray-700">
                 <p className="font-medium mr-2">{item.label}:</p>{" "}

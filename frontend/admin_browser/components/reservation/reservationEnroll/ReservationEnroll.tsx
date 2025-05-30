@@ -15,6 +15,7 @@ export const ReservationEnroll = () => {
   const { createReservation } = useApiStore() as any;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    alert("예약 생성이 완료되었습니다.");
     e.preventDefault();
     await createReservation(formData);
     router.push("/reservation");
