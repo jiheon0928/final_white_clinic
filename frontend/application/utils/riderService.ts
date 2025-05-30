@@ -1,41 +1,23 @@
 import useEditRiderStore from "@/stores/Rider.store";
 import api from "./api";
 
-// 기사 데이터
-const getRiders = async () => {
+export const getRiders = async () => {
   try {
     const response = await api.get("/user");
-    console.log("API 응답 데이터:", response.data);
+    return response.data;
   } catch (error) {
-    console.error("기사 데이터 가져오기 실패:", error);
+    console.error("Error fetching riders:", error);
     throw error;
   }
 };
 
-// 기사 이름 목록
-const getRiderNames = async () => {
+export const getRiderById = async (id: number) => {
   try {
-    const response = await api.get("/user");
-    return response.data.map((rider: any) => ({
-      id: rider.id,
-      name: rider.name,
-    }));
+    const response = await api.get(`/user/${id}`);
+    console.log(response.data);
+    return response.data;
   } catch (error) {
-    console.error("기사 이름 목록 가져오기 실패:", error);
+    console.error("Error fetching riders:", error);
     throw error;
   }
 };
-
-// 기사 수수료 업데이트
-const updateRiderBenefit = (riderId: number, benefitType: number) => {
-  api.patch(`/user/${riderId}/benefit`, { benefitType });
-};
-
-// 기사 승인 상태 업데이트
-const updateRiderApproval = async (riderId: number) => {
-  await api.patch(`/user/${riderId}/approval`);
-  const response = await api.get("/user");
-  useEditRiderStore.getState().setRider(response.data);
-};
-
-export { getRiders, getRiderNames, updateRiderBenefit, updateRiderApproval };

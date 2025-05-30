@@ -25,7 +25,8 @@ const useIndustryStore = create<IndustryState>((set) => ({
         : state.industry.filter((v) => v !== label),
     })),
   setSelected: (list) => set({ industry: list }),
-  resetIndustry: () => set({ industry: [] }),
+  resetIndustry: () =>
+    set({ industry: [], industryId: 0, selectedIndustry: null }),
 }));
 
 export default useIndustryStore;

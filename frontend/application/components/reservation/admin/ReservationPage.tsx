@@ -1,5 +1,5 @@
 import { ScrollView } from "react-native";
-import { reservationType } from "@/dummyData/reservationData";
+import { reservationType } from "@/types/data/reservationData";
 import ReservationCard from "../../reservation/subCompontent/ReservationCard";
 import SearchInput from "@/components/common/input/SearchInput";
 import Page from "@/components/common/Page";
@@ -19,13 +19,8 @@ const ReservationPage = () => {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
 
     const fetchData = async () => {
-      try {
-        const data = await getReservations(status);
-        console.log("서버에서 받은 reservations:", data);
-        setReservations(data);
-      } catch (error) {
-        console.error("예약 불러오기 실패:", error);
-      }
+      const data = await getReservations(status);
+      setReservations(data);
     };
 
     fetchData();

@@ -26,7 +26,7 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
   const insets = useSafeAreaInsets();
   const { reservation, setReservationField, resetReservation, setReservation } =
     useReservationStore();
-  const { industryId, setSelectedIndustry } = useIndustryStore();
+  const { industryId, setSelectedIndustry, resetIndustry } = useIndustryStore();
   const { date, resetDate, setDate } = useDateStore();
   const { time, resetTime, setTime } = useTimeStore();
   const { zipcode, address, detailAddress, resetAddress, setAddress } =
@@ -67,16 +67,15 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
     setReservationField("address", address);
     setReservationField("detailAddress", detailAddress);
     const result = useReservationStore.getState().reservation;
-    console.log("제출 데이터:", result);
-
     if (id) await updateReservation(result, Number(id));
     else await createReservation(result);
-
     resetReservation();
     resetDate();
     resetTime();
     resetAddress();
-    router.back();
+    resetIndustry();
+    if (id) router.replace(`/admin/reservations/${id}`);
+    else router.replace("/admin/reservations");
   };
 
   const editReservationInputFields = [

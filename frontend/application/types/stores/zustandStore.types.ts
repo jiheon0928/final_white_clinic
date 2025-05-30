@@ -26,16 +26,19 @@ export type TimeState = {
 export type RiderState = {
   rider: {
     name: string;
+    birth: string;
+    loginId: string;
+    password: string;
     phone: string;
     email: string;
-    birth: string;
     zipcode: string;
     address: string;
     detailAddress: string;
     significant: string;
-    industry: IndustryType[];
+    industries: IndustryType[];
     benefit: number;
     approval: boolean;
+    industryId: number;
   };
   searchRiderValue: string;
   setRiderField: <K extends keyof RiderState["rider"]>(

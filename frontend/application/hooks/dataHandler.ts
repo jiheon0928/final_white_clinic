@@ -1,7 +1,6 @@
-import { reservationType } from "@/dummyData/reservationData";
-import ridersData, { benefitData } from "@/dummyData/ridersData";
-import { RiderData } from "@/dummyData/ridersData";
+import { RiderData } from "@/types/data/riderData";
 import { formatDate, formatTime } from "@/hooks/format";
+import { reservationType } from "@/types/data/reservationData";
 
 export const getReservationDetailInfoList = (reservation: reservationType) => {
   return [
@@ -29,21 +28,23 @@ export const getReservationDetailRiderInfo = (rider: RiderData) => {
     { category: "연락처", value: rider.phone },
     {
       category: "수당률",
-      value: `${benefitData[rider.benefitId - 1].benefit * 100}%`,
+      value: `${rider.benefit.benefitType * 100}%`,
     },
   ];
 };
 
 // 기사 데이터
-export const getPendingRider = (rider: RiderData) => [
+export const getPendingRider = (
+  rider: RiderData
+): { category: string; value: string }[] => [
   { category: "이름", value: rider.name },
   { category: "연락처", value: rider.phone },
-  { category: "생년월일", value: rider.birth },
+  { category: "생년월일", value: formatDate(new Date(rider.birth)) },
   { category: "주소", value: rider.address },
   { category: "이메일", value: rider.email },
   {
     category: "수당률",
-    value: `${benefitData[rider.benefitId - 1].benefit * 100}%`,
+    value: `${rider.benefit.benefitType * 100}%`,
   },
 ];
 

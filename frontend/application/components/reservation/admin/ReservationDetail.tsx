@@ -12,7 +12,7 @@ import {
 } from "@/hooks/dataHandler";
 import Title from "@/components/common/text/Title";
 import { useEffect, useState } from "react";
-import { reservationType } from "@/dummyData/reservationData";
+import { reservationType } from "@/types/data/reservationData";
 import { getReservationDetail } from "@/utils/reservationService";
 
 const ReservationDetail = ({ id }: { id: string }) => {
