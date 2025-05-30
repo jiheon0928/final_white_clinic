@@ -27,19 +27,42 @@ export class AdminService {
   ) {}
 
   /** 관리자 회원가입 */
-  async register(dto: CreateAdminDto): Promise<Admin> {
+  async register(dto: CreateAdminDto): Promise<{
+    admin: Omit<Admin, 'password'>;
+    accessToken: string;
+    refreshToken: string;
+  }> {
     try {
       this.logger.log(`register(): loginId=${dto.loginId}`);
       const exists = await this.adminRepo.findOneBy({ loginId: dto.loginId });
       if (exists) throw new ConflictException('이미 존재하는 loginId야');
 
+      // 1) 비번 해시
       const hashed = await bcrypt.hash(dto.password, 10);
-      const admin = this.adminRepo.create({
+      // 2) 엔티티 생성 & 저장
+      const adminEntity = this.adminRepo.create({
         loginId: dto.loginId,
         password: hashed,
-        role: dto.role,
+        role: 'admin', // 클라이언트가 role을 넘기지 않아도 무조건 admin
       });
-      return await this.adminRepo.save(admin);
+      const saved = await this.adminRepo.save(adminEntity);
+
+      // 3) 페이로드 구성
+      const payload = {
+        sub: saved.id,
+        loginId: saved.loginId,
+        role: saved.role,
+      };
+      // 4) 토큰 발급
+      const accessToken = this.tokenService.getAccessToken(payload);
+      const refreshToken = this.tokenService.getRefreshToken(payload);
+      // 5) 리프레시 토큰 저장
+      await this.refreshTokenService.saveToken(saved.id, refreshToken);
+
+      // 6) 비밀번호 제외한 객체로 구조분해
+      const { password: _, ...admin } = saved;
+
+      return { admin, accessToken, refreshToken };
     } catch (e) {
       if (e instanceof ConflictException) throw e;
       this.logger.error('register(): 예기치 못한 오류', e.stack);

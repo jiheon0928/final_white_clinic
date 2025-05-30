@@ -93,7 +93,13 @@ export class ReservationService {
   async findById(id: number): Promise<Reservation> {
     const reservation = await this.reservationRepository.findOne({
       where: { id },
-      relations: ['rider', 'industry', 'status'],
+      relations: [
+        'rider',
+        'rider.benefit',
+        'rider.industry',
+        'industry',
+        'status',
+      ],
     });
     if (!reservation) throw new NotFoundException('해당 예약이 없습니다.');
     return reservation;
