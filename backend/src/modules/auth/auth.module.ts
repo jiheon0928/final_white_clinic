@@ -13,6 +13,7 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { RefreshTokenService } from './service/refresh-token.service';
 import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from '@nestjs/config';
+import { AdminService } from '../admin/admin.service';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ConfigModule } from '@nestjs/config';
     JwtStrategy,
     JwtAuthGuard,
     RefreshTokenService,
+    AdminService,
   ],
   controllers: [AuthController],
   exports: [AuthService, JwtAuthGuard],

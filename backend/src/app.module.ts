@@ -2,7 +2,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { AdminModule } from './admin/admin.module';
+import { AdminModule } from './modules/admin/admin.module';
 import { RefreshToken } from './modules/auth/dto/refresh-token.entity';
 import { UserModule } from './modules/user/user.module';
 import { DeliveryDriver } from './modules/auth/entites/auth.entity';
@@ -14,7 +14,7 @@ import { Benefit } from './reservation/entities/benefit.entity';
 import { Industry } from './reservation/entities/industry.entity';
 import { CompleteState } from './reservation/entities/compliteState.entity';
 import { ReservationModule } from './reservation/reservation.module';
-import { Admin } from './admin/entities/admin.entity';
+import { Admin } from './modules/admin/entities/admin.entity';
 
 @Module({
   imports: [

@@ -10,6 +10,7 @@ import {
   Patch,
   ParseIntPipe,
   BadRequestException,
+  ParseArrayPipe,
 } from '@nestjs/common';
 
 import { CreateReservationDto } from './dto/create-list.dto';
@@ -41,7 +42,25 @@ export class ReservationController {
     return this.reservationService.findByStatus(status);
   }
 
-  //==========id로 조회====================
+  // ============================= 픽업 기사용 진행 완료 조회 =============================
+  @Get('my')
+  @UseGuards(JwtAuthGuard)
+  async findMy(
+    @Req() req: any,
+    @Query('status') status?: '진행' | '완료',
+  ): Promise<Reservation[]> {
+    const riderId = req.user.id;
+
+    if (status) {
+      // status=진행 or status=완료
+      return this.reservationService.findByRiderAndStatus(riderId, status);
+    }
+
+    // status 쿼리 없으면, 픽업된 모든 예약
+    return this.reservationService.findByRider(riderId);
+  }
+
+  // ============================= id로 조회 =============================
   @Get('id/:id')
   async findById(@Param('id') id: number): Promise<Reservation> {
     return this.reservationService.findById(id);
@@ -73,37 +92,4 @@ export class ReservationController {
   ) {
     return this.reservationService.complete(id, user.id);
   }
-
-  // // ============================= 주간 조회 =============================
-  // @Get('rider/weekly')
-  // @UseGuards(JwtAuthGuard)
-  // async getWeekly(@Req() req: any, @Query('date') dateStr?: string) {
-  //   const riderId = req.user.id;
-  //   const refDate = dateStr ? new Date(dateStr) : new Date();
-  //   if (isNaN(refDate.getTime())) {
-  //     throw new BadRequestException('유효하지 않은 날짜야');
-  //   }
-  //   return this.reservationService.getWeeklyByDate(riderId, refDate);
-  // }
-
-  // // ============================= 월간 조회 =============================
-  // @Get('rider/monthly')
-  // @UseGuards(JwtAuthGuard)
-  // async getMonthly(@Req() req: any, @Query('date') dateStr?: string) {
-  //   const riderId = req.user.id;
-  //   const refDate = dateStr ? new Date(dateStr) : new Date();
-  //   if (isNaN(refDate.getTime()))
-  //     throw new BadRequestException('유효하지 않은 날짜야');
-  //   return this.reservationService.getMonthlyByDate(riderId, refDate);
-  // }
-
-  // // ============================= 연별 조회 =============================
-  // @Get('rider/yearly')
-  // @UseGuards(JwtAuthGuard)
-  // async getYearly(@Req() req: any, @Query('date') dateStr?: string) {
-  //   const riderId = req.user.id;
-  //   const year = dateStr ? parseInt(dateStr, 10) : new Date().getFullYear();
-  //   if (isNaN(year)) throw new BadRequestException('유효하지 않은 연도야');
-  //   return this.reservationService.getYearlyByYear(riderId, year);
-  // }
 }

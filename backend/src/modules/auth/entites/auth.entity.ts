@@ -56,6 +56,9 @@ export class DeliveryDriver {
   @Column({ default: false })
   approval: boolean;
 
+  @Column({ default: 'driver' })
+  role: string;
+
   @ManyToOne(() => Benefit, (b) => b.rider)
   @JoinColumn({
     name: 'benefit',

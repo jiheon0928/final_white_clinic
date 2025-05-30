@@ -11,15 +11,12 @@ export class Admin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true, length: 50 })
-  username: string;
+  @Column({ unique: true, length: 30 })
+  loginId: string;
 
   @Column({ length: 100 })
   password: string;
 
-  @CreateDateColumn({ type: 'timestamp' })
-  createdAt: Date;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: Date;
+  @Column({ default: 'admin' })
+  role: string;
 }
