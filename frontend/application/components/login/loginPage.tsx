@@ -15,8 +15,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    const response = await login(loginId, password);
-    console.log(response);
+    await login(loginId, password);
     router.push("/rider/(tabs)/waiting");
   };
   return (

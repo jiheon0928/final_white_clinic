@@ -1,24 +1,35 @@
 import { AuthState } from "@/types/stores/zustandStore.types";
-import { create } from "zustand"; // ✅ 올바른 zustand import
+import { create } from "zustand";
 
 export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,
-  name: "",
-  accessToken: "",
+  user: {
+    id: 0,
+    name: "",
+    accessToken: "",
+  },
 
-  setAuth: (name: string, accessToken: string) => {
-    set({
+  setAuth: (name: string, accessToken: string, id: number) => {
+    set((state) => ({
+      ...state,
       isAuthenticated: true,
-      name,
-      accessToken,
-    });
+      user: {
+        name,
+        accessToken,
+        id,
+      },
+    }));
   },
 
   setAuthOff: () => {
-    set({
-      isAuthenticated: false, // ✅ 철자 일치
-      name: "",
-      accessToken: "",
-    });
+    set((state) => ({
+      ...state,
+      isAuthenticated: false,
+      user: {
+        name: "",
+        accessToken: "",
+        id: 0,
+      },
+    }));
   },
 }));

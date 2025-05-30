@@ -1,7 +1,7 @@
 import Input from "./Input";
 import { useReservationStore } from "@/store/ReservationStore";
 
-export const PriceInput = () => {
+export const EnrollPriceInput = () => {
   const { formData, handleChange } = useReservationStore();
   return (
     <>

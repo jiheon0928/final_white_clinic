@@ -14,7 +14,6 @@ export const getRiders = async () => {
 export const getRiderById = async (id: number) => {
   try {
     const response = await api.get(`/user/id/${id}`);
-    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching riders:", error);

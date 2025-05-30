@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,12 +11,16 @@ import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import Info from "@/components/common/text/Info";
 import { BarChart } from "react-native-chart-kit";
-import { ChartKey, MyPageProps } from "@/types/riderMyPage";
 import { riderMyPageStyles } from "@/styles/rider/riderMyPage";
 import { chartData } from "@/dummyData/maPagechartData";
 import { useSalesChart } from "@/hooks/sales/riderMyPage";
 import { handleLogout } from "@/hooks/sales/logout";
 import Card from "@/components/common/box/Card";
+import { useAuthStore } from "@/stores/auth.store";
+import { getRiderById } from "@/utils/riderService";
+import { ChartKey } from "@/types/user/rider.types";
+import { RiderData } from "@/types/data/riderData";
+import { logout } from "@/utils/login";
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
   backgroundGradientFrom: "#fff",
@@ -25,7 +29,17 @@ const chartConfig = {
   color: (opacity = 1) => `rgba(63, 93, 231, ${opacity})`,
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 };
-const MyPage = ({ name, phone, email, benefit }: MyPageProps) => {
+const MyPage = () => {
+  const { user } = useAuthStore();
+  const [rider, setRider] = useState<RiderData | null>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      const rider = await getRiderById(user.id);
+      setRider(rider);
+    };
+    fetchData();
+  }, []);
+
   const {
     type,
     setType,
@@ -52,23 +66,20 @@ const MyPage = ({ name, phone, email, benefit }: MyPageProps) => {
       />
     );
   };
+  if (!rider) return <Text>라이더가 없습니다</Text>;
   return (
     <Page>
-      <BetweenHeader
-        title="마이페이지"
-        btnName="로그아웃"
-        onPress={handleLogout}
-      />
+      <BetweenHeader title="마이페이지" btnName="로그아웃" onPress={logout} />
       <ScrollView>
         <View style={riderMyPageStyles.container}>
           <Card
             btnName="정보수정"
-            pressBtn={() => router.push("/rider/mypage/[id]")}
+            pressBtn={() => router.push("/rider/editMy")}
           >
-            <Info value={`이름 : ${name}`} />
-            <Info value={`전화번호 : ${phone}`} />
-            <Info value={`이메일 : ${email}`} />
-            <Info value={`수당률 : ${benefit}`} />
+            <Info value={`이름 : ${rider.name}`} />
+            <Info value={`전화번호 : ${rider.phone}`} />
+            <Info value={`이메일 : ${rider.email}`} />
+            <Info value={`수당률 : ${rider.benefit.benefitType * 100}%`} />
           </Card>
           <Text style={riderMyPageStyles.chartMainTitle}>매출 현황</Text>
           <View style={riderMyPageStyles.tabContainer}>

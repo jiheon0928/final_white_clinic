@@ -13,7 +13,6 @@ export const ReservationCard = () => {
   useEffect(() => {
     getReservations(currentStatus as "대기" | "진행" | "완료");
   }, [getReservations, currentStatus]);
-  console.log(currentStatus);
 
   const handleClick = (path: string) => {
     router.push(path);
