@@ -2,9 +2,9 @@ import {
   CreateDateColumn,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Entity,
+  Column,
 } from 'typeorm';
-import { Column } from 'typeorm';
-import { Entity } from 'typeorm';
 
 @Entity('admin')
 export class Admin {
