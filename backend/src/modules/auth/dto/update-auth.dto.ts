@@ -56,7 +56,7 @@ export class UpdateDriverDto extends PartialType(CreateDriverDto) {
   @IsBoolean()
   @IsOptional()
   @Type(() => Boolean)
-  approval: boolean;
+  approval?: boolean;
 
   @IsOptional()
   @IsInt()
