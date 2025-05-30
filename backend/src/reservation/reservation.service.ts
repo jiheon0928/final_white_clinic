@@ -64,16 +64,17 @@ export class ReservationService {
   // 2) riderId + 특정 status
   async findByRiderAndStatus(
     riderId: number,
-    status: '진행' | '완료',
+    statusStr: '진행' | '완료',
   ): Promise<Reservation[]> {
-    return this.reservationRepository.find({
-      where: {
-        rider: { id: riderId },
-        status: { status },
-      },
-      relations: ['rider', 'status', 'industry'],
-      order: { visitTime: 'ASC' },
-    });
+    return this.reservationRepository
+      .createQueryBuilder('reservation')
+      .leftJoinAndSelect('reservation.rider', 'rider')
+      .leftJoinAndSelect('reservation.status', 'status')
+      .leftJoinAndSelect('reservation.industry', 'industry')
+      .where('rider.id = :riderId', { riderId })
+      .andWhere('status.status = :statusStr', { statusStr })
+      .orderBy('reservation.visitTime', 'ASC')
+      .getMany();
   }
 
   // ============================= 예약 정보 수정 ============================
