@@ -43,10 +43,6 @@ const LoginPage = () => {
               onPress={() => router.push("/signup")}
               text="회원가입"
             />
-            <DefaultBtn
-              onPress={() => router.push("/admin/(tabs)/reservations")}
-              text="관리자 페이지"
-            />
           </View>
         </Animated.View>
       </View>
