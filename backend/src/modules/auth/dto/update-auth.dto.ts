@@ -24,7 +24,7 @@ export class UpdateDriverDto extends PartialType(CreateDriverDto) {
 
   @IsString()
   @MaxLength(30)
-  loginId: string;
+  loginId?: string;
 
   @IsString()
   @MaxLength(100)
