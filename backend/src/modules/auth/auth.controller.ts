@@ -22,9 +22,8 @@ export class AuthController {
   async login(
     @Body('loginId') loginId: string,
     @Body('password') password: string,
-    @Body('role') role: string,
   ) {
-    if (role === 'admin') {
+    if (await this.adminService.existsByLoginId(loginId)) {
       return this.adminService.login(loginId, password);
     } else {
       return this.authService.login(loginId, password);

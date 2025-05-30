@@ -26,6 +26,10 @@ export class AdminService {
     private readonly refreshTokenService: RefreshTokenService,
   ) {}
 
+  async existsByLoginId(loginId: string): Promise<boolean> {
+    const admin = await this.adminRepo.findOneBy({ loginId });
+    return !!admin;
+  }
   /** 관리자 회원가입 */
   async register(dto: CreateAdminDto): Promise<{
     admin: Omit<Admin, 'password'>;
