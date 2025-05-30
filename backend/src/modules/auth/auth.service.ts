@@ -52,12 +52,12 @@ export class AuthService {
 
       // Benefit 매핑
       if (benefitId) {
-        driver.benefit = { id: benefitId } as Benefit;
+        driver.benefitId = { id: benefitId } as Benefit;
       }
 
       // Industry 매핑
       if (industryIds && industryIds.length) {
-        driver.industries = industryIds.map((id) => ({ id }) as Industry);
+        driver.industryIds = industryIds.map((id) => ({ id }) as Industry);
       }
 
       return await this.driverRepo.save(driver);

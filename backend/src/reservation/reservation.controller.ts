@@ -42,13 +42,13 @@ export class ReservationController {
   }
 
   //==========id로 조회====================
-  @Get(':id')
+  @Get('id/:id')
   async findById(@Param('id') id: number): Promise<Reservation> {
     return this.reservationService.findById(id);
   }
 
   // ============================= 예약 정보 수정 =============================
-  @Patch(':id')
+  @Patch('id/:id')
   async listupdate(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateReservationDto,
@@ -57,7 +57,7 @@ export class ReservationController {
   }
 
   // ============================= 예약 픽업 =============================
-  @Patch(':id/pickup')
+  @Patch('id/:id/pickup')
   @UseGuards(JwtAuthGuard)
   async pickup(@Param('id', ParseIntPipe) taskId: number, @Req() req: any) {
     const riderId = req.user.id;
@@ -65,7 +65,7 @@ export class ReservationController {
   }
 
   // ============================= 예약 완료 =============================
-  @Patch(':id/complete')
+  @Patch('complete/:id')
   @UseGuards(JwtAuthGuard)
   async complete(
     @Param('id') id: number,
