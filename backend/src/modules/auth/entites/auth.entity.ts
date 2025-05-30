@@ -50,7 +50,7 @@ export class DeliveryDriver {
   @Column({ length: 100 })
   email: string;
 
-  @Column()
+  @Column({ default: '' })
   significant: string;
 
   @Column({ default: false })
