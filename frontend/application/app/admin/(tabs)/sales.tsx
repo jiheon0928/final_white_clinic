@@ -11,6 +11,8 @@ import { BarChart } from "react-native-chart-kit";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import { router } from "expo-router";
+import { useAuthStore } from "@/stores/auth.store";
+import { logout } from "@/utils/login";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -140,17 +142,15 @@ const Sales = () => {
 
   return (
     <Page>
+      <BetweenHeader
+        title="마이페이지"
+        btnName="로그아웃"
+        onPress={() => {
+          logout();
+          router.replace("/");
+        }}
+      />
       <ScrollView contentContainerStyle={salesStyle.scrollContainer}>
-        <BetweenHeader
-          title="마이페이지"
-          btnName="로그아웃"
-          onPress={() => router.push("/")}
-        />
-
-        <View style={salesStyle.adminBox}>
-          <Text style={salesStyle.adminText}>이지헌 관리자</Text>
-        </View>
-
         <View style={salesStyle.tabContainer}>
           {(["daily", "weekly", "monthly"] as ChartKey[]).map((key) => (
             <TouchableOpacity
