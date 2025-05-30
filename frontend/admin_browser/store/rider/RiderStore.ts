@@ -14,8 +14,8 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
     email: "",
     significant: "",
     approval: false,
-    industryIds: [],
-    benefitId: 0,
+    industry: [],
+    benefit: 0,
   },
   handleChange: (e) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
@@ -57,8 +57,8 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
         email: "",
         significant: "",
         approval: false,
-        industryIds: [],
-        benefitId: 0,
+        industry: [],
+        benefit: 0,
         ...data, // 필요한 것만 덮어씀
       },
     }));

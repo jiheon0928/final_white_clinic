@@ -38,8 +38,8 @@ export type RiderInfoStore = {
     email: string;
     significant: string;
     approval?: boolean;
-    industryIds: number[];
-    benefitId?: number;
+    industry: number[];
+    benefit?: number;
   };
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

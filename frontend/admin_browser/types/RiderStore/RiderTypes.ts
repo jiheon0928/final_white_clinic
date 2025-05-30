@@ -1,12 +1,7 @@
-export type Benefit = {
-  id: number;
-  benefitType: number;
-};
-
 export type Rider = {
   id: number;
   name: string;
-  birth: string;
+  birth: string; // string (ISO date string) 형식 유지
   loginId: string;
   password: string;
   phone: string;
@@ -16,9 +11,13 @@ export type Rider = {
   email: string;
   significant: string;
   approval: boolean;
-  benefitId: number;
-  industryId: number;
-  status: string;
+  benefit: benefitType;
+  industry?: number[]; // 백엔드에서 내려오지 않는 경우 optional 처리
+};
+
+export type benefitType = {
+  id: number;
+  benefitType: number; // 예: 0.4
 };
 
 export type RiderInfoList = Rider[];
