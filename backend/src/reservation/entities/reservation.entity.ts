@@ -69,7 +69,7 @@ export class Reservation {
   @Column({ type: 'int' })
   statusId: number;
   @ManyToOne(() => StatusEntity, { eager: true })
-  @JoinColumn({ name: 'statusId' }) // name도 소문자로 통일
+  @JoinColumn({ name: 'statusId' })
   status: StatusEntity;
 }
 

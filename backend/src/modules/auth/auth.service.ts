@@ -40,7 +40,6 @@ export class AuthService {
 
       const hashed = await bcrypt.hash(dto.password, 10);
 
-      // benefitId, industryIds 분리
       const { benefit, industry, approval, ...data } = dto;
 
       // 기본 driver 생성 (relation 필드는 나중에 매핑)

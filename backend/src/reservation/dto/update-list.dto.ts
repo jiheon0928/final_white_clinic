@@ -5,7 +5,6 @@ import {
   MaxLength,
   IsInt,
   IsPositive,
-  IsPhoneNumber,
   IsOptional,
   IsNotEmpty,
   IsDate,
@@ -65,5 +64,5 @@ export class UpdateReservationDto extends PartialType(CreateReservationDto) {
   @IsInt()
   @IsNotEmpty()
   @Type(() => Number)
-  industryId: number;
+  industry: number;
 }

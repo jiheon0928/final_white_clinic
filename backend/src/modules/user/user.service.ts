@@ -65,22 +65,21 @@ export class UserService {
     // 기본 필드 덮어쓰기
     Object.assign(driver, dto);
 
-    // industryIds 처리
     if (dto.industry) {
       const inds = await this.industryRepo.findBy({ id: In(dto.industry) });
       if (inds.length !== dto.industry.length) {
-        throw new NotFoundException('존재하지 않는 industryId가 있어');
+        throw new NotFoundException('존재하지 않는 industry가 있어');
       }
       driver.industry = inds;
     }
 
-    // benefitId 처리
+    // benefit 처리
     if (dto.benefit) {
       const benefit = await this.benefitRepo.findOne({
         where: { id: dto.benefit },
       });
       if (!benefit) {
-        throw new NotFoundException('존재하지 않는 benefitId야');
+        throw new NotFoundException('존재하지 않는 benefit가 있어');
       }
       driver.benefit = benefit;
     }

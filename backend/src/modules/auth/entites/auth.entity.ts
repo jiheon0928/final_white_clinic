@@ -56,15 +56,9 @@ export class DeliveryDriver {
   @Column({ default: false })
   approval: boolean;
 
-  @ManyToOne(() => Benefit, (b) => b.rider, {
-    nullable: true,
-    eager: true,
-    createForeignKeyConstraints: true,
-    onDelete: 'SET NULL',
-    onUpdate: 'CASCADE',
-  })
+  @ManyToOne(() => Benefit, (b) => b.rider)
   @JoinColumn({
-    name: 'benefitId',
+    name: 'benefit',
     referencedColumnName: 'id',
   })
   benefit: Benefit;

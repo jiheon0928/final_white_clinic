@@ -63,5 +63,5 @@ export class CreateReservationDto {
   @IsInt()
   @IsNotEmpty()
   @Type(() => Number)
-  industryId: number;
+  industry: number;
 }

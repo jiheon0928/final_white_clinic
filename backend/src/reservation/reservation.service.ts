@@ -31,11 +31,11 @@ export class ReservationService {
       status: defaultValue?.status,
     });
 
-    const { industryId, ...rest } = dto;
+    const { industry, ...rest } = dto;
 
     const entity = this.reservationRepository.create({
       ...rest,
-      industry: { id: industryId },
+      industry: { id: industry },
       status: defaultState!,
     });
 
@@ -54,7 +54,11 @@ export class ReservationService {
 
   // ============================= 예약 정보 수정 ============================
   async listupdate(id: number, dto: UpdateReservationDto) {
-    await this.reservationRepository.update(id, dto);
+    const { industry, ...rest } = dto;
+    await this.reservationRepository.update(id, {
+      ...rest,
+      industry: { id: industry },
+    });
     return this.reservationRepository.findOne({
       where: { id },
       relations: ['rider', 'industry', 'status'],
