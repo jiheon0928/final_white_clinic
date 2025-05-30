@@ -34,7 +34,7 @@ export class UserService {
   async findById(id: number): Promise<DeliveryDriver> {
     return this.driverRepo.findOneOrFail({
       where: { id },
-      relations: ['benefitId', 'industryIds'],
+      relations: ['benefit', 'industry'],
     });
   }
 
@@ -43,7 +43,7 @@ export class UserService {
     try {
       return await this.driverRepo.find({
         where: { approval },
-        relations: ['benefitId', 'industryIds'],
+        relations: ['benefit', 'industry'],
         order: { id: 'ASC' },
       });
     } catch (err) {
@@ -59,7 +59,7 @@ export class UserService {
     // benefit, industries 둘 다 같이 불러오기
     const driver = await this.driverRepo.findOneOrFail({
       where: { id },
-      relations: ['benefitId', 'industryIds'],
+      relations: ['benefit', 'industry'],
     });
 
     // 기본 필드 덮어쓰기
