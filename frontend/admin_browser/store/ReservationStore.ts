@@ -1,11 +1,12 @@
-"use client";
-import { create } from "zustand";
+// store/ReservationStore.ts
 import { RevCardStates } from "@/types/RevStore/RevCardStates";
+import { create } from "zustand";
 
 export const useReservationStore = create<RevCardStates>((set) => ({
-  selectedItems: [], // 선택된 아이템 상태에 따라 배열로 저장
+  // ▶️ 상태 초기값
+  selectedItems: [],
   manager: "",
-  currentStatus: "대기", // 기본값
+  currentStatus: "대기",
   formData: {
     reservationName: "",
     customerName: "",
@@ -17,30 +18,47 @@ export const useReservationStore = create<RevCardStates>((set) => ({
     visitTime: "",
     memo: "",
     price: 0,
-    industryIds: 0,
+    industryId: 1,
   },
+
+  // ▶️ 액션: 체크박스 토글
   handleCheckboxChange: (value) =>
     set((state) => ({
       selectedItems: state.selectedItems.includes(value)
-        ? state.selectedItems.filter((item) => item !== value)
+        ? state.selectedItems.filter((id) => id !== value)
         : [...state.selectedItems, value],
     })),
-  setManager: (value) =>
+
+  // ▶️ 액션: 담당 기사 설정
+  setManager: (name) =>
     set((state) => ({
-      manager: value,
-      formData: {
-        ...state.formData,
-        manager: value,
-      },
+      manager: name,
+      formData: { ...state.formData, customerRequest: name },
+      // 예시로 customerRequest 에 기사명을 저장, 필요에 따라 다른 필드 사용
     })),
+
+  // ▶️ 액션: 상태 변경
   setStatus: (status) => set({ currentStatus: status }),
-  handleChange: (e) =>
+
+  // ▶️ 액션: 폼 필드 변경(input, textarea, select)
+  handleChange: (e) => {
+    const target = e.target;
+    const { name, type } = target;
+    const value =
+      type === "checkbox"
+        ? (target as HTMLInputElement).checked
+        : (target as HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement)
+            .value;
+
     set((state) => ({
       formData: {
         ...state.formData,
-        [e.target.name]: e.target.value,
+        [name]: value,
       },
-    })),
+    }));
+  },
+
+  // ▶️ 액션: formData 일괄 세팅 (예: 수정폼 초기화)
   setFormData: (data) =>
     set((state) => ({
       formData: {
@@ -48,4 +66,15 @@ export const useReservationStore = create<RevCardStates>((set) => ({
         ...data,
       },
     })),
+
+  // ▶️ 액션: 제출 핸들러 (예시 로깅)
+  handleSubmit: (e) => {
+    e.preventDefault();
+    console.log("Reservation submitted ▶️", {
+      selectedItems: useReservationStore.getState().selectedItems,
+      manager: useReservationStore.getState().manager,
+      currentStatus: useReservationStore.getState().currentStatus,
+      formData: useReservationStore.getState().formData,
+    });
+  },
 }));

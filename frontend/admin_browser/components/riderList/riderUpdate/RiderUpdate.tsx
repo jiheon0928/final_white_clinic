@@ -2,14 +2,13 @@
 import Button from "@/components/common/Button";
 import useRiderStore from "@/store/rider/RiderStore";
 import { RiderInput } from "../../common/input/RiderInput";
-import { ItemList } from "../../common/ItemList";
 import { BirthDate } from "../../common/date/BirthDate";
 import { Revenue } from "../../common/Revenue";
 import Layout from "../../common/Layout";
 import { useApiStore } from "@/store/Api";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
-
+import { ArrayItem } from "@/components/common/ArrayItem";
 export const RiderUpdate = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -78,7 +77,7 @@ export const RiderUpdate = () => {
           <label className="text-gray-700 font-semibold">
             가능 품목 리스트
           </label>
-          <ItemList />
+          <ArrayItem />
           <BirthDate />
         </div>
         <Revenue />
