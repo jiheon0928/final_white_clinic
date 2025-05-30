@@ -2,21 +2,34 @@ import ReservationCard from "@/components/reservation/subCompontent/ReservationC
 import DefaultHeader from "@/components/common/header/DefaultHeader";
 import Page from "@/components/common/Page";
 import SearchInput from "@/components/common/input/SearchInput";
-
 import useReservationStore from "@/stores/reservation.store";
 import { useEffect, useRef, useState } from "react";
 import { ScrollView } from "react-native";
 import { router } from "expo-router";
-import { getReservations } from "@/utils/reservationService";
+import {
+  getReservationByRider,
+  getReservations,
+} from "@/utils/reservationService";
 import { reservationType } from "@/types/data/reservationData";
+import { useAuthStore } from "@/stores/auth.store";
 
 const RiderReservation = ({ status }: { status: "대기" | "진행" | "완료" }) => {
   const [reservations, setReservations] = useState<reservationType[]>([]);
   const scrollViewRef = useRef<ScrollView>(null);
   useEffect(() => {
+    const accessToken = useAuthStore.getState().user.accessToken;
+    if (!accessToken) {
+      router.replace("/");
+      return;
+    }
     const fetchReservations = async () => {
-      const reservations = await getReservations(status);
-      setReservations(reservations);
+      if (status !== "대기") {
+        const reservations = await getReservationByRider(accessToken, status);
+        setReservations(reservations);
+      } else {
+        const reservations = await getReservations(status);
+        setReservations(reservations);
+      }
     };
     fetchReservations();
   }, [reservations]);

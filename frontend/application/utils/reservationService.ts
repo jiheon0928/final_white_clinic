@@ -26,6 +26,22 @@ export const getReservationDetail = async (
     throw error;
   }
 };
+export const getReservationByRider = async (
+  accessToken: string,
+  status: "대기" | "진행" | "완료"
+) => {
+  try {
+    const response = await api.get(`/reservation/my?status=${status}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error("예약 데이터 가져오기 실패:", error);
+    throw error;
+  }
+};
 
 export const createReservation = async (
   reservation: ReservationState["reservation"]

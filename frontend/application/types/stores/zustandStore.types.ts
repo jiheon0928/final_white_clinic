@@ -63,9 +63,12 @@ export type AddressState = {
 
 export type AuthState = {
   isAuthenticated: boolean;
-  name: string;
-  accessToken?: string;
-  setAuth: (name: string, accessToken: string) => void;
+  user: {
+    name: string;
+    accessToken?: string;
+    id: number;
+  };
+  setAuth: (name: string, accessToken: string, id: number) => void;
   setAuthOff: () => void;
 };
 

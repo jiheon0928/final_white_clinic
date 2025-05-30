@@ -40,7 +40,7 @@ export const getPendingRider = (
   { category: "이름", value: rider.name },
   { category: "연락처", value: rider.phone },
   { category: "생년월일", value: formatDate(new Date(rider.birth)) },
-  { category: "주소", value: rider.address },
+  { category: "주소", value: `${rider.address}${rider.detailAddress}` },
   { category: "이메일", value: rider.email },
   {
     category: "수당률",
