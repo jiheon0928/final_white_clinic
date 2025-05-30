@@ -1,14 +1,25 @@
-// user.entity.ts
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+  CreateDateColumn,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Column } from 'typeorm';
+import { Entity } from 'typeorm';
 
-@Entity()
-export class User {
+@Entity('admin')
+export class Admin {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  login_id: string;
+  @Column({ unique: true, length: 50 })
+  username: string;
 
-  @Column()
-  password: number;
+  @Column({ length: 100 })
+  password: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
+
+  @UpdateDateColumn({ type: 'timestamp' })
+  updatedAt: Date;
 }

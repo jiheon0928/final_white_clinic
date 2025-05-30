@@ -14,6 +14,7 @@ import { Benefit } from './reservation/entities/benefit.entity';
 import { Industry } from './reservation/entities/industry.entity';
 import { CompleteState } from './reservation/entities/compliteState.entity';
 import { ReservationModule } from './reservation/reservation.module';
+import { Admin } from './admin/entities/admin.entity';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { ReservationModule } from './reservation/reservation.module';
         password: config.get<string>('DB_PASSWORD'),
         database: config.get<string>('DB_DATABASE'),
         entities: [
+          Admin,
           DeliveryDriver,
           Benefit,
           Reservation,
