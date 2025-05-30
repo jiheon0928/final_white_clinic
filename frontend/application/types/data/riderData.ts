@@ -1,3 +1,5 @@
+import { Industry } from "./reservationData";
+
 export type RiderData = {
   id: number;
   name: string;
@@ -12,7 +14,7 @@ export type RiderData = {
   significant: string;
   approval: boolean;
   benefit: benefitType;
-  industry?: number[]; // 백엔드에서 내려오지 않는 경우 optional 처리
+  industry?: Industry[]; // 백엔드에서 내려오지 않는 경우 optional 처리
 };
 
 export type benefitType = {

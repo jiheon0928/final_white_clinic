@@ -10,7 +10,7 @@ export type Industry = {
   industry: "세탁기" | "에어컨" | "건조기";
 };
 
-type ReservationBase = {
+export type reservationType = {
   id: number;
   reservationName: string;
   visitTime: Date | string; // API 응답에서 string일 수도 있음
@@ -26,5 +26,3 @@ type ReservationBase = {
   rider: RiderData | null;
   status: Status;
 };
-
-export type reservationType = ReservationBase;

@@ -3,23 +3,32 @@ import { Text, View } from "react-native";
 import CheckBox from "./CheckBox";
 import industryStore from "@/stores/industry.store";
 import { checkBoxBundleStyles } from "@/styles/input/checkBox";
-
+import { IndustryType } from "@/types/stores/zustandStore.types";
 const CheckBoxBundle = () => {
-  const { industry, toggle } = industryStore();
+  const { industry, industryOptions, toggle } = industryStore();
   return (
     <View>
       <Text style={checkBoxBundleStyles.sectionTitle}>가능 품목 리스트</Text>
       <View style={checkBoxBundleStyles.checkboxRow}>
-        <CheckBox
-          label="에어컨"
-          value={industry.includes("에어컨")}
-          onValueChange={() => toggle("에어컨", !industry.includes("에어컨"))}
-        />
-        <CheckBox
-          label="세탁기"
-          value={industry.includes("세탁기")}
-          onValueChange={() => toggle("세탁기", !industry.includes("세탁기"))}
-        />
+        {industryOptions.map((option) => (
+          <CheckBox
+            key={option}
+            label={option}
+            value={
+              Array.isArray(industry) &&
+              industry.includes(option as IndustryType)
+            }
+            onValueChange={() =>
+              toggle(
+                option as IndustryType,
+                !(
+                  Array.isArray(industry) &&
+                  industry.includes(option as IndustryType)
+                )
+              )
+            }
+          />
+        ))}
       </View>
     </View>
   );

@@ -20,7 +20,7 @@ const RidersList = () => {
       setRiders(riders);
     };
     fetchRiders();
-  }, []);
+  }, [riders]);
 
   if (!riders) {
     return <Text>기사 목록을 불러오는 중입니다.</Text>;
