@@ -6,6 +6,7 @@ import {
   Param,
   Body,
   ParseIntPipe,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateDriverDto } from '../auth/dto/update-auth.dto';
@@ -24,20 +25,27 @@ export class UserController {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  async findById(@Param('id') id: number): Promise<DeliveryDriver> {
+  @Get('id/:id')
+  async findById(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<DeliveryDriver> {
     return this.userService.findById(id);
   }
-
-  //승인 비승인 조회
-  @Get()
+  //========================기사 승인 비승인 조회========================
+  @Get('approval')
   async findStatus(
-    @Query('approval') approval: boolean,
+    @Query('approval', ParseBoolPipe) approval: boolean,
   ): Promise<DeliveryDriver[]> {
-    return this.userService.findStatus(approval);
+    try {
+      return await this.userService.findStatus(approval);
+    } catch (err) {
+      throw new BadRequestException('승인 상태 조회 중 오류가 발생했습니다');
+    }
   }
 
-  @Patch(':id/info') //기사 정보 수정
+  //========================기사 정보 수정========================
+
+  @Patch('correction/:id')
   async updateInfo(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateDriverDto,
@@ -45,12 +53,14 @@ export class UserController {
     return this.userService.updateInfo(id, dto);
   }
 
-  @Patch(':id/approval') //기사 회원가입 승인
+  //========================기사 회원가입 승인========================
+
+  @Patch('approval/:id')
   async update(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateDriverDto,
   ): Promise<DeliveryDriver> {
-    return this.userService.update(id, dto);
+    return this.userService.approve(id);
   }
 
   // ============================= 주간 조회 =============================

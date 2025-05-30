@@ -9,6 +9,6 @@ export class Benefit {
   @Column({ type: 'float', comment: '혜택 유형' })
   benefitType: number;
 
-  @OneToMany(() => DeliveryDriver, (rider) => rider.benefit)
+  @OneToMany(() => DeliveryDriver, (rider) => rider.benefitId)
   rider: DeliveryDriver[];
 }
