@@ -1,4 +1,4 @@
-import { IndustryState } from "@/types/stores/zustandStore.types";
+import { IndustryState, IndustryType } from "@/types/stores/zustandStore.types";
 import { create } from "zustand";
 
 const useIndustryStore = create<IndustryState>((set) => ({
@@ -6,6 +6,7 @@ const useIndustryStore = create<IndustryState>((set) => ({
   industryOptions: ["에어컨", "세탁기", "건조기"],
   selectedIndustry: null,
   industryId: 0,
+  setIndustry: (industry: IndustryType[]) => set({ industry }),
   setSelectedIndustry: (selected: string) =>
     set((state) => {
       if (selected === "에어컨") state.industryId = 1;

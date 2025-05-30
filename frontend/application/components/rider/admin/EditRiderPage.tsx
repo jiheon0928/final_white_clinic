@@ -2,7 +2,7 @@ import CalenderInput from "@/components/common/input/CalenderInput";
 import Page from "@/components/common/Page";
 import Input from "@/components/common/input/Input";
 import { router } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Platform, ScrollView, View } from "react-native";
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
@@ -14,69 +14,78 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import ToggleInput from "@/components/common/input/ToggleInput";
 import useDateStore from "@/stores/date.store";
 import useRiderStore from "@/stores/Rider.store";
-import { IndustryType } from "@/types/stores/zustandStore.types";
+import { getRiderById, updateRider } from "@/utils/riderService";
+import { Industry } from "@/types/data/reservationData";
 
 const EditRiderPage = ({ id }: { id: string }) => {
-  const { rider, setRiderField, resetRider, setRider } = useRiderStore();
-  const { date, resetDate } = useDateStore();
+  const { rider, setRiderField, resetRider, setRider, benefitType } =
+    useRiderStore();
+  const { date, resetDate, setDate } = useDateStore();
   const { address, detailAddress, zipcode, setAddress, resetAddress } =
     useAddressStore();
-  const { industry, resetIndustry, setSelected } = useIndustryStore();
+  const { industry, resetIndustry, setSelectedIndustry, setIndustry } =
+    useIndustryStore();
   const insets = useSafeAreaInsets();
-  const [selectedBenefit, setSelectedBenefit] = useState(0.4);
 
-  const handleSubmit = () => {
-    setRiderField("address", address);
-    setRiderField("zipcode", zipcode);
-    setRiderField("detailAddress", detailAddress);
-    setRiderField("industry", industry);
-    setRiderField("birth", date);
-    setRiderField("benefit", selectedBenefit);
-    console.log("✅ 제출 데이터:", useRiderStore.getState().rider);
-    resetRider();
-    resetDate();
-    resetAddress();
-    resetIndustry();
-    router.back();
-  };
   const editRiderInputFields = [
     { title: "이름", key: "name" },
     { title: "전화번호", key: "phone" },
     { title: "이메일", key: "email" },
   ] as const;
 
-  const benefit = [0.4, 0.5, 0.6];
-  const userData = {
-    name: "김민규",
-    phone: "010-0101-0101",
-    email: "asd@asd.com",
-    address: "서울특별시 강남구 테헤란로 14길 6 남도빌딩 2층",
-    zipcode: "06236",
-    birth: "1990-01-01",
-    detailAddress: "201호",
-    significant: "메모",
-    industry: ["에어컨", "세탁기"],
-  };
-
   useEffect(() => {
-    setRider({
-      name: String(userData.name),
-      phone: String(userData.phone),
-      email: String(userData.email),
-      address: String(userData.address),
-      zipcode: String(userData.zipcode),
-      birth: String(userData.birth),
-      detailAddress: String(userData.detailAddress),
-      significant: String(userData.significant),
-      industry: Array.isArray(userData.industry)
-        ? (userData.industry as IndustryType[])
-        : [String(userData.industry) as IndustryType],
-    });
-    setSelected(userData.industry as IndustryType[]);
-    setAddress("zipcode", userData.zipcode);
-    setAddress("address", userData.address);
-    setAddress("detailAddress", userData.detailAddress);
+    const fetchData = async () => {
+      const rider = await getRiderById(Number(id));
+
+      setRider({
+        name: String(rider.name),
+        phone: String(rider.phone),
+        email: String(rider.email),
+        address: String(rider.address),
+        zipcode: String(rider.zipcode),
+        birth: rider.birth,
+        detailAddress: String(rider.detailAddress),
+        significant: String(rider.significant),
+        industry: rider.industry.map((item: Industry) => item.industry),
+        benefit: rider.benefit.id,
+      });
+      const industryList = rider.industry.map(
+        (item: Industry) => item.industry
+      );
+      setIndustry(industryList);
+      setDate(new Date(rider.birth));
+      setSelectedIndustry(industryList[0]);
+      setAddress("zipcode", rider.zipcode);
+      setAddress("address", rider.address);
+      setAddress("detailAddress", rider.detailAddress);
+    };
+
+    fetchData();
   }, []);
+
+  const handleSubmit = async () => {
+    const industryIdMap = {
+      에어컨: 1,
+      세탁기: 2,
+      건조기: 3,
+    };
+    setRiderField("address", address);
+    setRiderField("zipcode", zipcode);
+    setRiderField("detailAddress", detailAddress);
+    setRiderField(
+      "industry",
+      industry.map((name) => industryIdMap[name])
+    );
+    setRiderField("birth", date);
+    setRiderField("benefit", rider.benefit);
+    console.log("✅ 제출 데이터:", useRiderStore.getState().rider);
+    await updateRider(Number(id), useRiderStore.getState().rider);
+    resetRider();
+    resetDate();
+    resetAddress();
+    resetIndustry();
+    router.replace(`/admin/riders/${id}`);
+  };
 
   return (
     <Page>
@@ -103,9 +112,9 @@ const EditRiderPage = ({ id }: { id: string }) => {
           <ToggleInput
             title="수당률"
             boxStyle={{ width: 100 }}
-            options={benefit}
-            selected={selectedBenefit}
-            setSelected={(option) => setSelectedBenefit(Number(option))}
+            options={benefitType}
+            selected={benefitType[rider.benefit - 1]}
+            setSelected={(option) => setRiderField("benefit", Number(option))}
           />
 
           <Input

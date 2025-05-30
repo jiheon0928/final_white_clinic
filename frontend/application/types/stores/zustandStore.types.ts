@@ -1,9 +1,10 @@
-export type IndustryType = "에어컨" | "세탁기";
+export type IndustryType = "에어컨" | "세탁기" | "건조기";
 export type IndustryState = {
   industry: IndustryType[];
   industryOptions: string[];
   industryId: number;
   selectedIndustry: string | null;
+  setIndustry: (industry: IndustryType[]) => void;
   setSelectedIndustry: (selected: string) => void;
   toggle: (label: IndustryType, checked: boolean) => void;
   setSelected: (list: IndustryType[]) => void;
@@ -27,19 +28,16 @@ export type RiderState = {
   rider: {
     name: string;
     birth: string;
-    loginId: string;
-    password: string;
     phone: string;
     email: string;
     zipcode: string;
     address: string;
     detailAddress: string;
     significant: string;
-    industries: IndustryType[];
+    industry: number[];
     benefit: number;
-    approval: boolean;
-    industryId: number;
   };
+  benefitType: number[];
   searchRiderValue: string;
   setRiderField: <K extends keyof RiderState["rider"]>(
     key: K,

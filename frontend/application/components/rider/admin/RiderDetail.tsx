@@ -40,14 +40,14 @@ const RiderDetail = ({ id }: { id: string }) => {
           />
         ))}
 
-        {/* <Info value={"가능 품목 리스트 : "} />
+        <Info value={"가능 품목 리스트 : "} />
         <View style={RiderDetailPageStyles.industryList}>
-          {rider.industries?.map((item, index) => (
+          {rider.industry?.map((item, index) => (
             <Text key={index}>
-              {index + 1}. {industryData[item - 1].industry}
+              {index + 1}. {item.industry}
             </Text>
           ))}
-        </View> */}
+        </View>
 
         <Info value={"특이사항"} />
         <View style={RiderDetailPageStyles.requestBox}>

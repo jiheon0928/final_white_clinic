@@ -1,3 +1,4 @@
+import { RiderState } from "@/types/stores/zustandStore.types";
 import api from "./api";
 
 export const getRiders = async () => {
@@ -27,6 +28,26 @@ export const getRiderByApproval = async (approval: boolean) => {
     return response.data;
   } catch (error) {
     console.error("Error fetching riders:", error);
+    throw error;
+  }
+};
+
+export const approveRider = async (id: number) => {
+  try {
+    const response = await api.patch(`/user/approval/${id}`);
+    return response.data;
+  } catch (error) {
+    console.error("Error approving rider:", error);
+    throw error;
+  }
+};
+
+export const updateRider = async (id: number, data: RiderState["rider"]) => {
+  try {
+    const response = await api.patch(`/user/correction/${id}`, data);
+    return response.data;
+  } catch (error) {
+    console.error("Error updating rider:", error);
     throw error;
   }
 };

@@ -9,38 +9,38 @@ export const ArrayItem = () => {
     {
       name: "washer",
       title: "세탁기",
-      checked: formData.industryIds.includes(1),
+      checked: formData.industry.includes(1),
     },
     {
       name: "dryer",
       title: "건조기",
-      checked: formData.industryIds.includes(2),
+      checked: formData.industry.includes(2),
     },
   ];
 
   const handleItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    let industryId: number | undefined;
-    if (e.target.name === "washer") industryId = 1;
-    else if (e.target.name === "dryer") industryId = 2;
-    if (industryId === undefined) {
+    let industry: number | undefined;
+    if (e.target.name === "washer") industry = 1;
+    else if (e.target.name === "dryer") industry = 2;
+    if (industry === undefined) {
       console.warn("❌ 잘못된 name입니다:", e.target.name);
       return;
     }
-    const newIndustryIds = e.target.checked
-      ? Array.from(new Set([...formData.industryIds, industryId])).filter(
+    const newIndustry = e.target.checked
+      ? Array.from(new Set([...formData.industry, industry])).filter(
           (id): id is number => typeof id === "number" && !isNaN(id)
         )
-      : formData.industryIds.filter((id) => id !== industryId);
+      : formData.industry.filter((id) => id !== industry);
 
     handleChange({
       target: {
-        name: "industryIds",
-        value: newIndustryIds,
+        name: "industry",
+        value: newIndustry,
       },
     } as any);
   };
 
-  console.log("industryIds :", formData.industryIds);
+  console.log("industry :", formData.industry);
 
   return (
     <div>
