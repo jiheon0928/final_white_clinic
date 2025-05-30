@@ -37,6 +37,12 @@ import { AdminService } from '../admin/admin.service';
     RefreshTokenService,
   ],
   controllers: [AuthController],
-  exports: [AuthService, JwtAuthGuard, TokenService, RefreshTokenService],
+  exports: [
+    AuthService,
+    JwtAuthGuard,
+    TokenService,
+    RefreshTokenService,
+    AdminService,
+  ],
 })
 export class AuthModule {}
