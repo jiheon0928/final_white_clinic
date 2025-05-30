@@ -51,3 +51,39 @@ export const updateReservation = async (
     throw error;
   }
 };
+
+export const accessReservation = async (id: number, accessToken: string) => {
+  try {
+    const response = await api.patch(
+      `/reservation/id/${id}/pickup`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("예약 수정 실패:", error);
+    throw error;
+  }
+};
+
+export const completeReservation = async (id: number, accessToken: string) => {
+  try {
+    const response = await api.patch(
+      `/reservation/complete/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("예약 완료 실패:", error);
+    throw error;
+  }
+};

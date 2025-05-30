@@ -96,6 +96,10 @@ export class AuthService {
         throw new UnauthorizedException('승인된 계정만 로그인할 수 있습니다.');
       }
 
+      if (driver.role !== 'driver') {
+        throw new UnauthorizedException('권한이 없는 계정입니다.');
+      }
+
       return driver;
     } catch (e) {
       if (e instanceof UnauthorizedException) throw e;

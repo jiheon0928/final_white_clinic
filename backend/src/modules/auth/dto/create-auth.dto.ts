@@ -50,6 +50,7 @@ export class CreateDriverDto {
   email: string;
 
   @IsString()
+  @IsOptional()
   @MaxLength(50)
   role?: string;
 

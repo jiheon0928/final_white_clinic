@@ -36,6 +36,7 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
     if (id) {
       const fetchData = async () => {
         const reservation = await getReservationDetail(Number(id));
+
         setReservation({
           reservationName: reservation.reservationName,
           customerName: reservation.customerName,
@@ -47,7 +48,7 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
           visitTime: reservation.visitTime,
           memo: reservation.memo,
           price: reservation.price,
-          industryId: reservation.industry.id,
+          industry: reservation.industry.id,
         });
         setAddress("zipcode", reservation.zipcode);
         setAddress("address", reservation.address);
@@ -61,14 +62,16 @@ const ReservationHandler = ({ id, title }: { id?: string; title: string }) => {
   }, [id]);
 
   const handleSubmit = async () => {
-    setReservationField("industryId", industryId);
+    setReservationField("industry", industryId);
     setReservationField("visitTime", combineDateAndTime(date, time));
     setReservationField("zipcode", zipcode);
     setReservationField("address", address);
     setReservationField("detailAddress", detailAddress);
     const result = useReservationStore.getState().reservation;
+    console.log(result);
     if (id) await updateReservation(result, Number(id));
     else await createReservation(result);
+    console.log(result);
     resetReservation();
     resetDate();
     resetTime();

@@ -3,10 +3,14 @@ import { Controller, Post, Body, UseGuards, HttpCode } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateDriverDto } from './dto/create-auth.dto';
 import { JwtAuthGuard } from './guard/jwt-auth.guard';
+import { AdminService } from '../admin/admin.service';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly adminService: AdminService,
+  ) {}
 
   @Post('register')
   async register(@Body() dto: CreateDriverDto) {
@@ -19,7 +23,11 @@ export class AuthController {
     @Body('loginId') loginId: string,
     @Body('password') password: string,
   ) {
-    return this.authService.login(loginId, password);
+    if (await this.adminService.existsByLoginId(loginId)) {
+      return this.adminService.login(loginId, password);
+    } else {
+      return this.authService.login(loginId, password);
+    }
   }
 
   @HttpCode(200)

@@ -34,7 +34,7 @@ const ReservationDetail = ({ id }: { id: string }) => {
     );
   }
 
-  const { customerRequest, memo, status } = reservation;
+  const { customerRequest, memo } = reservation;
 
   return (
     <Page>

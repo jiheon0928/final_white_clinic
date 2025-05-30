@@ -1,4 +1,4 @@
-import { IsString, MinLength, MaxLength } from 'class-validator';
+import { IsString, MinLength, MaxLength, IsOptional } from 'class-validator';
 
 export class CreateAdminDto {
   @IsString()
@@ -12,7 +12,8 @@ export class CreateAdminDto {
   password: string;
 
   @IsString()
+  @IsOptional()
   @MinLength(4)
   @MaxLength(50)
-  role: string;
+  role?: string;
 }

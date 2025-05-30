@@ -13,7 +13,7 @@ const useReservationStore = create<ReservationState>((set) => ({
     visitTime: new Date(),
     memo: "",
     price: 0,
-    industryId: 0,
+    industry: 0,
   },
   status: "대기",
   searchValue: "",
@@ -41,7 +41,7 @@ const useReservationStore = create<ReservationState>((set) => ({
         visitTime: new Date(),
         memo: "",
         price: 0,
-        industryId: 0,
+        industry: 0,
       },
     }),
 }));

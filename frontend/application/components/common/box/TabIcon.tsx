@@ -1,5 +1,5 @@
 import { tabIconStyles } from "@/styles/tabIconStyle";
-import { TabIconProps } from "@/types/tabBar";
+import { TabIconProps } from "@/types/ui/ui.types";
 import { Ionicons } from "@expo/vector-icons";
 import { Text, View } from "react-native";
 
