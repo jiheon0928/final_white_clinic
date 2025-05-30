@@ -53,6 +53,10 @@ export class UpdateDriverDto extends PartialType(CreateDriverDto) {
   @IsString()
   significant: string;
 
+  @IsString()
+  @MaxLength(50)
+  role?: string;
+
   @IsBoolean()
   @IsOptional()
   @Type(() => Boolean)

@@ -51,7 +51,7 @@ export class CreateDriverDto {
 
   @IsString()
   @MaxLength(50)
-  role: string;
+  role?: string;
 
   @IsString()
   @IsOptional()
