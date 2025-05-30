@@ -41,7 +41,7 @@ export class AuthService {
       const hashed = await bcrypt.hash(dto.password, 10);
 
       // benefitId, industryIds 분리
-      const { benefitId, industryIds, approval, ...data } = dto;
+      const { benefit, industry, approval, ...data } = dto;
 
       // 기본 driver 생성 (relation 필드는 나중에 매핑)
       const driver = this.driverRepo.create({
@@ -51,13 +51,13 @@ export class AuthService {
       });
 
       // Benefit 매핑
-      if (benefitId) {
-        driver.benefitId = { id: benefitId } as Benefit;
+      if (benefit) {
+        driver.benefit = { id: benefit } as Benefit;
       }
 
       // Industry 매핑
-      if (industryIds && industryIds.length) {
-        driver.industryIds = industryIds.map((id) => ({ id }) as Industry);
+      if (industry && industry.length) {
+        driver.industry = industry.map((id) => ({ id }) as Industry);
       }
 
       return await this.driverRepo.save(driver);

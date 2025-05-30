@@ -10,6 +10,6 @@ export class Industry {
   @Column()
   industry: string;
 
-  @ManyToMany(() => DeliveryDriver, (rider) => rider.industryIds)
+  @ManyToMany(() => DeliveryDriver, (rider) => rider.industry)
   riders: DeliveryDriver[];
 }

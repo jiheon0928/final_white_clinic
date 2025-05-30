@@ -67,7 +67,7 @@ export class DeliveryDriver {
     name: 'benefitId',
     referencedColumnName: 'id',
   })
-  benefitId: Benefit;
+  benefit: Benefit;
 
   @OneToMany(() => Reservation, (reservation) => reservation.rider)
   reservations: Reservation[];
@@ -84,12 +84,12 @@ export class DeliveryDriver {
       referencedColumnName: 'id',
     },
   })
-  industryIds: Industry[];
+  industry: Industry[];
 
   @BeforeInsert()
   setDefaultBenefit() {
-    if (!this.benefitId) {
-      this.benefitId = { id: 1 } as Benefit;
+    if (!this.benefit) {
+      this.benefit = { id: 1 } as Benefit;
     }
   }
 }
