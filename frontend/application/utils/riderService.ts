@@ -1,4 +1,3 @@
-import useEditRiderStore from "@/stores/Rider.store";
 import api from "./api";
 
 export const getRiders = async () => {
@@ -13,8 +12,18 @@ export const getRiders = async () => {
 
 export const getRiderById = async (id: number) => {
   try {
-    const response = await api.get(`/user/${id}`);
+    const response = await api.get(`/user/id/${id}`);
     console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching riders:", error);
+    throw error;
+  }
+};
+
+export const getRiderByApproval = async (approval: boolean) => {
+  try {
+    const response = await api.get(`/user/approval?approval=${approval}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching riders:", error);
