@@ -14,24 +14,8 @@ export class AdminController {
   }
 
   @HttpCode(200)
-  @Post('login')
-  async login(
-    @Body('loginId') loginId: string,
-    @Body('password') password: string,
-  ) {
-    return this.adminService.login(loginId, password);
-  }
-
-  @HttpCode(200)
   @Post('refresh')
   async refresh(@Body('refreshToken') token: string) {
     return this.adminService.refresh(token);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @HttpCode(200)
-  @Post('logout')
-  async logout(@Body('refreshToken') token: string) {
-    await this.adminService.logout(token);
   }
 }
