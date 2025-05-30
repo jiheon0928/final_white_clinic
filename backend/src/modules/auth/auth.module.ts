@@ -1,5 +1,5 @@
 // src/auth/auth.module.ts
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
@@ -13,7 +13,7 @@ import { JwtAuthGuard } from './guard/jwt-auth.guard';
 import { RefreshTokenService } from './service/refresh-token.service';
 import { ConfigService } from '@nestjs/config';
 import { ConfigModule } from '@nestjs/config';
-import { AdminService } from '../admin/admin.service';
+import { AdminModule } from '../admin/admin.module';
 
 @Module({
   imports: [
@@ -28,6 +28,7 @@ import { AdminService } from '../admin/admin.service';
         signOptions: { expiresIn: '1h' },
       }),
     }),
+    forwardRef(() => AdminModule),
   ],
   providers: [
     AuthService,
@@ -37,12 +38,6 @@ import { AdminService } from '../admin/admin.service';
     RefreshTokenService,
   ],
   controllers: [AuthController],
-  exports: [
-    AuthService,
-    JwtAuthGuard,
-    TokenService,
-    RefreshTokenService,
-    AdminService,
-  ],
+  exports: [AuthService, JwtAuthGuard, TokenService, RefreshTokenService],
 })
 export class AuthModule {}
