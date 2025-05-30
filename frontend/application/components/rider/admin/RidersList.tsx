@@ -7,7 +7,7 @@ import Card from "@/components/common/box/Card";
 import useRiderStore from "@/stores/Rider.store";
 import { RiderData } from "@/types/data/riderData";
 import Title from "@/components/common/text/Title";
-import { getRiders } from "@/utils/riderService";
+import { getRiderByApproval, getRiders } from "@/utils/riderService";
 import { useEffect, useState } from "react";
 
 const RidersList = () => {
@@ -16,7 +16,7 @@ const RidersList = () => {
 
   useEffect(() => {
     const fetchRiders = async () => {
-      const riders = await getRiders();
+      const riders = await getRiderByApproval(true);
       setRiders(riders);
     };
     fetchRiders();

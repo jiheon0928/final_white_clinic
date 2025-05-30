@@ -19,7 +19,7 @@ export const getReservationDetail = async (
   id: number
 ): Promise<reservationType> => {
   try {
-    const response = await api.get(`/reservation/${id}`);
+    const response = await api.get(`/reservation/id/${id}`);
     return response.data;
   } catch (error) {
     console.error("예약 상세 데이터 가져오기 실패:", error);
@@ -44,7 +44,7 @@ export const updateReservation = async (
   id: number
 ) => {
   try {
-    const response = await api.patch(`/reservation/${id}`, reservation);
+    const response = await api.patch(`/reservation/id/${id}`, reservation);
     return response.data;
   } catch (error) {
     console.error("예약 수정 실패:", error);

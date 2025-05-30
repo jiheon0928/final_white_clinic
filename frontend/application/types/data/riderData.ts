@@ -11,9 +11,11 @@ export type RiderData = {
   email: string;
   significant: string;
   approval: boolean;
-  benefit: {
-    id: number;
-    benefitType: number; // 예: 0.4
-  };
+  benefit: benefitType;
   industries?: number[]; // 백엔드에서 내려오지 않는 경우 optional 처리
+};
+
+export type benefitType = {
+  id: number;
+  benefitType: number; // 예: 0.4
 };
