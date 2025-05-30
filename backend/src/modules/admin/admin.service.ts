@@ -93,7 +93,7 @@ export class AdminService {
     await this.refreshTokenService.saveToken(admin.id, refreshToken);
 
     const { password: _, ...rest } = admin;
-    return { accessToken, refreshToken, admin: rest };
+    return { accessToken, refreshToken, user: rest };
   }
 
   /** 토큰 재발급 */
