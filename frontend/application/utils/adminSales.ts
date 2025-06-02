@@ -15,7 +15,7 @@ export const getDailySales = async (date: string): Promise<number> => {
 
 export const getMonthlySales = async (date: string): Promise<number> => {
   try {
-    const response = await api.get("/sales/ ", {
+    const response = await api.get("/sales/monthly-sales", {
       params: { date },
     });
     const raw = response.data["totalSales"];

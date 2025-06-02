@@ -12,14 +12,15 @@ import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import { router } from "expo-router";
 import { logout } from "@/utils/login";
+
+import useSalesStore, { MonthlyChartData } from "@/stores/sales.store";
 import {
-  getWeeklySalesByDay,
-  getYearlySalesByMonth,
   getDailySales,
+  getWeeklySalesByDay,
   getWeeklySales,
   getMonthlySales,
+  getYearlySalesByMonth,
 } from "@/utils/adminSales";
-import useSalesStore, { MonthlyChartData } from "@/stores/sales.store";
 
 const screenWidth = Dimensions.get("window").width;
 
