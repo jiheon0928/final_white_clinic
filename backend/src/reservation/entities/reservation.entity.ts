@@ -66,7 +66,7 @@ export class Reservation {
   rider?: DeliveryDriver;
 
   // 3) statusId 컬럼 추가
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 1 })
   statusId: number;
   @ManyToOne(() => StatusEntity, { eager: true })
   @JoinColumn({ name: 'statusId' })
