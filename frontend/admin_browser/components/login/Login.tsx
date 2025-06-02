@@ -9,7 +9,6 @@ import { useLoginStore } from "@/store/Login";
 const Loginpage = () => {
   const router = useRouter();
   const { loginId, password, setLoginId, setPassword, login } = useLoginStore();
-
   const [error, setError] = React.useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {

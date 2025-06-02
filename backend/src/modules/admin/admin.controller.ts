@@ -13,12 +13,6 @@ export class AdminController {
   }
 
   @HttpCode(200)
-  @Post('login')
-  async login(@Body() dto: { loginId: string; password: string }) {
-    return this.adminService.login(dto.loginId, dto.password);
-  }
-
-  @HttpCode(200)
   @Post('refresh')
   async refresh(@Body('refreshToken') token: string) {
     return this.adminService.refresh(token);
