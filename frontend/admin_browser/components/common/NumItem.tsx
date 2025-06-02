@@ -1,5 +1,6 @@
-import ItemInput from "./input/itemInput";
 import { useReservationStore } from "@/store/ReservationStore";
+import ItemInput from "./input/itemInput";
+import { handleNumItemChange } from "@/utils/handlers/itemHandlers";
 
 export const NumItem = () => {
   const { formData, handleChange } = useReservationStore();
@@ -8,21 +9,6 @@ export const NumItem = () => {
     { name: "dryer", title: "건조기", id: 2 },
   ];
 
-  const handleItemChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedItem = items.find((item) => item.name === e.target.name);
-    if (!selectedItem) {
-      console.warn("❌ 잘못된 name입니다:", e.target.name);
-      return;
-    }
-    const industry = selectedItem.id;
-    handleChange({
-      target: {
-        name: "industry",
-        value: industry,
-      },
-    } as any);
-  };
-  console.log(formData.industry);
   return (
     <div className="flex gap-4">
       {items.map((item) => (
@@ -30,7 +16,7 @@ export const NumItem = () => {
           key={item.name}
           type="checkbox"
           name={item.name}
-          onChange={handleItemChange}
+          onChange={(e) => handleNumItemChange(e, items, handleChange)}
           checked={formData.industry === item.id}
           title={item.title}
         />

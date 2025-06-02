@@ -23,7 +23,6 @@ export const RiderList = () => {
       </Layout>
     );
   }
-
   if (error) {
     return (
       <Layout title="기사님 상세정보 & 목록">

@@ -1,8 +1,5 @@
-// src/app/sales/page.tsx (또는 Sales.tsx)
 "use client";
-
 import { useState, useEffect } from "react";
-
 import Layout from "../common/Layout";
 import { VictoryBar, VictoryChart, VictoryTheme } from "victory";
 import {

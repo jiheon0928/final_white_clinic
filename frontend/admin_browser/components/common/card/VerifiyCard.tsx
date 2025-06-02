@@ -4,8 +4,7 @@ import Button from "../Button";
 import { useEffect } from "react";
 
 export const VerifyCard = () => {
-  const { riders, getRiders, updateRiderBenefit, updateRiderApproval } =
-    useApiStore();
+  const { riders, getRiders, updateRiderApproval } = useApiStore();
 
   useEffect(() => {
     getRiders();
@@ -34,21 +33,6 @@ export const VerifyCard = () => {
                   </span>
                 </div>
               ))}
-              <div className="flex flex-col">
-                <span className="text-sm text-gray-600">수수료</span>
-                <select
-                  className="font-semibold text-gray-900 border rounded p-1"
-                  value={verification.benefit?.benefitType || 50}
-                  onChange={(e) => {
-                    const newBenefit = parseInt(e.target.value);
-                    updateRiderBenefit(verification.id, newBenefit);
-                  }}
-                >
-                  <option value={40}>40%</option>
-                  <option value={50}>50%</option>
-                  <option value={55}>55%</option>
-                </select>
-              </div>
             </div>
             {verification.approval === false && (
               <div className="flex justify-end mt-4">

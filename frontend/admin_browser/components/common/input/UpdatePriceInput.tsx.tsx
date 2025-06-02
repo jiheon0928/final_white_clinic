@@ -1,5 +1,5 @@
-import Input from "./Input";
 import { useReservationStore } from "@/store/ReservationStore";
+import Input from "./Input";
 
 export const UpdatePriceInput = ({ price }: { price: number }) => {
   const { handleChange } = useReservationStore();

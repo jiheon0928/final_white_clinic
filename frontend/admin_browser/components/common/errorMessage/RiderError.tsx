@@ -19,7 +19,6 @@ export const RiderErrorMessage = ({
       </div>
     );
   }
-
   if (error) {
     return (
       <div className="text-red-500 text-center p-4">
@@ -33,7 +32,6 @@ export const RiderErrorMessage = ({
       </div>
     );
   }
-
   if (riders.length === 0) {
     return (
       <div className="text-center p-4 text-gray-500">기사가 없습니다.</div>
