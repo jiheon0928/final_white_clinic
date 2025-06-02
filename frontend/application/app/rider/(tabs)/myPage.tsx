@@ -21,6 +21,8 @@ import { getRiderById } from "@/utils/riderService";
 import { ChartKey } from "@/types/user/rider.types";
 import { RiderData } from "@/types/data/riderData";
 import { logout } from "@/utils/login";
+import { reservationType } from "@/types/data/reservationData";
+import { getReservationByRider } from "@/utils/reservationService";
 const screenWidth = Dimensions.get("window").width;
 const chartConfig = {
   backgroundGradientFrom: "#fff",
@@ -32,10 +34,16 @@ const chartConfig = {
 const MyPage = () => {
   const { user } = useAuthStore();
   const [rider, setRider] = useState<RiderData | null>(null);
+  const [reservations, setReservations] = useState<reservationType[]>([]);
   useEffect(() => {
     const fetchData = async () => {
       const rider = await getRiderById(user.id);
       setRider(rider);
+      const reservations = await getReservationByRider(
+        user.accessToken as string,
+        "완료"
+      );
+      setReservations(reservations);
     };
     fetchData();
   }, []);
@@ -49,23 +57,23 @@ const MyPage = () => {
     toggleDropdown,
     chart,
   } = useSalesChart();
-  const renderChart = () => {
-    return (
-      <BarChart
-        data={chart}
-        width={screenWidth - 32}
-        height={420}
-        chartConfig={chartConfig}
-        fromZero
-        showValuesOnTopOfBars
-        style={{
-          marginVertical: 12,
-          borderRadius: 16,
-          alignSelf: "center",
-        }}
-      />
-    );
-  };
+  // const renderChart = () => {
+  //   return (
+  //     <BarChart
+  //       data={chart}
+  //       width={screenWidth - 32}
+  //       height={420}
+  //       chartConfig={chartConfig}
+  //       fromZero
+  //       showValuesOnTopOfBars
+  //       style={{
+  //         marginVertical: 12,
+  //         borderRadius: 16,
+  //         alignSelf: "center",
+  //       }}
+  //     />
+  //   );
+  // };
   if (!rider) return <Text>라이더가 없습니다</Text>;
   return (
     <Page>
@@ -160,7 +168,7 @@ const MyPage = () => {
             </View>
           )}
 
-          {renderChart()}
+          {/* {renderChart()} */}
         </View>
       </ScrollView>
     </Page>

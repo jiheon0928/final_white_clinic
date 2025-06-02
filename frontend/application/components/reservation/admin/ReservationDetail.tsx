@@ -3,7 +3,6 @@ import { router } from "expo-router";
 import Page from "@/components/common/Page";
 import BackBtnHeader from "@/components/common/header/BackBtnHeader";
 import Info from "@/components/common/text/Info";
-
 import DefaultBtn from "@/components/common/button/DefualtBtn";
 import { ReservationDetailStyles } from "@/styles/reservation/detail";
 import {

@@ -10,7 +10,7 @@ export async function fetchDailySales(date: string): Promise<number> {
     const response = await api.get("/sales/sales-by-date", {
       params: { date },
     });
-    const raw = response.data["매출"];
+    const raw = response.data["totalSales"];
     return Number(raw);
   } catch (error) {
     console.error(`Failed to fetch daily sales for ${date}:`, error);
@@ -26,7 +26,7 @@ export async function fetchMonthlySales(date: string): Promise<number> {
     const response = await api.get("/sales/monthly-sales", {
       params: { date },
     });
-    const raw = response.data["순 수익"];
+    const raw = response.data["totalSales"];
     console.log(response);
     return Number(raw);
   } catch (error) {
@@ -44,7 +44,7 @@ export async function fetchWeeklySales(date: string): Promise<number> {
       params: { date },
     });
     console.log(response);
-    const raw = response.data["순수익"];
+    const raw = response.data["totalSales"];
     return Number(raw);
   } catch (error) {
     console.error(`Failed to fetch weekly sales for ${date}:`, error);
@@ -63,7 +63,7 @@ export async function fetchWeeklySalesByDay(
     const response = await api.get("/sales/weekly-sales-by-day", {
       params: { date },
     });
-    const raw = response.data["순수익"] as Record<string, number>;
+    const raw = response.data["totalCommission"] as Record<string, number>;
     console.log(response);
     console.log(raw);
 
@@ -88,7 +88,7 @@ export async function fetchYearlySalesByMonth(
     const response = await api.get("/sales/yearly-sales-by-month", {
       params: { date: year },
     });
-    const raw = response.data["순수익"] as Record<string, number>;
+    const raw = response.data["totalSales"] as Record<string, number>;
     return Object.entries(raw).map(([month, total]) => ({
       x: month,
       y: Number(total),

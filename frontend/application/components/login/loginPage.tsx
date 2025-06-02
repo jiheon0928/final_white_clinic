@@ -15,8 +15,12 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
 
   const handleLogin = async () => {
-    await login(loginId, password);
-    router.push("/rider/(tabs)/waiting");
+    const response = await login(loginId, password);
+    if (response.user.role === "driver") {
+      router.push("/rider/(tabs)/waiting");
+    } else {
+      router.push("/admin/(tabs)/reservations");
+    }
   };
   return (
     <Page>
@@ -38,10 +42,6 @@ const LoginPage = () => {
             <DefaultBtn
               onPress={() => router.push("/signup")}
               text="회원가입"
-            />
-            <DefaultBtn
-              onPress={() => router.push("/admin/(tabs)/reservations")}
-              text="관리자 페이지"
             />
           </View>
         </Animated.View>
