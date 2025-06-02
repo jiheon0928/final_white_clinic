@@ -8,20 +8,27 @@ import { useApiStore } from "@/store/Api";
 import { RevEnrollInput } from "@/components/common/input/RevEnrollInput";
 import { NumItem } from "@/components/common/NumItem";
 import { EnrollPriceInput } from "@/components/common/input/EnrollPriceInput";
+import { handleReservationSubmit } from "@/utils/handlers/reservationHandlers";
+import { ReservationFormData } from "@/types/reservation";
+
 export const ReservationEnroll = () => {
   const { formData } = useReservationStore();
   const router = useRouter();
   const { createReservation } = useApiStore() as any;
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    alert("예약 생성이 완료되었습니다.");
-    e.preventDefault();
-    await createReservation(formData);
-    router.push("/reservation");
-  };
   return (
     <Layout title="예약 생성">
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form
+        onSubmit={(e) =>
+          handleReservationSubmit(
+            e,
+            formData as ReservationFormData,
+            createReservation,
+            router
+          )
+        }
+        className="space-y-6"
+      >
         <RevEnrollInput />
         <div className="flex flex-col gap-2">
           <label htmlFor="item" className="text-gray-700 font-semibold">

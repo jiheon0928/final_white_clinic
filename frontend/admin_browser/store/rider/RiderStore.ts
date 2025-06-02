@@ -19,8 +19,6 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
   },
   handleChange: (e) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
-
-    // 배열 또는 객체 형태 처리용: 외부에서 직접 넘긴 경우
     if (Array.isArray(value)) {
       set((state) => ({
         formData: {
@@ -30,7 +28,6 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
       }));
       return;
     }
-
     set((state) => ({
       formData: {
         ...state.formData,

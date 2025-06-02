@@ -1,68 +1,56 @@
 "use client";
-import { useReservationStore } from "@/store/ReservationStore";
-import Button from "@/components/common/Button";
-import Managers from "@/components/common/Managers";
-import { RevUpdateInput } from "@/components/common/input/RevInput";
-import { UpdatePriceInput } from "@/components/common/input/UpdatePriceInput.tsx";
-import Layout from "@/components/common/Layout";
+
 import { useRouter, useSearchParams } from "next/navigation";
-import { useApiStore } from "@/store/Api";
 import { useEffect } from "react";
+import { getReservationDetail } from "@/utils/api/rev.api";
+import { useRevStore } from "@/store/test/rev.store";
+import Layout from "@/components/common/Layout";
+import { RevUpdateInput } from "@/components/common/input/RevInput";
 import { NumItem } from "@/components/common/NumItem";
 import { UpdateDate } from "@/components/common/date/UpdateDate";
+import { UpdatePriceInput } from "@/components/common/input/UpdatePriceInput.tsx";
+import Managers from "@/components/common/Managers";
+import Button from "@/components/common/Button";
 
 export const ReservationUpdate = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { updateReservation, reservations, getReservations } = useApiStore();
-  const { formData, handleChange, currentStatus } = useReservationStore();
+  const { reservation, setReservation } = useRevStore();
 
   useEffect(() => {
-    getReservations(currentStatus as "대기" | "진행" | "완료");
-  }, []);
-  const reservation = reservations.find(
-    (reservation) => reservation.id === Number(id)
-  );
-  console.log("나는 개똥벌레", reservation);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      if (!id) {
-        alert("예약 ID가 없습니다.");
-        return;
-      }
-      const { visitTime, ...updateData } = formData;
-      console.log("전송할 데이터:", updateData);
-      await updateReservation(Number(id), updateData);
-      alert("예약 정보가 성공적으로 수정되었습니다.");
-      router.push("/reservation");
-    } catch (error) {
-      console.error("예약 정보 수정 실패:", error);
-      alert(
-        error instanceof Error
-          ? error.message
-          : "예약 정보 수정에 실패했습니다."
-      );
-    }
-  };
+    const fetchData = async () => {
+      const data = await getReservationDetail(Number(id));
+      setReservation("reservationName", data.reservationName);
+      setReservation("customerName", data.customerName);
+      setReservation("customerPhone", data.customerPhone);
+      setReservation("customerRequest", data.customerRequest);
+      setReservation("zipcode", data.zipcode);
+      setReservation("address", data.address);
+      setReservation("detailAddress", data.detailAddress);
+      setReservation("visitTime", data.visitTime);
+      setReservation("memo", data.memo);
+      setReservation("price", data.price);
+      setReservation("industry", data.industry.id);
+    };
+    fetchData();
+  }, [id]);
 
   return (
     <Layout title="예약 수정">
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form onSubmit={() => {}} className="space-y-6">
         <RevUpdateInput id={Number(id)} />
         <div className="flex flex-col gap-2">
           <label className="text-gray-700 font-semibold">
             가능 품목 리스트
           </label>
           <NumItem />
-          <UpdateDate visitTime={reservation?.visitTime || ""} />
+          <UpdateDate visitTime={reservation.visitTime as string} />
         </div>
-        <UpdatePriceInput price={reservation?.price || 0} />
+        <UpdatePriceInput price={reservation.price} />
         <Managers
-          value={formData.customerRequest || ""}
-          onChange={handleChange}
+          value={reservation.customerRequest}
+          onChange={() => {}}
           title="담당 기사"
         />
         <Button

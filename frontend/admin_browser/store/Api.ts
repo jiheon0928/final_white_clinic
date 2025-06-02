@@ -55,6 +55,24 @@ export const useApiStore = create<ApiStore>((set, get) => ({
     }
   },
 
+  // ID로 예약 조회
+  getReservationById: async (id: number) => {
+    try {
+      const response = await api.get(`/reservation/id/${id}`);
+      set({
+        reservations: response.data,
+        isLoading: true,
+        error: null,
+      });
+    } catch (error) {
+      set({
+        error: "예약 조회에 실패했습니다.",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
   // 예약 생성
   createReservation: async (reservationData: any) => {
     console.log("reservationData :", reservationData);
@@ -66,7 +84,6 @@ export const useApiStore = create<ApiStore>((set, get) => ({
       };
       const response = await api.post("/reservation", data);
       console.log("예약 생성 응답:", response.data);
-      // 예약 생성 후 예약 목록 갱신
       const updatedResponse = await api.get(`/reservation?status=대기`);
       set({
         reservations: updatedResponse.data,
@@ -93,7 +110,6 @@ export const useApiStore = create<ApiStore>((set, get) => ({
         updateData
       );
       console.log("예약 수정 응답:", response.data);
-      // 예약 수정 후 예약 목록 갱신
       const updatedResponse = await api.get(
         `/reservation?status=${updateData.status || "대기"}`
       );
@@ -141,8 +157,6 @@ export const useApiStore = create<ApiStore>((set, get) => ({
     try {
       set({ isLoading: true, error: null });
       const rider = get().riders.find((r) => r.id === riderId);
-
-      console.log(rider);
       if (!rider) {
         throw new Error("기사를 찾을 수 없습니다.");
       }

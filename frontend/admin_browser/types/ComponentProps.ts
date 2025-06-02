@@ -48,3 +48,9 @@ export type ManagerProps = {
   className?: string;
   title: string;
 };
+
+export type Item = {
+  name: string;
+  title: string;
+  id: number;
+};
