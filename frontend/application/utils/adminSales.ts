@@ -15,7 +15,7 @@ export const getDailySales = async (date: string): Promise<number> => {
 
 export const getMonthlySales = async (date: string): Promise<number> => {
   try {
-    const response = await api.get("/sales/monthly-sales", {
+    const response = await api.get("/sales/ ", {
       params: { date },
     });
     const raw = response.data["totalSales"];
@@ -64,8 +64,8 @@ export const getYearlySalesByMonth = async (
     const response = await api.get("/sales/yearly-sales-by-month", {
       params: { date: year },
     });
-    const raw = response.data["totalSales"] as Record<string, number>;
-    console.log("1월~12월", raw);
+    const raw = response.data as Record<string, number>;
+
     return raw;
   } catch (error) {
     console.error(`Failed to fetch yearly sales by month for ${year}:`, error);
