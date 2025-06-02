@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -11,8 +11,9 @@ import { BarChart } from "react-native-chart-kit";
 import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import { router } from "expo-router";
-import { useAuthStore } from "@/stores/auth.store";
 import { logout } from "@/utils/login";
+import { getWeeklySalesByDay, getYearlySalesByMonth } from "@/utils/sales";
+import useSalesStore from "@/stores/sales.store";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -24,105 +25,53 @@ const chartConfig = {
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 };
 
-type ChartDataType = {
-  labels: string[];
-  datasets: { data: number[] }[];
-};
-
-type MonthlyChartData = {
-  [key: string]: ChartDataType;
-};
-
-type ChartKey = "daily" | "weekly" | "monthly";
-
-const chartData: {
-  daily: ChartDataType;
-  weekly: ChartDataType;
-  monthly: MonthlyChartData;
-} = {
-  daily: {
-    labels: [..."월화수목금토일"].map((d) => d),
-    datasets: [{ data: [10, 40, 30, 35, 45, 60, 70] }],
-  },
-  weekly: {
-    labels: ["1주차", "2주차", "3주차", "4주차"],
-    datasets: [{ data: [20, 40, 80, 50] }],
-  },
-  monthly: {
-    "1월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [400, 600, 500, 700] }],
-    },
-    "2월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [300, 550, 450, 600] }],
-    },
-    "3월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [320, 480, 510, 630] }],
-    },
-    "4월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [290, 400, 420, 500] }],
-    },
-    "5월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [500, 520, 510, 530] }],
-    },
-    "6월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [460, 470, 490, 510] }],
-    },
-    "7월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [520, 530, 500, 550] }],
-    },
-    "8월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [600, 630, 620, 610] }],
-    },
-    "9월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [430, 460, 450, 470] }],
-    },
-    "10월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [470, 480, 490, 510] }],
-    },
-    "11월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [550, 530, 520, 510] }],
-    },
-    "12월": {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: [610, 620, 640, 630] }],
-    },
-  },
-};
-
-const monthList = [
-  "1월",
-  "2월",
-  "3월",
-  "4월",
-  "5월",
-  "6월",
-  "7월",
-  "8월",
-  "9월",
-  "10월",
-  "11월",
-  "12월",
-];
-
 const Sales = () => {
-  const [type, setType] = useState<ChartKey>("daily");
-  const [selectedMonth, setSelectedMonth] = useState("1월");
-  const [showMonthDropdown, setShowMonthDropdown] = useState(false);
+  const { type, daily, weekly, monthly, setType, setDaily, setMonthly } =
+    useSalesStore();
+
+  const monthList = monthly.labels;
+  const daysOrder = daily.labels;
+
+  useEffect(() => {
+    const fetchDaily = async () => {
+      try {
+        const raw = await getWeeklySalesByDay(new Date().toISOString());
+        const orderedData = daysOrder.map((day) => raw[day] ?? 0);
+        setDaily({
+          labels: daysOrder,
+          datasets: [{ data: orderedData }],
+        });
+      } catch (error) {
+        console.error("일일 매출 데이터를 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    const fetchMonthly = async () => {
+      try {
+        const raw = await getYearlySalesByMonth(new Date().toISOString());
+        console.log("raw", raw);
+
+        const data = monthList.map(
+          (month) => raw[month as keyof typeof raw] ?? 0
+        );
+
+        setMonthly({
+          labels: monthList,
+          datasets: [{ data }],
+        });
+      } catch (error) {
+        console.error("월별 매출 데이터를 불러오는 중 오류 발생:", error);
+      }
+    };
+
+    fetchDaily();
+    fetchMonthly();
+  }, []);
 
   const renderChart = () => {
     const data =
-      type === "monthly" ? chartData.monthly[selectedMonth] : chartData[type];
+      type === "monthly" ? monthly : type === "daily" ? daily : weekly;
+
     return (
       <BarChart
         data={data}
@@ -152,13 +101,10 @@ const Sales = () => {
       />
       <ScrollView contentContainerStyle={salesStyle.scrollContainer}>
         <View style={salesStyle.tabContainer}>
-          {(["daily", "weekly", "monthly"] as ChartKey[]).map((key) => (
+          {(["daily", "weekly", "monthly"] as const).map((key) => (
             <TouchableOpacity
               key={key}
-              onPress={() => {
-                setType(key);
-                if (key !== "monthly") setShowMonthDropdown(false);
-              }}
+              onPress={() => setType(key)}
               style={[
                 salesStyle.tabButton,
                 type === key && salesStyle.activeTab,
@@ -175,55 +121,16 @@ const Sales = () => {
           ))}
         </View>
 
-        {type === "monthly" ? (
-          <View style={salesStyle.monthTitleContainer}>
-            <Text style={salesStyle.chartTitle}>{`${selectedMonth} 매출`}</Text>
-            <Text style={salesStyle.currencyUnit}> 단위:만원</Text>
-            <TouchableOpacity
-              onPress={() => setShowMonthDropdown((v) => !v)}
-              style={[salesStyle.monthToggleSmall]}
-            >
-              <Text style={{ fontWeight: "bold" }}>{`${selectedMonth} ▼`}</Text>
-            </TouchableOpacity>
-
-            {showMonthDropdown && (
-              <View style={salesStyle.dropdownOverlay}>
-                <View style={salesStyle.monthDropdown}>
-                  {monthList.map((month) => (
-                    <TouchableOpacity
-                      key={month}
-                      onPress={() => {
-                        setSelectedMonth(month);
-                        setShowMonthDropdown(false);
-                      }}
-                      style={[
-                        salesStyle.monthDropdownItem,
-                        selectedMonth === month && salesStyle.activeMonthItem,
-                      ]}
-                    >
-                      <Text
-                        style={
-                          selectedMonth === month
-                            ? { color: "#fff", fontSize: 12 }
-                            : undefined
-                        }
-                      >
-                        {month}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            )}
-          </View>
-        ) : (
-          <View style={salesStyle.currencyUnitLayout}>
-            <Text style={salesStyle.chartTitle}>
-              {type === "daily" ? "일일 매출" : "주간 매출"}
-            </Text>
-            <Text style={salesStyle.currencyUnit}> 단위:만원</Text>
-          </View>
-        )}
+        <View style={salesStyle.currencyUnitLayout}>
+          <Text style={salesStyle.chartTitle}>
+            {type === "daily"
+              ? "일일 매출"
+              : type === "weekly"
+              ? "주간 매출"
+              : "월간 매출"}
+          </Text>
+          <Text style={salesStyle.currencyUnit}> 단위:만원</Text>
+        </View>
 
         {renderChart()}
       </ScrollView>
@@ -235,19 +142,6 @@ const salesStyle = StyleSheet.create({
   scrollContainer: {
     paddingHorizontal: 16,
     paddingBottom: 24,
-  },
-
-  adminBox: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 12,
-    padding: 16,
-    alignItems: "center",
-    marginBottom: 35,
-    marginTop: 30,
-  },
-  adminText: {
-    fontSize: 16,
   },
   tabContainer: {
     flexDirection: "row",
@@ -262,12 +156,6 @@ const salesStyle = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: "#3f51b5",
   },
-
-  monthTitleContainer: {
-    position: "relative",
-    marginVertical: 8,
-    alignItems: "center",
-  },
   chartTitle: {
     fontSize: 18,
     fontWeight: "bold",
@@ -276,47 +164,11 @@ const salesStyle = StyleSheet.create({
   currencyUnitLayout: {
     position: "relative",
   },
-
   currencyUnit: {
     position: "absolute",
     left: -3,
     fontSize: 12,
     top: 6,
-  },
-
-  monthToggleSmall: {
-    position: "absolute",
-    right: 16,
-    top: -3,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderWidth: 1,
-    alignItems: "center",
-    borderColor: "#ccc",
-    borderRadius: 5,
-    backgroundColor: "#fff",
-  },
-
-  dropdownOverlay: {
-    position: "absolute",
-    top: 28,
-    right: 16,
-    zIndex: 1000,
-  },
-  monthDropdown: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 10,
-    padding: 6,
-    backgroundColor: "#fff",
-  },
-  monthDropdownItem: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-  },
-  activeMonthItem: {
-    backgroundColor: "#3f51b5",
   },
 });
 
