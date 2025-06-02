@@ -6,13 +6,7 @@ import Toast from "react-native-toast-message";
 const RootLayout = () => {
   return (
     <View style={{ flex: 1 }}>
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" />
-        <Stack.Screen name="signup" />
-        <Stack.Screen name="rider/(tabs)" />
-        <Stack.Screen name="admin/(tabs)" />
-        <Stack.Screen name="admin/riders/[id]" />
-      </Stack>
+      <Stack screenOptions={{ headerShown: false }}></Stack>
       <Toast />
     </View>
   );
