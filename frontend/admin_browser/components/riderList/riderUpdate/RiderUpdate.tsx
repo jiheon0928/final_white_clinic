@@ -13,38 +13,13 @@ export const RiderUpdate = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { updateRiderInfo, riders } = useApiStore();
-  const { formData, setFormData } = useRiderStore();
+  const { updateRiderInfo, riders, getRiders } = useApiStore();
+  const { formData } = useRiderStore();
 
   useEffect(() => {
-    const fetchRiderData = async () => {
-      if (id) {
-        try {
-          const rider = riders.find((r) => r.id === Number(id));
-          if (rider) {
-            setFormData({
-              name: rider.name || "",
-              birth: rider.birth || "",
-              loginId: rider.loginId || "",
-              password: rider.password || "",
-              phone: rider.phone || "",
-              address: rider.address || "",
-              detailAddress: rider.detailAddress || "",
-              zipcode: rider.zipcode || "",
-              email: rider.email || "",
-              significant: rider.significant || "",
-              industry: rider.industry || [],
-              benefit: Number(rider.benefit || 1),
-            });
-          }
-        } catch (error) {
-          console.error("기사 정보를 가져오는데 실패했습니다:", error);
-        }
-      }
-    };
-
-    fetchRiderData();
-  }, [id, riders, setFormData]);
+    getRiders();
+  }, []);
+  const rider = riders.find((rider) => rider.id === Number(id));
 
   const handleSubmit = async (e: React.FormEvent) => {
     const { approval, loginId, password, ...updateData } = formData;
@@ -72,13 +47,13 @@ export const RiderUpdate = () => {
   return (
     <Layout title="기사 수정">
       <form onSubmit={handleSubmit} className="space-y-6">
-        <RiderInput />
+        <RiderInput id={Number(id)} />
         <div className="flex flex-col gap-2">
           <label className="text-gray-700 font-semibold">
             가능 품목 리스트
           </label>
           <ArrayItem />
-          <BirthDate />
+          <BirthDate birth={rider?.birth} />
         </div>
         <Revenue />
         <Button

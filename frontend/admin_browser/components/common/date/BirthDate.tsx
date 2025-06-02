@@ -1,7 +1,7 @@
 import RevDate from "@/components/common/input/revDate";
 import useRiderStore from "@/store/rider/RiderStore";
 
-export const BirthDate = () => {
+export const BirthDate = ({ birth = "" }: { birth?: string }) => {
   const { formData, setFormData } = useRiderStore();
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,7 +16,7 @@ export const BirthDate = () => {
       <RevDate
         type="date"
         name="birth"
-        value={formData.birth}
+        value={birth}
         onChange={handleDateChange}
         title="생년월일"
       />

@@ -196,18 +196,14 @@ export class SalesService {
       netProfit: number;
     }[]
   > {
-    // 1. 해당 년도 1월 1일 00:00:00
     const start = new Date(year, 0, 1, 0, 0, 0);
-    // 2. 다음 년도 1월 1일 00:00:00
     const end = new Date(year + 1, 0, 1, 0, 0, 0);
 
-    // 3. QueryBuilder로 월별 합계 조회
     const raw = await this.reservationRepository
       .createQueryBuilder('r')
       .leftJoin('r.rider', 'd')
       .leftJoin('d.benefit', 'b')
       .innerJoin('r.status', 's')
-      // MONTH 함수로 월만 뽑아서 그룹핑
       .select('MONTH(r.visitTime)', 'month')
       .addSelect('COALESCE(SUM(r.price), 0)', 'totalSales')
       .addSelect('COALESCE(SUM(r.price * b.benefitType), 0)', 'totalCommission')
@@ -223,7 +219,6 @@ export class SalesService {
         netProfit: string;
       }>();
 
-    // 4. 1~12월을 모두 채우도록 매핑
     const result = Array.from({ length: 12 }, (_, i) => {
       const m = i + 1;
       const item = raw.find((r) => parseInt(r.month, 10) === m);
@@ -236,5 +231,46 @@ export class SalesService {
     });
 
     return result;
+  }
+
+  // 새로 추가한 주차별 집계 메서드
+  async getWeeklySalesByYear(
+    year: number,
+  ): Promise<
+    { month: number; week: number; totalSales: number; netProfit: number }[]
+  > {
+    const start = new Date(year, 0, 1, 0, 0, 0);
+    const end = new Date(year + 1, 0, 1, 0, 0, 0);
+
+    // 주차 계산 로직: (DAY(r.visitTime)-1)/7 을 내림한 후 +1
+    const raw = await this.reservationRepository
+      .createQueryBuilder('r')
+      .leftJoin('r.rider', 'd')
+      .leftJoin('d.benefit', 'b')
+      .innerJoin('r.status', 's')
+      .select('MONTH(r.visitTime)', 'month')
+      .addSelect('FLOOR((DAY(r.visitTime) - 1) / 7) + 1', 'week')
+      .addSelect('COALESCE(SUM(r.price), 0)', 'totalSales')
+      .addSelect('COALESCE(SUM(r.price * (1 - b.benefitType)), 0)', 'netProfit')
+      .where('r.visitTime >= :start AND r.visitTime < :end', { start, end })
+      .andWhere('s.id = :stateId', { stateId: 3 }) // 완료 상태만
+      .groupBy('MONTH(r.visitTime)')
+      .addGroupBy('FLOOR((DAY(r.visitTime) - 1) / 7) + 1')
+      .orderBy('MONTH(r.visitTime)', 'ASC')
+      .addOrderBy('week', 'ASC')
+      .getRawMany<{
+        month: string;
+        week: string;
+        totalSales: string;
+        netProfit: string;
+      }>();
+
+    // 결과를 숫자 타입으로 변환해서 반환
+    return raw.map((r) => ({
+      month: parseInt(r.month, 10),
+      week: parseInt(r.week, 10),
+      totalSales: parseFloat(r.totalSales),
+      netProfit: parseFloat(r.netProfit),
+    }));
   }
 }

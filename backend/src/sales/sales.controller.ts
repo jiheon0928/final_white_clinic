@@ -98,25 +98,50 @@ export class SalesController {
       throw new BadRequestException('유효하지 않은 연도야');
     }
 
-    // 2) 서비스에서 [{month, totalSales, netProfit}, ...] 받아오기
-    const stats = await this.salesService.getMonthlySalesByYear(year);
+    // 2) 서비스에서 월별 집계와 주차별 집계를 동시에 가져오기
+    //    - 기존 월별 통계: getMonthlySalesByYear
+    //    - 주차별 통계     : getWeeklySalesByYear
+    const [monthlyStats, weeklyStats] = await Promise.all([
+      this.salesService.getMonthlySalesByYear(year),
+      this.salesService.getWeeklySalesByYear(year),
+    ]);
 
-    // 3) 라벨(1월~12월) 생성
+    // 3) 월 레이블(1월~12월) 및 주차 레이블(1~5주차) 정의
     const MONTH_NAMES = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
+    const WEEK_LABELS = ['1주차', '2주차', '3주차', '4주차', '5주차'];
 
-    // 4) 매출 객체, 순수익 객체 초기화
-    const salesByMonth: Record<string, number> = {};
-    const profitByMonth: Record<string, number> = {};
-    MONTH_NAMES.forEach((m, idx) => {
-      const stat = stats.find((s) => s.month === idx + 1);
-      salesByMonth[m] = stat ? stat.totalSales : 0;
-      profitByMonth[m] = stat ? stat.netProfit : 0;
+    // 4) 결과 초기화: 각 월마다 { 합산가격, 합산커미션, '1주차': 0, ..., '5주차': 0 }
+    const result: Record<
+      string,
+      { 합산가격: number; 합산커미션: number; [week: string]: number }
+    > = {};
+    MONTH_NAMES.forEach((m) => {
+      result[m] = {
+        합산가격: 0,
+        합산커미션: 0,
+      };
+      WEEK_LABELS.forEach((w) => {
+        result[m][w] = 0;
+      });
     });
 
-    // 5) 최종 반환
-    return {
-      totalSales: salesByMonth,
-      totalCommission: profitByMonth,
-    };
+    // 5) monthlyStats를 순회하면서 월 통합 데이터(합산가격, 합산커미션) 채우기
+    monthlyStats.forEach(({ month, totalSales, totalCommission }) => {
+      const mLabel = `${month}월`;
+      result[mLabel].합산가격 = totalSales;
+      result[mLabel].합산커미션 = totalCommission;
+    });
+
+    // 6) weeklyStats를 순회하면서 주차별 매출(총매출만 넣고, 월 합산은 이미 위에서 세팅됨)
+    weeklyStats.forEach(({ month, week, totalSales }) => {
+      const mLabel = `${month}월`;
+      const wLabel = `${week}주차`;
+      if (result[mLabel] && result[mLabel][wLabel] !== undefined) {
+        result[mLabel][wLabel] = totalSales;
+      }
+    });
+
+    // 7) 최종 반환
+    return result;
   }
 }
