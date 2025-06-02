@@ -15,6 +15,15 @@ export const api = axios.create({
   withCredentials: true,
 });
 
+// 로그인
+export const loginRequest = async (loginId: string, password: string) => {
+  const response = await axios.post(`${API_URL}/admin/login`, {
+    loginId,
+    password,
+  });
+  return response.data;
+};
+
 export const useApiStore = create<ApiStore>((set, get) => ({
   riders: [],
   reservations: [],

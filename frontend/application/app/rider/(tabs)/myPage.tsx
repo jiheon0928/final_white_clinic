@@ -57,23 +57,23 @@ const MyPage = () => {
     toggleDropdown,
     chart,
   } = useSalesChart();
-  const renderChart = () => {
-    return (
-      <BarChart
-        data={chart}
-        width={screenWidth - 32}
-        height={420}
-        chartConfig={chartConfig}
-        fromZero
-        showValuesOnTopOfBars
-        style={{
-          marginVertical: 12,
-          borderRadius: 16,
-          alignSelf: "center",
-        }}
-      />
-    );
-  };
+  // const renderChart = () => {
+  //   return (
+  //     <BarChart
+  //       data={chart}
+  //       width={screenWidth - 32}
+  //       height={420}
+  //       chartConfig={chartConfig}
+  //       fromZero
+  //       showValuesOnTopOfBars
+  //       style={{
+  //         marginVertical: 12,
+  //         borderRadius: 16,
+  //         alignSelf: "center",
+  //       }}
+  //     />
+  //   );
+  // };
   if (!rider) return <Text>라이더가 없습니다</Text>;
   return (
     <Page>
@@ -168,7 +168,7 @@ const MyPage = () => {
             </View>
           )}
 
-          {renderChart()}
+          {/* {renderChart()} */}
         </View>
       </ScrollView>
     </Page>

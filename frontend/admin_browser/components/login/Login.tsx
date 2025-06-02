@@ -1,43 +1,27 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Input from "../common/input/Input";
 import Layout from "../common/Layout";
 import { useRouter } from "next/navigation";
-import axios from "axios";
+import { useLoginStore } from "@/store/Login";
 
 const Loginpage = () => {
   const router = useRouter();
-  const [loginId, setLoginId] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const { loginId, password, setLoginId, setPassword, login } = useLoginStore();
 
-  // 로그인아이디 : admin 비밀번호 : admin123
+  const [error, setError] = React.useState("");
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
-    if (!loginId || !password) {
-      setError("아이디와 비밀번호를 모두 입력해주세요.");
-      return;
-    }
-
     try {
-      const response = await axios.post("http://localhost:3000/admin/login", {
-        loginId,
-        password,
-      });
-
-      if (response.data.success) {
-        localStorage.setItem("adminToken", response.data.accessToken);
-        router.push("/reservation");
-      }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        setError(error.response?.data?.message || "로그인에 실패했습니다.");
-      } else {
-        setError("알 수 없는 에러가 발생했습니다.");
-      }
+      await login();
+      alert("로그인 성공");
+      router.push("/reservation");
+    } catch (err: any) {
+      setError(err.message || "로그인에 실패했습니다.");
     }
   };
 
