@@ -2,7 +2,7 @@ import { useReservationStore } from "@/store/ReservationStore";
 import Input from "./Input";
 
 export const EnrollPriceInput = () => {
-  const { formData, handleChange } = useReservationStore();
+  const { reservationData, handleChange } = useReservationStore();
   return (
     <>
       <Input
@@ -10,7 +10,7 @@ export const EnrollPriceInput = () => {
         type="number"
         name="price"
         placeholder="발생 비용"
-        value={formData.price?.toString() || ""}
+        value={reservationData.price.toString()}
         onChange={handleChange}
         className="text-gray-600"
       />

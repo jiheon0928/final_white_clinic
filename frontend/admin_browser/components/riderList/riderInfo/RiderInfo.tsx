@@ -1,18 +1,23 @@
 "use client";
 import Layout from "@/components/common/Layout";
-import { useApiStore } from "@/store/Api";
+import { RiderData } from "@/types/RiderStore/RiderTypes";
+import { getRiderById, getRiders } from "@/utils/api/rider.api";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const RiderInfo = () => {
+  const [rider, setRider] = useState<RiderData>();
   const searchParams = useSearchParams();
   const id = searchParams.get("id");
-  const { riders, getRiderInfo } = useApiStore();
-  const rider = riders.find((rider) => rider.id === Number(id));
 
   useEffect(() => {
-    getRiderInfo(Number(id));
-  }, [getRiderInfo, id]);
+    const fetchRider = async () => {
+      const result = await getRiderById(Number(id));
+      setRider(result);
+    };
+    fetchRider();
+  }, []);
+
   if (!rider) {
     return (
       <Layout title="기사님 상세정보" className="h-screen">
@@ -22,6 +27,7 @@ export const RiderInfo = () => {
       </Layout>
     );
   }
+
   return (
     <Layout title="기사님 상세정보" className="h-screen">
       <div className="space-y-6">
@@ -39,7 +45,7 @@ export const RiderInfo = () => {
               { label: "상세주소", value: rider.detailAddress },
               { label: "우편번호", value: rider.zipcode },
               { label: "특이사항", value: rider.significant },
-              { label: "수당률", value: `${rider.benefit}%` },
+              { label: "수당률", value: `${rider.benefit.benefitType * 100}%` },
             ].map((item, index) => (
               <span key={index} className="flex items-center text-gray-700">
                 <p className="font-medium mr-2">{item.label}:</p>{" "}

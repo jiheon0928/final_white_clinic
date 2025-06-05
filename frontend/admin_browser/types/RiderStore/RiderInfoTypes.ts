@@ -25,25 +25,24 @@ export const combineDateAndTime = (dateStr: string, timeStr: string): Date => {
   return date;
 };
 
-export type RiderInfoStore = {
-  formData: {
-    name: string;
+export type RiderData = {
+  name: string;
     birth: string;
-    loginId: string;
-    password: string;
     phone: string;
+    email: string;
+    zipcode: string;
     address: string;
     detailAddress: string;
-    zipcode: string;
-    email: string;
     significant: string;
-    approval?: boolean;
     industry: number[];
-    benefit?: number;
-  };
+    benefit: number;
+};
+
+export type RiderInfoStore = {
+  riderData: RiderData;
   handleChange: (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => void;
   handleSubmit: (e: React.FormEvent) => void;
-  setFormData: (data: Partial<RiderInfoStore["formData"]>) => void;
+  setFormData: (data: Partial<RiderInfoStore["riderData"]>) => void;
 };

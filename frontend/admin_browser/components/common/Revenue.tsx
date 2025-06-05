@@ -2,15 +2,15 @@ import Benefit from "@/components/common/input/benefit";
 import useRiderStore from "@/store/rider/RiderStore";
 
 export const Revenue = () => {
-  const { formData, handleChange } = useRiderStore();
-  console.log(formData.benefit);
+  const { riderData, handleChange } = useRiderStore();
+  console.log(riderData.benefit);
 
   return (
     <div>
       <Benefit
         type="number"
         name="benefit"
-        value={formData.benefit || 1}
+        value={riderData.benefit || 1}
         onChange={handleChange}
         title="수수료"
         step={1}

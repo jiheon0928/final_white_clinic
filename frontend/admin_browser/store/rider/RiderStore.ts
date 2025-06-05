@@ -2,18 +2,15 @@ import { create } from "zustand";
 import { RiderInfoStore } from "@/types/RiderStore/RiderInfoTypes";
 
 const useRiderStore = create<RiderInfoStore>((set) => ({
-  formData: {
+  riderData: {
     name: "",
     birth: "",
-    loginId: "",
-    password: "",
     phone: "",
     address: "",
     detailAddress: "",
     zipcode: "",
     email: "",
     significant: "",
-    approval: false,
     industry: [],
     benefit: 0,
   },
@@ -21,16 +18,16 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
     const { name, value, type, checked } = e.target as HTMLInputElement;
     if (Array.isArray(value)) {
       set((state) => ({
-        formData: {
-          ...state.formData,
+        riderData: {
+          ...state.riderData,
           [name]: value,
         },
       }));
       return;
     }
     set((state) => ({
-      formData: {
-        ...state.formData,
+      riderData: {
+        ...state.riderData,
         [name]: type === "checkbox" ? checked : value,
       },
     }));
@@ -42,18 +39,15 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
   },
   setFormData: (data) => {
     set(() => ({
-      formData: {
+      riderData: {
         name: "",
         birth: "",
-        loginId: "",
-        password: "",
         phone: "",
         address: "",
         detailAddress: "",
         zipcode: "",
         email: "",
         significant: "",
-        approval: false,
         industry: [],
         benefit: 0,
         ...data, // 필요한 것만 덮어씀
