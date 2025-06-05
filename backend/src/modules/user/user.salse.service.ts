@@ -14,40 +14,65 @@ export class UserSalesService {
   async getWeeklyByDate(
     riderId: number,
     refDate: Date,
-  ): Promise<{ totalSales: number; netProfit: number }> {
-    // 이번 주 월요일 00:00
-    const d = refDate.getDay();
-    const diff = d === 0 ? -6 : 1 - d;
+  ): Promise<{
+    totalSales: Record<string, number>;
+    totalCommission: Record<string, number>;
+  }> {
+    // 1) 이번 주 월요일 00:00, 일요일 23:59:59 계산
+    const d = refDate.getDay(); // 0=일, 1=월, ..., 6=토
+    const diffToMon = d === 0 ? -6 : 1 - d;
     const mon = new Date(refDate);
-    mon.setDate(refDate.getDate() + diff);
+    mon.setDate(refDate.getDate() + diffToMon);
     mon.setHours(0, 0, 0, 0);
-
-    // 이번 주 일요일 23:59:59
     const sun = new Date(mon);
     sun.setDate(mon.getDate() + 6);
     sun.setHours(23, 59, 59, 999);
 
-    // aggregate 쿼리
-    const raw = await this.reservationRepository
+    // 2) DATE(r.visitTime) 기준으로 그룹핑해서 요일별 집계 (Raw)
+    const rawStats = await this.reservationRepository
       .createQueryBuilder('r')
       .leftJoin('r.rider', 'd')
       .leftJoin('d.benefit', 'b')
-      .select('COALESCE(SUM(r.price), 0)', 'totalSales')
+      .select('DATE(r.visitTime)', 'date')
+      .addSelect('COALESCE(SUM(r.price), 0)', 'totalSales')
       .addSelect(
         'COALESCE(SUM(r.price * COALESCE(b.benefitType, 0)), 0)',
         'netProfit',
       )
       .where('r.riderId = :riderId', { riderId })
-      .andWhere('r.visitTime >= :start AND r.visitTime <= :end', {
+      .andWhere('r.visitTime BETWEEN :start AND :end', {
         start: mon.toISOString(),
         end: sun.toISOString(),
       })
       .andWhere('r.StatusId = :stateId', { stateId: 3 }) // 완료 상태만
-      .getRawOne<{ totalSales: string; netProfit: string }>();
+      .groupBy('DATE(r.visitTime)')
+      .orderBy('DATE(r.visitTime)', 'ASC')
+      .getRawMany<{ date: string; totalSales: string; netProfit: string }>();
 
+    // 3) 요일 이름 배열
+    const WEEK_DAYS = ['일', '월', '화', '수', '목', '금', '토'];
+
+    // 4) 빈 매핑 객체 초기화
+    const salesByDay: Record<string, number> = {};
+    const commissionByDay: Record<string, number> = {};
+    WEEK_DAYS.forEach((wd) => {
+      salesByDay[wd] = 0;
+      commissionByDay[wd] = 0;
+    });
+
+    // 5) rawStats를 순회하며 해당 날짜의 요일에 값 채우기
+    rawStats.forEach((r) => {
+      const yyyyMmDd = r.date; // 예: '2025-06-03'
+      const dayIdx = new Date(yyyyMmDd).getDay(); // 0~6
+      const dayName = WEEK_DAYS[dayIdx];
+      salesByDay[dayName] = parseFloat(r.totalSales);
+      commissionByDay[dayName] = parseFloat(r.netProfit);
+    });
+
+    // 6) 최종 리턴
     return {
-      totalSales: parseFloat(raw?.totalSales || '0'),
-      netProfit: parseFloat(raw?.netProfit || '0'),
+      totalSales: salesByDay,
+      totalCommission: commissionByDay,
     };
   }
 

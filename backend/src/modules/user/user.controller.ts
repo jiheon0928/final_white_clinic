@@ -76,7 +76,7 @@ export class UserController {
 
   // ============================= 주간 조회 =============================
   @Get('rider/weekly')
-  @ApiOperation({ summary: '기사 주간 조회' })
+  @ApiOperation({ summary: '기사 주간 요일별 매출 조회' })
   @UseGuards(JwtAuthGuard)
   async getWeekly(@Req() req: any, @Query('date') dateStr?: string) {
     const riderId = req.user.id;
@@ -84,7 +84,7 @@ export class UserController {
     if (isNaN(refDate.getTime())) {
       throw new BadRequestException('유효하지 않은 날짜야');
     }
-    return this.userSalesService.getWeeklyByDate(riderId, refDate);
+    return await this.userSalesService.getWeeklyByDate(riderId, refDate);
   }
 
   // ============================= 월간 조회 =============================
