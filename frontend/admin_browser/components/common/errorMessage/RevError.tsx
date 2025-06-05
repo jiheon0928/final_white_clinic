@@ -19,7 +19,6 @@ export const RevErrorMessage = ({
       </div>
     );
   }
-
   if (error) {
     return (
       <div className="text-red-500 text-center p-4">

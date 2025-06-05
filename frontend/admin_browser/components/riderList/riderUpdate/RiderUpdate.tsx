@@ -31,12 +31,10 @@ export const RiderUpdate = () => {
         alert("기사 ID가 없습니다.");
         return;
       }
-      console.log("전송할 데이터:", updateData);
       await updateRiderInfo(Number(id), updateData);
       alert("기사 정보가 성공적으로 수정되었습니다.");
       router.push("/rider");
     } catch (error) {
-      console.error("기사 정보 수정 실패:", error);
       alert(
         error instanceof Error
           ? error.message

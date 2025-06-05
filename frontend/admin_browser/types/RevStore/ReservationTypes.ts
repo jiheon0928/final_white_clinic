@@ -29,3 +29,28 @@ export type Reservation = {
 };
 
 export type ReservationList = Reservation[];
+
+export type InputField = {
+  title: string;
+  name: string;
+  placeholder: string;
+  value: string;
+  type: string;
+};
+export type InputFields = InputField[];
+
+export type ReservationItem = {
+  label: string;
+  value: string | number;
+  isHighlighted?: boolean;
+};
+
+export type ReservationSection = {
+  title: string;
+  items: ReservationItem[];
+};
+
+export type CustomerSection = {
+  title: string;
+  items: ReservationItem[];
+};

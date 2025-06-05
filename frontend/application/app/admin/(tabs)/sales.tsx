@@ -12,7 +12,15 @@ import Page from "@/components/common/Page";
 import BetweenHeader from "@/components/common/header/BetweenHeader";
 import { router } from "expo-router";
 import { logout } from "@/utils/login";
-import { getMonthlySales, getWeeklySalesByDay } from "@/utils/sales";
+
+import useSalesStore, { MonthlyChartData } from "@/stores/sales.store";
+import {
+  getDailySales,
+  getWeeklySalesByDay,
+  getWeeklySales,
+  getMonthlySales,
+  getYearlySalesByMonth,
+} from "@/utils/adminSales";
 
 const screenWidth = Dimensions.get("window").width;
 
@@ -24,80 +32,132 @@ const chartConfig = {
   labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
 };
 
-type ChartDataType = {
-  labels: string[];
-  datasets: { data: number[] }[];
-};
-
-type MonthlyChartData = Record<string, ChartDataType>;
-
-type ChartKey = "daily" | "weekly" | "monthly";
-
 const monthList = Array.from({ length: 12 }, (_, i) => `${i + 1}월`);
-
 const daysOrder = ["월", "화", "수", "목", "금", "토", "일"];
 
-const chartData: {
-  daily: ChartDataType;
-  weekly: ChartDataType;
-  monthly: MonthlyChartData;
-} = {
-  daily: {
-    labels: daysOrder,
-    datasets: [{ data: [10, 40, 30, 35, 45, 60, 70] }],
-  },
-  weekly: {
-    labels: ["1주차", "2주차", "3주차", "4주차"],
-    datasets: [{ data: [20, 40, 80, 50] }],
-  },
-  monthly: monthList.reduce((acc, month) => {
-    acc[month] = {
-      labels: ["1주", "2주", "3주", "4주"],
-      datasets: [{ data: Array(4).fill(Math.floor(Math.random() * 700)) }],
-    };
-    return acc;
-  }, {} as MonthlyChartData),
-};
-
 const Sales = () => {
-  const [type, setType] = useState<ChartKey>("daily");
-  const [selectedMonth, setSelectedMonth] = useState("1월");
+  const {
+    type,
+    setType,
+    selectedMonth,
+    setSelectedMonth,
+    daily,
+    setDaily,
+    weekly,
+    setWeekly,
+    monthly,
+    setMonthly,
+  } = useSalesStore();
+
   const [showMonthDropdown, setShowMonthDropdown] = useState(false);
-  const [daily, setDaily] = useState<ChartDataType>(chartData.daily);
+  const [summaryData, setSummaryData] = useState({
+    daily: 0,
+    weekly: 0,
+    monthly: 0,
+  });
 
   useEffect(() => {
-    const fetchDailyData = async () => {
+    const fetchData = async () => {
       try {
-        const raw = await getWeeklySalesByDay(new Date().toISOString());
-        const orderedData = daysOrder.map((day) => raw[day] ?? 0);
+        const dailyRaw = await getWeeklySalesByDay(new Date().toISOString());
+        const orderedDailyData = daysOrder.map((day) => dailyRaw[day] ?? 0);
         setDaily({
           labels: daysOrder,
-          datasets: [{ data: orderedData }],
+          datasets: [{ data: orderedDailyData }],
         });
+
+        const [dailySales, weeklySales, monthlySales] = await Promise.all([
+          getDailySales(new Date().toISOString()),
+          getWeeklySales(new Date().toISOString()),
+          getMonthlySales(new Date().toISOString()),
+        ]);
+
+        setSummaryData({
+          daily: dailySales,
+          weekly: weeklySales,
+          monthly: monthlySales,
+        });
+
+        const monthlyRaw = await getYearlySalesByMonth(
+          new Date().toISOString()
+        );
+
+        const transformYearlyDataToMonthlyChartData = (
+          rawData: Record<string, any>
+        ) => {
+          const result: MonthlyChartData = {};
+          for (const [month, values] of Object.entries(rawData)) {
+            result[month] = {
+              labels: ["1주", "2주", "3주", "4주", "5주"],
+              datasets: [
+                {
+                  data: [
+                    values["1주차"] ?? 0,
+                    values["2주차"] ?? 0,
+                    values["3주차"] ?? 0,
+                    values["4주차"] ?? 0,
+                    values["5주차"] ?? 0,
+                  ],
+                },
+              ],
+            };
+          }
+          return result;
+        };
+
+        const monthlyData = transformYearlyDataToMonthlyChartData(monthlyRaw);
+        setMonthly(monthlyData);
+
+        const today = new Date();
+        const monthKey = `${today.getMonth() + 1}월`;
+
+        // monthlyData에서 오늘 월 데이터 꺼내서 weekly에 세팅
+        if (monthlyData[monthKey]) {
+          setWeekly(monthlyData[monthKey]);
+        } else {
+          setWeekly({
+            labels: ["1주", "2주", "3주", "4주", "5주"],
+            datasets: [{ data: [0, 0, 0, 0, 0] }],
+          });
+        }
       } catch (error) {
-        console.error("일일 매출 데이터를 불러오는 중 오류 발생:", error);
+        console.error("데이터를 불러오는 중 오류 발생:", error);
       }
     };
 
-    const fetchMonthlyData = async () => {
-      try {
-        await getMonthlySales(new Date().toISOString());
-      } catch (error) {
-        console.error("월별 매출 데이터를 불러오는 중 오류 발생:", error);
-      }
-    };
-
-    fetchDailyData();
-    fetchMonthlyData();
+    fetchData();
   }, []);
+
+  const renderSummary = () => (
+    <View style={styles.summaryContainer}>
+      <View style={styles.summaryItem}>
+        <Text style={styles.summaryLabel}>금일 매출</Text>
+        <Text style={styles.summaryValue}>
+          {summaryData.daily.toLocaleString()}원
+        </Text>
+      </View>
+      <View style={styles.summaryItem}>
+        <Text style={styles.summaryLabel}>금주 매출</Text>
+        <Text style={styles.summaryValue}>
+          {summaryData.weekly.toLocaleString()}원
+        </Text>
+      </View>
+      <View style={styles.summaryItem}>
+        <Text style={styles.summaryLabel}>이번달 매출</Text>
+        <Text style={styles.summaryValue}>
+          {summaryData.monthly.toLocaleString()}원
+        </Text>
+      </View>
+    </View>
+  );
 
   const renderChart = () => {
     const data =
       type === "monthly"
-        ? chartData.monthly[selectedMonth]
+        ? monthly[selectedMonth]
         : type === "daily"
         ? daily
-        : chartData.weekly;
+        : weekly;
 
     return (
       <BarChart
@@ -186,8 +246,9 @@ const Sales = () => {
         }}
       />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {renderSummary()}
         <View style={styles.tabContainer}>
-          {(["daily", "weekly", "monthly"] as ChartKey[]).map((key) => (
+          {(["daily", "weekly", "monthly"] as const).map((key) => (
             <TouchableOpacity
               key={key}
               onPress={() => {
@@ -226,7 +287,7 @@ const styles = StyleSheet.create({
   },
   tabButton: {
     paddingBottom: 10,
-    marginBottom: 50,
+    marginBottom: 40,
   },
   activeTab: {
     borderBottomWidth: 2,
@@ -288,6 +349,37 @@ const styles = StyleSheet.create({
   },
   activeMonthItem: {
     backgroundColor: "#3f51b5",
+  },
+  summaryContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 16,
+    backgroundColor: "#fff",
+    borderRadius: 12,
+    marginBottom: 30,
+    marginTop: 20,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3,
+    elevation: 3,
+  },
+  summaryItem: {
+    flex: 1,
+    alignItems: "center",
+  },
+  summaryLabel: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 4,
+  },
+  summaryValue: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#3f51b5",
   },
 });
 

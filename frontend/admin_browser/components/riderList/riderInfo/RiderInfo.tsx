@@ -13,7 +13,6 @@ export const RiderInfo = () => {
   useEffect(() => {
     getRiderInfo(Number(id));
   }, [getRiderInfo, id]);
-
   if (!rider) {
     return (
       <Layout title="기사님 상세정보" className="h-screen">

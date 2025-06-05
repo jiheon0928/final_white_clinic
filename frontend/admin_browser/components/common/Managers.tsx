@@ -20,7 +20,7 @@ const Managers = ({ value, onChange, className, title }: ManagerProps) => {
       }
     };
     fetchRiderNames();
-  }, [getRiderNames]);
+  }, []);
 
   return (
     <div className="flex flex-col gap-2">

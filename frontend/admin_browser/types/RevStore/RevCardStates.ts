@@ -33,7 +33,7 @@ export type ReservationFormData = {
   zipcode: string;
   address: string;
   detailAddress: string;
-  visitTime: string;
+  visitTime: string | Date;
   memo: string;
   price: number;
   industry: number;

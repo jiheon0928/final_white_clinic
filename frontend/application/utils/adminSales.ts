@@ -64,8 +64,8 @@ export const getYearlySalesByMonth = async (
     const response = await api.get("/sales/yearly-sales-by-month", {
       params: { date: year },
     });
-    const raw = response.data["totalSales"] as Record<string, number>;
-    console.log("1월~12월", raw);
+    const raw = response.data as Record<string, number>;
+
     return raw;
   } catch (error) {
     console.error(`Failed to fetch yearly sales by month for ${year}:`, error);
