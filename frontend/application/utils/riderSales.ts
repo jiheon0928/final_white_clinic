@@ -1,13 +1,17 @@
 import api from "./api";
 
-export const getRiderWeeklySales = async (date: string): Promise<number> => {
+export const getRiderWeeklySales = async (
+  date: string
+): Promise<Record<string, number>> => {
   try {
     const response = await api.get("/user/rider/weekly", {
       params: { date },
     });
-    const raw = response.data["netProfit"];
-    console.log("주간데이터", response);
-    return Number(raw);
+
+    const raw = response.data["totalSales"];
+    console.log("주간데이터", response.data); // 예: { 월: 1000, 화: 2000, ... }
+
+    return raw; // ← 객체 그대로 반환해야 함
   } catch (error) {
     console.error(`Failed to fetch weekly sales for ${date}:`, error);
     throw new Error("주간 매출 정보를 불러오는 데 실패했습니다.");

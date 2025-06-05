@@ -60,6 +60,8 @@ const RiderMyPage = () => {
 
   useEffect(() => {
     const fetchData = async () => {
+      getRiderWeeklySales(new Date().toISOString());
+
       const rider = await getRiderById(user.id);
       setRider(rider);
       const reservations = await getReservationByRider(
@@ -70,9 +72,7 @@ const RiderMyPage = () => {
 
     const fetchSalesData = async () => {
       try {
-        const dailyRaw = await getRiderWeeklySalesByDay(
-          new Date().toISOString()
-        );
+        const dailyRaw = await getRiderWeeklySales(new Date().toISOString());
         const orderedDailyData = daysOrder.map((day) => dailyRaw[day] ?? 0);
         setDaily({
           labels: daysOrder,
