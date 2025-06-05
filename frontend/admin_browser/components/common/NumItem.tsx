@@ -3,7 +3,7 @@ import ItemInput from "./input/itemInput";
 import { handleNumItemChange } from "@/utils/handlers/itemHandlers";
 
 export const NumItem = () => {
-  const { formData, handleChange } = useReservationStore();
+  const { reservationData, handleChange } = useReservationStore();
   const items = [
     { name: "washer", title: "세탁기", id: 1 },
     { name: "dryer", title: "건조기", id: 2 },
@@ -17,7 +17,7 @@ export const NumItem = () => {
           type="checkbox"
           name={item.name}
           onChange={(e) => handleNumItemChange(e, items, handleChange)}
-          checked={formData.industry === item.id}
+          checked={reservationData.industry === item.id}
           title={item.title}
         />
       ))}

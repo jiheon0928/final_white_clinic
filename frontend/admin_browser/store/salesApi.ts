@@ -1,4 +1,4 @@
-import { api } from "./Api";
+import api from "@/utils/api/api";
 
 export type DataPoint = { x: string; y: number };
 
