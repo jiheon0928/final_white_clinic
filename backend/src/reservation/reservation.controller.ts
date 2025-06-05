@@ -17,6 +17,7 @@ import { Reservation } from './entities/reservation.entity';
 import { UpdateReservationDto } from './dto/update-list.dto';
 import { JwtAuthGuard } from 'src/modules/auth/guard/jwt-auth.guard';
 import { ReservationService } from './reservation.service';
+import { ApiOperation, ApiParam } from '@nestjs/swagger';
 
 @Controller('reservation')
 export class ReservationController {
@@ -24,12 +25,14 @@ export class ReservationController {
 
   // ============================= 예약 생성 =============================
   @Post()
+  @ApiOperation({ summary: '예약 생성' })
   async create(@Body() dto: CreateReservationDto): Promise<Reservation> {
     return this.reservationService.create(dto);
   }
 
   // ============================= 상태 조회 =============================
   @Get()
+  @ApiOperation({ summary: '상태 조회' })
   async findByStatus(
     @Query('status') status: '대기' | '진행' | '완료',
   ): Promise<Reservation[]> {
@@ -43,6 +46,7 @@ export class ReservationController {
 
   // ============================= 픽업 기사용 진행 완료 조회 =============================
   @Get('my')
+  @ApiOperation({ summary: '픽업 기사용 진행 완료 조회' })
   @UseGuards(JwtAuthGuard)
   async findMy(
     @Req() req: any,
@@ -61,12 +65,16 @@ export class ReservationController {
 
   // ============================= id로 조회 =============================
   @Get('id/:id')
+  @ApiOperation({ summary: 'ID로 예약 조회' })
+  @ApiParam({ name: 'id', description: '예약 ID', type: 'number' })
   async findById(@Param('id') id: number): Promise<Reservation> {
     return this.reservationService.findById(id);
   }
 
   // ============================= 예약 정보 수정 =============================
   @Patch('id/:id')
+  @ApiOperation({ summary: '예약 정보 수정' })
+  @ApiParam({ name: 'id', description: '예약 ID', type: 'number' })
   async listupdate(
     @Param('id', ParseIntPipe) id: number,
     @Body() dto: UpdateReservationDto,
@@ -76,6 +84,8 @@ export class ReservationController {
 
   // ============================= 예약 픽업 =============================
   @Patch('id/:id/pickup')
+  @ApiOperation({ summary: '예약 픽업' })
+  @ApiParam({ name: 'id', description: '예약 ID', type: 'number' })
   @UseGuards(JwtAuthGuard)
   async pickup(@Param('id', ParseIntPipe) taskId: number, @Req() req: any) {
     const riderId = req.user.id;
@@ -84,6 +94,8 @@ export class ReservationController {
 
   // ============================= 예약 완료 =============================
   @Patch('complete/:id')
+  @ApiOperation({ summary: '예약 완료' })
+  @ApiParam({ name: 'id', description: '예약 ID', type: 'number' })
   @UseGuards(JwtAuthGuard)
   async complete(
     @Param('id') id: number,

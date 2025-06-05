@@ -1,12 +1,13 @@
 import { BadRequestException, Controller, Get, Query } from '@nestjs/common';
 import { SalesService } from './sales.service';
-
+import { ApiOperation } from '@nestjs/swagger';
 @Controller('sales')
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
 
   // 1) 원하는 날짜 매출 조회
   @Get('sales-by-date')
+  @ApiOperation({ summary: '원하는 날짜 매출 조회' })
   async salesByDate(@Query('date') dateStr?: string) {
     const target = dateStr ? new Date(dateStr) : new Date();
     if (isNaN(target.getTime())) {
@@ -24,6 +25,7 @@ export class SalesController {
 
   //요번달 매출 조회
   @Get('monthly-sales')
+  @ApiOperation({ summary: '요번달 매출 조회' })
   async monthlySales() {
     const { totalSales, totalCommission, netProfit } =
       await this.salesService.getMonthlySales();
@@ -36,6 +38,7 @@ export class SalesController {
 
   // 2) 해당 날짜가 속한 주의 매출 합계
   @Get('weekly-sales-summary')
+  @ApiOperation({ summary: '해당 날짜가 속한 주의 매출 합계' })
   async weeklySalesSummary(@Query('date') dateStr?: string) {
     const refDate = dateStr ? new Date(dateStr) : new Date();
     if (isNaN(refDate.getTime())) {
@@ -54,6 +57,7 @@ export class SalesController {
 
   //========================주간 요일별 매출 조회========================
   @Get('weekly-sales-by-day')
+  @ApiOperation({ summary: '주간 요일별 매출 조회' })
   async weeklySalesByDay(@Query('date') dateStr?: string) {
     // 1) 기준 날짜 파싱
     const refDate = dateStr ? new Date(dateStr) : new Date();
@@ -91,6 +95,7 @@ export class SalesController {
 
   //========================년도별 월별 매출 조회========================
   @Get('yearly-sales-by-month')
+  @ApiOperation({ summary: '년도별 월별 매출 조회' })
   async yearlySalesByMonth(@Query('date') dateStr?: string) {
     // 1) 연도 파싱 (없으면 올해)
     const year = dateStr ? parseInt(dateStr, 10) : new Date().getFullYear();

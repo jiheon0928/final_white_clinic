@@ -3,8 +3,13 @@ import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 
+// Swagger 관련 모듈 추가
+import { SwaggerModule } from '@nestjs/swagger';
+import { swaggerConfig } from './config/swagger.config';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.setGlobalPrefix('api');
   app.enableCors({
     origin: true,
@@ -20,6 +25,12 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
+  // ───── Swagger 설정 시작 ─────
+
+  const document = SwaggerModule.createDocument(app, swaggerConfig);
+  SwaggerModule.setup('docs', app, document);
+  // ───── Swagger 설정 끝 ─────
 
   await app.listen(3001);
 }
