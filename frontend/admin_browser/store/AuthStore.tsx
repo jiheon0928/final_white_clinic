@@ -1,4 +1,6 @@
+import axios from "axios";
 import { create } from "zustand";
+import api from "@/utils/api/api";
 
 type AuthState = {
   isAuthenticated: boolean;
@@ -6,6 +8,16 @@ type AuthState = {
   login: (token: string) => void;
   logout: () => void;
 };
+
+// 로그인
+export const loginRequest = async (loginId: string, password: string) => {
+  const response = await api.post(`/auth/login`, {
+    loginId,
+    password,
+  });
+  return response.data;
+};
+
 
 export const useAuthStore = create<AuthState>((set) => ({
   isAuthenticated: false,

@@ -1,32 +1,26 @@
+"use client";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
-import { useApiStore } from "@/store/Api";
-import { useEffect } from "react";
-import { RevErrorMessage } from "../errorMessage/RevError";
+import { useEffect, useState } from "react";
 import { useReservationStore } from "@/store/ReservationStore";
+import { getReservations } from "@/utils/api/rev.api";
+import { Reservation } from "@/types/RevStore/ReservationTypes";
 
 export const ReservationCard = () => {
-  const { reservations, getReservations, isLoading, error } = useApiStore();
-  const { currentStatus } = useReservationStore();
   const router = useRouter();
+  const { currentStatus } = useReservationStore();
+  const [reservations, setReservations] = useState<Reservation[]>([]);
 
   useEffect(() => {
-    getReservations(currentStatus as "대기" | "진행" | "완료");
-  }, [getReservations, currentStatus]);
-  const handleClick = (path: string) => {
-    router.push(path);
-  };
+    const fetchReservations = async () => {
+      const result = await getReservations(currentStatus);
+      setReservations(result);
+    };
+    fetchReservations();
+  }, [currentStatus]);
 
   return (
     <>
-      <RevErrorMessage
-        isLoading={isLoading}
-        error={error || ""}
-        getReservations={() =>
-          getReservations(currentStatus as "대기" | "진행" | "완료")
-        }
-        reservations={reservations}
-      />
       <div className="grid grid-cols-1 gap-4">
         {reservations.map((reservation) => (
           <div
@@ -69,16 +63,12 @@ export const ReservationCard = () => {
               <div className="flex justify-end gap-2">
                 <Button
                   title="상세정보"
-                  onClick={() =>
-                    handleClick(`/reservation/detail?id=${reservation.id}`)
-                  }
+                  onClick={() => router.push(`/reservation/detail?id=${reservation.id}`)}
                   className="bg-blue-500 hover:bg-blue-600"
                 />
                 <Button
                   title="예약 수정하기"
-                  onClick={() =>
-                    handleClick(`/reservation/update?id=${reservation.id}`)
-                  }
+                  onClick={() => router.push(`/reservation/update?id=${reservation.id}`)}
                   className="bg-yellow-500 hover:bg-yellow-600"
                 />
               </div>

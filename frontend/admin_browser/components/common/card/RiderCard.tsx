@@ -1,45 +1,32 @@
+"use client";
 import Button from "../Button";
 import { useRouter } from "next/navigation";
-import { Rider } from "@/types/RiderStore/RiderTypes";
-import { useApiStore } from "@/store/Api";
-import { RiderErrorMessage } from "../errorMessage/RiderError";
-import { useEffect } from "react";
-import { RiderInfoStore } from "@/types/RiderStore/RiderInfoTypes";
+import { RiderData } from "@/types/RiderStore/RiderTypes";
+import { useEffect, useState } from "react";
 import { useRiderSearchStore } from "@/store/rider/SearchRider";
-import useRiderStore from "@/store/rider/RiderStore";
+import { getRiders } from "@/utils/api/rider.api";
 
 export const RiderCard = () => {
   const router = useRouter();
-  const { riders, getRiders, isLoading, error } = useApiStore();
-  const { filteredRiders } = useRiderSearchStore();
+  const { search } = useRiderSearchStore();
+  const [riders, setRiders] = useState<RiderData[]>([]);
 
   useEffect(() => {
-    getRiders();
-  }, []);
-
-  const handleClick = (path: string, data: Rider) => {
-    const { industry, benefit, ...riderData } = data;
-    const formData: Partial<RiderInfoStore["formData"]> = {
-      ...riderData,
-      industry: industry || [],
+    const fetchRiders = async () => {
+      const result = await getRiders();
+      setRiders(result);
     };
-    useRiderStore.getState().setFormData(formData);
-    router.push(path);
-  };
-  const sortedRiders = [...filteredRiders]
+    fetchRiders();
+  }, [search]);
+
+  const sortedRiders = [...riders]
     .filter((rider) => rider.approval === true)
     .sort((a, b) => a.name.localeCompare(b.name));
 
   return (
     <>
-      <RiderErrorMessage
-        isLoading={isLoading}
-        error={error || ""}
-        getRiders={getRiders}
-        riders={riders}
-      />
       <div className="flex flex-col gap-4">
-        {sortedRiders.map((rider: Rider) => (
+        {sortedRiders.map((rider: RiderData) => (
           <div
             key={rider.id}
             className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow"
@@ -58,16 +45,12 @@ export const RiderCard = () => {
               <div className="flex gap-2">
                 <Button
                   title="기사님 정보수정"
-                  onClick={() =>
-                    handleClick(`/rider/update?id=${rider.id}`, rider)
-                  }
+                  onClick={() => router.push(`/rider/update?id=${rider.id}`)}
                   className="bg-green-500 hover:bg-green-600"
                 />
                 <Button
                   title="기사님 상세정보"
-                  onClick={() =>
-                    handleClick(`/rider/detail?id=${rider.id}`, rider)
-                  }
+                  onClick={() => router.push(`/rider/detail?id=${rider.id}`)}
                   className="bg-blue-500 hover:bg-blue-600"
                 />
               </div>

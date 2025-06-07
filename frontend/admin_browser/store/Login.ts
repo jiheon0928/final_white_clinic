@@ -1,6 +1,6 @@
 import { create } from "zustand";
-import { loginRequest } from "./Api";
-import { useAuthStore } from "./authStore";
+import { useAuthStore } from "./AuthStore";
+  import { loginRequest } from "./AuthStore";
 
 type LoginState = {
   loginId: string;

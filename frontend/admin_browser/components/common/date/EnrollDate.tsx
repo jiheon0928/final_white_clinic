@@ -3,7 +3,7 @@ import { useReservationStore } from "@/store/ReservationStore";
 import { formatDate } from "@/types/RevStore/RevCardStates";
 
 export const EnrollDate = () => {
-  const { formData, handleChange } = useReservationStore();
+  const { reservationData, handleChange } = useReservationStore();
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = new Date(e.target.value);
@@ -23,7 +23,11 @@ export const EnrollDate = () => {
         name="visitTime"
         onChange={handleDateChange}
         title="방문 날짜"
-        value={formData.visitTime ? formData.visitTime.split("T")[0] : ""}
+        value={
+          reservationData.visitTime
+            ? (reservationData.visitTime as string).split("T")[0]
+            : ""
+        }
       />
     </div>
   );

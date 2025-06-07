@@ -1,11 +1,11 @@
-import { reservationType } from "@/types/data";
+import { Reservation } from "@/types/RevStore/ReservationTypes";
 import api from "./api";
-import { RevStoreState } from "@/store/test/rev.store";
+import { ReservationFormData } from "@/types/RevStore/RevCardStates";
 
 // 예약 데이터
 export const getReservations = async (
   status: "대기" | "진행" | "완료"
-): Promise<reservationType[]> => {
+): Promise<Reservation[]> => {
   try {
     const response = await api.get(`/reservation?status=${status}`);
     return response.data;
@@ -17,7 +17,7 @@ export const getReservations = async (
 
 export const getReservationDetail = async (
   id: number
-): Promise<reservationType> => {
+): Promise<Reservation> => {
   try {
     const response = await api.get(`/reservation/id/${id}`);
     return response.data;
@@ -44,10 +44,15 @@ export const getReservationByRider = async (
 };
 
 export const createReservation = async (
-  reservation: RevStoreState["reservation"]
+  reservation: ReservationFormData
 ) => {
   try {
-    const response = await api.post("/reservation", reservation);
+    const modifiedReservation = {
+      ...reservation,
+      price: Number(reservation.price)
+    };
+    const response = await api.post("/reservation", modifiedReservation);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("예약 생성 실패:", error);
@@ -57,10 +62,15 @@ export const createReservation = async (
 
 export const updateReservation = async (
   id: number,
-  reservation: RevStoreState["reservation"]
+  reservation: ReservationFormData
 ) => {
   try {
-    const response = await api.patch(`/reservation/id/${id}`, reservation);
+    const modifiedReservation = {
+      ...reservation,
+      price: Number(reservation.price)
+    };
+    const response = await api.patch(`/reservation/id/${id}`, modifiedReservation);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("예약 수정 실패:", error);

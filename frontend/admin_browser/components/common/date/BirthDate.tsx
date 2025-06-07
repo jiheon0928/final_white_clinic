@@ -2,11 +2,11 @@ import RevDate from "@/components/common/input/revDate";
 import useRiderStore from "@/store/rider/RiderStore";
 
 export const BirthDate = ({ birth = "" }: { birth?: string }) => {
-  const { formData, setFormData } = useRiderStore();
+  const { riderData, setFormData } = useRiderStore();
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
-      ...formData,
+      ...riderData,
       birth: e.target.value,
     });
   };

@@ -1,26 +1,30 @@
 "use client";
 import Layout from "@/components/common/Layout";
-import { useApiStore } from "@/store/Api";
 import { useReservationStore } from "@/store/ReservationStore";
 import { useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getReservationSections } from "@/data/ReservationData";
 import { ReservationSection } from "@/components/common/ReservationSection";
+import { getReservations } from "@/utils/api/rev.api";
+import { Reservation } from "@/types/RevStore/ReservationTypes";
 
 export const ReservationInfo = () => {
-  const { reservations, getReservations } = useApiStore();
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const searchParams = useSearchParams();
   const { currentStatus } = useReservationStore();
   const id = searchParams.get("id");
 
   useEffect(() => {
-    getReservations(currentStatus as "대기" | "진행" | "완료");
-  }, [currentStatus, getReservations]);
+    const fetchReservations = async () => {
+      const result = await getReservations(currentStatus);
+      setReservations(result);
+    };
+    fetchReservations();
+  }, [currentStatus]);
 
   const reservation = reservations.find(
     (reservation) => reservation.id === Number(id)
   );
-
   if (!reservation) {
     return (
       <Layout title="예약 상세 정보" className="h-screen">

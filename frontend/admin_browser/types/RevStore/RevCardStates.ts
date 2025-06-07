@@ -33,27 +33,27 @@ export type ReservationFormData = {
   zipcode: string;
   address: string;
   detailAddress: string;
-  visitTime: string | Date;
+  visitTime: Date | string;
   memo: string;
   price: number;
   industry: number;
 };
 
-export type RevCardStates = {
+export type ReservationStoreType = {
   selectedItems: number[]; // 체크박스 토글용 아이디 배열
   manager: string; // 담당 기사 이름
-  currentStatus: string; // 예약 상태(예: "대기", "진행", "완료")
-  formData: Partial<ReservationFormData>;
+  currentStatus: "대기" | "진행" | "완료"; // 예약 상태(예: "대기", "진행", "완료")
+  reservationData: ReservationFormData;
 
   // 액션들
   handleCheckboxChange: (value: number) => void;
-  setManager: (name: string) => void;
-  setStatus: (status: string) => void;
+  setStatus: (status: "대기" | "진행" | "완료") => void;
   handleChange: (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
     >
   ) => void;
-  setFormData: (data: Partial<ReservationFormData>) => void;
+  setFormData: (data: ReservationFormData) => void;
   handleSubmit: (e: React.FormEvent) => void;
+  resetFormData: () => void;
 };
