@@ -40,7 +40,11 @@ export const RiderUpdate = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          await updateRider(Number(id), riderData);
+          const transformedData = {
+            ...riderData,
+            benefit: riderData.benefit === 0.4 ? 1 : riderData.benefit === 0.5 ? 2 : 3
+          };
+          await updateRider(Number(id), transformedData);
           alert("기사 수정이 완료되었습니다.");
           router.push("/rider");
         }}

@@ -1,14 +1,21 @@
 "use client";
-import { useApiStore } from "@/store/Api";
 import Button from "../Button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { RiderData } from "@/types/RiderStore/RiderTypes";
+import { getRiders } from "@/utils/api/rider.api";
+import { useRouter } from "next/navigation";
 
 export const VerifyCard = () => {
-  const { riders, getRiders, updateRiderApproval } = useApiStore();
+  const router = useRouter();
+  const [riders, setRiders] = useState<RiderData[]>([]);
 
   useEffect(() => {
-    getRiders();
-  }, [getRiders]);
+    const fetchRiders = async () => {
+      const result = await getRiders();
+      setRiders(result);
+    };
+    fetchRiders();
+  }, []);
 
   return (
     <div className="space-y-4">
@@ -39,7 +46,7 @@ export const VerifyCard = () => {
                 <Button
                   title="승인하기"
                   className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
-                  onClick={() => updateRiderApproval(verification.id)}
+                  onClick={() => (verification.id)}
                 />
               </div>
             )}
