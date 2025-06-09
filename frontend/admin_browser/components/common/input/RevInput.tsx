@@ -2,7 +2,7 @@ import Input from "./Input";
 import { useReservationStore } from "@/store/ReservationStore";
 import { getCustomerInputFields } from "@/data/CustomerData";
 
-export const RevUpdateInput = ({ id }: { id: number }) => {
+export const RevUpdateInput = () => {
   const { reservationData } = useReservationStore();
   const { handleChange } = useReservationStore();
 

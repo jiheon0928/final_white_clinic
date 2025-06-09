@@ -41,8 +41,9 @@ export default function Sales() {
         setMonthlySales(month);
         setWeeklySalesByDay(weekByDay);
         setYearlySalesByMonth(yearByMonth);
-      } catch (e: any) {
-        setError(e.message || "데이터 로드 중 오류가 발생했습니다.");
+      } catch (e: Error | unknown) {
+        const errorMessage = e instanceof Error ? e.message : "데이터 로드 중 오류가 발생했습니다.";
+        setError(errorMessage);
       } finally {
         setIsLoading(false);
       }

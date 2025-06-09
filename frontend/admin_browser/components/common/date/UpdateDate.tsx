@@ -13,7 +13,7 @@ export const UpdateDate = ({ visitTime = "" }: { visitTime?: string }) => {
         name: "visitTime",
         value: formattedDate,
       },
-    } as any);
+    } as React.ChangeEvent<HTMLInputElement>);
   };
 
   return (

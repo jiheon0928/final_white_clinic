@@ -48,7 +48,7 @@ export const ReservationUpdate = () => {
         }}
         className="space-y-6"
       >
-        <RevUpdateInput id={Number(id)} />
+        <RevUpdateInput />
         <div className="flex flex-col gap-2">
           <label className="text-gray-700 font-semibold">
             가능 품목 리스트

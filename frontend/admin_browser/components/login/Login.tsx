@@ -23,8 +23,9 @@ const Loginpage = () => {
       await login();
       alert("로그인 성공");
       router.push("/reservation");
-    } catch (err: any) {
-      setError(err.message || "로그인에 실패했습니다.");
+    } catch (err: Error | unknown) {
+      const errorMessage = err instanceof Error ? err.message : "로그인에 실패했습니다.";
+      setError(errorMessage);
     }
   };
 
