@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { RiderInfoStore } from "@/types/RiderStore/RiderInfoTypes";
+import { RiderInfoStore } from "@/types/RiderStore/RiderTypes";
 
 const useRiderStore = create<RiderInfoStore>((set) => ({
   riderData: {
@@ -15,22 +15,32 @@ const useRiderStore = create<RiderInfoStore>((set) => ({
     benefit: 0,
   },
   handleChange: (e) => {
-    const { name, value, type, checked } = e.target as HTMLInputElement;
-    if (Array.isArray(value)) {
+    if (e.target instanceof HTMLInputElement) {
+      const { name, value, type, checked } = e.target;
+      if (Array.isArray(value)) {
+        set((state) => ({
+          riderData: {
+            ...state.riderData,
+            [name]: value,
+          },
+        }));
+        return;
+      }
+      set((state) => ({
+        riderData: {
+          ...state.riderData,
+          [name]: type === "checkbox" ? checked : value,
+        },
+      }));
+    } else {
+      const { name, value } = e.target;
       set((state) => ({
         riderData: {
           ...state.riderData,
           [name]: value,
         },
       }));
-      return;
     }
-    set((state) => ({
-      riderData: {
-        ...state.riderData,
-        [name]: type === "checkbox" ? checked : value,
-      },
-    }));
   },
 
   handleSubmit: (e) => {

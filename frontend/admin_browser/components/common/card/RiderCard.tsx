@@ -69,11 +69,6 @@ export const RiderCard = () => {
                 </div>
               ))}
             </div>
-            <div className="mt-4 flex justify-end">
-              <span className="text-lg font-bold text-blue-600">
-                수수료: {rider.benefit?.benefitType || 40}%
-              </span>
-            </div>
           </div>
         ))}
       </div>

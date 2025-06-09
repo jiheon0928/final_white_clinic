@@ -2,11 +2,9 @@
 import Button from "../Button";
 import { useEffect, useState } from "react";
 import { RiderData } from "@/types/RiderStore/RiderTypes";
-import { getRiders } from "@/utils/api/rider.api";
-import { useRouter } from "next/navigation";
+import { approveRider, getRiders } from "@/utils/api/rider.api";
 
 export const VerifyCard = () => {
-  const router = useRouter();
   const [riders, setRiders] = useState<RiderData[]>([]);
 
   useEffect(() => {
@@ -16,6 +14,19 @@ export const VerifyCard = () => {
     };
     fetchRiders();
   }, []);
+
+  const handleApproval = async (riderId: number) => {
+    try {
+      await approveRider(riderId);
+      // 승인 후 목록 새로고침
+      const updatedRiders = await getRiders();
+      setRiders(updatedRiders);
+      alert("승인이 완료되었습니다.");
+    } catch (error) {
+      console.error("승인 처리 중 오류가 발생했습니다:", error);
+      alert("승인 처리 중 오류가 발생했습니다.");
+    }
+  };
 
   return (
     <div className="space-y-4">
@@ -46,7 +57,7 @@ export const VerifyCard = () => {
                 <Button
                   title="승인하기"
                   className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
-                  onClick={() => (verification.id)}
+                  onClick={() => handleApproval(verification.id)}
                 />
               </div>
             )}

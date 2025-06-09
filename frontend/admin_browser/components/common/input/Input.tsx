@@ -18,9 +18,9 @@ const htmlFor: HtmlForType = {
   price: "price",
 };
 
-interface ExtendedInputProps extends InputProps {
+type ExtendedInputProps = InputProps & {
   title?: string;
-}
+};
 
 const Input = ({
   type,

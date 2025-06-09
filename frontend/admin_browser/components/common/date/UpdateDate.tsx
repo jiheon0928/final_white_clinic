@@ -1,6 +1,6 @@
 import RevDate from "@/components/common/input/revDate";
 import { useReservationStore } from "@/store/ReservationStore";
-import { formatDate } from "@/types/RevStore/RevCardStates";
+import { formatDate } from "@/utils/handlers/format";
 
 export const UpdateDate = ({ visitTime = "" }: { visitTime?: string }) => {
   const { handleChange } = useReservationStore();

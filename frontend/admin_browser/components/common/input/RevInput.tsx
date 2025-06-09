@@ -1,4 +1,3 @@
-
 import Input from "./Input";
 import { useReservationStore } from "@/store/ReservationStore";
 import { getCustomerInputFields } from "@/data/CustomerData";

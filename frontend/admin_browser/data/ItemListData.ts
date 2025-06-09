@@ -5,7 +5,7 @@ export const ItemListData = () => {
 
   return [
     {
-      name: "aircon",
+      name: "airConditioner",
       title: "에어컨",
       checked: riderData.industry.includes(1),
     },

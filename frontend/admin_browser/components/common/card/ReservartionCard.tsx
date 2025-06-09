@@ -14,15 +14,20 @@ export const ReservationCard = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       const result = await getReservations(currentStatus);
+      console.log(result);
       setReservations(result);
     };
     fetchReservations();
   }, [currentStatus]);
 
+  // 방문날짜 우선순
+  const sortedReservations = [...reservations]
+    .sort((a, b) => new Date(b.visitTime).getTime() - new Date(a.visitTime).getTime());
+
   return (
     <>
       <div className="grid grid-cols-1 gap-4">
-        {reservations.map((reservation) => (
+        {sortedReservations.map((reservation) => (
           <div
             key={reservation.id}
             className="border p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"

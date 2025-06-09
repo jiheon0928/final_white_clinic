@@ -33,12 +33,8 @@ export type DateProps = {
 };
 
 export type BenefitProps = {
-  type: string;
-  name: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => void;
   className?: string;
-  title: string;
-  step: number;
   value: number;
 };
 
