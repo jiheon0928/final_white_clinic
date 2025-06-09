@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Input from "../common/input/Input";
 import Layout from "../common/Layout";
 import { useRouter } from "next/navigation";
@@ -10,6 +10,10 @@ const Loginpage = () => {
   const router = useRouter();
   const { loginId, password, setLoginId, setPassword, login } = useLoginStore();
   const [error, setError] = React.useState("");
+
+  useEffect(() => {
+    console.log("API URL 확인:", process.env.NEXT_PUBLIC_API_URL);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
