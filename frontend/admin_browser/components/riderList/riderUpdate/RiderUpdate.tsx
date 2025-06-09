@@ -34,7 +34,7 @@ export const RiderUpdate = () => {
       });
     };
     fetchRider();
-  }, [id]);
+  }, [id, setFormData]);
 
   return (
     <Layout title="기사 수정">

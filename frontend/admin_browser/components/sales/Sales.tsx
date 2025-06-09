@@ -50,7 +50,7 @@ export default function Sales() {
     }
 
     loadAll();
-  }, []);
+  }, [todayIso, thisYear]);
 
   if (isLoading) {
     return (

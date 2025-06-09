@@ -35,7 +35,7 @@ export const ReservationUpdate = () => {
       });
     };
     fetchData();
-  }, [id]);
+  }, [id, setFormData]);
 
   return (
     <Layout title="예약 수정">
