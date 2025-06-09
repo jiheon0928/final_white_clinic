@@ -2,14 +2,23 @@
 import Input from "@/components/common/input/Input";
 import useRiderStore from "@/store/rider/RiderStore";
 import { RidersData } from "@/data/RiderData";
+import { RiderData } from "@/types/RiderStore/RiderTypes";
 
 export const RiderInput = () => {
-  const { handleChange } = useRiderStore();
-  const { riderData } = useRiderStore();
+  const { handleChange, riderData } = useRiderStore();
+  const riderDataForDisplay: Partial<RiderData> = {
+    name: riderData.name,
+    phone: riderData.phone,
+    email: riderData.email,
+    zipcode: riderData.zipcode,
+    address: riderData.address,
+    detailAddress: riderData.detailAddress,
+    significant: riderData.significant,
+  };
 
   return (
     <div className="flex flex-col gap-4">
-      {RidersData(riderData).map((field) => (
+      {RidersData(riderDataForDisplay as RiderData).map((field) => (
           <Input
             key={field.name}
             title={field.title}

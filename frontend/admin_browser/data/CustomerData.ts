@@ -1,6 +1,6 @@
 import { useReservationStore } from "@/store/ReservationStore";
 import { InputFields } from "@/types/RevStore/ReservationTypes";
-import { ReservationFormData } from "@/types/RevStore/RevCardStates";
+import { ReservationFormData } from "@/types/RevStore/ReservationTypes";
 
 export const getCustomerInputFields = (reservation: ReservationFormData): InputFields => {
   const { reservationData } = useReservationStore();

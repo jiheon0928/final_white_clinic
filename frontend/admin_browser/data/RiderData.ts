@@ -1,5 +1,5 @@
 import useRiderStore from "@/store/rider/RiderStore";
-import { RiderData } from "@/types/RiderStore/RiderInfoTypes";
+import { RiderData } from "@/types/RiderStore/RiderTypes";
 
 export const RidersData = (rider: RiderData) => {
   const { riderData } = useRiderStore();
