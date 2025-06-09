@@ -3,7 +3,7 @@ import Input from "@/components/common/input/Input";
 import useRiderStore from "@/store/rider/RiderStore";
 import { RidersData } from "@/data/RiderData";
 
-export const RiderInput = ({ id }: { id: number }) => {
+export const RiderInput = () => {
   const { handleChange } = useRiderStore();
   const { riderData } = useRiderStore();
 
