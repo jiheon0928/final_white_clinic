@@ -45,7 +45,6 @@ export const RiderUpdate = () => {
             ...riderData,
             benefit: parseFloat(riderData.benefit.toString()) === 0.4 ? 1 : parseFloat(riderData.benefit.toString()) === 0.5 ? 2 : 3
           };
-          console.log("보내는 데이터",transformedBenefit);
           await updateRider(Number(id), transformedBenefit as unknown as RiderData);
           alert("기사 수정이 완료되었습니다.");
           router.push("/rider");

@@ -1,6 +1,6 @@
 import { Reservation } from "@/types/RevStore/ReservationTypes";
 import api from "./api";
-import { ReservationFormData } from "@/types/RevStore/RevCardStates";
+import { ReservationFormData } from "@/types/RevStore/ReservationTypes";
 
 // 예약 데이터
 export const getReservations = async (
