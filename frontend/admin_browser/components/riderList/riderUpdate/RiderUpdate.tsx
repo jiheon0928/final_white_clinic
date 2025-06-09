@@ -9,6 +9,7 @@ import { ArrayItem } from "@/components/common/ArrayItem";
 import useRiderStore from "@/store/rider/RiderStore";
 import { getRiderById, updateRider } from "@/utils/api/rider.api";
 import { BirthDate } from "@/components/common/date/BirthDate";
+import { RiderData } from "@/types/RiderStore/RiderTypes";
 
 export const RiderUpdate = () => {
   const router = useRouter();
@@ -40,11 +41,12 @@ export const RiderUpdate = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          const transformedData = {
+          const transformedBenefit = {
             ...riderData,
-            benefit: riderData.benefit === 0.4 ? 1 : riderData.benefit === 0.5 ? 2 : 3
+            benefit: parseFloat(riderData.benefit.toString()) === 0.4 ? 1 : parseFloat(riderData.benefit.toString()) === 0.5 ? 2 : 3
           };
-          await updateRider(Number(id), transformedData);
+          console.log("보내는 데이터",transformedBenefit);
+          await updateRider(Number(id), transformedBenefit as unknown as RiderData);
           alert("기사 수정이 완료되었습니다.");
           router.push("/rider");
         }}

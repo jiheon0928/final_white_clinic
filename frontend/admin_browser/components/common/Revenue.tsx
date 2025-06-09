@@ -8,12 +8,10 @@ export const Revenue = () => {
   return (
     <div>
       <Benefit
-        type="number"
-        name="benefit"
-        value={riderData.benefit || 1}
-        onChange={handleChange}
-        title="수수료"
-        step={1}
+        value={riderData.benefit}
+        onChange={(e) => {
+          handleChange(e as unknown as React.ChangeEvent<HTMLTextAreaElement>);
+        }}
       />
     </div>
   );

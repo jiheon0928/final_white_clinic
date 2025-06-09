@@ -1,10 +1,10 @@
-import { RiderInfoStore } from "@/types/RiderStore/RiderInfoTypes";
 import api from "./api";
 import { RiderData } from "@/types/RiderStore/RiderTypes";
 
 export const getRiders = async (): Promise<RiderData[]> => {
   try {
     const response = await api.get("/user");
+    console.log(response.data);
     return response.data;
   } catch (error) {
     console.error("Error fetching riders:", error);
@@ -46,20 +46,10 @@ export const approveRider = async (id: number): Promise<RiderData> => {
 
 export const updateRider = async (
   id: number,
-  data: RiderInfoStore["riderData"]
+  data: RiderData
 ) => {
   try {
-    const benefitRates = {
-      1: 0.4,
-      2: 0.5, 
-      3: 0.6
-    };
-    const modifiedData = {
-      ...data,
-      benefit: benefitRates[data.benefit as keyof typeof benefitRates] || 0.4
-    };
-
-    const response = await api.patch(`/user/correction/${id}`, modifiedData);
+    const response = await api.patch(`/user/correction/${id}`, data);
     console.log(response.data);
     return response.data;
   } catch (error) {

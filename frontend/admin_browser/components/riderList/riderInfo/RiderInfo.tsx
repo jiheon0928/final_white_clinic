@@ -1,7 +1,7 @@
 "use client";
 import Layout from "@/components/common/Layout";
 import { RiderData } from "@/types/RiderStore/RiderTypes";
-import { getRiderById, getRiders } from "@/utils/api/rider.api";
+import { getRiderById } from "@/utils/api/rider.api";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -16,7 +16,7 @@ export const RiderInfo = () => {
       setRider(result);
     };
     fetchRider();
-  }, []);
+  }, [id]);
 
   if (!rider) {
     return (

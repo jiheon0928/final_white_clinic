@@ -25,7 +25,7 @@ const Loginpage = () => {
   };
 
   return (
-    <Layout title="로그인">
+    <Layout title="로그인" className="h-screen">
       <form onSubmit={handleSubmit} className="space-y-4">
         <Input
           type="text"

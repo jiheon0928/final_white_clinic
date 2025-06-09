@@ -1,5 +1,5 @@
 // store/ReservationStore.ts
-import { ReservationStoreType } from "@/types/RevStore/RevCardStates";
+import { ReservationStoreType } from "@/types/RevStore/ReservationTypes";
 import { create } from "zustand";
 
 export const useReservationStore = create<ReservationStoreType>((set) => ({
@@ -57,23 +57,6 @@ export const useReservationStore = create<ReservationStoreType>((set) => ({
         ...data,
       },
     })),
-
-  resetFormData: () =>
-    set({
-      reservationData: {
-        reservationName: "",
-        customerName: "",
-        customerPhone: "",
-        customerRequest: "",
-        zipcode: "",
-        address: "",
-        detailAddress: "",
-        visitTime: "",
-        memo: "",
-        price: 0,
-        industry: 1,
-      },
-    }),
 
   // ▶️ 액션: 제출 핸들러 (예시 로깅)
   handleSubmit: (e) => {

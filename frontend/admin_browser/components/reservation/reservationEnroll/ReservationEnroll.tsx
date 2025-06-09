@@ -12,7 +12,7 @@ import { FormEvent } from "react";
 
 export const ReservationEnroll = () => {
   const router = useRouter();
-  const { reservationData, resetFormData } = useReservationStore();
+  const { reservationData } = useReservationStore();
 
   const handleReservationSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -39,8 +39,6 @@ export const ReservationEnroll = () => {
           title="예약 생성하기"
           onClick={() => {
             router.push("/reservation");
-            console.log(reservationData);
-            resetFormData();
           }}
           className="w-full bg-blue-500 hover:bg-blue-600"
         />

@@ -5,8 +5,9 @@ import { handleNumItemChange } from "@/utils/handlers/itemHandlers";
 export const NumItem = () => {
   const { reservationData, handleChange } = useReservationStore();
   const items = [
-    { name: "washer", title: "세탁기", id: 1 },
-    { name: "dryer", title: "건조기", id: 2 },
+    {name:"airConditioner", title: "에어컨", id: 1},
+    { name: "washer", title: "세탁기", id: 2 },
+    { name: "dryer", title: "건조기", id: 3 },
   ];
 
   return (
