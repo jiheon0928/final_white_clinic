@@ -11,6 +11,7 @@ export async function fetchDailySales(date: string): Promise<number> {
       params: { date },
     });
     const raw = response.data["totalSales"];
+
     return Number(raw);
   } catch (error) {
     console.error(`Failed to fetch daily sales for ${date}:`, error);
@@ -27,7 +28,7 @@ export async function fetchMonthlySales(date: string): Promise<number> {
       params: { date },
     });
     const raw = response.data["totalSales"];
-    console.log(response);
+
     return Number(raw);
   } catch (error) {
     console.error(`Failed to fetch monthly sales for ${date}:`, error);
@@ -43,8 +44,9 @@ export async function fetchWeeklySales(date: string): Promise<number> {
     const response = await api.get("/sales/weekly-sales-summary", {
       params: { date },
     });
-    console.log(response);
+    
     const raw = response.data["totalSales"];
+  
     return Number(raw);
   } catch (error) {
     console.error(`Failed to fetch weekly sales for ${date}:`, error);
@@ -64,8 +66,7 @@ export async function fetchWeeklySalesByDay(
       params: { date },
     });
     const raw = response.data["totalCommission"] as Record<string, number>;
-    console.log(response);
-    console.log(raw);
+
 
     return Object.entries(raw).map(([day, total]) => ({
       x: day,
@@ -81,17 +82,22 @@ export async function fetchWeeklySalesByDay(
  * Fetch monthly breakdown of sales for the given year (YYYY).
  * Returns an array of { x: month, y: amount }.
  */
-export async function fetchYearlySalesByMonth(
-  year: string
-): Promise<DataPoint[]> {
+ 
+export async function fetchYearlySalesByMonth(year: string): Promise<DataPoint[]> {
   try {
     const response = await api.get("/sales/yearly-sales-by-month", {
       params: { date: year },
     });
-    const raw = response.data["totalSales"] as Record<string, number>;
-    return Object.entries(raw).map(([month, total]) => ({
-      x: month,
-      y: Number(total),
+
+    const raw = response.data as Record<
+      string,
+      { 합산가격: number; [key: string]: any }
+    >;
+
+    // VictoryBar 차트에 맞게 변환
+    return Object.entries(raw).map(([month, data]) => ({
+      x: month,               // ex) "1월"
+      y: Number(data.합산가격) // ex) 123456
     }));
   } catch (error) {
     console.error(`Failed to fetch yearly sales by month for ${year}:`, error);
